@@ -1,0 +1,57 @@
+// Footer
+
+.site-footer {
+  background: $black;
+  @include clearfix;
+  padding: 10*$beat 0 0;
+
+  @include media-md {
+    padding-bottom: 13*$beat;
+  }
+
+  .footer-block {
+    padding: $padding $padding ($padding - $beat);
+
+    @include media-md {
+      width: 50%;
+      float: right;
+    }
+  }
+
+  .copyright {
+    @include font-copyright;
+    color: $gray;
+  }
+
+  .social-list {
+    @include font-p;
+    @include font-smoothing;
+    @include semantic-only-list;
+    margin: 0;
+    color: $concrete-light;
+
+    .social-list-item {
+      margin-bottom: $beat;
+      &:last-of-type {
+        margin: 0;
+      }
+    }
+
+    .icon {
+      width: 12px;
+      height: 12px;
+      fill: $concrete-light;
+      margin-right: 1.5*$beat;
+    }
+
+    a {
+      text-decoration: none;
+      &:hover {
+        color: $white;
+        .icon {
+          fill: $white;
+        }
+      }
+    }
+  }
+}

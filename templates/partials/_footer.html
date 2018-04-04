@@ -1,0 +1,16 @@
+<footer class="site-footer" role="contentinfo">
+  <div class="wrapper">
+    <div class="social footer-block">
+      <ul class="social-list">
+        {% for socialLink in siteSettings.socialLinks.all() %}
+          <li class="social-list-item">
+            <a href="{{ socialLink.socialUrl }}" target="_blank"><svg class="icon icon-{{ socialLink.socialNetwork|lower }}"><use xlink:href="#icon-{{ socialLink.socialNetwork|lower }}" /></svg> {{ socialLink.socialNetwork }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+  </div>
+  </div>
+  <div class="copyright footer-block">&copy;{{ "now"|date("Y") }} {{ siteName }}, Inc.</div>
+</footer>
+
+<script src="{{ rev('js/site.js') }}"></script>

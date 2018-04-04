@@ -1,0 +1,11 @@
+/.env
+/.idea
+/vendor
+.DS_Store
+/web/assets/bower_components/*
+.scss-cache/*
+.gulp-scss-cache/*
+node_modules/*
+logs/*
+*.map
+public/.well-known

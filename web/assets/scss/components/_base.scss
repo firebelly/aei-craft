@@ -1,0 +1,38 @@
+// Base styles
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+html {
+  height: 100%;
+  min-width: 320px;
+  box-sizing: border-box;
+}
+
+body {
+  color: $black;
+  @include font-p;
+  min-height: 100%;
+  background: $concrete-med;
+}
+
+a {
+  color: inherit;
+}
+
+.svgs-defs {
+  display: none;
+}
+
+.bigclicky {
+  cursor: pointer;
+}
+
+
+@mixin semantic-only-list {
+  list-style: none;
+  padding-left: 0;
+}
+.semantic-only-list {
+  @include semantic-only-list;
+}

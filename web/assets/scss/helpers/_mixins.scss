@@ -1,0 +1,112 @@
+// Mixins
+// Utilities
+
+// Clearfix
+@mixin clearfix {
+  *zoom: 1;
+  &:before, &:after {
+    content: "\0020";
+    display: block;
+    height: 0;
+    overflow: hidden;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+@mixin font-smoothing {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Responsive mixins by Andy Richardson (@andimal): https://github.com/andimal/sass-responsive-mixin-madness
+@mixin media-xs() {
+  @media screen and (max-height: $breakpoint-sm - 1) {
+    @content;
+  }
+}
+@mixin media-sm() {
+  @media screen and (min-width: $breakpoint-sm) {
+    @content;
+  }
+}
+@mixin media-md() {
+  @media screen and (min-width: $breakpoint-md) {
+    @content;
+  }
+}
+@mixin media-lg() {
+  @media screen and (min-width: $breakpoint-lg) {
+    @content;
+  }
+}
+
+// On-the fly media-queries
+@mixin screen($res-min, $res-max) {
+  @media screen and (min-width: $res-min) and (max-width: $res-max) {
+    @content;
+  }
+}
+@mixin max-screen($res) {
+  @media screen and (max-width: $res) {
+    @content;
+  }
+}
+@mixin min-screen($res) {
+  @media screen and (min-width: $res) {
+    @content;
+  }
+}
+@mixin screen-height($res-min, $res-max) {
+  @media screen and (min-height: $res-min) and (max-height: $res-max) {
+    @content;
+  }
+}
+@mixin max-screen-height($res) {
+  @media screen and (max-height: $res) {
+    @content;
+  }
+}
+@mixin min-screen-height($res) {
+  @media screen and (min-height: $res) {
+    @content;
+  }
+}
+
+@mixin corner-button($width, $color) {
+  display: inline-block;
+  border: 1px solid $color;
+  padding: 10px;
+  text-align: center;
+  position: relative;
+  clip-path: polygon(#{$width} 0%, calc(100% - #{$width}) 0%, 100% #{$width}, 100% calc(100% - #{$width}), calc(100% - #{$width}) 100%, #{$width} 100%, 0% calc(100% - #{$width}), 0% #{$width});
+  span:after,
+  span:before,
+  &:after,
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -#{$width / 2};
+    width: $width * 2;
+    border-top: 1px solid $color;
+    transform: rotate(-45deg);
+  }
+  &:after {
+    left: auto;
+    right: -#{$width / 2};
+    transform: rotate(45deg);
+  }
+  span:before,
+  span:after {
+    top: auto;
+    bottom: 0;
+    transform: rotate(45deg);
+  }
+  span:after {
+    left: auto;
+    right: -#{$width / 2};
+    transform: rotate(-45deg);
+  }
+}

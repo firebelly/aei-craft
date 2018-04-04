@@ -1,0 +1,21 @@
+{% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
+
+{% block content %}
+  {% cache unless currentUser %}
+      {% set featuredProjects = craft.entries({
+          section: 'projects',
+          with: [
+            'services',
+            'markets',
+            ['mainImage', {
+                withTransforms: ['projectThumb']
+            }]
+          ]
+      }).featured(1).all() %}
+      {% for entry in featuredProjects %}
+        {% include 'projects/_listing' with { 'entry': entry } %}
+      {% endfor %}
+    </ul>
+  </section>
+  {% endcache %}
+{% endblock %}

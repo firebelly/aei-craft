@@ -1,0 +1,34 @@
+.corner-button {
+  @include font-buttons;
+  @include corner-button(4px, $black);
+  text-align: left;
+  position: relative;
+  text-decoration: none;
+  padding: 11px 6*$beat 11px 11px;
+
+  &:hover {
+    fill: $white;
+    color: $white;
+    @include font-smoothing;
+    background-color: $black;
+  }
+
+  .icon {
+    position: absolute;
+
+  }
+
+  .icon-plus {
+    top: 16px;
+    width: 7px;
+    right: 20px;
+    height: 7px;
+  }
+
+  .icon-right-arrow {
+    top: 16px;
+    width: 9px;
+    right: 20px;
+    height: 7px;
+  }
+}

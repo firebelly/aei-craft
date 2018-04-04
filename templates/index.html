@@ -1,0 +1,25 @@
+{% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
+
+{% block content %}
+  {% cache unless currentUser %}
+
+  {% for block in entry.featureBlocks.all() %}
+    {% if block.type == "feature" %}
+
+      {{ block.featureHeadline }}
+      {% set image = block.featureImage.one() %}
+      {% if image %}
+        {{ image.getUrl() }}
+      {% endif %}
+
+    {% elseif block.type == "impact" %}
+
+      {% for impactPost in block.impactPosts.all() %}
+        {{ impactPost.title }}
+      {% endfor %}
+
+    {% endif %}
+  {% endfor %}
+
+  {% endcache %}
+{% endblock %}

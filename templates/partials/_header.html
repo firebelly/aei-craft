@@ -1,0 +1,25 @@
+<header class="site-header" role="banner">
+  <div class="lockup bigclicky">
+    <div class="affiliated-engineers">
+      <h1 class="sr-only"><a href="/">{{ siteName }}</a></h1>
+      <svg class="logo"><use xlink:href="#affiliated-engineers-logo" /></svg>
+    </div>
+    <ul class="plan-design-commission">
+      <li>Plan</li>
+      <li>Design</li>
+      <li>Commission</li>
+    </ul>
+  </div>
+  <div class="search-open">
+    Search <svg class="icon-search"><use xlink:href="#icon-search" /></svg>
+  </div>
+  <ul class="secondary-links">
+  {% if secondaryNav is defined %}
+    {% for navItem in secondaryNav %}
+      <li class="secondary-links-item {% if page.url in navItem.path %} current{% endif %}">
+        <a href="{{ navItem.path }}">{{ navItem.title }}</a>
+      </li>
+    {% endfor %}
+  {% endif %}
+  </ul>
+</header>

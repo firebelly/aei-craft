@@ -1,0 +1,51 @@
+<nav class="site-nav" role="navigation">
+
+  <div class="lockup bigclicky">
+    <div class="affiliated-engineers">
+      <h1 class="sr-only"><a href="/">{{ siteName }}</a></h1>
+      <svg class="logo"><use xlink:href="#affiliated-engineers-logo" /></svg>
+    </div>
+    <ul class="plan-design-commission">
+      <li>Plan</li>
+      <li>Design</li>
+      <li>Commission</li>
+    </ul>
+  </div>
+
+  <ul class="primary-links">
+    {% if navItems.primary is defined  %}
+      {% for navItem in navItems.primary %}
+        <li class="primary-links-item {% if page.url in navItem.path %} current{% endif %}">
+          <a href="{{ navItem.path }}">{{ navItem.title }}</a>
+        </li>
+      {% endfor %}
+    {% endif %}
+  </ul>
+
+  <ul class="filters">
+    {% if filters is defined %}
+      {% for filter in filters %}
+        <li class="filters-item {% if page.url in filter.path %} current{% endif %}">
+          <a href="{{ filter.path }}">{{ filter.title }}</a>
+        </li>
+      {% endfor %}
+    {% endif %}
+  </ul>
+
+  <ul class="secondary-links">
+    {% if navItems.primary is defined  %}
+      {% for navItem in navItems.secondary %}
+        <li class="secondary-links-item {% if page.url in navItem.path %} current{% endif %}">
+          <a href="{{ navItem.path }}">{{ navItem.title }}</a>
+        </li>
+      {% endfor %}
+    {% endif %}
+  </ul>
+
+  <div class="search-open">
+    Search <svg class="icon-search"><use xlink:href="#icon-search" /></svg>
+  </div>
+</nav>
+
+<div class="nav-open"><svg class="icon-hamburger"><use xlink:href="#icon-hamburger" /></svg></div>
+<div class="nav-close"><svg class="icon-x"><use xlink:href="#icon-x" /></svg></div>

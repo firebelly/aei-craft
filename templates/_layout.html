@@ -1,0 +1,24 @@
+<!doctype html>
+  <!--[if IE 9 ]> <html lang="en" class="no-js ie9 lt-ie10"> <![endif]-->
+  <!--[if gt IE 9]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+
+  {% include '/partials/_head' %}
+
+  <body class="{% if bodyClass is defined %}{{ bodyClass }}{% else %}index{% endif %}" id="{% if bodyId is defined %}{{ bodyId }}{% else %}{{ craft.app.request.getSegment(1)}}-page{% endif %}">
+    <div id="breakpoint-indicator"></div>
+
+    {% include '/partials/_nav' %}
+
+    <div class="site-wrapper">
+      {% include '/partials/_header' %}
+      <main class="site-main" role="main">
+
+        {% block content %}{% endblock %}
+
+      </main>
+
+      {% include '/partials/_footer' %}
+    </div>
+
+  </body>
+</html>

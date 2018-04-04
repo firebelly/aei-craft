@@ -1,0 +1,60 @@
+{% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
+{% set title = entry.title %}
+{% set bodyClass = 'single' %}
+{% set projectImage = entry.projectImage.one() %}
+
+{% block content %}
+  {% cache unless currentUser %}
+  <article class="content-block single-project" data-id="{{ entry.id }}">
+    {% if projectImage|length %}
+      <div class="project-banner" style="background-image:url({{ projectImage.getUrl() }});"></div>
+    {% endif %}
+    <h1 class="project-client">{{ entry.title }}</h1>
+    {{ entry.subheader }}
+    <h3>Services:</h3>
+    {% if entry.services | length %}
+      <ul><li>{% for service in entry.services %}
+      <a href="/work#{{ service.slug }}">{{ service.title }}</a>
+      {{ not loop.last ? "," }}
+      {% endfor %}</li></ul>
+    {% endif %}
+
+    {% for block in entry.mediaBlocks %}
+      {% if block.type == "stat" %}
+
+        {% if block.figure %}
+          <p>Figure: {{ block.figure }}</p>
+        {% endif %}
+        {% if block.label %}
+          <p>Label: {{ block.label }}</p>
+        {% endif %}
+
+      {% elseif block.type == "quote" %}
+
+        {% if block.quote %}
+          <p>Quote: {{ block.quote }}</p>
+        {% endif %}
+        {% if block.source %}
+          <p>Source: {{ block.source }}</p>
+        {% endif %}
+
+      {% elseif block.type == "text" %}
+
+        {% if block.text %}
+          <p>Text: {{ block.text }}</p>
+        {% endif %}
+
+      {% elseif block.type == "fullWidthImage" %}
+
+        {% if block.image|length %}
+          <p>Image: {{ block.image.one().getUrl() }}</p>
+        {% endif %}
+        {% if block.caption %}
+          <p>Caption: {{ block.caption }}</p>
+        {% endif %}
+
+      {% endif %}
+    {% endfor %}
+  </article>
+  {% endcache %}
+{% endblock %}

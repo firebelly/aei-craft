@@ -1,0 +1,85 @@
+.project-module {
+  color: $white;
+
+  .thumb-wrap {
+    height: 0;
+    position: relative;
+
+    .thumb {
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      position: absolute;
+      background-size: cover;
+      background-color: $gray;
+      background-position: center center;
+    }
+  }
+
+  &.-landscape .thumb-wrap {
+    padding-bottom: 66.66%;
+  }
+
+  &.-portrait .thumb-wrap {
+    padding-bottom: 133.33%;
+  }
+
+  .title {
+    padding: $padding;
+    h1, h2 {
+      margin: 0;
+      @include font-smoothing;
+    }
+    h1 {
+      @include font-p;
+    }
+    h2 {
+      @include font-captions;
+    }
+  }
+}
+
+.stat-module {
+  height: 0;
+  padding-bottom: 66.67%;
+  background-color: $white;
+}
+
+.page-description {
+  padding: $padding;
+  background: $white;
+  padding-bottom: 8*$beat;
+
+  @include media-md {
+    padding-bottom: 14*$beat;
+  }
+
+  @include media-lg {
+    margin-top: -16*$beat;
+    padding-top: 14*$beat;
+    padding-bottom: 23*$beat;
+  }
+
+  p {
+    margin: 0;
+    @include font-h1;
+  }
+
+  .buttons {
+    @include clearfix;
+    margin-top: $padding;
+
+    @include media-lg {
+      margin-top: 7*$beat;
+    }
+    .button {
+      float: left;
+      margin-bottom: 2*$beat;
+
+      &:first-child {
+        margin-right: 2*$beat;
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{% set projectImage = entry.projectImage[0] ?? null %}
+<li class="project interior" data-services="{% for service in entry.services %}{{ service.slug }} {% endfor %}" data-markets="{% for market in entry.markets %}{{ market.slug }} {% endfor %}">
+  <article>
+    {% if projectImage %}
+      <div class="project-image lazy" style="background-image:url('/assets/images/gray.gif');" data-original="{{ projectImage.getUrl() }}"></div>
+    {% endif %}
+    <header>
+      <h1><a href="{{ entry.url }}">{{ entry.title }}</a></h1>
+    </header>
+    <a class="view-project" href="{{ entry.url }}"><span>View Project</span></a>
+  </article>
+</li>

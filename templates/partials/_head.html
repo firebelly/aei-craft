@@ -1,0 +1,32 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <title>{% if seoTitle is defined %}{{ seoTitle }}{% elseif title is defined %}{{ title }} | {{ siteName }}{% else %}{{ siteName }}{% endif %}</title>
+  <link rel="canonical" href="{{ siteUrl }}">
+  <meta property="og:title" content="{% if seoTitle is defined %}{{ seoTitle }}{% elseif title is defined %}{{ title }} | {{ siteName }}{% else %}{{ siteName }}{% endif %}" />
+  <meta property="og:image" content="hero-image.jpg" />
+
+  <link rel="stylesheet" href="{{ rev('css/main.css') }}">
+
+  <link rel="shortcut icon" type="image/ico" href="{{ 'assets/images/favicon.png' }}">
+
+  <!--[if lt IE 9]>
+    <script src="{{ 'assets/js/no-build/respond.min.js' }}"></script>
+    <script src="{{ 'assets/js/no-build/svg4everybody.legacy.min.js' }}"></script>
+  <![endif]-->
+  <script src="{{ '/assets/js/no-build/modernizr.custom.js' }}"></script>
+
+  <!-- Inject SVGs Defs for SVG icon use -->
+  <script>
+    var ajax = new XMLHttpRequest();
+    ajax.open("GET", "{{ rev('svgs/svgs-defs.svg') }}", true);
+    ajax.send();
+    ajax.onload = function(e) {
+      var div = document.createElement("div");
+      div.className += "svgs-defs";
+      div.innerHTML = ajax.responseText;
+      document.body.insertBefore(div, document.body.childNodes[0]);
+    }
+  </script>
+</head>

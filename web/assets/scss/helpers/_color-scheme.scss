@@ -1,0 +1,22 @@
+// Generic color classes for easy background color assignment
+$colors: (
+  "black": $black,
+  "red": $red,
+  "concrete-med": $concrete-med,
+  "concrete-light": $concrete-light,
+  "off-white": $off-white,
+  "white": $white,
+  "copper": $copper,
+  "brass": $brass,
+  "green": $green,
+  "blue": $blue,
+  "teal": $teal,
+  "violet": $violet,
+  "gray": $gray
+);
+
+@each $color, $bgcolor in $colors {
+  .background-#{$color} {
+    background-color: $bgcolor;
+  }
+}
