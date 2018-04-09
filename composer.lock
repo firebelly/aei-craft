@@ -4,8 +4,65 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "580acf022447d4960cbc7d35523c852d",
+    "content-hash": "24ee02ad08645b143598102c4290d6d0",
     "packages": [
+        {
+            "name": "barrelstrength/sprout-active",
+            "version": "2.0.6",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/barrelstrength/craft-sprout-active/zipball/9c2adff41aac7f1c1818f4105e4e434b572547bb",
+                "reference": "9c2adff41aac7f1c1818f4105e4e434b572547bb",
+                "shasum": ""
+            },
+            "require": {
+                "craftcms/cms": "^3.0.0-beta"
+            },
+            "type": "craft-plugin",
+            "extra": {
+                "name": "Sprout Active",
+                "handle": "sprout-active",
+                "schemaVersion": "2.0.0",
+                "developer": "Barrel Strength",
+                "developerUrl": "https://barrelstrengthdesign.com",
+                "documentationUrl": "https://sprout.barrelstrengthdesign.com/craft-plugins/active",
+                "changelogUrl": "https://raw.githubusercontent.com/barrelstrength/sprout-active/master/CHANGELOG.md",
+                "downloadUrl": "https://github.com/barrelstrength/sprout-active/archive/master.zip",
+                "class": "barrelstrength\\sproutactive\\SproutActive",
+                "components": {
+                    "app": "barrelstrength\\sproutactive\\services\\App"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "barrelstrength\\sproutactive\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Barrel Strength",
+                    "homepage": "https://www.barrelstrengthdesign.com/"
+                }
+            ],
+            "description": "Simplify navigation and URL-based logic in your templates.",
+            "keywords": [
+                "craftcms",
+                "twig",
+                "twig extension",
+                "urls"
+            ],
+            "support": {
+                "email": "support@barrelstrengthdesign.com",
+                "issues": "https://github.com/barrelstrength/sprout-active/issues?state=open",
+                "source": "https://github.com/barrelstrength/sprout-active",
+                "docs": "https://sprout.barrelstrengthdesign.com/craft-plugins/active/docs",
+                "rss": "https://github.com/barrelstrength/sprout-active/commits/v2.atom"
+            },
+            "time": "2018-04-03T22:27:13+00:00"
+        },
         {
             "name": "cebe/markdown",
             "version": "1.1.2",
@@ -379,11 +436,11 @@
         },
         {
             "name": "craftcms/cms",
-            "version": "3.0.0.2",
+            "version": "3.0.1",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craftcms/cms/zipball/a37a8d0e50a6b8d27c6627bb3c7ae4d1812dad1c",
-                "reference": "a37a8d0e50a6b8d27c6627bb3c7ae4d1812dad1c",
+                "url": "https://api.github.com/repos/craftcms/cms/zipball/03289e4369d732093751f34484f3852885769808",
+                "reference": "03289e4369d732093751f34484f3852885769808",
                 "shasum": ""
             },
             "require": {
@@ -453,7 +510,7 @@
                 "docs": "https://github.com/craftcms/docs",
                 "rss": "https://github.com/craftcms/cms/releases.atom"
             },
-            "time": "2018-04-04T18:29:33+00:00"
+            "time": "2018-04-04T23:55:39+00:00"
         },
         {
             "name": "craftcms/oauth2-craftid",
@@ -1089,11 +1146,11 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.43",
+            "version": "1.0.44",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/1ce7cc142d906ba58dc54c82915d355a9191c8a8",
-                "reference": "1ce7cc142d906ba58dc54c82915d355a9191c8a8",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/168dbe519737221dc87d17385cde33073881fd02",
+                "reference": "168dbe519737221dc87d17385cde33073881fd02",
                 "shasum": ""
             },
             "require": {
@@ -1101,11 +1158,6 @@
             },
             "conflict": {
                 "league/flysystem-sftp": "<1.0.6"
-            },
-            "require-dev": {
-                "ext-fileinfo": "*",
-                "phpspec/phpspec": "^3.4",
-                "phpunit/phpunit": "^5.7"
             },
             "suggest": {
                 "ext-fileinfo": "Required for MimeType",
@@ -1134,7 +1186,6 @@
                     "League\\Flysystem\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1164,7 +1215,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2018-03-01T10:27:04+00:00"
+            "time": "2018-04-06T09:58:14+00:00"
         },
         {
             "name": "league/iso3166",
@@ -1355,18 +1406,15 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "v2.0.11",
+            "version": "v2.0.12",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/5da4d3c796c275c55f057af5a643ae297d96b4d8",
-                "reference": "5da4d3c796c275c55f057af5a643ae297d96b4d8",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/258c89a6b97de7dfaf5b8c7607d0478e236b04fb",
+                "reference": "258c89a6b97de7dfaf5b8c7607d0478e236b04fb",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "4.*|5.*"
             },
             "suggest": {
                 "ext-libsodium": "Provides a modern crypto API that can be used to generate random bytes."
@@ -1377,7 +1425,6 @@
                     "lib/random.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1394,15 +1441,15 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2017-09-27T21:40:39+00:00"
+            "time": "2018-04-04T21:24:14+00:00"
         },
         {
             "name": "pennebaker/craft-architect",
-            "version": "2.2.7",
+            "version": "2.2.8",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Pennebaker/craft-architect/zipball/bec2e57d545664822dc1ceaf83d6d4b054206a63",
-                "reference": "bec2e57d545664822dc1ceaf83d6d4b054206a63",
+                "url": "https://api.github.com/repos/Pennebaker/craft-architect/zipball/d7c2252ee4f1c380aae03ccc7edbc7fb0dc9359c",
+                "reference": "d7c2252ee4f1c380aae03ccc7edbc7fb0dc9359c",
                 "shasum": ""
             },
             "require": {
@@ -1448,7 +1495,7 @@
                 "docs": "https://github.com/Pennebaker/craft-architect/blob/master/README.md",
                 "issues": "https://github.com/Pennebaker/craft-architect/issues"
             },
-            "time": "2018-04-02T13:55:55+00:00"
+            "time": "2018-04-06T13:18:25+00:00"
         },
         {
             "name": "pixelandtonic/imagine",
