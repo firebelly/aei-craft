@@ -4,7 +4,7 @@
 
   {% include '/partials/_head' %}
 
-  <body class="{% if bodyClass is defined %}{{ bodyClass }}{% else %}index{% endif %}" id="{% if bodyId is defined %}{{ bodyId }}{% else %}{{ craft.app.request.getSegment(1)}}-page{% endif %}">
+  <body class="{% if bodyClass is defined %}{{ bodyClass }}{% endif %} page-{{ segment(1) }}" {% if bodyId is defined %}id="{{ bodyId }}"{% endif %}>
     <div id="breakpoint-indicator"></div>
 
     {% include '/partials/_nav' %}

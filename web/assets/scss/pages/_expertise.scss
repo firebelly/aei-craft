@@ -1,0 +1,14 @@
+.page-expertise {
+
+  @include media-lg {
+    .top-row {
+      padding-top: 16*$beat;
+      .row-block:first-child {
+        margin-top: -16*$beat;
+        .module {
+          padding-top: 14*$beat;
+        }
+      }
+    }
+  }
+}

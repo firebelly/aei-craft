@@ -12,17 +12,22 @@
     </ul>
   </div>
 
-  <ul class="primary-links">
-    {% if navItems.primary is defined  %}
-      {% for navItem in navItems.primary %}
-        <li class="primary-links-item {% if page.url in navItem.path %} current{% endif %}">
-          <a href="{{ navItem.path }}">{{ navItem.title }}</a>
-        </li>
-      {% endfor %}
-    {% endif %}
+  <ul class="primary-links semantic-only-list">
+    <li class="primary-links-item {{ active('expertise') }}">
+      <a href="/expertise/">Expertise</a>
+    </li>
+    <li class="primary-links-item {{ active('impact') }}">
+      <a href="/impact/">Impact</a>
+    </li>
+    <li class="primary-links-item {{ active('approach') }}">
+      <a href="/approach/">Approach</a>
+    </li>
+    <li class="primary-links-item {{ active('people') }}">
+      <a href="/people/">People</a>
+    </li>
   </ul>
 
-  <ul class="filters">
+  <ul class="filters semantic-only-list">
     {% if filters is defined %}
       {% for filter in filters %}
         <li class="filters-item {% if page.url in filter.path %} current{% endif %}">
@@ -32,14 +37,13 @@
     {% endif %}
   </ul>
 
-  <ul class="secondary-links">
-    {% if navItems.primary is defined  %}
-      {% for navItem in navItems.secondary %}
-        <li class="secondary-links-item {% if page.url in navItem.path %} current{% endif %}">
-          <a href="{{ navItem.path }}">{{ navItem.title }}</a>
-        </li>
-      {% endfor %}
-    {% endif %}
+  <ul class="secondary-links semantic-only-list">
+    <li class="secondary-links-item {{ active('careers') }}">
+      <a href="/careers/">Careers</a>
+    </li>
+    <li class="secondary-links-item {{ active('contact') }}">
+      <a href="/contact/">Contact</a>
+    </li>
   </ul>
 
   <div class="search-open">

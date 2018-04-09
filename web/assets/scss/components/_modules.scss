@@ -1,5 +1,107 @@
+button {
+  backgound: transparent;
+  appearance: none;
+  border: 0;
+  outline: 0;
+}
+
+.text-module {
+  padding: $padding;
+  
+  :first-child {
+    margin-top: 0;
+  }
+
+  :last-child {
+    margin-bottom: 0;
+  }
+
+  .buttons {
+    @include clearfix;
+    margin-top: $padding;
+
+    @include media-lg {
+      margin-top: 7*$beat;
+    }
+    .button {
+      float: left;
+      margin-bottom: 2*$beat;
+      margin-right: 2*$beat;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+.image-module {
+  position: relative;
+
+  .thumb {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    background-size: cover;
+    background-color: $gray;
+  }
+
+  &.-portrait, &.-landscape {
+    height: 0; 
+  }
+
+  &.-landscape {
+    padding-bottom: $landscape-padding;
+    background-position: top center;
+  }
+
+  &.-portrait {
+    padding-bottom: $portrait-padding;
+  }
+
+  @include media-md {
+    &.-landscape-md {
+      padding-bottom: $landscape-padding;
+      background-position: top center;
+    }
+
+    &.-portrait-md {
+      padding-bottom: $portrait-padding;
+    }
+  }
+}
+
 .project-module {
   color: $white;
+  overflow: hidden;
+  position: relative;
+
+  &::after, &::before {
+    left: 0;
+    top: -100%; 
+    content: '';
+    width: 200%; // 100% if they choose half-covering overlay
+    height: 200%;
+    background: $red;
+    position: absolute;
+    transition: transform 0.5s;
+    transform: skew(-18deg) translateX(-100%);
+    z-index: 1;
+    
+  }
+  &::before {
+    mix-blend-mode: color;
+  }
+  &::after {
+    opacity: 0.66;
+  } 
+  &:hover {
+    &::after, &::before {
+      transform: skew(-18deg) translateX(0);
+    }
+  }
 
   .thumb-wrap {
     height: 0;
@@ -18,68 +120,120 @@
   }
 
   &.-landscape .thumb-wrap {
-    padding-bottom: 66.66%;
+    padding-bottom: $landscape-padding;
   }
 
   &.-portrait .thumb-wrap {
-    padding-bottom: 133.33%;
+    padding-bottom: $portrait-padding;
   }
 
   .title {
     padding: $padding;
+
     h1, h2 {
-      margin: 0;
       @include font-smoothing;
+      margin: 0;
+      z-index: 2;
+      position: relative;
     }
+
     h1 {
       @include font-p;
     }
+
     h2 {
       @include font-captions;
+    }
+
+    a {
+      text-decoration: none;
     }
   }
 }
 
 .stat-module {
-  height: 0;
-  padding-bottom: 66.67%;
   background-color: $white;
-}
-
-.page-description {
-  padding: $padding;
-  background: $white;
-  padding-bottom: 8*$beat;
+  padding: 1.5*$padding $padding;
 
   @include media-md {
-    padding-bottom: 14*$beat;
+    min-height: calc( (100vw - #{$padding})/2*(2/3) );
   }
 
   @include media-lg {
-    margin-top: -16*$beat;
-    padding-top: 14*$beat;
-    padding-bottom: 23*$beat;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    min-height: calc( 100vw/3*(2/3) );
   }
 
-  p {
-    margin: 0;
-    @include font-h1;
-  }
-
-  .buttons {
-    @include clearfix;
-    margin-top: $padding;
+  .number {
+    @include font-stat-medium;
+    padding-right: 12px;
 
     @include media-lg {
-      margin-top: 7*$beat;
+      min-width: 50%;
+      @include font-stat-large;
     }
-    .button {
-      float: left;
-      margin-bottom: 2*$beat;
 
-      &:first-child {
-        margin-right: 2*$beat;
+    .unit {
+      top: -32px;
+      margin-left: 0.2ch;
+      position: relative;
+      @include font-size(22,22);
+
+      @include media-lg {
+        top: -46px;
+        @include font-size(33,33);
       }
     }
+    .slash-wrap {
+      display: inline-block;
+      position: relative;
+      padding-right: 4*$beat;
+
+      &::after {
+        right: 0;
+        width: 2px;
+        content: '';
+        top: 1.5*$beat;
+        bottom: 1.5*$beat;
+        position: absolute;
+        transform: skew(-18deg);
+        background-color: $concrete-light;
+
+        @include media-lg {
+          top: $beat;   
+          bottom: $beat;
+        }
+      }
+    }
+  }
+
+  .text {
+    @include font-details;
+    margin-top: $beat;
+    width: 100%;
+    max-width: 200px;
+
+    @include media-lg {
+      flex-basis: 200px;
+      text-align: right;
+      max-width: 18*$beat;
+      align-self: flex-end;
+    }
+  }
+}
+
+.post-module {
+  padding: $padding;
+  a {
+    text-decoration: none;
+  }
+  .category {
+    @include font-details;
+    color: $red;
+  }
+  .title {
+    @include font-nav;
   }
 }

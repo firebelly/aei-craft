@@ -30,8 +30,9 @@ a {
 
 
 @mixin semantic-only-list {
-  list-style: none;
+  margin: 0;
   padding-left: 0;
+  list-style: none;
 }
 .semantic-only-list {
   @include semantic-only-list;

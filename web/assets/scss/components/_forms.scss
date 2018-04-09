@@ -1,21 +1,68 @@
-.corner-button {
+@mixin cornerize($border-color, $background-color, $corner-width: 5px, $offset: 2px) {
+ 
+  padding: 10px;
+  overflow: hidden;
+  position: relative;
+  display: inline-block;
+  background: $background-color; 
+
+  .border {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    border: 1px solid $border-color;
+  }
+
+  &:after,
+  &:before,
+  .extra-corners:after,
+  .extra-corners:before {
+    z-index: 1;
+    content: '';
+    position: absolute;
+    width: $corner-width;
+    height: $corner-width;
+    transform: rotate(45deg);
+    background: $background-color;
+  }
+
+  &:after {
+    bottom: -($offset);
+    left: -($offset);
+    border-top: 1px solid $border-color;
+  }
+
+  &:before {
+    bottom: -($offset);
+    right: -($offset);
+    border-left: 1px solid $border-color;
+  }
+
+  .extra-corners:after {
+    top: -($offset);
+    left: -($offset);
+    border-right: 1px solid $border-color;
+  }
+
+  .extra-corners:before {
+    top: -($offset);
+    right: -($offset);
+    border-bottom: 1px solid $border-color;
+  }
+}
+
+.button {
   @include font-buttons;
-  @include corner-button(4px, $black);
+  @include cornerize($black, $white);
   text-align: left;
   position: relative;
   text-decoration: none;
   padding: 11px 6*$beat 11px 11px;
 
-  &:hover {
-    fill: $white;
-    color: $white;
-    @include font-smoothing;
-    background-color: $black;
-  }
-
   .icon {
     position: absolute;
-
   }
 
   .icon-plus {
@@ -30,5 +77,46 @@
     width: 9px;
     right: 20px;
     height: 7px;
+  }
+
+  .icon-triangle {
+    top: 16px;
+    width: 9px;
+    right: 20px;
+    height: 7px;
+  }
+}
+
+@each $color-key, $color in $colors {
+
+  .text-#{$color-key} {
+
+    .button, &.button {
+      fill: $color;
+      color: $color;
+
+      .border, .extra-corners::after, .extra-corners::before, &::after, &::before {
+        border-color: $color;
+      }
+
+      &:hover {    
+        background-color: $color;
+      }
+    }
+  }
+
+  .background-#{$color-key} {
+
+    .button, &.button {
+
+      &, .extra-corners::after, .extra-corners::before, &::after, &::before {
+        background-color: $color;
+      }
+
+      &:hover {    
+        fill: $color;
+        color: $color;
+      }
+    }
   }
 }

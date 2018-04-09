@@ -15,8 +15,14 @@ $colors: (
   "gray": $gray
 );
 
-@each $color, $bgcolor in $colors {
-  .background-#{$color} {
-    background-color: $bgcolor;
+@each $color-key, $color in $colors {
+  .background-#{$color-key} {
+    background-color: $color;
+  }
+}
+
+@each $color-key, $color in $colors {
+  .text-#{$color-key} {
+    color: $color;
   }
 }

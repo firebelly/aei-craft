@@ -15,11 +15,6 @@
   }
 }
 
-@mixin font-smoothing {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 // Responsive mixins by Andy Richardson (@andimal): https://github.com/andimal/sass-responsive-mixin-madness
 @mixin media-xs() {
   @media screen and (max-height: $breakpoint-sm - 1) {
@@ -71,42 +66,5 @@
 @mixin min-screen-height($res) {
   @media screen and (min-height: $res) {
     @content;
-  }
-}
-
-@mixin corner-button($width, $color) {
-  display: inline-block;
-  border: 1px solid $color;
-  padding: 10px;
-  text-align: center;
-  position: relative;
-  clip-path: polygon(#{$width} 0%, calc(100% - #{$width}) 0%, 100% #{$width}, 100% calc(100% - #{$width}), calc(100% - #{$width}) 100%, #{$width} 100%, 0% calc(100% - #{$width}), 0% #{$width});
-  span:after,
-  span:before,
-  &:after,
-  &:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -#{$width / 2};
-    width: $width * 2;
-    border-top: 1px solid $color;
-    transform: rotate(-45deg);
-  }
-  &:after {
-    left: auto;
-    right: -#{$width / 2};
-    transform: rotate(45deg);
-  }
-  span:before,
-  span:after {
-    top: auto;
-    bottom: 0;
-    transform: rotate(45deg);
-  }
-  span:after {
-    left: auto;
-    right: -#{$width / 2};
-    transform: rotate(-45deg);
   }
 }

@@ -2,10 +2,6 @@
   @include clearfix;
   margin: 0;
 
-  @include media-lg {
-    margin-top: 16*$beat;
-  }
-
   .masonry-item, .masonry-sizer {
     width: 100%;
     @include media-md {
