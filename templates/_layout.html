@@ -7,7 +7,48 @@
   <body class="{% if bodyClass is defined %}{{ bodyClass }}{% endif %} page-{{ segment(1) }}" {% if bodyId is defined %}id="{{ bodyId }}"{% endif %}>
     <div id="breakpoint-indicator"></div>
 
-    {% include '/partials/_nav' %}
+    <nav class="site-nav" role="navigation">
+
+      <div class="lockup bigclicky">
+        <div class="affiliated-engineers">
+          <h1 class="sr-only"><a href="/">{{ siteName }}</a></h1>
+          <svg class="logo"><use xlink:href="#affiliated-engineers-logo" /></svg>
+        </div>
+        <ul class="plan-design-commission">
+          <li>Plan</li>
+          <li>Design</li>
+          <li>Commission</li>
+        </ul>
+      </div>
+
+      <ul class="primary-links semantic-only-list">
+        {% for navItem in [ 'expertise', 'impact', 'approach', 'people' ] %}
+          <li class="primary-links-item {{ active(navItem, 1, 'current') }}">
+            <a href="/{{ navItem }}/">{{ navItem|capitalize }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+
+      <ul class="filters semantic-only-list">
+        {% block filters %}{% endblock %}
+      </ul>
+
+      <ul class="secondary-links semantic-only-list">
+        <li class="secondary-links-item {{ active('/careers/', 'url', 'current') }}">
+          <a href="/careers/">Careers</a>
+        </li>
+        <li class="secondary-links-item {{ active('/contact/', 'url', 'current') }}">
+          <a href="/contact/">Contact</a>
+        </li>
+      </ul>
+
+      <div class="search-open">
+        Search <svg class="icon-search"><use xlink:href="#icon-search" /></svg>
+      </div>
+    </nav>
+
+    <div class="nav-open"><svg class="icon-hamburger"><use xlink:href="#icon-hamburger" /></svg></div>
+    <div class="nav-close"><svg class="icon-x"><use xlink:href="#icon-x" /></svg></div>
 
     <div class="site-wrapper">
       {% include '/partials/_header' %}
