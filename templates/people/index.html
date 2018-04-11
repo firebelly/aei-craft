@@ -1,5 +1,23 @@
 {% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
 
+{% if tag is defined %}
+  {% set tag = craft.tags.slug(tag).first() %}
+  {% paginate craft.entries({
+    section: 'thoughts',
+    relatedTo: tag,
+    with: [
+      'headerImage'
+    ]
+  }) as paginationInfo, thoughtEntries %}
+{% else %}
+  {% paginate craft.entries({
+    section: 'thoughts',
+    with: [
+      'headerImage'
+    ]
+  }).limit(5) as paginationInfo, thoughtEntries %}
+{% endif %}
+
 {% block content %}
   {% cache unless currentUser %}
 

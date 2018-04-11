@@ -1,0 +1,36 @@
+{% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
+
+{% block filters %}
+  <li class="filters-item">
+    <a href="/impact/">All</a>
+  </li>
+  {% set entryImpactIds = entry.impactType.ids() %}
+  {% for cat in craft.categories.group('impactType').all() %}
+    <li class="filters-item {% if cat.id in entryImpactIds %}current{% endif %}">
+      <a href="{{ cat.url }}">{{ cat.title }}</a>
+    </li>
+  {% endfor %}
+{% endblock %}
+
+{% block content %}
+  {% cache unless currentUser %}
+
+  {{ entry.title }}
+
+  <h3>Related Impact</h3>
+  {% set limitCriteria = craft.entries.section('impact').limit(2) %}
+  {% set relatedImpactEntries = craft.similar.find({ element: entry, context: entry.impactType, criteria: limitCriteria }) %}
+  <ul>
+    {% for relatedImpact in relatedImpactEntries %}
+      <li>{{ relatedImpact.title }}</li>
+    {% endfor %}
+    {% if relatedImpactEntries|length < 2 %}
+      {% set omitId = relatedImpactEntries|length == 1 ? relatedImpactEntries[0].id : 0 %}
+      {% for relatedImpact in craft.entries.section('impact').id('not ' ~ omitId).limit(2 - relatedImpactEntries|length) %}
+        <li>{{ relatedImpact.title }}</li>
+      {% endfor %}
+    {% endif %}
+  </ul>
+
+  {% endcache %}
+{% endblock %}

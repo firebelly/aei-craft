@@ -89,7 +89,7 @@
         }
       }
 
-      &.active a, a:hover {
+      &.current a, a:hover {
         color: $black;
         &::after {
           opacity: 1;

@@ -1,8 +1,51 @@
 {% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
 
+{% if category is defined %}
+
+  {% paginate craft.entries({
+    section: 'impact',
+    relatedTo: category,
+    with: [
+      'impactImage'
+    ]
+  }) as paginationInfo, impactEntries %}
+
+{% else %}
+
+	{% set featuredImpact = craft.entries.section('impact').featured(1).order('RAND()').first() %}
+	{% set omitId = featuredImpact ? featuredImpact.id : 0 %}
+
+  {% paginate craft.entries({
+    section: 'impact',
+    with: [
+      'impactImage'
+    ]
+  }).id('not ' ~ omitId).limit(5) as paginationInfo, impactEntries %}
+
+{% endif %}
+
+{% block filters %}
+  <li class="filters-item {{ (category is not defined) ? 'current' : '' }}">
+    <a href="/impact/">All</a>
+  </li>
+  {% for cat in craft.categories.group('impactType').all() %}
+    <li class="filters-item {{ active(cat.url, 'url', 'current') }}">
+      <a href="{{ cat.url }}">{{ cat.title }}</a>
+    </li>
+  {% endfor %}
+{% endblock %}
+
 {% block content %}
   {% cache unless currentUser %}
 
+	{% if featuredImpact is defined %}
+		Featured: {{ featuredImpact.title }}
+	{% endif %}
+
+
+  {% for entry in impactEntries %}
+  	<a href="{{ entry.url }}">{{ entry.title }}</a>
+  {% endfor %}
 
   {% endcache %}
 {% endblock %}

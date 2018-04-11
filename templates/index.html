@@ -4,7 +4,8 @@
   {% cache unless currentUser %}
 
   {% for block in entry.featureBlocks.all() %}
-    {% if block.type == "feature" %}
+    {% switch block.type %}
+    {% case "feature" %}
 
       {{ block.featureHeadline }}
       {% set image = block.featureImage.one() %}
@@ -12,13 +13,13 @@
         {{ image.getUrl() }}
       {% endif %}
 
-    {% elseif block.type == "impact" %}
+    {% case "impact" %}
 
       {% for impactPost in block.impactPosts.all() %}
         {{ impactPost.title }}
       {% endfor %}
 
-    {% endif %}
+    {% endswitch %}
   {% endfor %}
 
   {% endcache %}

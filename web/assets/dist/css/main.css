@@ -869,9 +869,9 @@ a {
           background-size: 100% 100%;
           background-repeat: no-repeat;
           background-image: url("../svgs/icon-right-arrow.svg"); }
-      .site-nav .primary-links .primary-links-item.active a, .site-nav .primary-links .primary-links-item a:hover {
+      .site-nav .primary-links .primary-links-item.current a, .site-nav .primary-links .primary-links-item a:hover {
         color: #282826; }
-        .site-nav .primary-links .primary-links-item.active a::after, .site-nav .primary-links .primary-links-item a:hover::after {
+        .site-nav .primary-links .primary-links-item.current a::after, .site-nav .primary-links .primary-links-item a:hover::after {
           opacity: 1; }
       .site-nav .primary-links .primary-links-item a:hover::after {
         animation-name: nav-arrow-hover;

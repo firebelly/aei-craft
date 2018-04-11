@@ -3,6 +3,18 @@
 {% set bodyClass = 'single' %}
 {% set projectImage = entry.projectImage.one() %}
 
+{% block filters %}
+  <li class="filters-item">
+    <a href="/expertise/">All</a>
+  </li>
+  {% set entryMarketIds = entry.markets.ids() %}
+  {% for cat in craft.categories.group('markets').all() %}
+    <li class="filters-item {% if cat.id in entryMarketIds %}current{% endif %}">
+      <a href="{{ cat.url }}">{{ cat.title }}</a>
+    </li>
+  {% endfor %}
+{% endblock %}
+
 {% block content %}
   {% cache unless currentUser %}
   <article class="content-block single-project" data-id="{{ entry.id }}">
@@ -13,14 +25,14 @@
     {{ entry.subheader }}
     <h3>Services:</h3>
     {% if entry.services | length %}
-      <ul><li>{% for service in entry.services %}
-      <a href="/work#{{ service.slug }}">{{ service.title }}</a>
-      {{ not loop.last ? "," }}
-      {% endfor %}</li></ul>
+      <ul>{% for service in entry.services %}
+      <li><a href="{{ service.url }}">{{ service.title }}</a></li>
+      {% endfor %}</ul>
     {% endif %}
 
     {% for block in entry.mediaBlocks %}
-      {% if block.type == "stat" %}
+      {% switch block.type %}
+      {% case "stat" %}
 
         {% if block.figure %}
           <p>Figure: {{ block.figure }}</p>
@@ -29,7 +41,7 @@
           <p>Label: {{ block.label }}</p>
         {% endif %}
 
-      {% elseif block.type == "quote" %}
+      {% case "quote" %}
 
         {% if block.quote %}
           <p>Quote: {{ block.quote }}</p>
@@ -38,13 +50,13 @@
           <p>Source: {{ block.source }}</p>
         {% endif %}
 
-      {% elseif block.type == "text" %}
+      {% case "text" %}
 
         {% if block.text %}
           <p>Text: {{ block.text }}</p>
         {% endif %}
 
-      {% elseif block.type == "fullWidthImage" %}
+      {% case "fullWidthImage" %}
 
         {% if block.image|length %}
           <p>Image: {{ block.image.one().getUrl() }}</p>
@@ -53,7 +65,7 @@
           <p>Caption: {{ block.caption }}</p>
         {% endif %}
 
-      {% endif %}
+      {% endswitch %}
     {% endfor %}
   </article>
   {% endcache %}

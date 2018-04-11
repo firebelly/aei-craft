@@ -1,9 +1,86 @@
 {% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
 
+{% if category is defined %}
+
+  {% paginate craft.entries({
+    section: 'projects',
+    relatedTo: category,
+    with: [
+    'services',
+    'markets',
+    'projectImage'
+    ]
+  }).limit(8) as paginationInfo, projectEntries %}
+
+  {% set subheader = category.description %}
+
+{% else %}
+
+  {% paginate craft.entries({
+    section: 'projects',
+    with: [
+      'services',
+      'markets',
+      'projectImage'
+    ]
+  }).limit(8) as paginationInfo, projectEntries %}
+
+  {% set subheader = entry.description %}
+
+{% endif %}
+
+{% block filters %}
+  <li class="filters-item {{ (category is not defined) ? 'current' : '' }}">
+    <a href="/expertise/">All</a>
+  </li>
+  {% for cat in craft.categories.group('markets').all() %}
+    <li class="filters-item {{ active(cat.url, 'url', 'current') }}">
+      <a href="{{ cat.url }}">{{ cat.title }}</a>
+    </li>
+  {% endfor %}
+{% endblock %}
+
 {% block content %}
   {% cache unless currentUser %}
 
-	{% include 'partials/_page-header' %}
+  <div class="row top-row">
+    <div class="row-block">
+      <div class="module text-module background-white text-black">
+        <p class="font-h1">{{ subheader }}</p>
+        <div class="buttons">
+          <button class="contacts-open button">
+            <span class="border"></span><span class="extra-corners"></span>
+            Contacts
+            <svg class="icon icon-plus "><use xlink:href="#icon-plus" /></svg>
+          </button>
+          <a class="button" href="/awards/">
+            <span class="border"></span><span class="extra-corners"></span>
+            Awards
+            <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% for entry in projectEntries %}
+    {% include 'projects/_article' with { 'entry': entry } %}
+  {% endfor %}
+
+  <nav class="pagination">
+    <ul>
+      {% if paginationInfo.prevUrl %}
+      <li class="prev">
+        <a rel="prev" href="{{ paginationInfo.prevUrl }}">Previous Page</a>
+      </li>
+      {% endif %}
+      {% if paginationInfo.nextUrl %}
+      <li class="next">
+        <a rel="next" href="{{ paginationInfo.nextUrl }}">Next Page</a>
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
 
   {% endcache %}
 {% endblock %}

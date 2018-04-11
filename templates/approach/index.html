@@ -3,6 +3,22 @@
 {% block content %}
   {% cache unless currentUser %}
 
+  <h3>Services</h3>
+  {{ entry.servicesDescription }}
+  {% for cat in craft.categories.group('services').all() %}
+    <li>
+      <a href="{{ cat.url }}">{{ cat.title }}</a>
+    </li>
+  {% endfor %}
+
+  <h3>Locations</h3>
+  {{ entry.locationsDescription }}
+  {% for entry in craft.entries.section('offices').all() %}
+    <li>
+      <a href="{{ entry.url }}">{{ entry.title }}</a>
+    </li>
+  {% endfor %}
+
 
   {% endcache %}
 {% endblock %}
