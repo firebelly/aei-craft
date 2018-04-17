@@ -1,0 +1,19 @@
+  {# Pagination for Structure sections #}
+  {% set prevEntry = craft.entries.section(paginationSection).positionedBefore(entry).orderBy('lft desc').one() %}
+  {% if not prevEntry %}
+    {% set prevEntry = craft.entries.section(paginationSection).last() %}
+  {% endif %}
+  {% set nextEntry = craft.entries.section(paginationSection).positionedAfter(entry).orderBy('lft asc').one() %}
+  {% if not nextEntry %}
+    {% set nextEntry = craft.entries.section(paginationSection).first() %}
+  {% endif %}
+  <nav class="footer-pagination">
+    <ul>
+      <li class="prev">
+        <a rel="prev" href="{{ prevEntry.url }}"><span class="arrow">&larr;</span> Previous {{ postName }}<br>{{ prevEntry.title }}</a>
+      </li>
+      <li class="next">
+        <a rel="next" href="{{ nextEntry.url }}">Next {{ postName }}<br>{{ nextEntry.title }} <span class="arrow">&rarr;</span></a>
+      </li>
+    </ul>
+  </nav>

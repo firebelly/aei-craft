@@ -1,0 +1,22 @@
+{% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
+
+{% block content %}
+
+  <h2>Offices</h2>
+  {% for entry in craft.entries.section('offices').all() %}
+    <li>
+      <a href="{{ entry.url }}">{{ entry.title }}</a><br>
+      <a href="mailto: {{ entry.email }}">{{ entry.email }}</a>
+    </li>
+  {% endfor %}
+
+  <h2>General</h2>
+  {% for block in entry.contactBlocks.all() %}
+    <li>
+      {{ block.contactTitle }}<br>
+      {{ block.phoneNumber }}<br>
+      {{ block.email }}<br>
+    </li>
+  {% endfor %}
+
+{% endblock %}

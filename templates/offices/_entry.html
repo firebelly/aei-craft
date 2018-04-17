@@ -1,0 +1,23 @@
+{% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
+
+{% block content %}
+
+  <h1>{{ entry.title }}</h1>
+
+  <h3>Address</h3>
+  {{ entry.address.street }}<br>
+  {{ entry.address.city }}, {{ entry.address.state }} {{ entry.address.postalCode }}<br>
+
+  <h3>Phone</h3>
+  {{ entry.phoneNumber }}<br>
+
+  <h3>Email</h3>
+  {{ entry.email }}<br>
+
+  {{ entry.description }}
+
+  <a href="#">{{ entry.title }} Careers</a>
+
+  {% include "partials/_pagination_structure" with {'paginationSection': 'offices', 'postName': 'Location'} %}
+
+{% endblock %}
