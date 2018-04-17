@@ -41,7 +41,6 @@
 {% endblock %}
 
 {% block content %}
-  {% cache unless currentUser %}
 
   <div class="row top-row">
     <div class="row-block">
@@ -82,5 +81,4 @@
     </ul>
   </nav>
 
-  {% endcache %}
 {% endblock %}

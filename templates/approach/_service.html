@@ -1,7 +1,6 @@
 {% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
 
 {% block content %}
-  {% cache unless currentUser %}
 
   {# include page header #}
 
@@ -11,13 +10,10 @@
     section: 'projects',
     relatedTo: category,
     with: [
-      'services',
-      'markets',
       'projectImage'
     ]
-  }) %}
+  }).all() %}
     <a href="{{ entry.url }}">{{ entry.title }}</a>
   {% endfor %}
 
-  {% endcache %}
 {% endblock %}

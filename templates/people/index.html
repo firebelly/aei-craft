@@ -1,26 +1,32 @@
 {% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
 
-{% if tag is defined %}
-  {% set tag = craft.tags.slug(tag).first() %}
+{% if category is defined %}
+
   {% paginate craft.entries({
-    section: 'thoughts',
-    relatedTo: tag,
+    section: 'people',
+    relatedTo: category,
     with: [
-      'headerImage'
+    'personImage'
     ]
-  }) as paginationInfo, thoughtEntries %}
+  }).limit(8) as paginationInfo, peopleEntries %}
+
+  {% set subheader = category.description %}
+
 {% else %}
+
   {% paginate craft.entries({
-    section: 'thoughts',
+    section: 'people',
     with: [
-      'headerImage'
+      'personImage'
     ]
-  }).limit(5) as paginationInfo, thoughtEntries %}
+  }).limit(8) as paginationInfo, peopleEntries %}
+
+  {% set subheader = entry.description %}
+
 {% endif %}
 
 {% block content %}
-  {% cache unless currentUser %}
-
-
-  {% endcache %}
+  {% for entry in peopleEntries %}
+    <li><a href="{{ entry.url }}">{{ entry.title }}</a></li>
+  {% endfor %}
 {% endblock %}

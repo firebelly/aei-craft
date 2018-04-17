@@ -16,21 +16,21 @@
 {% endblock %}
 
 {% block content %}
-  {% cache unless currentUser %}
+
   <article class="content-block single-project" data-id="{{ entry.id }}">
     {% if projectImage|length %}
       <div class="project-banner" style="background-image:url({{ projectImage.getUrl() }});"></div>
     {% endif %}
     <h1 class="project-client">{{ entry.title }}</h1>
     {{ entry.subheader }}
-    <h3>Services:</h3>
     {% if entry.services | length %}
-      <ul>{% for service in entry.services %}
-      <li><a href="{{ service.url }}">{{ service.title }}</a></li>
-      {% endfor %}</ul>
+      <h3>Services:</h3>
+        <ul>{% for service in entry.services.all() %}
+        <li><a href="{{ service.url }}">{{ service.title }}</a></li>
+        {% endfor %}</ul>
     {% endif %}
 
-    {% for block in entry.mediaBlocks %}
+    {% for block in entry.mediaBlocks.all() %}
       {% switch block.type %}
       {% case "stat" %}
 
@@ -68,5 +68,5 @@
       {% endswitch %}
     {% endfor %}
   </article>
-  {% endcache %}
+
 {% endblock %}

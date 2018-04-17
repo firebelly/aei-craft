@@ -1,0 +1,23 @@
+{% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
+
+{% block filters %}
+  <li class="filters-item">
+    <a href="/people/">All</a>
+  </li>
+  {% set entryPeopleTypeIds = entry.peopleTypes.ids() %}
+  {% for cat in craft.categories.group('peopleTypes').all() %}
+    <li class="filters-item {% if cat.id in entryPeopleTypeIds %}current{% endif %}">
+      <a href="{{ cat.url }}">{{ cat.title }}</a>
+    </li>
+  {% endfor %}
+{% endblock %}
+
+{% block content %}
+  {{ entry.title }}
+
+  <h3>{{ entry.title }}’s Recent Projects</h3>
+  ...
+  <h3>{{ entry.title }}’s Recent Impact</h3>
+  ...
+
+{% endblock %}

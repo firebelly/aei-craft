@@ -13,13 +13,12 @@
   <div class="search-open">
     Search <svg class="icon-search"><use xlink:href="#icon-search" /></svg>
   </div>
-  <ul class="secondary-links">
-  {% if secondaryNav is defined %}
-    {% for navItem in secondaryNav %}
-      <li class="secondary-links-item {% if page.url in navItem.path %} current{% endif %}">
-        <a href="{{ navItem.path }}">{{ navItem.title }}</a>
-      </li>
-    {% endfor %}
-  {% endif %}
+  <ul class="secondary-links semantic-only-list">
+    <li class="secondary-links-item {{ active('/careers/', 'url', 'current') }}">
+      <a href="/careers/">Careers</a>
+    </li>
+    <li class="secondary-links-item {{ active('/contact/', 'url', 'current') }}">
+      <a href="/contact/">Contact</a>
+    </li>
   </ul>
 </header>

@@ -12,7 +12,7 @@
 
 {% else %}
 
-	{% set featuredImpact = craft.entries.section('impact').featured(1).order('RAND()').first() %}
+	{% set featuredImpact = craft.entries.section('impact').featured(1).orderBy('RAND()').one() %}
 	{% set omitId = featuredImpact ? featuredImpact.id : 0 %}
 
   {% paginate craft.entries({
@@ -28,7 +28,7 @@
   <li class="filters-item {{ (category is not defined) ? 'current' : '' }}">
     <a href="/impact/">All</a>
   </li>
-  {% for cat in craft.categories.group('impactType').all() %}
+  {% for cat in craft.categories.group('impactTypes').all() %}
     <li class="filters-item {{ active(cat.url, 'url', 'current') }}">
       <a href="{{ cat.url }}">{{ cat.title }}</a>
     </li>
@@ -36,7 +36,6 @@
 {% endblock %}
 
 {% block content %}
-  {% cache unless currentUser %}
 
 	{% if featuredImpact is defined %}
 		Featured: {{ featuredImpact.title }}
@@ -47,5 +46,19 @@
   	<a href="{{ entry.url }}">{{ entry.title }}</a>
   {% endfor %}
 
-  {% endcache %}
+  <nav class="pagination">
+    <ul>
+      {% if paginationInfo.prevUrl %}
+      <li class="prev">
+        <a rel="prev" href="{{ paginationInfo.prevUrl }}">Previous Page</a>
+      </li>
+      {% endif %}
+      {% if paginationInfo.nextUrl %}
+      <li class="next">
+        <a rel="next" href="{{ paginationInfo.nextUrl }}">Next Page</a>
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
+
 {% endblock %}

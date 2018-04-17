@@ -4,8 +4,13 @@
   <meta http-equiv="X-UA-Compatible" content="IE=Edge">
   <title>{% if seoTitle is defined %}{{ seoTitle }}{% elseif title is defined %}{{ title }} | {{ siteName }}{% else %}{{ siteName }}{% endif %}</title>
   <link rel="canonical" href="{{ siteUrl }}">
+
   <meta property="og:title" content="{% if seoTitle is defined %}{{ seoTitle }}{% elseif title is defined %}{{ title }} | {{ siteName }}{% else %}{{ siteName }}{% endif %}" />
-  <meta property="og:image" content="hero-image.jpg" />
+  {% if mainImage is defined %}
+    <meta property="og:image" content="{{ mainImage.getUrl() }}"/>
+  {% else %}
+    <meta property="og:image" content=""/>
+  {% endif %}
 
   <link rel="stylesheet" href="{{ rev('css/main.css') }}">
 
