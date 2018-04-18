@@ -1279,10 +1279,6 @@ button {
 
 .text-module {
   padding: 40px; }
-  .text-module > :first-child, .text-module .user-content > :first-child {
-    margin-top: 0; }
-  .text-module > :last-child, .text-module .user-content > :last-child {
-    margin-bottom: 0; }
   .text-module .buttons {
     *zoom: 1;
     margin-top: 40px; }
@@ -1302,6 +1298,15 @@ button {
       margin-right: 16px; }
       .text-module .buttons .button:last-child {
         margin-right: 0; }
+
+.text-module p:not(:last-child), .user-content p:not(:last-child) {
+  margin-bottom: 1.45em; }
+
+.text-module > :first-child, .user-content > :first-child {
+  margin-top: 0; }
+
+.text-module > :last-child, .user-content > :last-child {
+  margin-bottom: 0; }
 
 blockquote {
   font-weight: normal;
@@ -1328,9 +1333,6 @@ blockquote {
     letter-spacing: 0.075em;
     text-transform: none;
     margin-top: 30px; }
-
-.user-content p {
-  margin-bottom: 1.45em; }
 
 .image-wrap {
   position: relative; }

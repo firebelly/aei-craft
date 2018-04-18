@@ -7,16 +7,6 @@ button {
 
 .text-module {
   padding: $padding;
-  
-  &, .user-content {
-    > :first-child {
-      margin-top: 0;
-    }
-
-    > :last-child {
-      margin-bottom: 0;
-    }
-  }
 
   .buttons {
     @include clearfix;
@@ -37,6 +27,21 @@ button {
   }
 }
 
+.text-module, .user-content {
+
+  p:not(:last-child) {
+    margin-bottom: 1.45em;
+  }
+
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
 blockquote {
   @include font-h1;
   margin-left: 0;
@@ -45,12 +50,6 @@ blockquote {
   footer {
     @include font-details;
     margin-top: 30px;
-  }
-}
-
-.user-content {
-  p {
-    margin-bottom: 1.45em;
   }
 }
 
