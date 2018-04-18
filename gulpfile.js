@@ -64,7 +64,7 @@ gulp.task('rev', function() {
 gulp.task('watch', ['build'], function() {
   // Init BrowserSync
   browserSync.init({
-    proxy: 'fb-craft.dev',
+    proxy: 'aei-craft.localhost',
     notify: false,
     open: false
   });
@@ -110,10 +110,10 @@ gulp.task('svgs', function() {
             cleanupIDs: false
         }]
     }))
-    // .pipe(gulp.dest('app/views/shared/_svgs'))
+    .pipe(gulp.dest('web/assets/dist/svgs/'))
     .pipe(svgstore({ inlineSvg: true }))
     .pipe(rename({suffix: '-defs'}))
-    .pipe(gulp.dest('web/assets/dist/svgs/'));
+    .pipe(gulp.dest('web/assets/dist/svgs/defs/'));
 });
 
 

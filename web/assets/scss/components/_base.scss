@@ -13,7 +13,8 @@ body {
   color: $black;
   @include font-p;
   min-height: 100%;
-  background: $concrete-med;
+  background: $white;
+  // background: $concrete-med;
 }
 
 a {
@@ -36,4 +37,111 @@ a {
 }
 .semantic-only-list {
   @include semantic-only-list;
+}
+
+@mixin bg-cover {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.bg-cover {
+  @include bg-cover;
+}
+
+@mixin fill {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+.fill {
+  @include fill;
+}
+
+.show-md {
+  display: none;
+  @include media-md {
+    display: block;
+  }
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.no-underline {
+  &, a {
+    text-decoration: none;
+  }
+}
+
+.pad {
+  padding: $padding;
+}
+
+.pad-vertical {
+  padding-top: $padding;
+  padding-bottom: $padding;
+}
+
+
+
+.big-margin {
+  &-bottom, &-vertical {
+    margin-bottom: $padding;
+    @include media-md {
+      margin-bottom: 3*$padding;
+    }
+  }
+
+  &-top, &-vertical {
+    margin-top: $padding;
+    @include media-md {
+      margin-top: 3*$padding;
+    }
+  }
+}
+
+.margin {
+  &-bottom, &-vertical {
+    margin-bottom: $padding;
+    @include media-md {
+      margin-bottom: 2*$padding;
+    }
+  }
+
+  &-top, &-vertical {
+    margin-top: $padding;
+    @include media-md {
+      margin-top: 2*$padding;
+    }
+  }
+}
+
+.pull-h1-to-top {
+  &, &.text-module, &.pad, &.pad-vertical { // specificity
+    @include media-lg {
+      padding-top: 0;
+      margin-top: -7px;
+    }   
+  }
+}
+
+.top-overlap {
+  &-h1 {
+    @include media-md {
+      margin-top: -96px;
+    }
+
+    @include media-lg {
+      margin-top: -113px;
+    }
+  }
+
+  &-p {
+    @include media-md {
+      margin-top: -106px;
+    }
+  }
 }

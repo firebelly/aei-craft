@@ -1,0 +1,154 @@
+@each $color-key, $color in $colors {
+  .hr-top-#{$color-key} {
+    position: relative;
+    &::before {
+      top: 0;
+      z-index: 1;
+      content: '';
+      height: 1px;
+      left: $padding;
+      right: $padding;
+      position: absolute;
+      background: $color;
+    }
+  }
+
+  .hr-bottom-#{$color-key} {
+    position: relative;
+    &::after {
+      bottom: 0;
+      z-index: 1;
+      content: '';
+      height: 1px;
+      left: $padding;
+      right: $padding;
+      position: absolute;
+      background: $color;
+    }
+  }
+}
+
+.row.-separators {
+  &.-halves {
+    .row-block {
+      position: relative;
+
+      &::after {
+        bottom: 0;
+        height: 1px;
+        content: '';
+        left: $padding;
+        right: $padding;
+        position: absolute;
+        background: $off-white;
+      }
+
+      @include media-md {
+        &:nth-of-type(odd){
+          &::after {
+            right: 0;
+            left: auto;
+            width: 1px;
+            height: auto;
+            top: $padding;
+            bottom: $padding;
+          }
+        }
+
+        &:nth-of-type(even){
+          &::after {
+            left: calc(-100% + #{$padding})
+          }
+        }
+
+        &:last-of-type {
+          &::after {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.photo-row-separators {
+  overflow: hidden; // hide the final separator on each row
+
+  .row-block {
+
+    .module { // All the flexbox here is for when the .separate's within a row have different heights, we still want a uniform separator height
+      display: flex;
+      flex-direction: column;
+    }
+
+    .text {
+      flex-grow: 1; 
+      position: relative;
+
+      &::after {
+        right: -1px;
+        width: 1px;
+        content: '';
+        top: $padding;
+        bottom: $padding;
+        position: absolute;
+        background: $off-white;
+      }
+    }
+
+    &:last-of-type {
+      .text::after {
+        display: none
+      }
+    }
+  }
+}
+
+
+.meta-item {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    background: $off-white;
+  }
+
+  &.-half {
+
+    &.-left {
+      &::after {
+        right: 0;
+        top: 32px;
+        width: 1px;
+        bottom: $padding;
+      }
+    }
+
+    &.-right {
+      &::after {
+        bottom: 0;
+        height: 1px;
+        right: $padding;
+        left: calc(-100% + #{$padding});
+      }
+    }
+  }
+
+  &.-full {
+
+    &::after {
+      bottom: 0;
+      height: 1px;
+      right: $padding;
+      left: $padding;
+    }
+  }
+
+  &:last-of-type {
+    &::after {
+      display: none;
+    }
+  }
+}

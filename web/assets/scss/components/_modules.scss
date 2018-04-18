@@ -8,12 +8,14 @@ button {
 .text-module {
   padding: $padding;
   
-  :first-child {
-    margin-top: 0;
-  }
+  &, .user-content {
+    > :first-child {
+      margin-top: 0;
+    }
 
-  :last-child {
-    margin-bottom: 0;
+    > :last-child {
+      margin-bottom: 0;
+    }
   }
 
   .buttons {
@@ -35,10 +37,27 @@ button {
   }
 }
 
-.image-module {
+blockquote {
+  @include font-h1;
+  margin-left: 0;
+  margin-right: 0;
+
+  footer {
+    @include font-details;
+    margin-top: 30px;
+  }
+}
+
+.user-content {
+  p {
+    margin-bottom: 1.45em;
+  }
+}
+
+.image-wrap {
   position: relative;
 
-  .thumb {
+  .image {
     top: 0;
     left: 0;
     right: 0;
@@ -48,7 +67,7 @@ button {
     background-color: $gray;
   }
 
-  &.-portrait, &.-landscape {
+  &.-portrait, &.-landscape, &.-square {
     height: 0; 
   }
 
@@ -59,6 +78,10 @@ button {
 
   &.-portrait {
     padding-bottom: $portrait-padding;
+  }
+
+  &.-square {
+    padding-bottom: 100%;
   }
 
   @include media-md {
@@ -74,7 +97,6 @@ button {
 }
 
 .project-module {
-  color: $white;
   overflow: hidden;
   position: relative;
 
@@ -86,7 +108,7 @@ button {
     height: 200%;
     background: $red;
     position: absolute;
-    transition: transform 0.5s;
+    transition: transform 0.5s $ease;
     transform: skew(-18deg) translateX(-100%);
     z-index: 1;
     
@@ -102,51 +124,37 @@ button {
       transform: skew(-18deg) translateX(0);
     }
   }
+}
+.project-title {
+  color: $white;
+  padding: $padding;
 
-  .thumb-wrap {
-    height: 0;
+  h1, h2 {
+    @include font-smoothing;
+    margin: 0;
+    z-index: 2;
     position: relative;
-
-    .thumb {
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      position: absolute;
-      background-size: cover;
-      background-color: $gray;
-      background-position: center center;
-    }
   }
 
-  &.-landscape .thumb-wrap {
-    padding-bottom: $landscape-padding;
+  h1 {
+    @include font-p;
   }
 
-  &.-portrait .thumb-wrap {
-    padding-bottom: $portrait-padding;
+  h2 {
+    @include font-captions;
   }
 
-  .title {
-    padding: $padding;
-
-    h1, h2 {
-      @include font-smoothing;
-      margin: 0;
-      z-index: 2;
-      position: relative;
-    }
-
-    h1 {
-      @include font-p;
-    }
-
-    h2 {
-      @include font-captions;
-    }
-
-    a {
-      text-decoration: none;
+  a {
+    text-decoration: none;
+  }
+}
+// Ensure that, in a row rather than masonty, project-titles will stretch to match height of neighbor title if necessary
+.row-block {
+  .project-module {
+    display: flex;
+    flex-direction: column;
+    .project-title {
+      flex-grow: 1;
     }
   }
 }
@@ -225,15 +233,174 @@ button {
 }
 
 .post-module {
-  padding: $padding;
-  a {
-    text-decoration: none;
-  }
   .category {
-    @include font-details;
     color: $red;
   }
   .title {
-    @include font-nav;
+    margin: 5px 0;
+  }
+  .excerpt {
+    margin: 4.5*$beat 0 5.5*$beat;
+  }
+}
+
+.person-module {
+  .title {
+    margin: 6px 0 0;
+  }
+}
+
+
+.stat-two-number-module {
+  display: flex;
+  padding: $padding;
+  background: $white;
+  position: relative;
+  justify-content: space-between;
+
+  &::after {
+    right: 50%;
+    width: 2px;
+    content: '';
+    top: $padding;
+    bottom: $padding;
+    position: absolute;
+    transform: skew(-18deg);
+    background-color: $concrete-light;
+  }
+
+  @include media-md {
+    min-height: 320px;
+  }
+
+  .number {
+    @include font-stat-small;
+    margin: 0;
+    max-width: 33.33%;
+    flex-basis: 33.33%;
+
+    @include media-md {
+      @include font-stat-medium;
+    }
+  }
+  .unit {
+    @include font-details;
+    display: block;
+    margin: $beat 0 0;
+  }
+
+  .number-2 {
+    align-self: flex-end;
+    text-align: right;
+  }
+}
+
+.image-module {
+  @include clearfix;
+  @include max-screen($breakpoint-md - 1px) {
+    margin-top: $padding;
+  }
+
+  .caption {
+    background: $white;
+    position: relative;
+    padding: 55px $padding $padding;
+
+    .icon {
+      top: 38px;
+      width: 7px;
+      height: 10px;
+      fill: $black;
+      left: $padding;
+      position: absolute;
+    }
+  }
+
+  &.-full .caption {
+    @include media-md {
+      display: inline-block;
+      width: 50%;
+      margin-top: -6*$beat;
+
+      &.-right {
+        float: right;
+      }
+    }
+  }
+}
+
+.meta {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 10px;
+
+  .meta-item {
+    flex: 0 0 0;
+    padding: 30px $padding $padding;
+
+    .title {
+      margin: 0 0 7px;
+    }
+
+    &.-half {
+      max-width: 50%;
+      flex-basis: 50%; 
+      padding-right: 30px;
+    }
+
+    &.-full {
+      flex-basis: 100%;
+    }
+  }
+}
+
+
+.post-navigation {
+  margin: $padding 0;
+  @include media-md {
+    margin: 2*$padding 0 $padding;
+  }
+
+  .prev-post, .next-post {
+    position: relative;
+    .icon {
+      top: $padding + 27px;
+      width: 16px;
+      height: 16px;
+      fill: $black;
+      position: absolute;
+    }
+    .post-title {
+      margin-top: 5px;
+    }
+  }
+
+  .next-post {
+    .icon {
+      right: $padding;
+    }
+    &:hover .icon {
+      animation-duration: 0.3s;
+      animation-timing-function: $ease;
+      animation-name: right-arrow-hover;
+    }
+  }
+  .prev-post {
+    text-align: right;
+    .icon {
+      left: $padding;
+    }
+    &:hover .icon {
+      animation-duration: 0.3s;
+      animation-timing-function: $ease;
+      animation-name: left-arrow-hover;
+    }
+  }
+}
+
+.page-intro {
+  .page-quote {
+    margin-bottom: 70px;
   }
 }

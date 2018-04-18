@@ -3,12 +3,6 @@
   height: 0;
   overflow: hidden;
   visibility: hidden;
-  //
-  // position: absolute;
-  // top: 0;
-  // left: 0;
-  // background: $black;
-  // color: $white;
   
   &::after {
     content: 'xs';

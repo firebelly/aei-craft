@@ -23,9 +23,12 @@ $padding: 5*$beat;
 $landscape-padding: 66.66%;
 $portrait-padding: 133.33%;
 
-// Misc
+// Animation
+$ease: ease-out;
 
 // Breakpoints
 $breakpoint-sm: 480px;
 $breakpoint-md: 750px;
 $breakpoint-lg: 1200px;
+$breakpoint-quarters-2col: 550px;
+$breakpoint-quarters-4col: 900px;
