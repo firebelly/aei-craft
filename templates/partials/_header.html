@@ -1,19 +1,23 @@
-<header class="site-header" role="banner">
-  <div class="lockup bigclicky">
-    <div class="affiliated-engineers">
-      <h1 class="sr-only"><a href="/">{{ siteName }}</a></h1>
-      <svg class="logo"><use xlink:href="#affiliated-engineers-logo" /></svg>
+<header class="site-header row -halves" role="banner">
+  <div class="lockup-block row-block pad">
+    <div class="lockup bigclicky">
+      <div class="affiliated-engineers">
+        <h1 class="sr-only"><a href="/">{{ siteName }}</a></h1>
+        <svg class="logo"><use xlink:href="#affiliated-engineers-logo" /></svg>
+      </div>
+      <ul class="plan-design-commission">
+        <li>Plan</li>
+        <li>Design</li>
+        <li>Commission</li>
+      </ul>
     </div>
-    <ul class="plan-design-commission">
-      <li>Plan</li>
-      <li>Design</li>
-      <li>Commission</li>
-    </ul>
   </div>
-  <div class="search-open">
-    Search <svg class="icon-search"><use xlink:href="#icon-search" /></svg>
+  <div class="search-block row-block pad">
+    <div class="search-open">
+      Search <svg class="icon-search"><use xlink:href="#icon-search" /></svg>
+    </div>
   </div>
-  <ul class="secondary-links semantic-only-list">
+  <ul class="secondary-links links-block row-block pad">
     <li class="secondary-links-item {{ active('/careers/', 'url', 'current') }}">
       <a href="/careers/">Careers</a>
     </li>
