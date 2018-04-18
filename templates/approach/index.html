@@ -2,8 +2,8 @@
 
 {% block content %}
   <!-- checkerboard header (no theater) -->
-  {% if entry.pageHeader|length %}
-    {% set pageHeader = entry.pageHeader.one() %}
+  {% set pageHeader = entry.pageHeader.one() %}
+  {% if pageHeader %}
     <div class="checkerboard-header">
       <div class="row -halves">
         <div class="row-block">
@@ -24,8 +24,8 @@
           </div>
         </div>
       </div>
-      {% if pageHeader.headerImage|length %}
-        {% set headerImage = pageHeader.headerImage.one() %}
+      {% set headerImage = pageHeader.headerImage.one() %}
+      {% if headerImage %}
         <div class="checkerboard-hero">
           <div class="image bg-cover fill" style="background-image: url({{ headerImage.getUrl('header') }});"></div>
         </div>
@@ -54,11 +54,14 @@
     </div>
   </div>
 
-  {% for cat in craft.categories.group('services').all() %}
-    <li>
-      <a href="{{ cat.url }}">{{ cat.title }}</a>
+  <!-- services -quarters -->
+  <ul class="row -quarters photo-row-separators semantic-only-list background-white big-margin-bottom">
+  {% for service in craft.categories.group('services').all() %}
+    <li class="row-block">
+      {% include 'partials/_article-service' %}
     </li>
   {% endfor %}
+  </ul>
 
   <!-- location section header -->
   <div class="row -halves pad-vertical background-white text-black hr-top-black">
@@ -73,11 +76,14 @@
       </div>
     </div>
   </div>
-  
-  {% for entry in craft.entries.section('offices').all() %}
-    <li>
-      <a href="{{ entry.url }}">{{ entry.title }}</a>
-    </li>
-  {% endfor %}
+
+  <!-- locations -quarters -->
+  <ul class="row -quarters photo-row-separators semantic-only-list background-white big-margin-bottom">
+    {% for location in craft.entries.section('offices').all() %}
+      <li class="row-block">
+        {% include 'partials/_article-location' %}
+      </li>
+    {% endfor %}
+  </ul>
 
 {% endblock %}

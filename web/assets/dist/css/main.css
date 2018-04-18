@@ -1335,7 +1335,8 @@ blockquote {
     margin-top: 30px; }
 
 .image-wrap {
-  position: relative; }
+  position: relative;
+  background-color: #595954; }
   .image-wrap .image {
     top: 0;
     left: 0;
