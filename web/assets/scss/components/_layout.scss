@@ -1,105 +1,20 @@
-.site-wrapper {
+.right-col-wrap {
   width: 100%;
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
   padding-left: $padding;
 
   @include media-lg {
     padding-left: 33.33%;
   }
 
-  .site-main {
-    flex: 1;
-    @include clearfix;
-  }
-}
-
-.thumb {
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
-.row {
-
-  @include media-md {
+  .right-col {
     display: flex;
-    flex-wrap: wrap;
-  }
+    min-height: 100vh;
+    flex-direction: column;
+    position: relative;
 
-  .row-block {
-
-    @include media-md {
-      flex-basis: 50%;
-
-      &.-push-right {
-        margin-left: 50%;
-      }
-
-      .module {
-        min-height: 100%;
-      }
-    }
-  }
-
-  &.-separators {
-    .row-block {
-      position: relative;
-
-      &::after {
-        bottom: 0;
-        height: 1px;
-        content: '';
-        left: $padding;
-        right: $padding;
-        position: absolute;
-        background: $off-white;
-      }
-
-
-      @include media-md {
-        &:nth-child(odd){
-          &::after {
-            right: 0;
-            left: auto;
-            width: 1px;
-            height: auto;
-            top: $padding;
-            bottom: $padding;
-          }
-        }
-
-        &:nth-child(even){
-          &::after {
-            left: calc(-100% + #{$padding})
-          }
-        }
-
-        &:last-child {
-          &::after {
-            display: none;
-          }
-        }
-      }
-    }
-  }
-
-  &.-flip-order-md {
-    @include media-md {
-      flex-direction: row-reverse;
+    .site-main {
+      flex: 1;
+      @include clearfix;
     }
   }
 }
-
-// .no-flexbox {
-
-//   .site-header {
-//     float: left;
-//     width: 33.33%;
-//   }
-
-//   .site-wrapper {
-//     float: left;
-//     width: 66.67%;
-//   }
-// }

@@ -1,0 +1,69 @@
+.row {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+
+  .row-block {
+    display: block;
+
+    .module {
+      min-height: 100%;
+    }
+  }
+
+  &.-spaced {
+    .row-block {
+      @include media-md {
+        margin-top: $padding;
+      }
+    }
+  }
+
+
+  &.-single {
+    .row-block {
+      flex-basis: 100%;
+    }
+  }
+
+  &.-halves {
+    .row-block {
+      flex-basis: 100%;
+
+      @include media-md {
+        flex-basis: 50%;
+      }
+
+      &.-right {
+        @include media-md {
+          margin-left: 50%;
+        }
+      }
+
+      &.-double {
+        @include media-md {
+          flex-basis: 100%;
+        }
+      }
+    }
+  }
+  &.-quarters {
+    .row-block {
+      flex-basis: 100%;
+
+      @include min-screen($breakpoint-quarters-2col) {
+        flex-basis: 50%;
+      }
+
+      @include min-screen($breakpoint-quarters-4col) {
+        flex-basis: 25%;
+      }
+    }
+  }
+
+  &.-flip-order-md {
+    @include media-md {
+      flex-direction: row-reverse;
+    }
+  }
+}

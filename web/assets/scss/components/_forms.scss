@@ -1,4 +1,4 @@
-@mixin cornerize($border-color, $background-color, $corner-width: 5px, $offset: 2px) {
+@mixin cornerize($border-color, $background-color, $corner-width: 6px, $offset: 2px) {
  
   padding: 10px;
   overflow: hidden;
@@ -84,6 +84,13 @@
     width: 9px;
     right: 20px;
     height: 7px;
+  }
+
+  .icon-down-arrow {
+    top: 15px;
+    width: 7px;
+    right: 15px;
+    height: 9px;
   }
 }
 

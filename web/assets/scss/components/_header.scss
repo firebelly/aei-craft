@@ -1,39 +1,63 @@
 // Header
 
 .site-header {
-  padding: $padding;
-  background: $white;
+  background-color: $concrete-med;
 
-
-  .secondary-links, .search-open {
+  .secondary-links, .search-block {
     display: none;
   }
 
-  @include media-md {
-    width: 50%;
+  .lockup-block {
+    background: $white;
   }
 
   @include media-lg {
+    min-height: 16*$beat;
 
-    left: 33.33%;
-    width: 66.67%;
-    position: absolute;
-    background: transparent;
-
-    .lockup {
+    .lockup-block {
       display: none;
     }
 
-    .secondary-links, .search-open {
+    .secondary-links, .search-block {
       display: block;
     }
 
-    .secondary-links a {
-      color: $white;
-      @include font-smoothing;
+    .search-block {
+      background: $white;
+    }
+
+    .secondary-links {
+      text-align: right;
+      a {
+        color: $white;
+        @include font-smoothing;
+      }
     }
   }
 }
+
+body.overlapping-header {
+  @include media-md {
+    .site-header {
+      top: 0;
+      left: 0;
+      z-index: 1;
+      width: 100%;
+      position: absolute;
+      background-color: rgba($black,0.5);
+    }
+  }
+}
+
+body.white-header {
+  .site-header {
+    background-color: $white;
+  }
+  .secondary-links a {
+    color: $black;
+  }
+}
+
 
 
 .lockup {

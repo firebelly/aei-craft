@@ -7,7 +7,6 @@
 @import "helpers/variables";
 @import "helpers/mixins";
 @import "helpers/typography";
-@import "helpers/grid";
 @import "helpers/animations";
 @import "helpers/accessibility";
 @import "helpers/color-scheme";
@@ -19,14 +18,16 @@
 // Components
 @import "components/base";
 @import "components/layout";
+@import "components/rows";
+@import "components/masonry";
 @import "components/header";
+@import "components/page-headers";
 @import "components/nav";
 @import "components/footer";
-@import "components/masonry";
 @import "components/modules";
 @import "components/forms";
+@import "components/separators";
 
 // Pages
 
-@import "pages/home";
-@import "pages/expertise";
+@import "pages/impact";

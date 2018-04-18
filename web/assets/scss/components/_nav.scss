@@ -1,18 +1,5 @@
 // Main Site Navigation
 
-@keyframes nav-arrow-hover {
-  0% {
-    opacity: 0;
-    transform: translateX(-150px);
-  }
-  70% {
-    opacity: 1;
-  }
-  100% {
-    transform: none;
-  }
-}
-
 .site-nav {
   top: 0;
   left: 0;
@@ -22,8 +9,8 @@
   right: $padding;
   padding: $padding;
   overflow-y: scroll;
-  transition: transform 0.2s;
   background: $concrete-light;
+  transition: transform 0.2s $ease;
 
   @include min-screen(900px) {
     right: auto;
@@ -42,6 +29,20 @@
     }
   }
 
+  .search-open {
+    z-index: 1;
+    top: $padding;
+    left: $padding;
+    position: absolute;
+  }
+
+  .secondary-links {
+    z-index: 1;
+    top: $padding;
+    right: $padding;
+    position: absolute;
+  }
+
   .lockup {
     display: none;
     @include media-lg {
@@ -51,7 +52,7 @@
   }
 
   .primary-links {
-    @include font-nav;
+    @include font-h2;
     @include font-smoothing;
 
     margin-top: 15 * $beat;
@@ -98,8 +99,9 @@
 
       a:hover {
         &::after {
-          animation-name: nav-arrow-hover;
           animation-duration: 0.3s;
+          animation-timing-function: $ease;
+          animation-name: right-arrow-hover;
         }
       }
     }
@@ -146,11 +148,6 @@
 .secondary-links {
   @include font-buttons;
   @include semantic-only-list;
-  margin: 0;
-  z-index: 1;
-  top: $padding;
-  right: $padding;
-  position: absolute;
 
   .secondary-links-item {
     display: block;
@@ -176,10 +173,6 @@
 
 .search-open {
   @include font-buttons;
-  z-index: 1;
-  top: $padding;
-  left: $padding;
-  position: absolute;
 
   .icon-search {
     top: 3px;
@@ -199,7 +192,7 @@
   height: 100%;
   position: fixed;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s $ease;
   background-color: rgba($black,0.75);
 
   @include media-lg {
