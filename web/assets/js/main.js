@@ -8,7 +8,8 @@ var FB = (function($) {
       breakpoint_xs = false,
       breakpoint_sm = false,
       breakpoint_md = false,
-      breakpoint_lg = false;
+      breakpoint_lg = false,
+      theaterVimeoPlayer;
 
 
   function _init() {
@@ -29,6 +30,7 @@ var FB = (function($) {
     $(document).keyup(function(e) {
       if (e.keyCode === 27) {
         _closeNav();
+        _closeTheater();
       }
     });
 
@@ -63,6 +65,7 @@ var FB = (function($) {
     });
 
     _initNav();
+    _initTheater();
     _initMasonry();
 
 
@@ -97,6 +100,46 @@ var FB = (function($) {
       _closeNav();
     } else {
       _openNav();
+    }
+  }
+
+  function _initTheater() {
+    if($('.theater').length) {
+
+      theaterVimeoPlayer = new Vimeo.Player($('.theater .vimeo-iframe'));
+
+      _closeTheater();
+
+      $(document).on('click','.theater-close', function () {
+        _closeTheater();
+      });
+
+      $(document).on('click','.theater-open', function () {
+        _openTheater();
+      });
+
+      $(document).on('click','.theater-toggle', function () {
+        _toggleTheater();
+      });
+    }
+  }
+  function _openTheater() {
+    $('.theater-wrap')
+      .addClass('-open')
+      .removeClass('-closed');
+      theaterVimeoPlayer.play();
+  }
+  function _closeTheater() {
+    $('.theater-wrap')
+      .removeClass('-open')
+      .addClass('-closed');
+      // theaterVimeoPlayer.stop();
+  }
+  function _toggleTheater() {
+    if($('.theater-wrap').hasClass('-open')) {
+      _closeTheater();
+    } else {
+      _openTheater();
     }
   }
 
