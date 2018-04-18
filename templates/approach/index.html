@@ -1,17 +1,79 @@
 {% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
 
 {% block content %}
+  <!-- checkerboard header (no theater) -->
+  {% if entry.pageHeader|length %}
+    {% set pageHeader = entry.pageHeader.one() %}
+    <div class="checkerboard-header">
+      <div class="row -halves">
+        <div class="row-block">
+          <div class="module text-module background-white text-black pull-h1-to-top">
+            <p class="font-h1">{{ pageHeader.subheader }}</p>
+            <div class="buttons show-md">
+              <a href="#services" class="button">
+                <span class="border"></span><span class="extra-corners"></span>
+                Services
+                <svg class="icon icon-down-arrow"><use xlink:href="#icon-down-arrow" /></svg>
+              </a>
+              <a href="#locations" class="button">
+                <span class="border"></span><span class="extra-corners"></span>
+                Locations
+                <svg class="icon icon-down-arrow"><use xlink:href="#icon-down-arrow" /></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% if pageHeader.headerImage|length %}
+        {% set headerImage = pageHeader.headerImage.one() %}
+        <div class="checkerboard-hero">
+          <div class="image bg-cover fill" style="background-image: url({{ headerImage.getUrl('header') }});"></div>
+        </div>
+      {% endif %}
+      <div class="row -halves">
+        <div class="row-block -right">
+          <div class="text-module background-black text-off-white font-smoothing">
+            <div class="user-content">{{ pageHeader.supportingStatement }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
 
-  <h3>Services</h3>
-  {{ entry.servicesDescription }}
+  <!-- service section header -->
+  <div class="row -halves pad-vertical background-white text-black">
+    <div class="row-block">
+      <div class="module text-module">
+        <h2 id="services" class="font-h1">Services</h2>
+      </div>
+    </div>  
+    <div class="row-block">
+      <div class="module text-module">
+        <div class="user-content">{{ entry.servicesDescription }}</div>
+      </div>
+    </div>
+  </div>
+
   {% for cat in craft.categories.group('services').all() %}
     <li>
       <a href="{{ cat.url }}">{{ cat.title }}</a>
     </li>
   {% endfor %}
 
-  <h3>Locations</h3>
-  {{ entry.locationsDescription }}
+  <!-- location section header -->
+  <div class="row -halves pad-vertical background-white text-black hr-top-black">
+    <div class="row-block">
+      <div class="module text-module">
+        <h2 id="locations" class="font-h1">Locations</h2>
+      </div>
+    </div>  
+    <div class="row-block">
+      <div class="module text-module">
+        <div class="user-content">{{ entry.locationsDescription }}</div>
+      </div>
+    </div>
+  </div>
+  
   {% for entry in craft.entries.section('offices').all() %}
     <li>
       <a href="{{ entry.url }}">{{ entry.title }}</a>
