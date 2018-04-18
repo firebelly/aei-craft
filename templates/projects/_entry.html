@@ -22,7 +22,7 @@
       <div class="project-banner" style="background-image:url({{ projectImage.getUrl() }});"></div>
     {% endif %}
     <h1 class="project-client">{{ entry.title }}</h1>
-    {{ entry.subheader }}
+    {{ entry.tagline }}
     {% if entry.services | length %}
       <h3>Services:</h3>
         <ul>{% for service in entry.services.all() %}
