@@ -5,7 +5,10 @@
   <h1>{{ entry.title }}</h1>
 
   <h3>Address</h3>
-  {{ entry.address.street }}<br>
+  {{ entry.address.address1 }}<br>
+  {% if entry.address.address2 %}
+    {{ entry.address.address2 }}<br>
+  {% endif %}
   {{ entry.address.city }}, {{ entry.address.state }} {{ entry.address.postalCode }}<br>
 
   <h3>Phone</h3>
