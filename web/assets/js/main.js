@@ -1,6 +1,14 @@
 // Firebelly 2016
 /*jshint latedef:false*/
 
+//=include "../bower_components/jquery/dist/jquery.js"
+//=include "../bower_components/jquery.fitvids/jquery.fitvids.js"
+//=include "../bower_components/velocity/velocity.js"
+//=include "../bower_components/imagesloaded/imagesloaded.pkgd.min.js"
+//=include "../bower_components/jquery_lazyload/jquery.lazyload.js"
+//=include "../bower_components/waypoints/lib/jquery.waypoints.js"
+//=include "../bower_components/isotope-layout/dist/isotope.pkgd.js"
+
 // Good Design for Good Reason for Good Namespace
 var FB = (function($) {
 
@@ -8,8 +16,7 @@ var FB = (function($) {
       breakpoint_xs = false,
       breakpoint_sm = false,
       breakpoint_md = false,
-      breakpoint_lg = false,
-      theaterVimeoPlayer;
+      breakpoint_lg = false;
 
 
   function _init() {
@@ -24,7 +31,7 @@ var FB = (function($) {
     _resize();
 
     // Fit them vids!
-    $('main').fitVids();
+    // $('main').fitVids();
 
     // Esc handlers
     $(document).keyup(function(e) {
@@ -58,18 +65,37 @@ var FB = (function($) {
     });
 
     // Scroll down to hash after page load
-    $(window).load(function() {
+    $(window).on('load',function() {
       if (window.location.hash) {
         _scrollBody($(window.location.hash), 250, 0, true);
       }
     });
 
+    _initLazyload();
     _initNav();
     _initTheater();
     _initMasonry();
 
 
   } // end init()
+
+  function _initLazyload() {
+    $('.lazy').lazyload({
+      effect : 'fadeIn',
+      threshold: 500,
+      load: function() {
+        // if (numLazyLoaded==-1) return; // set to -1 after all lazy images are triggered to load
+        // numLazyLoaded++;
+        $(this).addClass('lazyloaded');
+        // // Load *all* images after 3 images have loaded, otherwise wait for 12
+        // if (numLazyLoaded > 12) {
+        //   $('.lazy:not(.lazyloaded)').trigger('appear');
+        //   numLazyLoaded = -1;
+        // }
+        console.log('lazy loaded an image');
+      }
+    });
+  }
 
   function _initNav() {
 
@@ -106,8 +132,6 @@ var FB = (function($) {
   function _initTheater() {
     if($('.theater').length) {
 
-      theaterVimeoPlayer = new Vimeo.Player($('.theater .vimeo-iframe'));
-
       _closeTheater();
 
       $(document).on('click','.theater-close', function () {
@@ -127,13 +151,11 @@ var FB = (function($) {
     $('.theater-wrap')
       .addClass('-open')
       .removeClass('-closed');
-      theaterVimeoPlayer.play();
   }
   function _closeTheater() {
     $('.theater-wrap')
       .removeClass('-open')
       .addClass('-closed');
-      // theaterVimeoPlayer.stop();
   }
   function _toggleTheater() {
     if($('.theater-wrap').hasClass('-open')) {

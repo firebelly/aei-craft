@@ -2,7 +2,7 @@
   <div class="image-wrap -square">
     {% set image = service.serviceImage.one() %}
     {% if image %}
-      <div class="image" style="background-image: url('{{ image.getUrl() }}')"></div>
+      <div class="image" style="background-image: url('{{ image.getUrl('thumb') }}')"></div>
     {% endif %}
   </div>
   <div class="text pad">

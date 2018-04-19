@@ -42,10 +42,11 @@
 
 {% block content %}
 
-  <div class="row top-row">
+<!-- top row: project text and first project (wrapped so they can visually align) -->
+  <div class="row -halves top-row">
     <div class="row-block">
-      <div class="module text-module background-white text-black">
-        <p class="font-h1">{{ subheader }}</p>
+      <div class="module text-module background-white text-black pull-h1-to-top">
+        <div class="font-h1 user-content">{{ subheader }}</div>
         <div class="buttons">
           <button class="contacts-open button">
             <span class="border"></span><span class="extra-corners"></span>
@@ -60,11 +61,29 @@
         </div>
       </div>
     </div>
+
+    {% set project = projectEntries[0] %}
+    {% if project %}
+    <div class="row-block">
+      {% include 'projects/_article' %}
+    </div>
+    {% endif %}
   </div>
 
-  {% for entry in projectEntries %}
-    {% include 'projects/_article' with { 'entry': entry } %}
-  {% endfor %}
+
+  <!-- all of the rest of the projects in masonry -->
+  <div class="masonry-grid">
+    <div class="masonry-sizer"></div>
+    <ul class="semantic-only-list">
+      {% for project in projectEntries %}
+        {% if loop.index > 1 %}
+          <li class="masonry-item">
+            {% include 'projects/_article' %}
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
 
   <nav class="pagination">
     <ul>
