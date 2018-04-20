@@ -1335,13 +1335,15 @@ blockquote {
     margin-top: 30px; }
 
 .image-wrap {
+  overflow: hidden;
   position: relative;
-  background-color: #595954; }
+  background-color: #87847f; }
   .image-wrap .image {
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: -0.5px;
+    left: -0.5px;
+    opacity: 0.9;
+    right: -0.5px;
+    bottom: -0.5px;
     position: absolute;
     background-size: cover;
     background-color: #595954; }
@@ -2306,5 +2308,13 @@ blockquote {
 
 .page-impact .featured-post-block .category {
   color: #f4f2ed; }
+
+@media screen and (min-width: 750px) {
+  .page-expertise .masonry-grid .intro-block {
+    min-height: calc( (100vw - 40px)/2*(2/3)); } }
+
+@media screen and (min-width: 1200px) {
+  .page-expertise .masonry-grid .intro-block {
+    min-height: calc( 100vw/3*(2/3)); } }
 
 /*# sourceMappingURL=maps/main.css.map */
