@@ -1,0 +1,57 @@
+# Deltek Import module for Craft CMS 3.x
+
+Pulls data from a custom MySQL dump from Deltek
+
+## Requirements
+
+This module requires Craft CMS 3.0.0-RC1 or later.
+
+## Installation
+
+To install the module, follow these instructions.
+
+First, you'll need to add the contents of the `app.php` file to your `config/app.php` (or just copy it there if it does not exist). This ensures that your module will get loaded for each request. The file might look something like this:
+```
+return [
+    'modules' => [
+        'deltek-import-module' => [
+            'class' => \modules\deltekimportmodule\DeltekImportModule::class,
+            'components' => [
+                'deltekImportModuleService' => [
+                    'class' => 'modules\deltekimportmodule\services\DeltekImportModuleService',
+                ],
+            ],
+        ],
+    ],
+    'bootstrap' => ['deltek-import-module'],
+];
+```
+You'll also need to make sure that you add the following to your project's `composer.json` file so that Composer can find your module:
+
+    "autoload": {
+        "psr-4": {
+          "modules\\deltekimportmodule\\": "modules/deltekimportmodule/src/"
+        }
+    },
+
+After you have added this, you will need to do:
+
+    composer dump-autoload
+ 
+ …from the project’s root directory, to rebuild the Composer autoload map. This will happen automatically any time you do a `composer install` or `composer update` as well.
+
+## Deltek Import Overview
+
+-Insert text here-
+
+## Using Deltek Import
+
+-Insert text here-
+
+## Deltek Import Roadmap
+
+Some things to do, and ideas for potential features:
+
+* Release it
+
+Brought to you by [Firebelly Design](https://www.firebellydesign.com/)
