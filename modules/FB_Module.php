@@ -20,7 +20,7 @@ use Craft;
  * Learn more about Yii module development in Yii's documentation:
  * http://www.yiiframework.com/doc-2.0/guide-structure-modules.html
  */
-class Module extends \yii\base\Module
+class FB_Module extends \yii\base\Module
 {
     /**
      * Initializes the module.
@@ -31,5 +31,6 @@ class Module extends \yii\base\Module
         parent::init();
 
         // Custom initialization code goes here...
+        
     }
 }

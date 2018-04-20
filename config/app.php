@@ -19,7 +19,7 @@
 
 return [
     'modules' => [
-        'my-module' => \modules\Module::class,
+        'fb-module' => \modules\FB_Module::class,
     ],
-    //'bootstrap' => ['my-module'],
+    'bootstrap' => ['fb-module'],
 ];
