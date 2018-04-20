@@ -37,14 +37,28 @@
 
 {% block content %}
 
-	{% if featuredImpact is defined %}
-		Featured: {{ featuredImpact.title }}
-	{% endif %}
+  <!-- header (w/ featured post) -->
+  <div class="hero-wrap">
+    <div class="hero-image">
+      <div class="image" style="background-image: url();"></div>
+    </div>
+    <div class="row -halves">
+      {% if featuredImpact is defined %}
+        {% set post = featuredImpact %}
+        <li class="row-block -right background-black text-off-white font-smoothing featured-post-block">
+          {% include 'impact/_article' %}
+        </li>
+      {% endif %}
+    </div>
+  </div>
 
-
-  {% for entry in impactEntries %}
-  	<a href="{{ entry.url }}">{{ entry.title }}</a>
-  {% endfor %}
+  <ul class="row -halves -separators semantic-only-list">
+    {% for post in impactEntries %}
+      <li class="row-block background-white text-black separate">
+        {% include 'impact/_article' %}
+      </li>
+    {% endfor %}
+  </ul>
 
   <nav class="pagination">
     <ul>

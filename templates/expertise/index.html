@@ -40,50 +40,84 @@
   {% endfor %}
 {% endblock %}
 
+{# If the first project is portrait, this page will have an all masonry layout. #} 
+{# If landscape, the first post will be pulled out into a different grid. #}
+{# First we determin which. #}
+{% set firstProjectImage = projectEntries[0].projectImage[0] ?? null %}
+{% set firstProjectAspectRatio = firstProjectImage ?
+  (firstProjectImage.getWidth() > firstProjectImage.getHeight() ? 'landscape' : 'portrait') :
+  'landscape' %}
+{% set allMasonry = firstProjectAspectRatio == 'portrait' %}
+
+{# For clarity/DRY sake, save the intro module to a variable. #}
+{% set introModule %}
+  <div class="module text-module background-white text-black pull-h1-to-top">
+    <div class="font-h1 user-content">{{ subheader }}</div>
+    <div class="buttons">
+      <button class="contacts-open button">
+        <span class="border"></span><span class="extra-corners"></span>
+        Contacts
+        <svg class="icon icon-plus "><use xlink:href="#icon-plus" /></svg>
+      </button>
+      <a class="button" href="/awards/">
+        <span class="border"></span><span class="extra-corners"></span>
+        Awards
+        <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
+      </a>
+    </div>
+  </div>
+{% endset %}
+
+{# Now, finally, build the content and apologize to TWIG gods. This is all for you, Ross. ;) #} 
 {% block content %}
 
-<!-- top row: project text and first project (wrapped so they can visually align) -->
-  <div class="row -halves top-row">
-    <div class="row-block">
-      <div class="module text-module background-white text-black pull-h1-to-top">
-        <div class="font-h1 user-content">{{ subheader }}</div>
-        <div class="buttons">
-          <button class="contacts-open button">
-            <span class="border"></span><span class="extra-corners"></span>
-            Contacts
-            <svg class="icon icon-plus "><use xlink:href="#icon-plus" /></svg>
-          </button>
-          <a class="button" href="/awards/">
-            <span class="border"></span><span class="extra-corners"></span>
-            Awards
-            <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
-          </a>
+  {% if allMasonry %}
+
+    <!-- all projects and intro text in masonty -->
+    <div class="masonry-grid">
+      <div class="masonry-sizer"></div>
+      <ul class="semantic-only-list">
+        <div class="masonry-item intro-block">
+          {{ introModule }}
         </div>
-      </div>
-    </div>
-
-    {% set project = projectEntries[0] %}
-    {% if project %}
-    <div class="row-block">
-      {% include 'projects/_article' %}
-    </div>
-    {% endif %}
-  </div>
-
-
-  <!-- all of the rest of the projects in masonry -->
-  <div class="masonry-grid">
-    <div class="masonry-sizer"></div>
-    <ul class="semantic-only-list">
-      {% for project in projectEntries %}
-        {% if loop.index > 1 %}
+        {% for project in projectEntries %}
           <li class="masonry-item">
             {% include 'projects/_article' %}
           </li>
-        {% endif %}
-      {% endfor %}
-    </ul>
-  </div>
+        {% endfor %}
+      </ul>
+    </div>
+
+  {% else %}
+
+    <!-- top row: project text and first project (wrapped so they can visually align) -->
+    <div class="row -halves">
+      <div class="row-block">
+        {{ introModule }}
+      </div>
+      {% set project = projectEntries ? projectEntries[0] : false %}
+      {% if project %}
+        <div class="row-block">
+          {% include 'projects/_article' %}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- all of the rest of the projects in masonry -->
+    <div class="masonry-grid">
+      <div class="masonry-sizer"></div>
+      <ul class="semantic-only-list">
+        {% for project in projectEntries %}
+          {% if loop.index > 1 %}
+            <li class="masonry-item">
+              {% include 'projects/_article' %}
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  
+  {% endif %}
 
   <nav class="pagination">
     <ul>

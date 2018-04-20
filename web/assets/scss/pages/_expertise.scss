@@ -1,7 +1,13 @@
-// .page-expertise {
-//   .top-row {
-//     .image-wrap.-portrait {
-//       padding-bottom: $landscape-padding; // Force first image to be landscape;
-//     }
-//   }
-// }
+.page-expertise {
+  
+  .masonry-grid {
+    .intro-block {  
+      @include media-md {
+        min-height: calc( (100vw - #{$padding})/2*(2/3) );
+      }
+      @include media-lg {
+        min-height: calc( 100vw/3*(2/3) );
+      }
+    }
+  }
+}

@@ -54,14 +54,16 @@ blockquote {
 }
 
 .image-wrap {
+  overflow: hidden;
   position: relative;
-  background-color: $gray;
+  background-color: $concrete-med;
 
   .image {
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: -0.5px;
+    left: -0.5px;
+    opacity: 0.9;
+    right: -0.5px;
+    bottom: -0.5px;
     position: absolute;
     background-size: cover;
     background-color: $gray;
