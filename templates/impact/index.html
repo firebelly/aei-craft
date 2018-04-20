@@ -1,6 +1,12 @@
 {% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
 
+{% set bodyClass = 'overlapping-header' %}
+
 {% if category is defined %}
+
+  {% set featuredImpact = craft.entries.section('impact').relatedTo(category).featured(1).orderBy('RAND()').one() ?? craft.entries.section('impact').relatedTo(category).one() %}
+
+  {% set omitId = featuredImpact ? featuredImpact.id : 0 %}
 
   {% paginate craft.entries({
     section: 'impact',
@@ -8,11 +14,11 @@
     with: [
       'impactImage'
     ]
-  }) as paginationInfo, impactEntries %}
+  }).id('not ' ~ omitId).limit(5) as paginationInfo, impactEntries %}
 
 {% else %}
 
-	{% set featuredImpact = craft.entries.section('impact').featured(1).orderBy('RAND()').one() %}
+	{% set featuredImpact = craft.entries.section('impact').featured(1).orderBy('RAND()').one() ?? craft.entries.section('impact').one() %}
 	{% set omitId = featuredImpact ? featuredImpact.id : 0 %}
 
   {% paginate craft.entries({
@@ -39,25 +45,30 @@
 
   <!-- header (w/ featured post) -->
   <div class="hero-wrap">
-    <div class="hero-image">
-      <div class="image" style="background-image: url();"></div>
-    </div>
-    <div class="row -halves">
-      {% if featuredImpact is defined %}
-        {% set post = featuredImpact %}
-        <li class="row-block -right background-black text-off-white font-smoothing featured-post-block">
-          {% include 'impact/_article' %}
-        </li>
-      {% endif %}
-    </div>
+    {% if featuredImpact %}
+      {% set post = featuredImpact %}
+      <div class="hero-image image-wrap">
+        {% set impactImage = post.impactImage[0] ?? null %}
+        {% if impactImage %}
+          <div class="image" style="background-image: url({{ impactImage.getUrl('header') }});"></div>
+        {% endif %}
+      </div>
+      <div class="row -halves">
+          <li class="row-block -right background-black text-off-white font-smoothing featured-post-block">
+            {% include 'impact/_article' %}
+          </li>
+      </div>
+    {% endif %}
   </div>
 
   <ul class="row -halves -separators semantic-only-list">
-    {% for post in impactEntries %}
-      <li class="row-block background-white text-black separate">
-        {% include 'impact/_article' %}
-      </li>
-    {% endfor %}
+    {% if impactEntries %}
+      {% for post in impactEntries %}
+        <li class="row-block background-white text-black separate">
+          {% include 'impact/_article' %}
+        </li>
+      {% endfor %}
+    {% endif %}
   </ul>
 
   <nav class="pagination">
