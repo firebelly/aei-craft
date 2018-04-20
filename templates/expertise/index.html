@@ -40,9 +40,9 @@
   {% endfor %}
 {% endblock %}
 
-{# If the first project is portrait, this page will have an all masonry layout. #} 
-{# If landscape, the first post will be pulled out into a different grid. #}
-{# First we determin which. #}
+{# If the first project is portrait, this page will have an all masonry layout. 
+If landscape, the first post will be pulled out into a different grid.  
+First we determin which. #}
 {% set firstProjectImage = projectEntries[0].projectImage[0] ?? null %}
 {% set firstProjectAspectRatio = firstProjectImage ?
   (firstProjectImage.getWidth() > firstProjectImage.getHeight() ? 'landscape' : 'portrait') :
