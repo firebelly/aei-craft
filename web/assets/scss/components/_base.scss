@@ -120,11 +120,13 @@ a {
 }
 
 .pull-h1-to-top {
-  &, &.text-module, &.pad, &.pad-vertical { // specificity
-    @include media-lg {
-      padding-top: 0;
-      margin-top: -7px;
-    }   
+  margin-top: -7px;
+  .module {
+    &, &.text-module, &.pad, &.pad-vertical { // specificity
+      @include media-lg {
+        padding-top: 0;
+      }   
+    }
   }
 }
 

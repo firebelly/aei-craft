@@ -730,10 +730,11 @@ a {
     .margin-top, .margin-vertical {
       margin-top: 80px; } }
 
-@media screen and (min-width: 1200px) {
-  .pull-h1-to-top, .pull-h1-to-top.text-module, .pull-h1-to-top.pad, .pull-h1-to-top.pad-vertical {
-    padding-top: 0;
-    margin-top: -7px; } }
+.pull-h1-to-top {
+  margin-top: -7px; }
+  @media screen and (min-width: 1200px) {
+    .pull-h1-to-top .module, .pull-h1-to-top .module.text-module, .pull-h1-to-top .module.pad, .pull-h1-to-top .module.pad-vertical {
+      padding-top: 0; } }
 
 @media screen and (min-width: 750px) {
   .top-overlap-h1 {

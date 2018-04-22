@@ -7,8 +7,8 @@
   {% for pageHeader in entry.pageHeader %}
     <div class="checkerboard-header">
       <div class="row -halves">
-        <div class="row-block">
-          <div class="module text-module background-white text-black pull-h1-to-top">
+        <div class="row-block pull-h1-to-top">
+          <div class="module text-module background-white text-black">
             <p class="font-h1">{{ pageHeader.subheader }}</p>
             <div class="buttons show-md">
               <a href="#services" class="button smoothscroll">
@@ -28,7 +28,7 @@
       {% set headerImage = pageHeader.headerImage.one() %}
       {% if headerImage %}
         <div class="checkerboard-hero image-wrap">
-          <div class="image" style="background-image: url({{ headerImage.getUrl('header') }});"></div>
+          <div class="image lazy" style="background-image: url();" data-original="{{ headerImage.getUrl('header') }}"></div>
         </div>
       {% endif %}
       <div class="row -halves">
@@ -57,7 +57,7 @@
 
   <!-- services -quarters -->
   <ul class="row -quarters photo-row-separators semantic-only-list background-white big-margin-bottom">
-  {% for service in craft.categories.group('services').all() %}
+  {% for cat in craft.categories.group('services').all() %}
     <li class="row-block">
       {% include 'partials/_article-service' %}
     </li>
@@ -80,7 +80,7 @@
 
   <!-- locations -quarters -->
   <ul class="row -quarters photo-row-separators semantic-only-list background-white big-margin-bottom">
-    {% for location in craft.entries.section('offices').all() %}
+    {% for entry in craft.entries.section('offices').all() %}
       <li class="row-block">
         {% include 'offices/_article' %}
       </li>

@@ -51,7 +51,7 @@ First we determin which. #}
 
 {# For clarity/DRY sake, save the intro module to a variable. #}
 {% set introModule %}
-  <div class="module text-module background-white text-black pull-h1-to-top">
+  <div class="module text-module background-white text-black">
     <div class="font-h1 user-content">{{ subheader }}</div>
     <div class="buttons">
       <button class="contacts-open button">
@@ -77,10 +77,10 @@ First we determin which. #}
     <div class="masonry-grid">
       <div class="masonry-sizer"></div>
       <ul class="semantic-only-list">
-        <div class="masonry-item intro-block">
+        <div class="masonry-item intro-block pull-h1-to-top">
           {{ introModule }}
         </div>
-        {% for project in projectEntries %}
+        {% for entry in projectEntries %}
           <li class="masonry-item">
             {% include 'projects/_article' %}
           </li>
@@ -92,11 +92,11 @@ First we determin which. #}
 
     <!-- top row: project text and first project (wrapped so they can visually align) -->
     <div class="row -halves">
-      <div class="row-block">
+      <div class="row-block pull-h1-to-top">
         {{ introModule }}
       </div>
-      {% set project = projectEntries ? projectEntries[0] : false %}
-      {% if project %}
+      {% set entry = projectEntries ? projectEntries[0] : false %}
+      {% if entry %}
         <div class="row-block">
           {% include 'projects/_article' %}
         </div>
@@ -107,7 +107,7 @@ First we determin which. #}
     <div class="masonry-grid">
       <div class="masonry-sizer"></div>
       <ul class="semantic-only-list">
-        {% for project in projectEntries %}
+        {% for entry in projectEntries %}
           {% if loop.index > 1 %}
             <li class="masonry-item">
               {% include 'projects/_article' %}

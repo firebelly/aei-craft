@@ -1,3 +1,5 @@
+{% set bodyClass = 'white-header' %}
+
 {% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
 
 {% if category is defined %}
@@ -21,12 +23,49 @@
     ]
   }).limit(8) as paginationInfo, peopleEntries %}
 
-  {% set subheader = entry.description %}
+  {% set subheader = entry.subheader %}
 
 {% endif %}
 
-{% block content %}
-  {% for entry in peopleEntries %}
-    <li><a href="{{ entry.url }}">{{ entry.title }}</a></li>
+
+{% block filters %}
+  <li class="filters-item {{ (category is not defined) ? 'current' : '' }}">
+    <a href="/people/">All</a>
+  </li>
+  {% for cat in craft.categories.group('peopleTypes').all() %}
+    <li class="filters-item {{ active(cat.url, 'url', 'current') }}">
+      <a href="{{ cat.url }}">{{ cat.title }}</a>
+    </li>
   {% endfor %}
+{% endblock %}
+
+
+{% block content %}
+
+  <!-- header w/ stat -->
+  <div class="row -halves">
+    <div class="row-block">
+      <div class="module text-module background-white text-black">
+        <div class="font-h1 user-content">{{ subheader }}</div>
+        <div class="buttons">
+          <a class="button" href="/careers/">
+            <span class="border"></span><span class="extra-corners"></span>
+            Careers
+            <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- people -quarters -->
+  <ul class="row -quarters photo-row-separators semantic-only-list big-margin-vertical">
+    {% for entry in peopleEntries %}
+      <li class="row-block">
+        {% include 'people/_article' %}
+      </li>
+    {% endfor %}
+  </ul>
+
 {% endblock %}
