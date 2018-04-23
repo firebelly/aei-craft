@@ -61,6 +61,8 @@ class DefaultController extends Controller
     {
         $result = 'Welcome to the DefaultController actionIndex() method';
 
+        $result .= DeltekImportModule::$instance->deltekImportModuleService->importRecords();
+
         return $result;
     }
 
