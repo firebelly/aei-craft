@@ -9,7 +9,7 @@
 
     <nav class="site-nav" role="navigation">
 
-      <div class="lockup bigclicky">
+      <div class="lockup bigclicky nav-content">
         <div class="affiliated-engineers">
           <h1 class="sr-only"><a href="/">{{ siteName }}</a></h1>
           <svg class="logo"><use xlink:href="#affiliated-engineers-logo" /></svg>
@@ -21,7 +21,7 @@
         </ul>
       </div>
 
-      <ul class="primary-links semantic-only-list">
+      <ul class="primary-links semantic-only-list nav-content">
         {% for navItem in [ 'expertise', 'impact', 'approach', 'people' ] %}
           <li class="primary-links-item {{ active(navItem, 1, 'current') }}">
             <a href="/{{ navItem }}/">{{ navItem|capitalize }}</a>
@@ -29,7 +29,7 @@
         {% endfor %}
       </ul>
 
-      <ul class="filters semantic-only-list">
+      <ul class="filters semantic-only-list nav-content">
         {% block filters %}{% endblock %}
       </ul>
 
@@ -42,10 +42,16 @@
         </li>
       </ul>
 
-      <div class="search-open">
+      <div class="search-open nav-content">
         Search <svg class="icon-search"><use xlink:href="#icon-search" /></svg>
       </div>
     </nav>
+    {% if category is defined %}
+      <div class="current-filter-label font-details">
+        {{ category }}
+        <a href="/{{ segment(1) }}/" class="close-filter"><svg class="icon-x"><use xlink:href="#icon-x" /></svg></a>
+      </div>
+    {% endif %}
     <div class="nav-open"><svg class="icon-hamburger"><use xlink:href="#icon-hamburger" /></svg></div>
     <div class="nav-close"><svg class="icon-x"><use xlink:href="#icon-x" /></svg></div>
 

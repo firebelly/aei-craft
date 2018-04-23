@@ -1,6 +1,8 @@
 // Header
 
 .site-header {
+  min-height: 16*$beat;
+  
   background-color: $concrete-med;
 
   .secondary-links, .search-block {
@@ -12,7 +14,6 @@
   }
 
   @include media-lg {
-    min-height: 16*$beat;
 
     .lockup-block {
       display: none;

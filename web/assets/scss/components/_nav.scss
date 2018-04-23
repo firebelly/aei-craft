@@ -232,6 +232,42 @@
   }
 }
 
+.current-filter-label {
+  top: 172px;
+  z-index: 2;
+  right: 100%;
+  position: fixed;
+  line-height: $padding;
+  transform-origin: 100% 0%;
+  transform: rotate(-90deg);
+  transition: opacity 0.2s $ease;
+  white-space: nowrap;
+  text-align: right;
+  
+  a.close-filter {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    padding: 0 2*$beat;
+
+    &:hover {
+      .icon-x {
+        fill: $black;
+      }
+    }
+
+    .icon-x {
+      width: 7px;
+      height: 7px;
+      fill: $white;
+    }
+  }
+  @include media-lg {
+    display: none;
+  }
+}
+
+
 @include max-screen ($breakpoint-lg - 1px) {
    body.site-nav-closed, body:not(.loaded) {
     .site-nav {
@@ -241,8 +277,22 @@
       opacity: 0;
       pointer-events: none;
     }
+    .current-filter-label, .nav-open .icon-hamburger {
+      opacity: 1;
+      transition: 0.2s 0.3s $ease;
+    }
+    .nav-content {
+      opacity: 0;
+      transition: opacity 0.2s $ease;
+    }
+
   }
   body.site-nav-open {
-    overflow: hidden;
+    overflow: hidden; // prevent scrolling in body when nav is open
+
+    .current-filter-label, .nav-open .icon-hamburger {
+      opacity: 0;
+      transition: 0.1s $ease;
+    }
   }
 }
