@@ -1,0 +1,13 @@
+{% set personImage = entry.personImage[0] ?? null %}
+
+<article class="module person-module background-white text-black zoom-hover bigclicky">
+  <div class="image-wrap -square">
+    {% if personImage %}
+      <div class="project-image lazy image" style="background-image: url('');" data-original="{{ personImage.getUrl('thumb') }}"></div>
+    {% endif %}
+  </div>
+  <div class="text pad">
+    <h1 class="name font-p no-margin"><a href="{{ entry.url }}" class="no-underline">{{ entry.title }}</a></h1>
+    <h2 class="title font-details">{{ entry.personTitle }}</h2>
+  </div>
+</article>

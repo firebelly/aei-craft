@@ -1,21 +1,22 @@
 {% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
 
 {% block content %}
+{% set bodyClass = 'single' %}
+
   <!-- checkerboard header (no theater) -->
-  {% set pageHeader = entry.pageHeader.one() %}
-  {% if pageHeader %}
+  {% for pageHeader in entry.pageHeader %}
     <div class="checkerboard-header">
       <div class="row -halves">
-        <div class="row-block">
-          <div class="module text-module background-white text-black pull-h1-to-top">
+        <div class="row-block pull-h1-to-top">
+          <div class="module text-module background-white text-black">
             <p class="font-h1">{{ pageHeader.subheader }}</p>
             <div class="buttons show-md">
-              <a href="#services" class="button">
+              <a href="#services" class="button smoothscroll">
                 <span class="border"></span><span class="extra-corners"></span>
                 Services
                 <svg class="icon icon-down-arrow"><use xlink:href="#icon-down-arrow" /></svg>
               </a>
-              <a href="#locations" class="button">
+              <a href="#locations" class="button smoothscroll">
                 <span class="border"></span><span class="extra-corners"></span>
                 Locations
                 <svg class="icon icon-down-arrow"><use xlink:href="#icon-down-arrow" /></svg>
@@ -26,8 +27,8 @@
       </div>
       {% set headerImage = pageHeader.headerImage.one() %}
       {% if headerImage %}
-        <div class="checkerboard-hero">
-          <div class="image bg-cover fill" style="background-image: url({{ headerImage.getUrl('header') }});"></div>
+        <div class="checkerboard-hero image-wrap">
+          <div class="image lazy" style="background-image: url();" data-original="{{ headerImage.getUrl('header') }}"></div>
         </div>
       {% endif %}
       <div class="row -halves">
@@ -38,13 +39,13 @@
         </div>
       </div>
     </div>
-  {% endif %}
+  {% endfor %}
 
   <!-- service section header -->
-  <div class="row -halves pad-vertical background-white text-black">
+  <div class="row -halves pad-vertical background-white text-black" id="services">
     <div class="row-block">
       <div class="module text-module">
-        <h2 id="services" class="font-h1">Services</h2>
+        <h2 class="font-h1">Services</h2>
       </div>
     </div>  
     <div class="row-block">
@@ -56,7 +57,7 @@
 
   <!-- services -quarters -->
   <ul class="row -quarters photo-row-separators semantic-only-list background-white big-margin-bottom">
-  {% for service in craft.categories.group('services').all() %}
+  {% for cat in craft.categories.group('services').all() %}
     <li class="row-block">
       {% include 'partials/_article-service' %}
     </li>
@@ -64,10 +65,10 @@
   </ul>
 
   <!-- location section header -->
-  <div class="row -halves pad-vertical background-white text-black hr-top-black">
+  <div class="row -halves pad-vertical background-white text-black hr-top-black" id="locations">
     <div class="row-block">
       <div class="module text-module">
-        <h2 id="locations" class="font-h1">Locations</h2>
+        <h2 class="font-h1">Locations</h2>
       </div>
     </div>  
     <div class="row-block">
@@ -79,7 +80,7 @@
 
   <!-- locations -quarters -->
   <ul class="row -quarters photo-row-separators semantic-only-list background-white big-margin-bottom">
-    {% for location in craft.entries.section('offices').all() %}
+    {% for entry in craft.entries.section('offices').all() %}
       <li class="row-block">
         {% include 'offices/_article' %}
       </li>

@@ -45,7 +45,7 @@ var FB = (function($) {
     $('a.smoothscroll').click(function(e) {
       e.preventDefault();
       var href = $(this).attr('href');
-      _scrollBody($(href), 250, 0, true);
+      _scrollBody($(href), 500, 0, true);
     });
 
     // Bigclicky™
@@ -76,23 +76,26 @@ var FB = (function($) {
     _initTheater();
     _initMasonry();
 
-
   } // end init()
+
+  function _scrollBody(element, duration, delay) {
+    isAnimating = true;
+    element.velocity("scroll", {
+      duration: duration,
+      delay: delay,
+      offset: 0,
+      complete: function(elements) {
+        isAnimating = false;
+      }
+    }, "easeOutSine");
+  }
 
   function _initLazyload() {
     $('.lazy').lazyload({
       effect : 'fadeIn',
       threshold: 500,
       load: function() {
-        // if (numLazyLoaded==-1) return; // set to -1 after all lazy images are triggered to load
-        // numLazyLoaded++;
         $(this).addClass('lazyloaded');
-        // // Load *all* images after 3 images have loaded, otherwise wait for 12
-        // if (numLazyLoaded > 12) {
-        //   $('.lazy:not(.lazyloaded)').trigger('appear');
-        //   numLazyLoaded = -1;
-        // }
-        console.log('lazy loaded an image');
       }
     });
   }

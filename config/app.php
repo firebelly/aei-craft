@@ -19,7 +19,7 @@
 
 return [
     'modules' => [
-        'my-module' => \modules\Module::class,
+        'fb-module' => \modules\FB_Module::class,
         'deltek-import-module' => [
             'class' => \modules\deltekimportmodule\DeltekImportModule::class,
             'components' => [
@@ -29,5 +29,5 @@ return [
             ],
         ],
     ],
-    'bootstrap' => ['deltek-import-module'],
+    'bootstrap' => ['fb-module'],
 ];

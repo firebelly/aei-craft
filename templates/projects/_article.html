@@ -1,19 +1,19 @@
-{% set projectImage = project.projectImage[0] ?? null %}
+{% set projectImage = entry.projectImage[0] ?? null %}
 
 {% set projectAspectRatio = projectImage ?
   (projectImage.getWidth() > projectImage.getHeight() ? 'landscape' : 'portrait') :
   'landscape' %}
 
-{% set projectColor = (project.colorSwatch.label ?? 'black')|lower %}
+{% set projectColor = (entry.colorSwatch.label ?? 'black')|lower %}
 
-<article class="project interior module project-module bigclicky" data-services="{% for service in project.services %}{{ service.slug }} {% endfor %}" data-markets="{% for market in project.markets %}{{ market.slug }} {% endfor %}">
+<article class="project interior module project-module bigclicky" data-services="{% for service in entry.services %}{{ service.slug }} {% endfor %}" data-markets="{% for market in entry.markets %}{{ market.slug }} {% endfor %}">
   <div class="image-wrap -{{ projectAspectRatio }}">
     {% if projectImage %}
       <div class="project-image lazy image" style="background-image: url('');" data-original="{{ projectImage.getUrl('thumb') }}"></div>
     {% endif %}
   </div>
   <div class="project-title background-{{ projectColor }}">
-    <h1 class="font-p"><a href="{{ project.url }}">{{ project.projectClientName }}</a></h1>
-    <h2 class="font-captions">{{ project.projectName }}</h2>
+    <h1 class="font-p"><a href="{{ entry.url }}">{{ entry.projectClientName }}</a></h1>
+    <h2 class="font-captions">{{ entry.projectName }}</h2>
   </div>
 </article>
