@@ -22,6 +22,9 @@ use craft\console\Application as ConsoleApplication;
 use craft\web\UrlManager;
 use craft\events\RegisterUrlRulesEvent;
 
+use amimpact\commandpalette\events\RegisterCommandsEvent;
+use amimpact\commandpalette\services\General;
+
 use yii\base\Event;
 use yii\base\InvalidConfigException;
 use yii\base\Module;
@@ -148,6 +151,18 @@ class DeltekImportModule extends Module
                 $event->rules['cpActionTrigger1'] = 'modules/deltek-import-module/default/do-something';
             }
         );
+
+        if (class_exists(General::class)) {
+            Event::on(General::class, General::EVENT_REGISTER_COMMANDS, function(RegisterCommandsEvent $event) {
+                $event->commands[] = [
+                    'name' => 'Deltek Import',
+                    'type' => 'Custom',
+                    'call' => 'importRecords',
+                    'module' => 'deltek-import-module',
+                    'service' => 'deltekImportModuleService'
+                ];
+            });
+        }
 
 /**
  * Logging in Craft involves using one of the following methods:
