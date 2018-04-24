@@ -31,7 +31,7 @@ var FB = (function($) {
     _resize();
 
     // Fit them vids!
-    // $('main').fitVids();
+    $('main').fitVids();
 
     // Esc handlers
     $(document).keyup(function(e) {

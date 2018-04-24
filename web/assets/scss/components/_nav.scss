@@ -237,12 +237,12 @@
   z-index: 2;
   right: 100%;
   position: fixed;
+  text-align: right;
+  white-space: nowrap;
   line-height: $padding;
   transform-origin: 100% 0%;
   transform: rotate(-90deg);
   transition: opacity 0.2s $ease;
-  white-space: nowrap;
-  text-align: right;
   
   a.close-filter {
     position: absolute;

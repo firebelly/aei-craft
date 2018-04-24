@@ -1,11 +1,11 @@
-<article class="module location-module background-white text-black zoom-hover bigclicky">
+<article class="module office-module background-white text-black zoom-hover bigclicky">
   <div class="image-wrap -square">
-    {% set image = entry.officeImage.one() %}
+    {% set image = office.officeImage.one() %}
     {% if image %}
       <div class="lazy image" style="background-image: url('');" data-original="{{ image.getUrl('thumb') }}"></div>
     {% endif %}
   </div>
   <div class="text pad">
-    <h1 class="name font-p no-margin"><a href="{{ entry.url }}">{{ entry.title }}</a></h1>
+    <h1 class="name font-p no-margin"><a href="{{ office.url }}">{{ office.title }}</a></h1>
   </div>
 </article>

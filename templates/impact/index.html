@@ -46,9 +46,9 @@
   <!-- header (w/ featured post) -->
   <div class="hero-wrap">
     {% if featuredImpact %}
-      {% set entry = featuredImpact %}
+      {% set post = featuredImpact %}
       <div class="hero-image image-wrap">
-        {% set impactImage = entry.impactImage[0] ?? null %}
+        {% set impactImage = post.impactImage[0] ?? null %}
         {% if impactImage %}
           <div class="lazy image" style="background-image: url('');" data-original="{{ impactImage.getUrl('thumb') }}"></div>
         {% endif %}
@@ -62,13 +62,11 @@
   </div>
 
   <ul class="row -halves -separators semantic-only-list">
-    {% if impactEntries %}
-      {% for post in impactEntries %}
-        <li class="row-block background-white text-black separate">
-          {% include 'impact/_article' %}
-        </li>
-      {% endfor %}
-    {% endif %}
+    {% for post in impactEntries %}
+      <li class="row-block background-white text-black separate">
+        {% include 'impact/_article' %}
+      </li>
+    {% endfor %}
   </ul>
 
   <nav class="pagination">

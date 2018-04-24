@@ -57,7 +57,7 @@
 
   <!-- services -quarters -->
   <ul class="row -quarters photo-row-separators semantic-only-list background-white big-margin-bottom">
-  {% for cat in craft.categories.group('services').all() %}
+  {% for service in craft.categories.group('services').all() %}
     <li class="row-block">
       {% include 'partials/_article-service' %}
     </li>
@@ -80,7 +80,7 @@
 
   <!-- locations -quarters -->
   <ul class="row -quarters photo-row-separators semantic-only-list background-white big-margin-bottom">
-    {% for entry in craft.entries.section('offices').all() %}
+    {% for office in craft.entries.section('offices').all() %}
       <li class="row-block">
         {% include 'offices/_article' %}
       </li>

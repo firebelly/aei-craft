@@ -7,7 +7,9 @@
     display: block;
 
     .module {
-      min-height: 100%;
+      @include media-md {
+        min-height: 100%;
+      }
     }
   }
 

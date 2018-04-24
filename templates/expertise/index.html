@@ -80,7 +80,7 @@ First we determin which. #}
         <div class="masonry-item intro-block pull-h1-to-top">
           {{ introModule }}
         </div>
-        {% for entry in projectEntries %}
+        {% for project in projectEntries %}
           <li class="masonry-item">
             {% include 'projects/_article' %}
           </li>
@@ -95,8 +95,8 @@ First we determin which. #}
       <div class="row-block pull-h1-to-top">
         {{ introModule }}
       </div>
-      {% set entry = projectEntries ? projectEntries[0] : false %}
-      {% if entry %}
+      {% set project = projectEntries ? projectEntries[0] : false %}
+      {% if project %}
         <div class="row-block">
           {% include 'projects/_article' %}
         </div>
@@ -107,7 +107,7 @@ First we determin which. #}
     <div class="masonry-grid">
       <div class="masonry-sizer"></div>
       <ul class="semantic-only-list">
-        {% for entry in projectEntries %}
+        {% for project in projectEntries %}
           {% if loop.index > 1 %}
             <li class="masonry-item">
               {% include 'projects/_article' %}

@@ -2,23 +2,123 @@
 
 {% block content %}
 
+  <!-- checkerboard header w/ theater -->
+  {% for pageHeader in entry.pageHeader %}
+    <div class="checkerboard-header theater-wrap">
+      <div class="row -halves theater-cover-top">
+        <div class="row-block">
+          <div class="module text-module background-white text-black pull-h1-to-top">
+            <p class="font-h1 no-margin">{{ pageHeader.subheader }}</p>
+            <div class="buttons show-md">
+              {% if pageHeader.headerVideo %}
+                <button class="button theater-open">
+                  <span class="border"></span><span class="extra-corners"></span>
+                  Play Video
+                  <svg class="icon icon-triangle"><use xlink:href="#icon-triangle" /></svg>
+                </button>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="checkerboard-hero theater image-wrap">
+        {% if pageHeader.headerVideo %}
+          <div class="video fluid-width-video-wrapper fill">
+            <iframe src="https://www.youtube.com/embed/{{ pageHeader.headerVideo }}" frameborder="0" allowfullscreen></iframe>
+          </div>
+        {% endif %}
+        {% set headerImage = pageHeader.headerImage.one() %}
+        {% if headerImage %}
+            <div class="theater-mask image lazy" style="background-image: url();" data-original="{{ headerImage.getUrl('header') }}"></div>
+        {% endif %}
+      </div>
+      <div class="row -halves theater-cover-bottom">
+        <div class="row-block -right">
+          <div class="text-module background-black text-off-white font-smoothing">
+            <div class="user-content">{{ pageHeader.supportingStatement }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+
+  {% set rowNumber = 0 %}
   {% for block in entry.featureBlocks.all() %}
     {% switch block.type %}
-    {% case "feature" %}
+      {% case "project" %}
 
-      {{ block.featureHeadline }}
-      {% set image = block.featureImage.one() %}
-      {% if image %}
-        {{ image.getUrl() }}
-      {% endif %}
+        {% set rowNumber = rowNumber + 1 %}
 
-    {% case "impact" %}
+        {% set project = block.featuredProjects.order('RAND()')[0] ?? null %}
+        {% if project %}
 
-      {% for impactPost in block.impactPosts.all() %}
-        {{ impactPost.title }}
-      {% endfor %}
+          {% set projectColor = (project.colorSwatch.label ?? 'black')|lower %}
+
+          <div class="row -halves {{ cycle(['','-flip-order-md'],rowNumber) }}">
+            <div class="row-block">
+              <div class="module image-wrap -landscape -portrait-md">
+                {% set image = project.projectImage.one() %}
+                {% if image %}
+                   <div class="image lazy" style="background-image: url('');" data-original="{{ image.getUrl('header') }}"></div>
+                {% endif %}
+              </div>
+            </div>
+            <div class="row-block">
+              <div class="module text-module background-{{ projectColor }} text-off-white font-smoothing">      
+                <p class="font-h1">{{ project.projectTagline }}</p>
+                <div class="buttons">
+                  <a class="button" href="/approach/">
+                    <span class="border"></span><span class="extra-corners"></span>
+                    View Project
+                    <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        {% endif %}
+
+      {% case "feature" %}
+
+        {% set rowNumber = rowNumber + 1 %}
+
+        <div class="row -halves {{ cycle(['','-flip-order-md'],rowNumber) }}">
+          <div class="row-block">
+            <div class="module image-wrap -landscape -portrait-md">
+              {% set image = block.featureImage.one() %}
+              {% if image %}
+                 <div class="image lazy" style="background-image: url('');" data-original="{{ image.getUrl('header') }}"></div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="row-block">
+            <div class="module text-module background-{{ cycle(['off-white','black'],rowNumber) }} text-{{ cycle(['black','off-white'],rowNumber) }} font-smoothing">      
+              <p class="font-h1">{{ block.featureHeadline }}</p>
+              <div class="buttons">
+                <a class="button" href="/approach/">
+                  <span class="border"></span><span class="extra-corners"></span>
+                  {{ block.featureLinkLabel }}
+                  <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      {% case "impact" %}
+
+        <ul class="row -halves -separators semantic-only-list">
+          {% for post in block.impactPosts.all() %}
+            <li class="row-block background-white text-black separate">
+              {% include 'impact/_article' %}
+            </li>
+          {% endfor %}
+        </ul>
 
     {% endswitch %}
   {% endfor %}
 
 {% endblock %}
+

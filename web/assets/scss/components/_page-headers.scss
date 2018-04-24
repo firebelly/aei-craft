@@ -76,12 +76,20 @@
   .theater-mask {
     transition: opacity 0.3s $ease;
   }
+  .video {
+    opacity: 0;
+    transition: opacity 0.3s $ease;
+  }
 
   &.-open {
     .theater-mask {
       opacity: 0;
       transition: opacity 0.3s 0.3s $ease;
       pointer-events: none;
+    }
+    .video {
+      opacity: 1;
+      transition: opacity 0.3s 0.3s $ease;
     }
     @include media-md {
       .theater-cover-top, .theater-cover-bottom {

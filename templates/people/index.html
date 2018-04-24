@@ -56,11 +56,20 @@
         </div>
       </div>
     </div>
+    <div class="row-block">
+      {% set block = { 
+        number1: entry.numberOfPeople,
+        unit1: 'People',
+        number2: entry.numberOfOffices,
+        unit2: 'Offices',
+      } %}
+      {% include 'partials/_stat-two-number' %}
+    </div>
   </div>
 
   <!-- people -quarters -->
   <ul class="row -quarters photo-row-separators semantic-only-list big-margin-vertical">
-    {% for entry in peopleEntries %}
+    {% for person in peopleEntries %}
       <li class="row-block">
         {% include 'people/_article' %}
       </li>
