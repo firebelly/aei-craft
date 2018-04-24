@@ -204,12 +204,61 @@ class DeltekImportModuleService extends Component
         foreach($result as $row) {
 
             $fields = [];
+            $new_entry = false;
             $entry = Entry::find()->section('projects')->where([
                 'content.field_projectNumber' => $row['project_num'],
             ])->one();
 
+            // New project post
             if (!$entry) {
                 $entry = $this->makeNewEntry('projects');
+
+                // Add one-time matrix field imports (stats, quotes, images)
+                $media_blocks = [];
+                $i = 0;
+
+                // Project Quotes
+                $project_quotes = [];
+                $rel_result = $this->db->prepare('SELECT * FROM project_quotes WHERE project_num = ?');
+                $rel_result->execute([ $row['project_num'] ]);
+                $rel_rows = $rel_result->fetchAll();
+                foreach($rel_rows as $rel_row) {
+                    $i++;
+                    // todo: pull person based on employee_num
+                    // todo: add company + AEI person fields to quote matrix block?
+                    $project_quotes['new'.$i] = [
+                        'type' => 'quote',
+                        'fields' => [
+                            'quote' => $rel_row['quote'],
+                            'source' => $rel_row['quote_author'],
+                        ]
+                    ];
+                }
+                $media_blocks = array_merge($project_quotes, $media_blocks);
+
+                // Project Stats
+                $project_stats = [];
+                $rel_result = $this->db->prepare('SELECT * FROM project_stats WHERE project_num = ?');
+                $rel_result->execute([ $row['project_num'] ]);
+                $rel_rows = $rel_result->fetchAll();
+                foreach($rel_rows as $rel_row) {
+                    $i++;
+                    $project_stats['new'.$i] = [
+                        'type' => 'stat',
+                        'fields' => [
+                            'figure' => $rel_row['text'],
+                            'label' => $rel_row['subtext'],
+                        ]
+                    ];
+                }
+                $media_blocks = array_merge($project_stats, $media_blocks);
+
+                $fields = array_merge([
+                    'mediaBlocks' => $media_blocks
+                ], $fields);
+
+                // todo: add case_study as text block
+                // todo: pull images as image blocks
             }
 
             // Find Service IDs
