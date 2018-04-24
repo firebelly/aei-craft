@@ -4,10 +4,10 @@
 
   <!-- checkerboard header w/ theater -->
   {% for pageHeader in entry.pageHeader %}
-    <div class="checkerboard-header theater-wrap">
+    <div class="checkerboard-header theater-wrap -closed">
       <div class="row -halves theater-cover-top">
-        <div class="row-block">
-          <div class="module text-module background-white text-black pull-h1-to-top">
+        <div class="row-block pull-h1-to-top">
+          <div class="module text-module background-white text-black">
             <p class="font-h1 no-margin">{{ pageHeader.subheader }}</p>
             <div class="buttons show-md">
               {% if pageHeader.headerVideo %}
@@ -22,14 +22,14 @@
         </div>
       </div>
       <div class="checkerboard-hero theater image-wrap">
-        {% if pageHeader.headerVideo %}
-          <div class="video fluid-width-video-wrapper fill">
-            <iframe src="https://www.youtube.com/embed/{{ pageHeader.headerVideo }}" frameborder="0" allowfullscreen></iframe>
-          </div>
-        {% endif %}
         {% set headerImage = pageHeader.headerImage.one() %}
         {% if headerImage %}
             <div class="theater-mask image lazy" style="background-image: url();" data-original="{{ headerImage.getUrl('header') }}"></div>
+        {% endif %}
+        {% if pageHeader.headerVideo %}
+          <div class="video fluid-width-video-wrapper fill">
+            <div id="youtube-player" data-youtube-id="{{ pageHeader.headerVideo }}"></div>
+          </div>
         {% endif %}
       </div>
       <div class="row -halves theater-cover-bottom">

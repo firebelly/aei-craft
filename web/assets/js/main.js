@@ -92,7 +92,8 @@ var FB = (function($) {
 
   function _initLazyload() {
     $('.lazy').lazyload({
-      effect : 'fadeIn',
+      effect: "fadeIn",
+      effectTime: 100,
       threshold: 500,
       load: function() {
         $(this).addClass('lazyloaded');
@@ -133,20 +134,21 @@ var FB = (function($) {
   }
 
   function _initTheater() {
-    if($('.theater').length) {
+    if($('.theater #youtube-player').length) {
 
-      _closeTheater();
+     $.getScript("https://www.youtube.com/iframe_api", function () {
 
-      $(document).on('click','.theater-close', function () {
-        _closeTheater();
-      });
+        $(document).on('click','.theater-close', function () {
+          _closeTheater();
+        });
 
-      $(document).on('click','.theater-open', function () {
-        _openTheater();
-      });
+        $(document).on('click','.theater-open', function () {
+          _openTheater();
+        });
 
-      $(document).on('click','.theater-toggle', function () {
-        _toggleTheater();
+        $(document).on('click','.theater-toggle', function () {
+          _toggleTheater();
+        });
       });
     }
   }
@@ -154,8 +156,27 @@ var FB = (function($) {
     $('.theater-wrap')
       .addClass('-open')
       .removeClass('-closed');
+
+    // Load video if not already loaded, then play
+    if(typeof youtubePlayer === 'undefined') {
+      var youtubeId = $('#youtube-player').attr('data-youtube-id');
+      youtubePlayer = new YT.Player('youtube-player', {
+        videoId: youtubeId,
+        events: {
+          'onReady': function (e) {
+            $('.theater-wrap .video').addClass('video-ready');
+            e.target.playVideo();
+          },
+        }
+      });
+    } else {
+      youtubePlayer.playVideo();
+    }
   }
   function _closeTheater() {
+    if(typeof youtubePlayer !== 'undefined') {
+      youtubePlayer.stopVideo();
+    }
     $('.theater-wrap')
       .removeClass('-open')
       .addClass('-closed');
@@ -167,6 +188,9 @@ var FB = (function($) {
       _openTheater();
     }
   }
+
+
+
 
   // Called in quick succession as window is resized
   function _resize() {

@@ -70,30 +70,24 @@
 .theater-wrap {
   .theater-cover-top, .theater-cover-bottom {
     z-index: 1;
-    transition: transform 0.3s 0.3s $ease;
+    transition: transform 0.2s 0.4s $ease;
   }
 
-  .theater-mask {
-    transition: opacity 0.3s $ease;
-  }
   .video {
     opacity: 0;
-    transition: opacity 0.3s $ease;
+    transition: opacity 0.3s;
   }
 
   &.-open {
-    .theater-mask {
-      opacity: 0;
-      transition: opacity 0.3s 0.3s $ease;
-      pointer-events: none;
-    }
-    .video {
+
+    .video.video-ready {
       opacity: 1;
-      transition: opacity 0.3s 0.3s $ease;
+      transition: opacity 0.2s 0.3s $ease;
     }
+
     @include media-md {
       .theater-cover-top, .theater-cover-bottom {
-        transition: transform 0.3s $ease;
+        transition: transform 0.2s $ease;
       }
       .theater-cover-top {
         transform: translateY(-100%);
