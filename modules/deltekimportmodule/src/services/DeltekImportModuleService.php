@@ -35,6 +35,7 @@ class DeltekImportModuleService extends Component
 {
     private $db = null;
     private $log = '';
+    private $awards_cache = [];
 
     /**
      * Run Deltek Import
@@ -53,8 +54,9 @@ class DeltekImportModuleService extends Component
             $return .= 'ERROR: ' . $e->getMessage();
         }
 
-        // $this->importOffices();
-        // $this->importPeople();
+        $this->importOffices();
+        $this->importPeople();
+        $this->importAwards();
         $this->importProjects();
 
         return $this->log;
@@ -90,15 +92,8 @@ class DeltekImportModuleService extends Component
 
             if(Craft::$app->elements->saveElement($entry)) {
                 $this->log .= '<h3>Office '.$row['office_name'].' Saved OK!</h3>';
-                // ImportPlugin::log('Successfully saved entry "'.$entry->id.'"', LogLevel::Info);
             } else {
                 $this->log .= '<p>Office '.$row['office_name'].' save error: '.print_r($entry->getErrors(), true).'</p>';
-                // throw new \Exception("Couldn't save Office: " . print_r($entry->getErrors(), true));
-                //     $errors = $entry->getErrors();
-                //     foreach ($errors as $error) {
-                //         ImportPlugin::log('Error:'.$error[0], LogLevel::Error);
-                //     }
-
             }
         }
     }
@@ -118,6 +113,34 @@ class DeltekImportModuleService extends Component
                 $entry = $this->makeNewEntry('person');
             }
 
+            // Find Office
+            $office = Entry::find()->section('offices')->where([
+                'title' => $row['office_name']
+            ])->one();
+            $office_ids = $office ? [$office->id] : [];
+
+            // Find People Type IDs
+            $people_type_ids = [];
+            foreach (explode(',', $row['person_type']) as $category_title) {
+                $category = $this->getCategory('peopleTypes', trim($category_title));
+                if ($category) {
+                    $people_type_ids[] = $category->id;
+                }
+            }
+
+            // Populate Social Links (matrix field)
+            if (!empty($row['linkedin'])) {
+                $social_links = [
+                    'new1' => [
+                        'type' => 'socialLink',
+                        'fields' => [
+                            'socialNetwork' => 'LinkedIn',
+                            'socialUrl'     => $row['linkedin'],
+                        ]
+                    ],
+                ];
+            }
+
             $fields = array_merge([
                 'email'                => $row['email'],
                 'personFirstName'      => $row['firstname'],
@@ -127,25 +150,48 @@ class DeltekImportModuleService extends Component
                 'personTitle'          => $row['title'],
                 'description'          => $row['bio'],
                 'personEmployeeNumber' => $row['employee_num'],
+                'office'               => $office_ids,
+                'peopleTypes'          => $people_type_ids,
+                'socialLinks'          => $social_links,
             ], $fields);
             $entry->setFieldValues($fields);
 
             if(Craft::$app->elements->saveElement($entry)) {
                 $this->log .= '<h3>Person '.$entry->title.' Saved OK!</h3>';
-
-                // todo: remove existing relations first
-
-                // Set Office
-                $this->addRelation('office', 'offices', $row['office_name'], $entry);
-
-                // Set Person Type
-                foreach (explode(',', $row['person_type']) as $category_title) {
-                    $this->addCategory('peopleTypes', 'peopleTypes', trim($category_title), $entry);
-                }
-
-                // ImportPlugin::log('Successfully saved entry "'.$entry->id.'"', LogLevel::Info);
             } else {
                 $this->log .= '<p>Person '.$entry->title.' save error: '.print_r($entry->getErrors(), true).'</p>';
+            }
+        }
+    }
+
+    /**
+     * Import Awards
+     */
+    private function importAwards() {
+        $result = $this->db->query("SELECT * FROM project_awards");
+        foreach($result as $row) {
+            $fields = [];
+            $entry = Entry::find()->section('awards')->where([
+                'content.field_awardKey' => $row['award_key']
+            ])->one();
+
+            if (!$entry) {
+                $entry = $this->makeNewEntry('awards');
+                $entry->title = $row['name'];
+            }
+
+            $fields = array_merge([
+                'awardDate'   => $row['date'],
+                'awardIssuer' => $row['issuer'],
+            ], $fields);
+            $entry->setFieldValues($fields);
+
+            if(Craft::$app->elements->saveElement($entry)) {
+                $this->log .= '<h3>Award '.$row['name'].' Saved OK!</h3>';
+                // Store award entry id and project_num for setting associations in importProjects()
+                $this->awards_cache[] = [ 'id' => $entry->id, 'project_num' => $row['project_num'] ];
+            } else {
+                $this->log .= '<p>Award '.$row['name'].' save error: '.print_r($entry->getErrors(), true).'</p>';
             }
         }
     }
@@ -154,8 +200,9 @@ class DeltekImportModuleService extends Component
      * Import Projects
      */
     private function importProjects() {
-        $result = $this->db->query("SELECT * FROM projects");
+        $result = $this->db->query('SELECT * FROM projects');
         foreach($result as $row) {
+
             $fields = [];
             $entry = Entry::find()->section('projects')->where([
                 'content.field_projectNumber' => $row['project_num'],
@@ -163,6 +210,71 @@ class DeltekImportModuleService extends Component
 
             if (!$entry) {
                 $entry = $this->makeNewEntry('projects');
+            }
+
+            // Find Service IDs
+            $service_ids = [];
+            foreach (explode(',', $row['services']) as $category_title) {
+                $category = $this->getCategory('services', trim($category_title));
+                if ($category) {
+                    $service_ids[] = $category->id;
+                }
+            }
+
+            // Find Market IDs
+            $market_ids = [];
+            foreach (explode(',', $row['market']) as $category_title) {
+                $category = $this->getCategory('markets', trim($category_title));
+                if ($category) {
+                    $market_ids[] = $category->id;
+                }
+            }
+
+            // Find Award IDs from var populated in importAwards()
+            $award_ids = [];
+            foreach($this->awards_cache as $award) {
+                if ($award['project_num'] == $row['project_num']) {
+                    $award_ids[] = $award['id'];
+                }
+            }
+
+            // Find Project Leaders (matrix field)
+            $project_leaders = [];
+            $rel_result = $this->db->prepare('SELECT * FROM project_leaders WHERE project_num = ?');
+            $rel_result->execute([ $row['project_num'] ]);
+            $rel_rows = $rel_result->fetchAll();
+            $i = 0;
+            foreach($rel_rows as $rel_row) {
+                $i++;
+                $person = Entry::find()->section('people')->where([
+                    'content.field_personEmployeeNumber' => $rel_row['employee_num'],
+                ])->one();
+                if ($person) {
+                    $project_leaders['new'.$i] = [
+                        'type' => 'projectLeader',
+                        'fields' => [
+                            'person' => [$person->id],
+                            'leaderTitle' => $rel_row['project_role'],
+                        ]
+                    ];
+                }
+            }
+
+            // Find Project Partners (matrix field)
+            $project_partners = [];
+            $rel_result = $this->db->prepare('SELECT * FROM project_partners WHERE project_num = ?');
+            $rel_result->execute([ $row['project_num'] ]);
+            $rel_rows = $rel_result->fetchAll();
+            $i = 0;
+            foreach($rel_rows as $rel_row) {
+                $i++;
+                $project_partners['new'.$i] = [
+                    'type' => 'projectPartner',
+                    'fields' => [
+                        'partnerName' => $rel_row['partner'],
+                        'partnerRole' => $rel_row['role'],
+                    ]
+                ];
             }
 
             $fields = array_merge([
@@ -173,27 +285,19 @@ class DeltekImportModuleService extends Component
                 'featured'          => $row['isfeatured'],
                 'projectLocation'   => $row['location'],
                 'projectLeedStatus' => $row['leed_status'],
+                'services'          => $service_ids,
+                'markets'           => $market_ids,
+                'projectAwards'     => $award_ids,
+                'projectLeaders'    => $project_leaders,
+                'projectPartners'   => $project_partners,
+
             ], $fields);
             $entry->setFieldValues($fields);
 
             if(Craft::$app->elements->saveElement($entry)) {
                 $this->log .= '<h3>Project '.$entry->title.' Saved OK!</h3>';
-
-                // todo: remove existing relations first
-
-                // Set Services
-                foreach (explode(',', $row['services']) as $category_title) {
-                    $this->addCategory('services', 'services', trim($category_title), $entry);
-                }
-
-                // Set Markets
-                foreach (explode(',', $row['market']) as $category_title) {
-                    $this->addCategory('markets', 'markets', trim($category_title), $entry);
-                }
-
-                // ImportPlugin::log('Successfully saved entry "'.$entry->id.'"', LogLevel::Info);
             } else {
-                $this->log .= '<p>Person '.$entry->title.' save error: '.print_r($entry->getErrors(), true).'</p>';
+                $this->log .= '<p>Project '.$entry->title.' save error: '.print_r($entry->getErrors(), true).'</p>';
             }
         }
     }
@@ -206,7 +310,7 @@ class DeltekImportModuleService extends Component
     }
 
     /**
-     * Helper function to init a new Entry with type, title
+     * Init a new Entry with type attributes
      * @param  string $entry_type Slug of entry type
      * @return object             New Entry object
      */
@@ -221,37 +325,11 @@ class DeltekImportModuleService extends Component
     }
 
     /**
-     * Add a relation between two entries
-     * @param string               $field_handle  field handle of entry relations
-     * @param string               $section       section of related entry
-     * @param string               $related_title related entry title
-     * @param craft\elements\Entry $entry         entry to relate to
-     */
-    private function addRelation(string $field_handle, string $section, string $related_title, craft\elements\Entry $entry)
-    {
-        $related_entry = Entry::find()->section($section)->where([
-            'title' => $related_title
-        ])->one();
-        if ($related_entry) {
-            $field = Craft::$app->fields->getFieldByHandle($field_handle);
-            try {
-                Craft::$app->relations->saveRelations($field, $entry, [$related_entry->id]);
-                $this->log .= "<p>Related {$field_handle}:{$section}:{$related_title} saved</p>";
-            } catch (\Exception $e) {
-                $this->log .= '<p>Error: '.print_r($e->getErrors(), true).'</p>';
-                // ImportPlugin::log('Successfully saved entry "'.$entry->id.'"', LogLevel::Info);
-            }
-        }
-    }
-
-    /**
-     * Set category of entry
-     * @param string               $field_handle          field name of categories
+     * Get category of entry
      * @param string               $category_group_handle category group handle
      * @param string               $category_title        category title
-     * @param craft\elements\Entry $entry                 entry to relate to
      */
-    private function addCategory(string $field_handle, string $category_group_handle, string $category_title, craft\elements\Entry $entry)
+    private function getCategory(string $category_group_handle, string $category_title)
     {
         if (empty($category_title) || empty($category_group_handle)) return;
         $category_group = Craft::$app->categories->getGroupByHandle($category_group_handle);
@@ -259,16 +337,6 @@ class DeltekImportModuleService extends Component
             'title' => $category_title,
             'groupId' => $category_group->id,
         ])->one();
-        if (!$category) return;
-        $field = Craft::$app->fields->getFieldByHandle($field_handle);
-
-        try {
-            Craft::$app->relations->saveRelations($field, $entry, [$category->id]);
-            $this->log .= "<p>Category {$field}:{$category} {$category->id} {$entry->id} saved</p>";
-        } catch (\Exception $e) {
-            $this->log .= '<p>Error: '.print_r($e->getErrors(), true).'</p>';
-            // ImportPlugin::log('Successfully saved entry "'.$entry->id.'"', LogLevel::Info);
-        }
+        return $category;
     }
-
 }
