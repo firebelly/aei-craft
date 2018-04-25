@@ -25,12 +25,12 @@
           </div>
         </div>
       </div>
-      {% set headerImage = pageHeader.headerImage.one() %}
-      {% if headerImage %}
         <div class="checkerboard-hero image-wrap">
-          <div class="image lazy" style="background-image: url();" data-original="{{ headerImage.getUrl('header') }}"></div>
+          {% set headerImage = pageHeader.headerImage.one() %}
+          {% if headerImage %}
+              <div class="image lazy" style="background-image: url();" data-original="{{ headerImage.getUrl('header') }}"></div>
+          {% endif %}
         </div>
-      {% endif %}
       <div class="row -halves">
         <div class="row-block -right">
           <div class="text-module background-black text-off-white font-smoothing">

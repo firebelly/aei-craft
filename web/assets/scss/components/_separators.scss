@@ -109,46 +109,27 @@
 .meta-item {
   position: relative;
 
-  &::after {
+  &::after, &::before {
     content: '';
     position: absolute;
     background: $off-white;
   }
 
-  &.-half {
-
-    &.-left {
-      &::after {
-        right: 0;
-        top: 32px;
-        width: 1px;
-        bottom: $padding;
-      }
-    }
-
-    &.-right {
-      &::after {
-        bottom: 0;
-        height: 1px;
-        right: $padding;
-        left: calc(-100% + #{$padding});
-      }
+  &.-half:not(.-row-end) {
+    &::after {
+      right: 0;
+      top: 32px;
+      width: 1px;
+      bottom: $padding;
     }
   }
 
-  &.-full {
-
-    &::after {
-      bottom: 0;
+  &:not(:first-child):not(.-row-end) {
+    &::before {
+      top: 0;
       height: 1px;
-      right: $padding;
       left: $padding;
-    }
-  }
-
-  &:last-of-type {
-    &::after {
-      display: none;
+      right: calc(-100% + #{$padding});
     }
   }
 }

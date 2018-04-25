@@ -1,7 +1,6 @@
 {% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
 {% set title = entry.title %}
-{% set bodyClass = 'single' %}
-{% set projectImage = entry.projectImage.one() %}
+{% set bodyClass = 'single overlapping-header' %}
 
 {% block filters %}
   <li class="filters-item">
@@ -17,56 +16,143 @@
 
 {% block content %}
 
-  <article class="content-block single-project" data-id="{{ entry.id }}">
-    {% if projectImage|length %}
-      <div class="project-banner" style="background-image:url({{ projectImage.getUrl() }});"></div>
-    {% endif %}
-    <h1 class="project-client">{{ entry.title }}</h1>
-    {{ entry.projectTagline }}
-    {% if entry.services | length %}
-      <h3>Services:</h3>
-        <ul>{% for service in entry.services.all() %}
-        <li><a href="{{ service.url }}">{{ service.title }}</a></li>
-        {% endfor %}</ul>
-    {% endif %}
+  <article class="single-project" data-id="{{ entry.id }}">
+  
+    {% set header = {
+      image: entry.projectImage.one(), 
+      title: entry.projectClientName, 
+      subtitle: entry.projectName, 
+      color: entry.colorSwatch.label|lower
+    } %}  
+    {% include 'partials/_secondary-header' %}
 
+
+
+  <!-- intro -->
+  <div class="row -halves secondary-page-intro">
+    <div class="row-block top-overlap-{{ entry.projectTagline ? 'h1' : 'p' }}">
+      <div class="page-intro module text-module background-white text-black">
+        {% if entry.projectTagline %}
+          <p class="font-h1 page-headline">{{ entry.projectTagline }}</p>
+        {% endif %}
+        <div class="user-content">{{ entry.description }}</div>
+      </div>
+    </div>
+    <div class="row-block">
+      <div class="meta background-white text-black">
+        {% if entry.services | length %}
+          <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
+            <h3>Services</h3>
+            <div class="content">
+              <ul class="semantic-only-list">
+                {% for service in entry.services.all() %}
+                  <li><a href="{{ service.url }}">{{ service.title }}</a></li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        {% endif %}
+        {% if entry.projectLocation %}
+          <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
+            <h3>Location</h3>
+            <div class="content">{{ entry.projectLocation }}</div>
+          </div>
+        {% endif %}
+        {% if entry.projectLeedStatus %}
+          <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
+            <h3>LEED Status</h3>
+            <div class="content">{{ entry.projectLeedStatus }}</div>
+          </div>
+        {% endif %}
+        {% if entry.projectPartners|length %}
+          <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
+            <h3>Partners</h3>
+            <div class="content">
+              <ul class="semantic-only-list">
+                {% for partner in entry.projectPartners.all() %}
+                  <li>{{ partner.partnerName }}{{ partner.partnerName and partner.partnerRole ? ' - ' : '' }}{{ partner.partnerRole }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        {% endif %}
+        {% if entry.projectAwards|length %}
+          <div class="meta-item -full">
+            <h3>Awards</h3>
+            <div class="content">
+              <ul class="semantic-only-list">
+                {% for award in entry.projectAwards.all() %}
+                  <li>{{ award.title }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="row -halves -spaced background-white text-black">
     {% for block in entry.mediaBlocks.all() %}
-      {% switch block.type %}
-      {% case "stat" %}
+      <div class="row-block {{ (block.width ?? null)=='full'  ? '-double' : '' }}">
+        {% switch block.type %}
+        {% case "stat" %}
 
-        {% if block.figure %}
-          <p>Figure: {{ block.figure }}</p>
-        {% endif %}
-        {% if block.label %}
-          <p>Label: {{ block.label }}</p>
-        {% endif %}
+          {% if block.figure %}
+            <p>Figure: {{ block.figure }}</p>
+          {% endif %}
+          {% if block.label %}
+            <p>Label: {{ block.label }}</p>
+          {% endif %}
 
-      {% case "quote" %}
+        {% case "quote" %}
 
-        {% if block.quote %}
-          <p>Quote: {{ block.quote }}</p>
-        {% endif %}
-        {% if block.source %}
-          <p>Source: {{ block.source }}</p>
-        {% endif %}
+          {% if block.quote %}
+            <p>Quote: {{ block.quote }}</p>
+          {% endif %}
+          {% if block.source %}
+            <p>Source: {{ block.source }}</p>
+          {% endif %}
 
-      {% case "text" %}
+        {% case "text" %}
 
-        {% if block.text %}
-          <p>Text: {{ block.text }}</p>
-        {% endif %}
+          {% if block.text %}
+            <div class="module text-module">
+              <div class="user-content">
+                {{ block.text }}
+              </div>
+            </div>
+          {% endif %}
 
-      {% case "fullWidthImage" %}
+        {% case "image" %}
+          {% set image = block.image[0] ?? null %}
+          {% if image %}
+            {% set aspectRatio = 
+              block.width=='full' ? 'landscape' :
+              (block.image[0].getWidth() > block.image[0].getHeight() ? 'landscape' : 'portrait')  
+            %}
+          {% endif %}
 
-        {% if block.image|length %}
-          <p>Image: {{ block.image.one().getUrl() }}</p>
-        {% endif %}
-        {% if block.caption %}
-          <p>Caption: {{ block.caption }}</p>
-        {% endif %}
 
-      {% endswitch %}
+          <div class="module image-module -{{ block.width }}">
+            <div class="image-wrap -{{ aspectRatio ?? 'landscape' }}">
+              {% if image %}
+                <div class="image lazy" style="background-image: url('');" data-original="{{ image.getUrl( block.width=='full' ? 'header' : 'thumb') }}"></div>
+              {% endif %}
+            </div>
+            {% if block.caption %}
+              <div class="caption -right font-captions">
+                <svg class="icon icon-up-arrow"><use xlink:href="#icon-up-arrow" /></svg>
+                <p div class="no-margin">{{ block.caption }}</p>
+              </div>
+            {% endif %}
+          </div>
+
+        {% endswitch %}
+      </div>
     {% endfor %}
+  </div>
+
+
   </article>
 
 {% endblock %}
