@@ -4,7 +4,7 @@
 {% set bodyClass = 'single' %}
 
   <!-- checkerboard header (no theater) -->
-  {% for pageHeader in entry.pageHeader %}
+  {% for pageHeader in entry.pageHeader.all() %}
     <div class="checkerboard-header">
       <div class="row -halves">
         <div class="row-block pull-h1-to-top">
@@ -47,7 +47,7 @@
       <div class="module text-module">
         <h2 class="font-h1">Services</h2>
       </div>
-    </div>  
+    </div>
     <div class="row-block">
       <div class="module text-module">
         <div class="user-content">{{ entry.servicesDescription }}</div>
@@ -70,7 +70,7 @@
       <div class="module text-module">
         <h2 class="font-h1">Locations</h2>
       </div>
-    </div>  
+    </div>
     <div class="row-block">
       <div class="module text-module">
         <div class="user-content">{{ entry.locationsDescription }}</div>
