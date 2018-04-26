@@ -53,6 +53,17 @@ blockquote {
   }
 }
 
+.quote-carousel {
+  &.-unslicked {
+    blockquote {
+      display: none;
+      &:first-child {
+        display: block;
+      }
+    }
+  }
+}
+
 .image-wrap {
   overflow: hidden;
   position: relative;

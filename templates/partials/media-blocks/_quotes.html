@@ -1,0 +1,12 @@
+<div class="module quotes-module pad">
+  <div class="quote-carousel -unslicked">
+    {% for row in block.quotes %}
+      <blockquote class="no-margin">
+        "{{ row.quote }}"
+        {% if row.author or row.company %}
+          <footer>— <cite>{{ row.author }}{{ row.author and row.company ? ', ' : '' }}{{ row.company }}</cite></footer> 
+        {% endif %}
+      </blockquote>
+    {% endfor %}
+  </div>
+</div>  

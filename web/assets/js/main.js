@@ -8,6 +8,7 @@
 //=include "../bower_components/jquery_lazyload/jquery.lazyload.js"
 //=include "../bower_components/waypoints/lib/jquery.waypoints.js"
 //=include "../bower_components/isotope-layout/dist/isotope.pkgd.js"
+//=include "../bower_components/slick-carousel/slick/slick.js"
 
 // Good Design for Good Reason for Good Namespace
 var FB = (function($) {
@@ -71,12 +72,25 @@ var FB = (function($) {
       }
     });
 
+    _initSlick();
     _initLazyload();
     _initNav();
     _initTheater();
     _initMasonry();
 
   } // end init()
+
+  function _initSlick() {
+    $('.quote-carousel').slick({
+      arrows: false,
+      autoplay: true,
+      autoplaySpeed: 5000,
+      fade: true,
+      swipe: false,
+      touchMove: false,
+      draggable: false,
+    }).removeClass('-unslicked');
+  }
 
   function _scrollBody(element, duration, delay) {
     isAnimating = true;
