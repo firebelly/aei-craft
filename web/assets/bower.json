@@ -23,6 +23,7 @@
     "jquery-validation": "jquery-validate#^1.16.0",
     "waypoints": "^4.0.1",
     "jquery_lazyload": "jquery.lazyload#^1.9.7",
-    "isotope-layout": "^3.0.6"
+    "isotope-layout": "^3.0.6",
+    "slick-carousel": "^1.8.1"
   }
 }
