@@ -1,13 +1,14 @@
 {% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
 {% set bodyClass = 'overlapping-header' %}
+{% set impactType = entry.impactType.one() %}
+{% set impactAuthor = entry.impactAuthor.one() %}
 
 {% block filters %}
   <li class="filters-item">
     <a href="/impact/">All</a>
   </li>
-  {% set entryImpactIds = entry.impactType.ids() %}
-  {% for cat in craft.categories.group('impactType').all() %}
-    <li class="filters-item {% if cat.id in entryImpactIds %}current{% endif %}">
+  {% for cat in craft.categories.group('impactTypes').all() %}
+    <li class="filters-item {% if cat.id == impactType.id %}current{% endif %}">
       <a href="{{ cat.url }}">{{ cat.title }}</a>
     </li>
   {% endfor %}
@@ -16,9 +17,9 @@
 {% block content %}
   <article class="single-impact" data-id="{{ entry.id }}">
     {% set header = {
-      image: entry.impactImage.one(), 
+      image: entry.impactImage.one(),
       title: entry.title
-    } %}  
+    } %}
     {% include 'partials/_secondary-header' %}
 
     <!-- intro -->
@@ -30,10 +31,50 @@
       </div>
       <div class="row-block">
         <div class="meta background-white text-black">
+          {% if impactType.slug == 'conferences-presentations' %}
+            Conference: {% if entry.conferenceUrl %}<a href="{{ entry.conferenceUrl }}">{% endif %}{{ entry.title }}{% if entry.conferenceUrl %}</a>{% endif %}
+            {% if entry.endDate and entry.startDate != entry.endDate %}
+              Dates: {{ entry.startDate|date('m/d/y') }} – {{ entry.endDate|date('m/d/y') }}
+            {% else %}
+              Date: {{ entry.startDate|date('m/d/y') }}
+            {% endif %}
+            {% if entry.conferenceHost %}
+              Host: {{ entry.conferenceHost }}
+            {% endif %}
+            {% set sessions = entry.impactSessions.all() %}
+            {% if sessions|length %}
+              Sessions:
+              {% for session in sessions %}
+                {{ session.sessionName }}
+                {{ session.sessionDate|date('m/d/y') }}
+                {% set sessionTime = session.sessionDate|date('ga') %}
+                {% if sessionTime != '12am' %}
+                  @ {{ sessionTime }}
+                {% endif %}
+                {% for person in session.people %}
+                  Presented by:
+                  {% set aeiPerson = person.person.one() %}
+                  {% if aeiPerson %}
+                    <a href="{{ aeiPerson.getUrl() }}">{{ aeiPerson.title }}</a>
+                  {% else %}
+                    {{ person.personName }}
+                    {% if person.personCompany %}
+                      {{ person.personCompany }}
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+              {% endfor %}
+            {% endif %}
+          {% else %}
+            {% if impactAuthor %}
+              Author: <a href="{{ impactAuthor.getUrl() }}">{{ impactAuthor.title }}</a>
+            {% endif %}
+            Post Date: {{ entry.postDate|date('m/d/y') }}
+          {% endif %}
         </div>
       </div>
     </div>
-    
+
     {% include 'partials/_media-blocks' %}
 
     <div class="row -single margin-top">

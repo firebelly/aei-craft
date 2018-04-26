@@ -1,0 +1,41 @@
+@mixin semantic-only-list {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+.semantic-only-list {
+  @include semantic-only-list;
+}
+
+@mixin bg-cover {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.bg-cover {
+  @include bg-cover;
+}
+
+@mixin fill {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+.fill {
+  @include fill;
+}
+
+.show-md {
+  display: none;
+  @include media-md {
+    display: block;
+  }
+}
+
+.no-underline {
+  &, a {
+    text-decoration: none;
+  }
+}

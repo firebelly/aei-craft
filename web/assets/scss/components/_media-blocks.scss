@@ -172,3 +172,52 @@
     }
   }
 }
+
+// Text
+.text-module {
+  padding: $padding;
+
+  .buttons {
+    @include clearfix;
+    margin-top: $padding;
+
+    @include media-lg {
+      margin-top: 7*$beat;
+    }
+    .button {
+      float: left;
+      margin-bottom: 2*$beat;
+      margin-right: 2*$beat;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+.text-module, .user-content {
+
+  p:not(:last-child) {
+    margin-bottom: 1.45em;
+  }
+
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+.quote-carousel {
+  &.-unslicked {
+    blockquote {
+      display: none;
+      &:first-child {
+        display: block;
+      }
+    }
+  }
+}

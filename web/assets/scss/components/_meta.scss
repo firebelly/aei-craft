@@ -1,0 +1,36 @@
+.meta {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 10px;
+
+  .meta-item {
+    flex: 0 0 0;
+    padding: 30px $padding $padding;
+
+    h3 {
+      margin: 0 0 7px;
+      @include font-p;
+    }
+
+    .content {
+      @include font-details;
+    }
+
+    &.-half {
+      max-width: 50%;
+      flex-basis: 50%;
+      padding-right: 30px;
+    }
+
+    &.-full {
+      flex-basis: 100%;
+    }
+  }
+}
+
+.page-intro {
+  .page-quote {
+    margin-bottom: 70px;
+  }
+}

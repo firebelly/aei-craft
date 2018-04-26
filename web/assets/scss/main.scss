@@ -12,6 +12,8 @@
 @import "helpers/color-scheme";
 @import "helpers/breakpoint-indicator";
 @import "helpers/ie";
+@import "helpers/spacing";
+@import "helpers/utilities";
 
 // Vendor
 @import "vendor/slick";
@@ -25,12 +27,13 @@
 @import "components/page-headers";
 @import "components/nav";
 @import "components/footer";
-@import "components/modules";
 @import "components/forms";
 @import "components/separators";
 @import "components/media-blocks";
 @import "components/images";
-@import "components/project-article";
+@import "components/articles";
+@import "components/entry-navigation";
+@import "components/meta";
 
 // Pages
 

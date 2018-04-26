@@ -1,0 +1,42 @@
+.entry-navigation {
+  margin: $padding 0;
+  @include media-md {
+    margin: 2*$padding 0 $padding;
+  }
+
+  .prev-post, .next-post {
+    position: relative;
+    .icon {
+      top: $padding + 27px;
+      width: 16px;
+      height: 16px;
+      fill: $black;
+      position: absolute;
+    }
+    .post-title {
+      margin-top: 5px;
+    }
+  }
+
+  .next-post {
+    .icon {
+      right: $padding;
+    }
+    &:hover .icon {
+      animation-duration: 0.3s;
+      animation-timing-function: $ease;
+      animation-name: right-arrow-hover;
+    }
+  }
+  .prev-post {
+    text-align: right;
+    .icon {
+      left: $padding;
+    }
+    &:hover .icon {
+      animation-duration: 0.3s;
+      animation-timing-function: $ease;
+      animation-name: left-arrow-hover;
+    }
+  }
+}

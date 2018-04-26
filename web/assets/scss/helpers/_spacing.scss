@@ -1,0 +1,80 @@
+// Padding
+.pad {
+  padding: $padding;
+}
+
+.pad-vertical {
+  padding-top: $padding;
+  padding-bottom: $padding;
+}
+
+// Don't margin
+.no-margin {
+  margin: 0;
+}
+
+// A general margin
+.margin {
+  &-bottom, &-vertical {
+    margin-bottom: $padding;
+    @include media-md {
+      margin-bottom: 2*$padding;
+    }
+  }
+
+  &-top, &-vertical {
+    margin-top: $padding;
+    @include media-md {
+      margin-top: 2*$padding;
+    }
+  }
+}
+
+// A general bigger margin
+.big-margin {
+  &-bottom, &-vertical {
+    margin-bottom: $padding;
+    @include media-md {
+      margin-bottom: 3*$padding;
+    }
+  }
+
+  &-top, &-vertical {
+    margin-top: $padding;
+    @include media-md {
+      margin-top: 3*$padding;
+    }
+  }
+}
+
+// Pulls text of size h1 to very top of div
+.pull-h1-to-top {
+  @include media-lg {
+    margin-top: -7px;
+
+    .module {
+      &, &.text-module, &.pad, &.pad-vertical { // specificity
+        padding-top: 0;
+      }
+    }
+  }
+}
+
+// Overlaps the block up either 2 h1 lines or 3 p lines (used in headers)
+.top-overlap {
+  &-h1 {
+    @include media-md {
+      margin-top: -96px;
+    }
+
+    @include media-lg {
+      margin-top: -113px;
+    }
+  }
+
+  &-p {
+    @include media-md {
+      margin-top: -106px;
+    }
+  }
+}

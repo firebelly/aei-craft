@@ -4,7 +4,7 @@
   (projectImage.getWidth() > projectImage.getHeight() ? 'landscape' : 'portrait') :
   'landscape' %}
 
-{% set projectColor = (project.colorSwatch.label ?? 'black')|lower %}
+{% set projectColor = (project.colorSwatch.label ?? null) ? project.colorSwatch.label|lower : 'black' %}
 
 <article class="project module project-module bigclicky">
   <div class="image-wrap -{{ projectAspectRatio }}">

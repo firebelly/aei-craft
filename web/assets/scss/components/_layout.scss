@@ -1,3 +1,5 @@
+// Site Layout
+
 .right-col-wrap {
   width: 100%;
   padding-left: $padding;
@@ -9,8 +11,8 @@
   .right-col {
     display: flex;
     min-height: 100vh;
-    flex-direction: column;
     position: relative;
+    flex-direction: column;
 
     .site-main {
       flex: 1;

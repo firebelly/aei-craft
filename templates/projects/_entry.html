@@ -17,13 +17,13 @@
 {% block content %}
 
   <article class="single-project" data-id="{{ entry.id }}">
-  
+
     {% set header = {
-      image: entry.projectImage.one(), 
-      title: entry.projectClientName, 
-      subtitle: entry.projectName, 
+      image: entry.projectImage.one(),
+      title: entry.projectClientName,
+      subtitle: entry.projectName,
       color: entry.colorSwatch.label|lower
-    } %}  
+    } %}
     {% include 'partials/_secondary-header' %}
 
     <!-- intro -->
@@ -89,7 +89,7 @@
         </div>
       </div>
     </div>
-    
+
     {% include 'partials/_media-blocks' %}
 
     {% if entry.projectLeaders|length %}
@@ -101,7 +101,7 @@
         </div>
       </div>
       <ul class="row -quarters photo-row-separators semantic-only-list margin-bottom">
-        {% for leader in entry.projectLeaders %}
+        {% for leader in entry.projectLeaders.all() %}
           {% set person = leader.person[0] ?? null %}
           {% if person %}
             {% set personTitleOverride = leader.leaderTitle %}
