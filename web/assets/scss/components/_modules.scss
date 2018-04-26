@@ -66,6 +66,11 @@ blockquote {
     bottom: -0.5px;
     position: absolute;
     background-size: cover;
+    background-position: center center;
+
+    &.-top-weight {
+      background-position: top center;
+    }
   }
 
   &.-portrait, &.-landscape, &.-square {
@@ -74,7 +79,6 @@ blockquote {
 
   &.-landscape {
     padding-bottom: $landscape-padding;
-    background-position: top center;
   }
 
   &.-portrait {
@@ -88,7 +92,6 @@ blockquote {
   @include media-md {
     &.-landscape-md {
       padding-bottom: $landscape-padding;
-      background-position: top center;
     }
 
     &.-portrait-md {
@@ -103,6 +106,7 @@ blockquote {
 
   &::after, &::before {
     left: 0;
+    z-index: 1;
     top: -100%; 
     content: '';
     width: 200%; // 100% if they choose half-covering overlay
@@ -111,7 +115,6 @@ blockquote {
     position: absolute;
     transition: transform 0.5s $ease;
     transform: skew(-18deg) translateX(-100%);
-    z-index: 1;
     
   }
   &::before {
@@ -175,7 +178,7 @@ blockquote {
     min-height: calc( 100vw/3*(2/3) );
   }
 
-  .number {
+  .figure {
     @include font-stat-medium;
     padding-right: 12px;
 
@@ -184,7 +187,7 @@ blockquote {
       @include font-stat-large;
     }
 
-    .unit {
+    .label {
       top: -32px;
       margin-left: 0.2ch;
       position: relative;
@@ -252,7 +255,7 @@ blockquote {
 }
 
 
-.stat-two-number-module {
+.stat-two-figure-module {
   display: flex;
   padding: $padding;
   background: $white;
@@ -274,7 +277,7 @@ blockquote {
     min-height: 320px;
   }
 
-  .number {
+  .figure {
     @include font-stat-small;
     margin: 0;
     max-width: 33.33%;
@@ -284,13 +287,13 @@ blockquote {
       @include font-stat-medium;
     }
   }
-  .unit {
+  .label {
     @include font-details;
     display: block;
     margin: $beat 0 0;
   }
 
-  .number-2 {
+  .figure-2 {
     align-self: flex-end;
     text-align: right;
   }
@@ -340,8 +343,13 @@ blockquote {
     flex: 0 0 0;
     padding: 30px $padding $padding;
 
-    .title {
+    h3 {
       margin: 0 0 7px;
+      @include font-p;
+    }
+
+    .content {
+      @include font-details;
     }
 
     &.-half {

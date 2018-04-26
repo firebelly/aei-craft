@@ -58,12 +58,12 @@
     </div>
     <div class="row-block">
       {% set block = { 
-        number1: entry.numberOfPeople,
-        unit1: 'People',
-        number2: entry.numberOfOffices,
-        unit2: 'Offices',
+        figure: entry.numberOfPeople,
+        label: 'People',
+        figure2: entry.numberOfOffices,
+        label2: 'Offices',
       } %}
-      {% include 'partials/_stat-two-number' %}
+      {% include 'partials/media-blocks/_stat' %}
     </div>
   </div>
 

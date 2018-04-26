@@ -1,4 +1,5 @@
 {% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
+{% set bodyClass = 'overlapping-header' %}
 
 {% block filters %}
   <li class="filters-item">
@@ -13,21 +14,53 @@
 {% endblock %}
 
 {% block content %}
-  {{ entry.title }}
+  <article class="single-impact" data-id="{{ entry.id }}">
+    {% set header = {
+      image: entry.impactImage.one(), 
+      title: entry.title
+    } %}  
+    {% include 'partials/_secondary-header' %}
 
-  <h3>Related Impact</h3>
-  {% set limitCriteria = craft.entries.section('impact').limit(2) %}
-  {% set relatedImpactEntries = craft.similar.find({ element: entry, context: entry.impactType, criteria: limitCriteria }) %}
-  <ul>
-    {% for relatedImpact in relatedImpactEntries %}
-      <li><a href="{{ relatedImpact.url() }}">{{ relatedImpact.title }}</a></li>
-    {% endfor %}
-    {% if relatedImpactEntries|length < 2 %}
-      {% set omitId = relatedImpactEntries|length == 1 ? relatedImpactEntries[0].id : 0 %}
-      {% for relatedImpact in craft.entries.section('impact').id('not ' ~ omitId).limit(2 - relatedImpactEntries|length).all() %}
-        <li><a href="{{ relatedImpact.url() }}">{{ relatedImpact.title }}</a></li>
+    <!-- intro -->
+    <div class="row -halves secondary-page-intro">
+      <div class="row-block top-overlap-p">
+        <div class="page-intro module text-module background-white text-black">
+          <div class="user-content">{{ entry.description }}</div>
+        </div>
+      </div>
+      <div class="row-block">
+        <div class="meta background-white text-black">
+        </div>
+      </div>
+    </div>
+    
+    {% include 'partials/_media-blocks' %}
+
+    <div class="row -single margin-top">
+      <div class="row-block">
+        <div class="module text-module text-black">
+          <h3 class="font-h2">Related Impact</h3>
+        </div>
+      </div>
+    </div>
+    {% set limitCriteria = craft.entries.section('impact').limit(2) %}
+    {% set relatedImpactEntries = craft.similar.find({ element: entry, context: entry.impactType, criteria: limitCriteria }) %}
+    <ul class="row -halves -separators semantic-only-list hr-top-off-white hr-bottom-off-white margin-bottom">
+      {% for post in relatedImpactEntries %}
+        <li class="row-block background-white text-black separate">
+          {% include 'impact/_article' %}
+        </li>
       {% endfor %}
-    {% endif %}
-  </ul>
+      {% if relatedImpactEntries|length < 2 %}
+        {% set omitId = relatedImpactEntries|length == 1 ? relatedImpactEntries[0].id : 0 %}
+        {% for post in craft.entries.section('impact').id('not ' ~ omitId).limit(2 - relatedImpactEntries|length).all() %}
+          <li class="row-block background-white text-black separate">
+            {% include 'impact/_article' %}
+          </li>
+        {% endfor %}
+      {% endif %}
+    </ul>
+
+  </article>
 
 {% endblock %}

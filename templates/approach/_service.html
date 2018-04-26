@@ -1,19 +1,70 @@
 {% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
+{% set bodyClass = 'overlapping-header' %}
 
 {% block content %}
 
-  {# include page header #}
+  <article class="single-service" data-id="{{ category.id }}">
+    {% set header = {
+      image: category.serviceImage.one(), 
+      title: category.title
+    } %}  
+    {% include 'partials/_secondary-header' %}
 
-  <h3>Featured {{ category.title }} Projects</h3>
+    <!-- intro -->
+    <div class="row -halves secondary-page-intro">
+      <div class="row-block top-overlap-p">
+        <div class="page-intro module text-module background-white text-black">
+          <div class="user-content">{{ category.description }}</div>
+        </div>
+      </div>
+    </div>
 
-  {% for entry in craft.entries({
-    section: 'projects',
-    relatedTo: category,
-    with: [
-      'projectImage'
-    ]
-  }).all() %}
-    <a href="{{ entry.url }}">{{ entry.title }}</a>
-  {% endfor %}
+    <h3>Featured {{ category.title }} Projects</h3>
+
+    {% for entry in craft.entries({
+      section: 'projects',
+      relatedTo: category,
+      with: [
+        'projectImage'
+      ]
+    }).all() %}
+      <a href="{{ entry.url }}">{{ entry.title }}</a>
+    {% endfor %}
+
+
+
+    {% set relatedProjects = craft.entries({
+      section: 'projects',
+      relatedTo: category,
+      with: [
+        'projectImage'
+      ]
+    }).all() %}
+    {{ dump(relatedProjects) }}
+    {% if relatedProjects|length %}
+      <div class="row -single margin-top">
+        <div class="row-block">
+          <div class="module text-module text-black">
+            <h3 class="font-h2">Featured {{ category.title }} Projects</h3>
+          </div>
+        </div>
+      </div>
+      <ul class="row -halves semantic-only-list">
+        {% for project in relatedProjects %}
+          <li class="row-block">
+            {% include 'projects/_article' %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+
+
+
+
+
+
+
+  </article>
 
 {% endblock %}
