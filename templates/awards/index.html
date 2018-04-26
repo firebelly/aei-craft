@@ -1,0 +1,17 @@
+{% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
+{% block content %}
+
+  <h2>Awards</h2>
+  {% for award in craft.entries.section('awards').all() %}
+    <li>
+      <p>{{ award.title }}</p>
+      <p>{{ award.awardDate|date('Y') }}</p>
+      <p>{{ award.awardIssuer }}</p>
+
+      {% set project = craft.entries.section('projects').relatedTo({ element: award }).one() %}
+      {% if project %}
+        <p><a href="{{ project.getUrl() }}">{{ project.title }}</a></p>
+      {% endif %}
+    </li>
+  {% endfor %}
+{% endblock %}
