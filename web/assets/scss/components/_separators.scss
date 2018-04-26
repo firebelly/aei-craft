@@ -116,6 +116,12 @@
   }
 
   &.-half:not(.-row-end) {
+    &:not(:first-child)::before {
+      top: 0;
+      height: 1px;
+      left: $padding;
+      right: calc(-100% + #{$padding});
+    }
     &::after {
       right: 0;
       top: 32px;
@@ -124,12 +130,12 @@
     }
   }
 
-  &:not(:first-child):not(.-row-end) {
-    &::before {
+   &.-full {
+    &:not(:first-child)::before {
       top: 0;
       height: 1px;
       left: $padding;
-      right: calc(-100% + #{$padding});
+      right: $padding;
     }
   }
 }

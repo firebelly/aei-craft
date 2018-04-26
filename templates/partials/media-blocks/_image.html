@@ -1,0 +1,21 @@
+{% set image = block.image[0] ?? null %}
+{% if image %}
+  {% set aspectRatio = 
+    block.width=='full' ? 'landscape' :
+    (block.image[0].getWidth() > block.image[0].getHeight() ? 'landscape' : 'portrait')  
+  %}
+{% endif %}
+
+<div class="module image-module -{{ block.width }}">
+  <div class="image-wrap -{{ aspectRatio ?? 'landscape' }}">
+    {% if image %}
+      <div class="image lazy" style="background-image: url('');" data-original="{{ image.getUrl( block.width=='full' ? 'header' : 'thumb') }}"></div>
+    {% endif %}
+  </div>
+  {% if block.caption %}
+    <div class="caption -right font-captions">
+      <svg class="icon icon-up-arrow"><use xlink:href="#icon-up-arrow" /></svg>
+      <p div class="no-margin">{{ block.caption }}</p>
+    </div>
+  {% endif %}
+</div>

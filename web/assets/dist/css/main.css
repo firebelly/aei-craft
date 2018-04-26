@@ -1468,7 +1468,7 @@ blockquote {
       -ms-flex-pack: justify;
           justify-content: space-between;
       min-height: calc( 100vw/3*(2/3)); } }
-  .stat-module .number {
+  .stat-module .figure {
     font-weight: 500;
     font-style: normal;
     font-family: 'Formular Medium', sans-serif;
@@ -1478,7 +1478,7 @@ blockquote {
     text-transform: none;
     padding-right: 12px; }
     @media screen and (min-width: 1200px) {
-      .stat-module .number {
+      .stat-module .figure {
         min-width: 50%;
         font-weight: 500;
         font-style: normal;
@@ -1487,22 +1487,22 @@ blockquote {
         line-height: 0.88889;
         letter-spacing: -0.025em;
         text-transform: none; } }
-    .stat-module .number .unit {
+    .stat-module .figure .label {
       top: -32px;
       margin-left: 0.2ch;
       position: relative;
       font-size: 22px;
       line-height: 1; }
       @media screen and (min-width: 1200px) {
-        .stat-module .number .unit {
+        .stat-module .figure .label {
           top: -46px;
           font-size: 33px;
           line-height: 1; } }
-    .stat-module .number .slash-wrap {
+    .stat-module .figure .slash-wrap {
       display: inline-block;
       position: relative;
       padding-right: 32px; }
-      .stat-module .number .slash-wrap::after {
+      .stat-module .figure .slash-wrap::after {
         right: 0;
         width: 2px;
         content: '';
@@ -1512,7 +1512,7 @@ blockquote {
         transform: skew(-18deg);
         background-color: #d1ccc1; }
         @media screen and (min-width: 1200px) {
-          .stat-module .number .slash-wrap::after {
+          .stat-module .figure .slash-wrap::after {
             top: 8px;
             bottom: 8px; } }
   .stat-module .text {
@@ -1547,7 +1547,7 @@ blockquote {
 .person-module .title {
   margin: 6px 0 0; }
 
-.stat-two-number-module {
+.stat-two-figure-module {
   display: -ms-flexbox;
   display: flex;
   padding: 40px;
@@ -1555,7 +1555,7 @@ blockquote {
   position: relative;
   -ms-flex-pack: justify;
       justify-content: space-between; }
-  .stat-two-number-module::after {
+  .stat-two-figure-module::after {
     right: 50%;
     width: 2px;
     content: '';
@@ -1565,9 +1565,9 @@ blockquote {
     transform: skew(-18deg);
     background-color: #d1ccc1; }
   @media screen and (min-width: 750px) {
-    .stat-two-number-module {
+    .stat-two-figure-module {
       min-height: 320px; } }
-  .stat-two-number-module .number {
+  .stat-two-figure-module .figure {
     font-weight: 700;
     font-style: normal;
     font-family: 'Formular Bold', sans-serif;
@@ -1580,7 +1580,7 @@ blockquote {
     -ms-flex-preferred-size: 33.33%;
         flex-basis: 33.33%; }
     @media screen and (min-width: 750px) {
-      .stat-two-number-module .number {
+      .stat-two-figure-module .figure {
         font-weight: 500;
         font-style: normal;
         font-family: 'Formular Medium', sans-serif;
@@ -1588,7 +1588,7 @@ blockquote {
         line-height: 1.09091;
         letter-spacing: -0.025em;
         text-transform: none; } }
-  .stat-two-number-module .unit {
+  .stat-two-figure-module .label {
     font-weight: normal;
     font-style: normal;
     font-family: 'Formular Mono', monospace;
@@ -1598,7 +1598,7 @@ blockquote {
     text-transform: none;
     display: block;
     margin: 8px 0 0; }
-  .stat-two-number-module .number-2 {
+  .stat-two-figure-module .figure-2 {
     -ms-flex-item-align: end;
         align-self: flex-end;
     text-align: right; }
@@ -2335,16 +2335,21 @@ blockquote {
     content: '';
     position: absolute;
     background: #f4f2ed; }
+  .meta-item.-half:not(.-row-end):not(:first-child)::before {
+    top: 0;
+    height: 1px;
+    left: 40px;
+    right: calc(-100% + 40px); }
   .meta-item.-half:not(.-row-end)::after {
     right: 0;
     top: 32px;
     width: 1px;
     bottom: 40px; }
-  .meta-item:not(:first-child):not(.-row-end)::before {
+  .meta-item.-full:not(:first-child)::before {
     top: 0;
     height: 1px;
     left: 40px;
-    right: calc(-100% + 40px); }
+    right: 40px; }
 
 .page-impact .featured-post-block .category {
   color: #f4f2ed; }

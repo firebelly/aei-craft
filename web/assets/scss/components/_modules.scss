@@ -178,7 +178,7 @@ blockquote {
     min-height: calc( 100vw/3*(2/3) );
   }
 
-  .number {
+  .figure {
     @include font-stat-medium;
     padding-right: 12px;
 
@@ -187,7 +187,7 @@ blockquote {
       @include font-stat-large;
     }
 
-    .unit {
+    .label {
       top: -32px;
       margin-left: 0.2ch;
       position: relative;
@@ -255,7 +255,7 @@ blockquote {
 }
 
 
-.stat-two-number-module {
+.stat-two-figure-module {
   display: flex;
   padding: $padding;
   background: $white;
@@ -277,7 +277,7 @@ blockquote {
     min-height: 320px;
   }
 
-  .number {
+  .figure {
     @include font-stat-small;
     margin: 0;
     max-width: 33.33%;
@@ -287,13 +287,13 @@ blockquote {
       @include font-stat-medium;
     }
   }
-  .unit {
+  .label {
     @include font-details;
     display: block;
     margin: $beat 0 0;
   }
 
-  .number-2 {
+  .figure-2 {
     align-self: flex-end;
     text-align: right;
   }

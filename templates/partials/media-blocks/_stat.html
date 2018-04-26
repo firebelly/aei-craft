@@ -1,0 +1,12 @@
+{% if block.figure2 %}
+  <article class="module stat-two-figure-module">
+    <div class="figure figure-1">
+        {{ block.figure }}<span class="label">{{ block.label }}</span>
+    </div>
+    <div class="figure figure-2">
+        {{ block.figure2 }}<span class="label">{{ block.label2 }}</span>
+    </div>
+  </article>
+{% else %}
+
+{% endif %}

@@ -8,6 +8,6 @@
   </div>
   <div class="text pad">
     <h1 class="name font-p no-margin"><a href="{{ person.url }}" class="no-underline">{{ person.title }}</a></h1>
-    <h2 class="title font-details">{{ person.personTitle }}</h2>
+    <h2 class="title font-details">{{ (personTitleOverride ?? null) ? personTitleOverride : person.personTitle }}</h2>
   </div>
 </article>
