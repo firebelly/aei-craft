@@ -1,4 +1,5 @@
 {% if block.figure2 %}
+
   <article class="module stat-two-figure-module">
     <div class="figure figure-1">
         {{ block.figure }}<span class="label">{{ block.label }}</span>
@@ -7,6 +8,20 @@
         {{ block.figure2 }}<span class="label">{{ block.label2 }}</span>
     </div>
   </article>
+
 {% else %}
+
+  <article class="module stat-module">
+    <div class="centering-wrap">
+      <div class="figure">
+        <span class="slash-wrap">
+          {{ block.figure }}
+        </span>
+      </div>
+      <div class="label">
+        <div class="text-wrap">{{ block.label }}</div>
+      </div>
+    </div>
+  </article>
 
 {% endif %}

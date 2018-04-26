@@ -1,0 +1,174 @@
+// 1 Number Stat
+.stat-module {
+  background-color: $white;
+  padding: 1.5*$padding $padding;
+
+  @include media-md {
+    display: flex;
+    align-items: center;
+  }
+
+  .centering-wrap {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .figure {
+    @include font-stat-medium;
+    padding-right: 12px;
+
+    @include media-md {
+      min-width: 55%;
+    }
+
+    @include media-lg {
+      @include font-stat-large;
+    }
+
+    // .unit {
+    //   top: -32px;
+    //   margin-left: 0.2ch;
+    //   position: relative;
+    //   @include font-size(22,22);
+
+    //   @include media-lg {
+    //     top: -46px;
+    //     @include font-size(33,33);
+    //   }
+    // }
+
+    .slash-wrap {
+      display: inline-block;
+      position: relative;
+      width: 100%;
+      padding-right: 4*$beat;
+
+      &::after {
+        right: 0;
+        width: 2px;
+        content: '';
+        top: 1.5*$beat;
+        bottom: 1.5*$beat;
+        position: absolute;
+        transform: skew(-18deg);
+        background-color: $concrete-light;
+
+        @include media-lg {
+          top: $beat;
+          bottom: $beat;
+        }
+      }
+    }
+  }
+
+  .label {
+    @include font-details;
+    margin-top: $beat;
+    width: 100%;
+    max-width: 200px;
+
+    @include media-md {
+      flex-basis: 200px;
+      text-align: right;
+      max-width: 18*$beat;
+      align-self: flex-end;
+      &.-wrapped {
+        text-align: left;
+      }
+    }
+  }
+}
+
+// If within a masonry-item, use landscape aspect ratio for height
+.masonry-item .stat-module {
+
+  @include media-md {
+    height: calc( (100vw - #{$padding})/2*(2/3) );
+  }
+
+  @include media-lg {
+    height: calc( 100vw/3*(2/3) );
+  }
+}
+
+// 2 Number Stat
+.stat-two-figure-module {
+  display: flex;
+  padding: $padding;
+  background: $white;
+  position: relative;
+  justify-content: space-between;
+
+  &::after {
+    right: 50%;
+    width: 2px;
+    content: '';
+    top: $padding;
+    bottom: $padding;
+    position: absolute;
+    transform: skew(-18deg);
+    background-color: $concrete-light;
+  }
+
+  @include media-md {
+    min-height: 320px;
+  }
+
+  .figure {
+    @include font-stat-small;
+    margin: 0;
+    max-width: 33.33%;
+    flex-basis: 33.33%;
+
+    @include media-md {
+      @include font-stat-medium;
+    }
+  }
+  .label {
+    @include font-details;
+    display: block;
+    margin: $beat 0 0;
+  }
+
+  .figure-2 {
+    align-self: flex-end;
+    text-align: right;
+  }
+}
+
+// Image
+.image-module {
+  @include clearfix;
+  @include max-screen($breakpoint-md - 1px) {
+    margin-top: $padding;
+  }
+
+  .caption {
+    background: $white;
+    position: relative;
+    padding: 55px $padding $padding;
+
+    .icon {
+      top: 38px;
+      width: 7px;
+      height: 10px;
+      fill: $black;
+      left: $padding;
+      position: absolute;
+    }
+  }
+
+  &.-full .caption {
+    @include media-md {
+      display: inline-block;
+      width: 50%;
+      margin-top: -6*$beat;
+
+      &.-right {
+        float: right;
+      }
+    }
+  }
+}

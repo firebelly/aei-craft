@@ -1,0 +1,62 @@
+.project-module {
+  overflow: hidden;
+  position: relative;
+
+  &::after, &::before {
+    left: 0;
+    z-index: 1;
+    top: -100%; 
+    content: '';
+    width: 200%; // 100% if they choose half-covering overlay
+    height: 200%;
+    background: $red;
+    position: absolute;
+    transition: transform 0.5s $ease;
+    transform: skew(-18deg) translateX(-100%);
+    
+  }
+  &::before {
+    mix-blend-mode: color;
+  }
+  &::after {
+    opacity: 0.66;
+  } 
+  &:hover {
+    &::after, &::before {
+      transform: skew(-18deg) translateX(0);
+    }
+  }
+}
+.project-title {
+  color: $white;
+  padding: $padding;
+
+  h1, h2 {
+    @include font-smoothing;
+    margin: 0;
+    z-index: 2;
+    position: relative;
+  }
+
+  h1 {
+    @include font-p;
+  }
+
+  h2 {
+    @include font-captions;
+  }
+
+  a {
+    text-decoration: none;
+  }
+}
+// Ensure that, in a row rather than masonty, project-titles will stretch to match height of neighbor title if necessary
+.row-block {
+  .project-module {
+    display: flex;
+    flex-direction: column;
+    .project-title {
+      flex-grow: 1;
+    }
+  }
+}

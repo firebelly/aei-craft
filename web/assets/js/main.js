@@ -77,6 +77,7 @@ var FB = (function($) {
     _initNav();
     _initTheater();
     _initMasonry();
+    _initStatLabelWrappingDetection();
 
   } // end init()
 
@@ -115,6 +116,34 @@ var FB = (function($) {
     });
   }
 
+  function _initStatLabelWrappingDetection() {
+
+    $labels = $('.stat-module .label');
+
+    if ($labels.length) {
+
+      function detectLabelWrap() {
+        $('.stat-module .label').each(function () {
+
+          $label = $(this);
+
+          $label.removeClass('-wrapped');
+
+          labelOffset = $label.offset().left;
+          parentOffset = $label.parent().offset().left;
+          parentPadding = parseInt($label.parent().css('padding-left'));
+
+          if(labelOffset-parentOffset-parentPadding===0) {
+            $label.addClass('-wrapped');
+          }
+        });
+      }
+
+      detectLabelWrap();
+      $(window).resize(detectLabelWrap);
+    }
+  }
+
   function _initNav() {
 
     _closeNav();
@@ -127,18 +156,20 @@ var FB = (function($) {
     $(document).on('click','.nav-toggle', function () {
       _toggleNav();
     });
-
   }
+
   function _openNav() {
     $body
       .addClass('site-nav-open')
       .removeClass('site-nav-closed');
   }
+
   function _closeNav() {
     $body
       .removeClass('site-nav-open')
       .addClass('site-nav-closed');
   }
+
   function _toggleNav() {
     if($body.hasClass('site-nav-open')) {
       _closeNav();
@@ -166,6 +197,7 @@ var FB = (function($) {
       });
     }
   }
+
   function _openTheater() {
     $('.theater-wrap')
       .addClass('-open')
@@ -187,6 +219,7 @@ var FB = (function($) {
       youtubePlayer.playVideo();
     }
   }
+
   function _closeTheater() {
     if(typeof youtubePlayer !== 'undefined') {
       youtubePlayer.stopVideo();
@@ -195,6 +228,7 @@ var FB = (function($) {
       .removeClass('-open')
       .addClass('-closed');
   }
+
   function _toggleTheater() {
     if($('.theater-wrap').hasClass('-open')) {
       _closeTheater();
@@ -202,9 +236,6 @@ var FB = (function($) {
       _openTheater();
     }
   }
-
-
-
 
   // Called in quick succession as window is resized
   function _resize() {
