@@ -9,6 +9,7 @@
 //=include "../bower_components/waypoints/lib/jquery.waypoints.js"
 //=include "../bower_components/isotope-layout/dist/isotope.pkgd.js"
 //=include "../bower_components/slick-carousel/slick/slick.js"
+//=include "../bower_components/tablesorter/jquery.tablesorter.js
 
 // Good Design for Good Reason for Good Namespace
 var FB = (function($) {
@@ -78,8 +79,16 @@ var FB = (function($) {
     _initTheater();
     _initMasonry();
     _initStatLabelWrappingDetection();
+    _initTableSort();
 
   } // end init()
+
+  function _initTableSort() {
+    $('.award-table table.sortable')
+      .tablesorter({
+        sortList: [[1,1]]
+      });
+  }
 
   function _initSlick() {
     $('.quote-carousel').slick({

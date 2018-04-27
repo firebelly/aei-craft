@@ -1,0 +1,77 @@
+$breakpoint-table-pad: 950px;
+
+.award-table {
+  padding: 0 $padding;
+  table {
+
+    td, th {
+      vertical-align: top;
+
+      &:first-child {
+        padding-left: 0;
+      }
+
+      &:last-child {
+        padding-right: 0;
+      }
+    }
+
+    thead {
+
+      th {
+        @include font-details;
+        text-align: left;
+        color: $concrete-light;
+        padding: 14px $padding/2;
+
+        @include min-screen($breakpoint-table-pad) {
+          padding: 14px $padding;
+        }
+
+        .icon {
+          width: 7px;
+          height: 9px;
+          fill: $concrete-light;
+        }
+
+        &.year {
+          white-space: nowrap
+        }
+      }
+
+      tr {
+        border-bottom: $black 1px solid;
+      }
+    }
+
+    tbody {
+
+      td {
+        padding: $padding $padding/2;
+
+        @include min-screen($breakpoint-table-pad) {
+          padding: $padding $padding;
+        }
+      }
+
+      tr {
+        border-bottom: $off-white 1px solid;
+        &:last-of-type {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+}
+
+table.sortable {
+  .header {
+    cursor: pointer;
+  }
+  .headerSortDown, .headerSortUp {
+    color: $red;
+    .icon {
+      fill: $red;
+    }
+  }
+}

@@ -32,44 +32,79 @@
       <div class="row-block">
         <div class="meta background-white text-black">
           {% if impactType.slug == 'conferences-presentations' %}
-            Conference: {% if entry.conferenceUrl %}<a href="{{ entry.conferenceUrl }}">{% endif %}{{ entry.title }}{% if entry.conferenceUrl %}</a>{% endif %}
-            {% if entry.endDate and entry.startDate != entry.endDate %}
-              Dates: {{ entry.startDate|date('m/d/y') }} – {{ entry.endDate|date('m/d/y') }}
-            {% else %}
-              Date: {{ entry.startDate|date('m/d/y') }}
-            {% endif %}
+            <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
+              <h3>Conference</h3>
+              <div class="content">
+                {% if entry.conferenceUrl %}<a href="{{ entry.conferenceUrl }}">{% endif %}{{ entry.title }}{% if entry.conferenceUrl %}</a>{% endif %}
+              </div>
+            </div>
+            <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
+              {% if entry.endDate and entry.startDate != entry.endDate %}
+                <h3>Dates</h3>
+                <div class="content">
+                  {{ entry.startDate|date('m/d/y') }} – {{ entry.endDate|date('m/d/y') }}
+                </div>
+              {% else %}
+                <h3>Date</h3>
+                <div class="content">
+                  {{ entry.startDate|date('m/d/y') }}
+                </div>
+              {% endif %}
+            </div>
             {% if entry.conferenceHost %}
-              Host: {{ entry.conferenceHost }}
+              <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
+                <h3>Host</h3>
+                <div class="content">
+                  {{ entry.conferenceHost }}
+                </div>
+              </div>
             {% endif %}
+
             {% set sessions = entry.impactSessions.all() %}
             {% if sessions|length %}
-              Sessions:
-              {% for session in sessions %}
-                {{ session.sessionName }}
-                {{ session.sessionDate|date('m/d/y') }}
-                {% set sessionTime = session.sessionDate|date('ga') %}
-                {% if sessionTime != '12am' %}
-                  @ {{ sessionTime }}
-                {% endif %}
-                {% for person in session.people %}
-                  Presented by:
-                  {% set aeiPerson = person.person.one() %}
-                  {% if aeiPerson %}
-                    <a href="{{ aeiPerson.getUrl() }}">{{ aeiPerson.title }}</a>
-                  {% else %}
-                    {{ person.personName }}
-                    {% if person.personCompany %}
-                      {{ person.personCompany }}
-                    {% endif %}
-                  {% endif %}
-                {% endfor %}
-              {% endfor %}
+              <div class="meta-item -full">
+                <h3>Sessions</h3>
+                <div class="content -spaced">
+                  <ul class="semantic-only-list">
+                    {% for session in sessions %}
+                      <li>
+                        {{ session.sessionName }}
+                        <br>{{ session.sessionDate|date('m/d/y') }}
+                        {% set sessionTime = session.sessionDate|date('ga') %}
+                        {% if sessionTime != '12am' %}
+                          @ {{ sessionTime }}
+                        {% endif %}
+                        {% for person in session.people %}
+                          <br>Presented by:
+                          {% set aeiPerson = person.person.one() %}
+                          {% if aeiPerson %}
+                            <a href="{{ aeiPerson.getUrl() }}">{{ aeiPerson.title }}</a>
+                          {% else %}
+                            {{ person.personName }}
+                            {% if person.personCompany %}
+                              {{ person.personCompany }}
+                            {% endif %}
+                          {% endif %}
+                        {% endfor %}
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
             {% endif %}
           {% else %}
             {% if impactAuthor %}
-              Author: <a href="{{ impactAuthor.getUrl() }}">{{ impactAuthor.title }}</a>
+              <div class="meta-item -full">
+                <h3>Author</h3>
+                <div class="content">
+                  <a href="{{ impactAuthor.getUrl() }}">{{ impactAuthor.title }}</a>
+                </div>
+              </div>
             {% endif %}
-            Post Date: {{ entry.postDate|date('m/d/y') }}
+            <div class="meta-item -full">
+              <h3>Post Date</h3>
+              <div class="content">{{ entry.postDate|date('m/d/y') }}</div>
+            </div>
           {% endif %}
         </div>
       </div>
