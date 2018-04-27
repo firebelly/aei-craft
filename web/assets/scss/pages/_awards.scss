@@ -1,18 +1,38 @@
 $breakpoint-table-pad: 950px;
+$breakpoint-table: $breakpoint-md;
 
 .award-table {
   padding: 0 $padding;
+
   table {
 
     td, th {
-      vertical-align: top;
+      display: block;
+      margin: $padding/2 0;
 
-      &:first-child {
-        padding-left: 0;
-      }
+        &:first-child {
+          margin-top: $padding;
+        }
 
-      &:last-child {
-        padding-right: 0;
+        &:last-child {
+          margin-bottom: $padding;
+        }
+
+      @include min-screen($breakpoint-table) {
+        margin: 0;
+
+        display: table-cell;
+        vertical-align: top;
+
+        &:first-child {
+          margin: 0;
+          padding-left: 0;
+        }
+
+        &:last-child {
+          margin: 0;
+          padding-right: 0;
+        }
       }
     }
 
@@ -22,7 +42,10 @@ $breakpoint-table-pad: 950px;
         @include font-details;
         text-align: left;
         color: $concrete-light;
-        padding: 14px $padding/2;
+
+        @include min-screen($breakpoint-table) {
+          padding: 14px $padding/2;
+        }
 
         @include min-screen($breakpoint-table-pad) {
           padding: 14px $padding;
@@ -47,7 +70,9 @@ $breakpoint-table-pad: 950px;
     tbody {
 
       td {
-        padding: $padding $padding/2;
+        @include min-screen($breakpoint-table) {
+          padding: $padding $padding/2;
+        }
 
         @include min-screen($breakpoint-table-pad) {
           padding: $padding $padding;
@@ -72,6 +97,14 @@ table.sortable {
     color: $red;
     .icon {
       fill: $red;
+    }
+  }
+  .icon-down-arrow {
+    transition: transform .2s $ease;
+  }
+  .headerSortUp {
+    .icon-down-arrow {
+      transform: scaleY(-1);
     }
   }
 }

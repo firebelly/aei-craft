@@ -2472,11 +2472,23 @@ body.white-header .secondary-links a {
 .award-table {
   padding: 0 40px; }
   .award-table table td, .award-table table th {
-    vertical-align: top; }
+    display: block;
+    margin: 20px 0; }
     .award-table table td:first-child, .award-table table th:first-child {
-      padding-left: 0; }
+      margin-top: 40px; }
     .award-table table td:last-child, .award-table table th:last-child {
-      padding-right: 0; }
+      margin-bottom: 40px; }
+    @media screen and (min-width: 750px) {
+      .award-table table td, .award-table table th {
+        margin: 0;
+        display: table-cell;
+        vertical-align: top; }
+        .award-table table td:first-child, .award-table table th:first-child {
+          margin: 0;
+          padding-left: 0; }
+        .award-table table td:last-child, .award-table table th:last-child {
+          margin: 0;
+          padding-right: 0; } }
   .award-table table thead th {
     font-weight: normal;
     font-style: normal;
@@ -2486,8 +2498,10 @@ body.white-header .secondary-links a {
     letter-spacing: 0.075em;
     text-transform: none;
     text-align: left;
-    color: #d1ccc1;
-    padding: 14px 20px; }
+    color: #d1ccc1; }
+    @media screen and (min-width: 750px) {
+      .award-table table thead th {
+        padding: 14px 20px; } }
     @media screen and (min-width: 950px) {
       .award-table table thead th {
         padding: 14px 40px; } }
@@ -2499,11 +2513,12 @@ body.white-header .secondary-links a {
       white-space: nowrap; }
   .award-table table thead tr {
     border-bottom: #282826 1px solid; }
-  .award-table table tbody td {
-    padding: 40px 20px; }
-    @media screen and (min-width: 950px) {
-      .award-table table tbody td {
-        padding: 40px 40px; } }
+  @media screen and (min-width: 750px) {
+    .award-table table tbody td {
+      padding: 40px 20px; } }
+  @media screen and (min-width: 950px) {
+    .award-table table tbody td {
+      padding: 40px 40px; } }
   .award-table table tbody tr {
     border-bottom: #f4f2ed 1px solid; }
     .award-table table tbody tr:last-of-type {
@@ -2516,5 +2531,11 @@ table.sortable .headerSortDown, table.sortable .headerSortUp {
   color: #ff422d; }
   table.sortable .headerSortDown .icon, table.sortable .headerSortUp .icon {
     fill: #ff422d; }
+
+table.sortable .icon-down-arrow {
+  transition: transform 0.2s ease-out; }
+
+table.sortable .headerSortUp .icon-down-arrow {
+  transform: scaleY(-1); }
 
 /*# sourceMappingURL=maps/main.css.map */

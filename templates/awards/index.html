@@ -11,7 +11,7 @@
   </div>
 </div>
 
-<div class="award-table margin-vertical">
+<div class="award-table margin-bottom">
   <table class="sortable">
     <thead>
       <th>Awards &amp; Recognitions <svg class="icon icon-down-arrow"><use xlink:href="#icon-down-arrow" /></svg></th>
@@ -25,11 +25,11 @@
           <td>{{ award.awardDate|date('Y') }}</td>
 
           {% set project = craft.entries.section('projects').relatedTo({ element: award }).one() %}
-          <td>
+
             {% if project %}
-              <a href="{{ project.getUrl() }}">{{ project.title }}</a>
+              <td><a href="{{ project.getUrl() }}">{{ project.title }}</a></td>
             {% endif %}
-          </td>
+
         </tr>
       {% endfor %}
     </tbody>
