@@ -1,10 +1,11 @@
 {% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
 
 {% set bodyClass = 'white-header' %}
+
 {% block content %}
 
 <div class="row -halves">
-  <div class="row-block">
+  <div class="row-block pull-to-top-h1">
     <div class="module text-module">
       <div class="font-h1 no-margin user-content">{{ entry.description }}</div>
     </div>

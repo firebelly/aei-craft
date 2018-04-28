@@ -83,3 +83,49 @@
     margin: 6px 0 0;
   }
 }
+
+
+.contact-module {
+  background-color: transparent;
+
+  h1 {
+    margin: 0 0 12px;
+  }
+
+  .image {
+    z-index: 1;
+    opacity: 0;
+    transform: scale(1.9);
+    transition: transform 3s $ease;
+    background-color: $concrete-med;
+
+    &::after, &::before {
+      top: 0;
+      left: 0;
+      z-index: 1;
+      content: '';
+      width: 100%; // 100% if they choose half-covering overlay
+      height: 100%;
+      background: $red;
+      position: absolute;
+
+    }
+    &::before {
+      mix-blend-mode: color;
+    }
+    &::after {
+      opacity: 0.66;
+    }
+  }
+  .content {
+    position: relative;
+    z-index: 2;
+  }
+  &:hover {
+    color: $white;
+    .image {
+      opacity: 1;
+      transform: scale(2);
+    }
+  }
+}

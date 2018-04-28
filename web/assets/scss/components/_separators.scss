@@ -79,6 +79,71 @@
       }
     }
   }
+  &.-quarters {
+    .row-block {
+      position: relative;
+
+      &::after {
+        bottom: 0;
+        height: 1px;
+        content: '';
+        left: $padding;
+        right: $padding;
+        position: absolute;
+        background: $off-white;
+      }
+
+      @include screen($breakpoint-quarters-2col, $breakpoint-quarters-4col - 1px) {
+        &:nth-of-type(odd){
+          &::after {
+            right: 0;
+            left: auto;
+            width: 1px;
+            height: auto;
+            top: $padding;
+            bottom: $padding;
+          }
+        }
+
+        &:nth-of-type(even){
+          &::after {
+            left: calc(-100% + #{$padding})
+          }
+        }
+
+        &:last-of-type {
+          &::after {
+            display: none;
+          }
+        }
+      }
+
+      @include min-screen($breakpoint-quarters-4col) {
+        &:not(:nth-of-type(4n)){
+          &::after {
+            right: 0;
+            left: auto;
+            width: 1px;
+            height: auto;
+            top: $padding;
+            bottom: $padding;
+          }
+        }
+
+        &:nth-of-type(4n){
+          &::after {
+            left: calc(-300% + #{$padding})
+          }
+        }
+
+        &:last-of-type {
+          &::after {
+            display: none;
+          }
+        }
+      }
+    }
+  }
 }
 
 

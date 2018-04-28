@@ -48,15 +48,19 @@
 }
 
 // Pulls text of size h1 to very top of div
-.pull-h1-to-top {
+.row-block.pull-to-top, .row-block.pull-to-top-h1 {
   @include media-lg {
-    margin-top: -7px;
 
     .module {
       &, &.text-module, &.pad, &.pad-vertical { // specificity
         padding-top: 0;
       }
     }
+  }
+}
+.row-block.pull-to-top-h1 {
+  @include media-lg {
+    margin-top: -7px;
   }
 }
 

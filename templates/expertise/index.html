@@ -40,8 +40,8 @@
   {% endfor %}
 {% endblock %}
 
-{# If the first project is portrait, this page will have an all masonry layout. 
-If landscape, the first post will be pulled out into a different grid.  
+{# If the first project is portrait, this page will have an all masonry layout.
+If landscape, the first post will be pulled out into a different grid.
 First we determin which. #}
 {% set firstProjectImage = projectEntries[0].projectImage[0] ?? null %}
 {% set firstProjectAspectRatio = firstProjectImage ?
@@ -68,7 +68,7 @@ First we determin which. #}
   </div>
 {% endset %}
 
-{# Now, finally, build the content and apologize to TWIG gods. This is all for you, Ross. ;) #} 
+{# Now, finally, build the content and apologize to TWIG gods. This is all for you, Ross. ;) #}
 {% block content %}
 
   {% if allMasonry %}
@@ -77,7 +77,7 @@ First we determin which. #}
     <div class="masonry-grid">
       <div class="masonry-sizer"></div>
       <ul class="semantic-only-list">
-        <div class="masonry-item intro-block pull-h1-to-top">
+        <div class="masonry-item intro-block pull-to-top-h1">
           {{ introModule }}
         </div>
         {% for project in projectEntries %}
@@ -92,7 +92,7 @@ First we determin which. #}
 
     <!-- top row: project text and first project (wrapped so they can visually align) -->
     <div class="row -halves">
-      <div class="row-block pull-h1-to-top">
+      <div class="row-block pull-to-top-h1">
         {{ introModule }}
       </div>
       {% set project = projectEntries ? projectEntries[0] : false %}
@@ -116,7 +116,7 @@ First we determin which. #}
         {% endfor %}
       </ul>
     </div>
-  
+
   {% endif %}
 
   <nav class="pagination">
