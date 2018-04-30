@@ -44,7 +44,7 @@
 
   <!-- header w/ stat -->
   <div class="row -halves">
-    <div class="row-block">
+    <div class="row-block pull-to-top-h1">
       <div class="module text-module background-white text-black">
         <div class="font-h1 user-content">{{ subheader }}</div>
         <div class="buttons">
@@ -56,8 +56,8 @@
         </div>
       </div>
     </div>
-    <div class="row-block">
-      {% set block = { 
+    <div class="row-block pull-to-top">
+      {% set block = {
         figure: entry.numberOfPeople,
         label: 'People',
         figure2: entry.numberOfOffices,
@@ -68,12 +68,14 @@
   </div>
 
   <!-- people -quarters -->
-  <ul class="row -quarters photo-row-separators semantic-only-list big-margin-vertical">
-    {% for person in peopleEntries %}
-      <li class="row-block">
-        {% include 'people/_article' %}
-      </li>
-    {% endfor %}
-  </ul>
+  <section class="big-margin-vertical" id="people">
+    <ul class="row -quarters photo-row-separators semantic-only-list">
+      {% for person in peopleEntries %}
+        <li class="row-block">
+          {% include 'people/_article' %}
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
 
 {% endblock %}

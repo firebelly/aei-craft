@@ -3,42 +3,8 @@
 {% block content %}
 {% set bodyClass = 'single' %}
 
-  <!-- checkerboard header (no theater) -->
   {% for pageHeader in entry.pageHeader.all() %}
-    <div class="checkerboard-header">
-      <div class="row -halves">
-        <div class="row-block pull-to-top-h1">
-          <div class="module text-module background-white text-black">
-            <p class="font-h1">{{ pageHeader.subheader }}</p>
-            <div class="buttons show-md">
-              <a href="#services" class="button smoothscroll">
-                <span class="border"></span><span class="extra-corners"></span>
-                Services
-                <svg class="icon icon-down-arrow"><use xlink:href="#icon-down-arrow" /></svg>
-              </a>
-              <a href="#locations" class="button smoothscroll">
-                <span class="border"></span><span class="extra-corners"></span>
-                Locations
-                <svg class="icon icon-down-arrow"><use xlink:href="#icon-down-arrow" /></svg>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-        <div class="checkerboard-hero image-wrap">
-          {% set headerImage = pageHeader.headerImage.one() %}
-          {% if headerImage %}
-              <div class="image lazy" style="background-image: url();" data-original="{{ headerImage.getUrl('header') }}"></div>
-          {% endif %}
-        </div>
-      <div class="row -halves">
-        <div class="row-block -right">
-          <div class="text-module background-black text-off-white font-smoothing">
-            <div class="user-content">{{ pageHeader.supportingStatement }}</div>
-          </div>
-        </div>
-      </div>
-    </div>
+    {% include '/partials/_theater-header' %}
   {% endfor %}
 
   <!-- service section header -->
