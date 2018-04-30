@@ -2,7 +2,7 @@
 
 .site-header {
   min-height: 16*$beat;
-  
+
   background-color: $concrete-med;
 
   .secondary-links, .search-block {
@@ -68,36 +68,26 @@ body.white-header {
   .affiliated-engineers {
     float: left;
 
-    &::after {
-      top: 0px;
-      left: 50%;
-      width: 3px;
-      content: '';
-      bottom: 3px;
-      position: absolute;
-      transform: skew(-18deg);
-      background-color: $concrete-light;
-
-      @include media-lg {
-        background-color: $white;
-      }
-    }
-
     .logo {
       fill: $black;
       display: block;
-      width: 104.3px;
-      height: 45.0px;
+      width: 200px;
+      height: 44px;
     }
   }
 
   .plan-design-commission {
-    @include font-details;
-    @include semantic-only-list;
-    margin: 0;
-    top: -3px;
-    float: right;
-    text-align: right;
-    position: relative;
+    display: none;
+
+    @include min-screen(850px) {
+      @include font-details;
+      @include semantic-only-list;
+      margin: 0;
+      top: -3px;
+      float: right;
+      display: block;
+      text-align: right;
+      position: relative;
+    }
   }
 }

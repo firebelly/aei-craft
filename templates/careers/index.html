@@ -2,4 +2,10 @@
 
 {% block content %}
 
+  {% for pageHeader in entry.pageHeader.all() %}
+    {% include '/partials/_theater-header' %}
+  {% endfor %}
+
+  {% include '/partials/_media-blocks' %}
+
 {% endblock %}

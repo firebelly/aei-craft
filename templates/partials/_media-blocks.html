@@ -1,7 +1,14 @@
 {% if entry.mediaBlocks|length %}
 <div class="row -halves -spaced background-white text-black">
     {% for block in entry.mediaBlocks.all() %}
-      <div class="row-block {{ (block.width ?? null)=='full'  ? '-double' : '' }}">
+
+      {% set doubleWidth =
+        (block.width ?? null)=='full'
+        or block.type=='header'
+        or block.type=='video'
+      %}
+
+      <div class="row-block {{ doubleWidth ? '-double' : '' }}">
         {% switch block.type %}
         {% case "stat" %}
           {% include 'partials/media-blocks/_stat' %}
@@ -11,8 +18,13 @@
           {% include 'partials/media-blocks/_text' %}
         {% case "image" %}
           {% include 'partials/media-blocks/_image' %}
+        {% case "header" %}
+          {% include 'partials/media-blocks/_header' %}
+        {% case "video" %}
+          {% include 'partials/media-blocks/_video' %}
         {% endswitch %}
       </div>
+
     {% endfor %}
   </div>
 {% endif %}

@@ -100,21 +100,27 @@
 
 // 2 Number Stat
 .stat-two-figure-module {
-  display: flex;
+  height: 100%;
   padding: $padding;
   background: $white;
   position: relative;
-  justify-content: space-between;
 
-  &::after {
-    right: 50%;
-    width: 2px;
-    content: '';
-    top: $padding;
-    bottom: $padding;
-    position: absolute;
-    transform: skew(-18deg);
-    background-color: $concrete-light;
+  .slash-wrap {
+    height: 100%;
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+
+    &::after {
+      right: 50%;
+      width: 2px;
+      content: '';
+      top: 0;
+      bottom: 0;
+      position: absolute;
+      transform: skew(-18deg);
+      background-color: $concrete-light;
+    }
   }
 
   @include media-md {

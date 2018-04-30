@@ -217,10 +217,16 @@ var FB = (function($) {
       var youtubeId = $('#youtube-player').attr('data-youtube-id');
       youtubePlayer = new YT.Player('youtube-player', {
         videoId: youtubeId,
+        playerVars: {
+            autoplay: 1,
+            rel: 0,
+            showinfo: 0,
+            modestbranding: 0,
+        },
         events: {
           'onReady': function (e) {
             $('.theater-wrap .video').addClass('video-ready');
-            e.target.playVideo();
+            // e.target.playVideo();
           },
         }
       });
