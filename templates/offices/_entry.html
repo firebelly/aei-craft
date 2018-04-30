@@ -19,7 +19,9 @@
 
   {{ entry.description }}
 
-  <a href="#">{{ entry.title }} Careers</a>
+  {% if entry.careersUrl %}
+    <a target="_blank" href="{{ entry.careersUrl }}">{{ entry.title }} Careers</a>
+  {% endif %}
 
   {% include "partials/_pagination_structure" with {'paginationSection': 'offices', 'postName': 'Location'} %}
 
