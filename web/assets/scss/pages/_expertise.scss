@@ -1,7 +1,8 @@
 .page-expertise {
-  
+
   .masonry-grid {
-    .intro-block {  
+
+    .intro-block {
       @include media-md {
         min-height: calc( (100vw - #{$padding})/2*(2/3) );
       }

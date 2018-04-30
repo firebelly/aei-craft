@@ -15,12 +15,24 @@
 
     .content {
       @include font-details;
+
+      &.-spaced {
+        li {
+          margin-top: 1.33em;
+          &:first-of-type {
+            margin-top: 0;
+          }
+        }
+      }
     }
 
     &.-half {
-      max-width: 50%;
-      flex-basis: 50%;
-      padding-right: 30px;
+      flex-basis: 100%;
+      @include min-screen($breakpoint-meta) {
+        max-width: 50%;
+        flex-basis: 50%;
+        padding-right: 30px;
+      }
     }
 
     &.-full {

@@ -1,22 +1,110 @@
 {% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
 
+{% set bodyClass = 'white-header' %}
+
 {% block content %}
 
-  <h2>Offices</h2>
-  {% for entry in craft.entries.section('offices').all() %}
-    <li>
-      <a href="{{ entry.url }}">{{ entry.title }}</a><br>
-      <a href="mailto: {{ entry.email }}">{{ entry.email }}</a>
-    </li>
-  {% endfor %}
+<div class="row -halves">
+  <div class="row-block pull-to-top-h1">
+    <div class="module text-module">
+      <div class="font-h1 no-margin user-content">{{ entry.description }}</div>
+    </div>
+  </div>
+  <div class="row-block pull-to-top">
+    <div class="module text-module">
+      <div class="buttons">
+        <a href="#general" class="button background-white text-black smoothscroll">
+          <span class="border"></span><span class="extra-corners"></span>
+          General Contacts
+          <svg class="icon icon-down-arrow"><use xlink:href="#icon-down-arrow" /></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
 
-  <h2>General</h2>
-  {% for block in entry.contactBlocks.all() %}
-    <li>
-      {{ block.contactTitle }}<br>
-      {{ block.phoneNumber }}<br>
-      {{ block.email }}<br>
-    </li>
-  {% endfor %}
+  <section  id="offices" class="margin-vertical">
+    <div class="row -halves background-white text-black hr-top-black">
+      <div class="row-block">
+        <div class="module text-module">
+          <h2 class="font-h1">Offices</h2>
+        </div>
+      </div>
+    </div>
+
+    <ul class="row -quarters -separators semantic-only-list">
+      {% for entry in craft.entries.section('offices').all() %}
+        <li class="row-block background-white text-black separate">
+
+          <article class="module contact-module pad vcard image-wrap">
+
+            {% set image = entry.officeImage.one() %}
+            <div class="image" {% if image %}style="background-image: url('{{ image.getUrl('thumb') }}');"{% endif %}></div>
+
+            <div class="content">
+              <h1 class="font-p"><a href="{{ entry.url }}" class="fn org url"><span class="organization-name sr-only">AEI</span><span class="organization-unit">{{ entry.title }}</span></a></h1>
+              <div class="font-details">
+                {% if entry.phoneNumber %}
+                  <div class="tel">{{ entry.phoneNumber }}</div>
+                 {% endif %}
+                {% if entry.email %}
+                  <div class="email">
+                    <a href="mailto: {{ entry.email }}">
+                      {% for part in entry.email|split('@') %}
+                        <span class="email-part">{{ part }}{{ loop.index0==0 ? '@' : '' }}</span>
+                      {% endfor %}
+                    </a>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          </article>
+
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section  id="general" class="margin-vertical">
+    <div class="row -halves background-white text-black hr-top-black"">
+      <div class="row-block">
+        <div class="module text-module">
+          <h2 class="font-h1">General</h2>
+        </div>
+      </div>
+    </div>
+
+
+    <ul class="row -quarters -separators semantic-only-list margin-bottom">
+      {% for block in entry.contactBlocks.all() %}
+        <li class="row-block background-white text-black separate">
+
+          <article class="module contact-module pad vcard image-wrap">
+
+            <div class="image"></div>
+
+            <div class="content">
+              <h1 class="font-p"><a href="{{ entry.url }}" class="fn org url"><span class="organization-name sr-only">AEI</span><span class="organization-unit">{{ block.contactTitle }}</span></a></h1>
+              <div class="font-details">
+                {% if block.phoneNumber %}
+                  <div class="tel">{{ block.phoneNumber }}</div>
+                 {% endif %}
+                {% if block.email %}
+                  <div class="email">
+                    <a href="mailto: {{ block.email }}">
+                      {% for part in block.email|split('@') %}
+                        <span class="email-part">{{ part }}{{ loop.index0==0 ? '@' : '' }}</span>
+                      {% endfor %}
+                    </a>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          </article>
+
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
 
 {% endblock %}
