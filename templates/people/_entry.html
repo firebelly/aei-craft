@@ -15,6 +15,10 @@
 {% block content %}
   {{ entry.title }}
 
+  {% if entry.personQuote %}
+    <blockquote><p>{{ entry.personQuote }}</p></blockquote>
+  {% endif %}
+
   <h3>{{ entry.title }}’s Recent Projects</h3>
   ...
   <h3>{{ entry.title }}’s Recent Impact</h3>

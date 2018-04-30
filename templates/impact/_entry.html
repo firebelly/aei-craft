@@ -32,10 +32,11 @@
       <div class="row-block">
         <div class="meta background-white text-black">
           {% if impactType.slug == 'conferences-presentations' %}
+
             <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
               <h3>Conference</h3>
               <div class="content">
-                {% if entry.conferenceUrl %}<a href="{{ entry.conferenceUrl }}">{% endif %}{{ entry.title }}{% if entry.conferenceUrl %}</a>{% endif %}
+                {% if entry.conferenceUrl %}<a target="_blank" href="{{ entry.conferenceUrl }}">{% endif %}{{ entry.title }}{% if entry.conferenceUrl %}</a>{% endif %}
               </div>
             </div>
             <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
@@ -92,7 +93,9 @@
                 </div>
               </div>
             {% endif %}
+
           {% else %}
+
             {% if impactAuthor %}
               <div class="meta-item -full">
                 <h3>Author</h3>
@@ -101,10 +104,20 @@
                 </div>
               </div>
             {% endif %}
+
             <div class="meta-item -full">
               <h3>Post Date</h3>
               <div class="content">{{ entry.postDate|date('m/d/y') }}</div>
             </div>
+
+            {% if entry.impactPublication %}
+              <div class="meta-item -full {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
+                <h3>Publication</h3>
+                <div class="content">
+                  {% if entry.impactPublicationUrl %}<a target="_blank" href="{{ entry.impactPublicationUrl }}">{% endif %}{{ entry.impactPublication }}{% if entry.impactPublicationUrl %}</a>{% endif %}
+                </div>
+              </div>
+            {% endif %}
           {% endif %}
         </div>
       </div>

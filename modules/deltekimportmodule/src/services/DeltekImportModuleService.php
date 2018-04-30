@@ -17,6 +17,7 @@ use craft\base\Component;
 use craft\elements\Entry;
 use craft\elements\Category;
 use craft\records\EntryType;
+use craft\helpers\DateTimeHelper;
 
 /**
  * DeltekImportModuleService Service
@@ -119,6 +120,23 @@ class DeltekImportModuleService extends Component
             ])->one();
             $office_ids = $office ? [$office->id] : [];
 
+            // Find Person Quote
+            // $person_quotes = [];
+            $rel_result = $this->db->prepare('SELECT * FROM employee_quotes WHERE employee_num = ?');
+            $rel_result->execute([ $row['employee_num'] ]);
+            $rel_rows = $rel_result->fetchAll();
+            // Just populating single field for now, but see below if we switch to multiple...
+            foreach($rel_rows as $rel_row) {
+                $fields['personQuote'] = $rel_row['text'];
+            }
+            // For multiple quotes into a table field:
+            // foreach($rel_rows as $rel_row) {
+            //     $person_quotes[] = [
+            //         'quote' => $rel_row['quote'],
+            //     ];
+            // }
+            // $fields['personQuotes'] = $person_quotes;
+
             // Find People Type IDs
             $people_type_ids = [];
             foreach (explode(',', $row['person_type']) as $category_title) {
@@ -192,6 +210,45 @@ class DeltekImportModuleService extends Component
                 $this->awards_cache[] = [ 'id' => $entry->id, 'project_num' => $row['project_num'] ];
             } else {
                 $this->log .= '<p>Award '.$row['name'].' save error: '.print_r($entry->getErrors(), true).'</p>';
+            }
+        }
+    }
+
+    /**
+     * Import Impact
+     */
+    private function importImpact() {
+        // Articles
+        $impact_type = $this->getImpactType('Articles');
+        $result = $this->db->query("SELECT * FROM impact_articles");
+        foreach($result as $row) {
+            $fields = [];
+            $entry = Entry::find()->section('impact')->where([
+                'content.field_impactKey' => $row['impact_key']
+            ])->one();
+
+            if (!$entry) {
+                $entry = $this->makeNewEntry('impact');
+                $entry->title = $row['title'];
+            }
+
+            $fields = array_merge([
+                'description'          => (!empty($row['body']) $row['body'] : $row['abstract']),
+                'excerpt'              => (!empty($row['body']) $row['abstract'] : ''),
+                'impactPublication'    => $row['publication'],
+                'impactPublicationUrl' => $row['url'],
+                'impactType'           => $impact_type,
+                'impactAuthor'         => $this->getImpactPeopleIds($row['impact_key'])
+            ], $fields);
+            $entry->setFieldValues($fields);
+
+            if(Craft::$app->elements->saveElement($entry)) {
+                $this->log .= '<h3>Impact (Article) '.$row['name'].' Saved OK!</h3>';
+                // Set postDate after save in case this is a new post
+                $entry->postDate = DateTimeHelper::formatTimeForDb($row['date']);
+                Craft::$app->elements->saveElement($entry);
+            } else {
+                $this->log .= '<p>Impact (Article) '.$row['name'].' save error: '.print_r($entry->getErrors(), true).'</p>';
             }
         }
     }
@@ -374,6 +431,44 @@ class DeltekImportModuleService extends Component
     }
 
     /**
+     * Find People IDs for Impact
+     * @param  string $impact_key Deltek ID of Impact post
+     * @return array              People IDs
+     */
+    private function getImpactPeopleIds(string $impact_key)
+    {
+        $peopleIds = [];
+        $rel_result = $this->db->prepare('SELECT * FROM impact_authorship WHERE impact_key = ? LIMIT 1');
+        $rel_result->execute([ $impact_key ]);
+        $rel_rows = $rel_result->fetchAll();
+        foreach($rel_rows as $rel_row) {
+            $person = Entry::find()->section('people')->where([
+                'content.field_employeeNum' => $row['employee_num']
+            ])->one();
+            if ($person) {
+                $peopleIds[] = $person->id;
+            }
+        }
+        $fields['impactAuthor'] = $peopleIds;
+        return $peopleIds;
+    }
+
+    /**
+     * Find Impact Type
+     * @param  string $impact_type slug of impact type
+     * @return array              People IDs
+     */
+    private function getImpactType(string $impact_type)
+    {
+        $return = [];
+        $category = $this->getCategory('impactTypes', $impact_type);
+        if ($category) {
+            $return[] = $category->id;
+        }
+        return $return;
+    }
+
+    /**
      * Get category of entry
      * @param string               $category_group_handle category group handle
      * @param string               $category_title        category title
@@ -387,5 +482,58 @@ class DeltekImportModuleService extends Component
             'groupId' => $category_group->id,
         ])->one();
         return $category;
+    }
+
+    /**
+     * @param UploadedFile $uploadedFile
+     * @param int $folderId
+     * @return Asset
+     * @throws BadRequestHttpException
+     * @throws UploadFailedException
+     */
+    protected static function uploadNewAsset(UploadedFile $uploadedFile, $folderId) {
+        if (empty($folderId)) {
+            throw new BadRequestHttpException('No target destination provided for uploading');
+        }
+
+        if ($uploadedFile === null) {
+            throw new BadRequestHttpException('No file was uploaded');
+        }
+
+        $assets = Craft::$app->getAssets();
+
+        if ($uploadedFile->getHasError()) {
+            throw new UploadFailedException($uploadedFile->error);
+        }
+
+        // Move the uploaded file to the temp folder
+        if (($tempPath = $uploadedFile->saveAsTempFile()) === false) {
+            throw new UploadFailedException(UPLOAD_ERR_CANT_WRITE);
+        }
+
+        if (empty($folderId)) {
+            throw new BadRequestHttpException('The target destination provided for uploading is not valid');
+        }
+
+        $folder = $assets->findFolder(['id' => $folderId]);
+
+        if (!$folder) {
+            throw new BadRequestHttpException('The target folder provided for uploading is not valid');
+        }
+
+        // Check the permissions to upload in the resolved folder.
+        $filename = Assets::prepareAssetName($uploadedFile->name);
+
+        $asset = new Asset();
+        $asset->tempFilePath = $tempPath;
+        $asset->filename = $filename;
+        $asset->newFolderId = $folder->id;
+        $asset->volumeId = $folder->volumeId;
+        $asset->avoidFilenameConflicts = true;
+        $asset->setScenario(Asset::SCENARIO_CREATE);
+
+        $result = Craft::$app->getElements()->saveElement($asset);
+
+        return $asset;
     }
 }
