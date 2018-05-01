@@ -102,7 +102,7 @@
       </div>
       <ul class="row -quarters photo-row-separators semantic-only-list margin-bottom">
         {% for leader in entry.projectLeaders.all() %}
-          {% set person = leader.person[0] ?? null %}
+          {% set person = leader.aeiPerson[0] ?? null %}
           {% if person %}
             {% set personTitleOverride = leader.leaderTitle %}
             <li class="row-block">
