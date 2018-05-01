@@ -53,18 +53,20 @@ First we determin which. #}
 {% set introModule %}
   <div class="module text-module background-white text-black">
     <div class="font-h1 user-content">{{ subheader }}</div>
-    <div class="buttons">
-      <button class="contacts-open button">
-        <span class="border"></span><span class="extra-corners"></span>
-        Contacts
-        <svg class="icon icon-plus "><use xlink:href="#icon-plus" /></svg>
-      </button>
-      <a class="button" href="/awards/">
-        <span class="border"></span><span class="extra-corners"></span>
-        Awards
-        <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
-      </a>
-    </div>
+    {% if category is not defined %}
+      <div class="buttons">
+        <button class="contacts-open button">
+          <span class="border"></span><span class="extra-corners"></span>
+          Contacts
+          <svg class="icon icon-plus "><use xlink:href="#icon-plus" /></svg>
+        </button>
+        <a class="button" href="/awards/">
+          <span class="border"></span><span class="extra-corners"></span>
+          Awards
+          <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
+        </a>
+      </div>
+    {% endif %}
   </div>
 {% endset %}
 
