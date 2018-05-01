@@ -1,7 +1,7 @@
 {% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
 {% set bodyClass = 'overlapping-header' %}
 {% set impactType = entry.impactType.one() %}
-{% set impactAuthor = entry.impactAuthor.one() %}
+{% set impactPeople = entry.impactPeople.all() %}
 
 {% block filters %}
   <li class="filters-item">
@@ -32,92 +32,82 @@
       <div class="row-block">
         <div class="meta background-white text-black">
           {% if impactType.slug == 'conferences-presentations' %}
-
             <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
-              <h3>Conference</h3>
+              <h3>Session</h3>
               <div class="content">
-                {% if entry.conferenceUrl %}<a target="_blank" href="{{ entry.conferenceUrl }}">{% endif %}{{ entry.title }}{% if entry.conferenceUrl %}</a>{% endif %}
+                {% if entry.sessionUrl %}<a target="_blank" href="{{ entry.sessionUrl }}">{% endif %}{{ entry.title }}{% if entry.sessionUrl %}</a>{% endif %}
               </div>
             </div>
+          {% endif %}
+
+          {% if entry.sessionDate %}
             <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
-              {% if entry.endDate and entry.startDate != entry.endDate %}
-                <h3>Dates</h3>
-                <div class="content">
-                  {{ entry.startDate|date('m/d/y') }} – {{ entry.endDate|date('m/d/y') }}
-                </div>
-              {% else %}
-                <h3>Date</h3>
-                <div class="content">
-                  {{ entry.startDate|date('m/d/y') }}
-                </div>
-              {% endif %}
+              <h3>Session Date</h3>
+              <div class="content">
+                {{ entry.sessionDate|date('m/d/y') }}
+                {% set sessionTime = entry.sessionDate|date('ga') %}
+                {% if sessionTime != '12am' %}
+                  @ {{ sessionTime }}
+                {% endif %}
+              </div>
             </div>
-            {% if entry.conferenceHost %}
-              <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
-                <h3>Host</h3>
-                <div class="content">
-                  {{ entry.conferenceHost }}
-                </div>
-              </div>
-            {% endif %}
+          {% endif %}
 
-            {% set sessions = entry.impactSessions.all() %}
-            {% if sessions|length %}
-              <div class="meta-item -full">
-                <h3>Sessions</h3>
-                <div class="content -spaced">
+          {% if entry.conferenceLocation %}
+            <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
+              <h3>Location</h3>
+              <div class="content">
+                {{ entry.conferenceLocation }}
+              </div>
+            </div>
+          {% endif %}
+
+          {% if entry.conferenceHost %}
+            <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
+              <h3>Host</h3>
+              <div class="content">
+                {{ entry.conferenceHost }}
+              </div>
+            </div>
+          {% endif %}
+
+          {% if impactPeople|length %}
+            <div class="meta-item -full">
+              <h3>{% if impactType.slug == 'conferences-presentations' %}Presented By{% else %}Author{% endif %}</h3>
+              <div class="content -spaced">
                   <ul class="semantic-only-list">
-                    {% for session in sessions %}
-                      <li>
-                        {{ session.sessionName }}
-                        <br>{{ session.sessionDate|date('m/d/y') }}
-                        {% set sessionTime = session.sessionDate|date('ga') %}
-                        {% if sessionTime != '12am' %}
-                          @ {{ sessionTime }}
-                        {% endif %}
-                        {% for person in session.people %}
-                          <br>Presented by:
-                          {% set aeiPerson = person.person.one() %}
-                          {% if aeiPerson %}
-                            <a href="{{ aeiPerson.getUrl() }}">{{ aeiPerson.title }}</a>
-                          {% else %}
-                            {{ person.personName }}
-                            {% if person.personCompany %}
-                              {{ person.personCompany }}
-                            {% endif %}
-                          {% endif %}
-                        {% endfor %}
-                      </li>
-                    {% endfor %}
-                  </ul>
-                </div>
+                  {% for person in impactPeople %}
+                    <li>
+                    {% set aeiPerson = person.aeiPerson.one() %}
+                    {% if aeiPerson %}
+                      <a href="{{ aeiPerson.getUrl() }}">{{ aeiPerson.title }}</a>
+                    {% else %}
+                      {{ person.personName }}
+                      {% if person.personCompany %}
+                        — {{ person.personCompany }}
+                      {% endif %}
+                    {% endif %}
+                  </li>
+                  {% endfor %}
+                </ul>
               </div>
-            {% endif %}
+            </div>
+          {% endif %}
 
-          {% else %}
-
-            {% if impactAuthor %}
-              <div class="meta-item -full">
-                <h3>Author</h3>
-                <div class="content">
-                  <a href="{{ impactAuthor.getUrl() }}">{{ impactAuthor.title }}</a>
-                </div>
-              </div>
-            {% endif %}
-
+          {% if impactType.slug != 'conferences-presentations' %}
             <div class="meta-item -full">
               <h3>Post Date</h3>
               <div class="content">{{ entry.postDate|date('m/d/y') }}</div>
             </div>
+          {% endif %}
 
-            {% if entry.impactPublication %}
-              <div class="meta-item -full {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
-                <h3>Publication</h3>
-                <div class="content">
-                  {% if entry.impactPublicationUrl %}<a target="_blank" href="{{ entry.impactPublicationUrl }}">{% endif %}{{ entry.impactPublication }}{% if entry.impactPublicationUrl %}</a>{% endif %}
-                </div>
+          {% if entry.impactPublication %}
+            <div class="meta-item -full {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
+              <h3>Publication</h3>
+              <div class="content">
+                {% if entry.impactPublicationUrl %}<a target="_blank" href="{{ entry.impactPublicationUrl }}">{% endif %}{{ entry.impactPublication }}{% if entry.impactPublicationUrl %}</a>{% endif %}
               </div>
-            {% endif %}
+            </div>
           {% endif %}
         </div>
       </div>
