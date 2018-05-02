@@ -10,7 +10,7 @@
 
   <section id="services">
     <!-- service section header -->
-    <div class="row -halves pad-vertical background-white text-black">
+    <div class="row -halves pad-vertical  ">
       <div class="row-block">
         <div class="module text-module">
           <h2 class="font-h1">Services</h2>
@@ -24,7 +24,7 @@
     </div>
 
     <!-- services -quarters -->
-    <ul class="row -quarters photo-row-separators semantic-only-list background-white big-margin-bottom">
+    <ul class="row -quarters photo-row-separators semantic-only-list  big-margin-bottom">
     {% for service in craft.categories.group('services').all() %}
       <li class="row-block">
         {% include 'partials/_article-service' %}
@@ -35,7 +35,7 @@
 
   <section id="locations" class="big-margin-vertical">
     <!-- location section header -->
-    <div class="row -halves pad-vertical background-white text-black hr-top-black">
+    <div class="row -halves pad-vertical   hr-top-black">
       <div class="row-block">
         <div class="module text-module">
           <h2 class="font-h1">Locations</h2>
@@ -49,7 +49,7 @@
     </div>
 
     <!-- locations -quarters -->
-    <ul class="row -quarters photo-row-separators semantic-only-list background-white">
+    <ul class="row -quarters photo-row-separators semantic-only-list ">
       {% for office in craft.entries.section('offices').all() %}
         <li class="row-block">
           {% include 'offices/_article' %}

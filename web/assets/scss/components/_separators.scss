@@ -61,26 +61,23 @@
   }
 
   &.-halves {
-
-    @include media-md {
-      &::after {
-        left: auto;
-        width: 1px;
-        right: -1px;
-        height: auto;
-        top: $padding;
-        display: block;
-        bottom: $padding;
-      }
-    }
-
     .row-block {
 
-      &::before {
-        left: calc(-100% + #{$padding});
-      }
-
       @include media-md {
+        &::after {
+          left: auto;
+          width: 1px;
+          right: -1px;
+          height: auto;
+          top: $padding;
+          display: block;
+          bottom: $padding;
+        }
+
+        &::before {
+          left: calc(-100% + #{$padding});
+        }
+
         &:nth-of-type(even) {
           &::before{ display: block; }
         }

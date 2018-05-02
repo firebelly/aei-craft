@@ -13,7 +13,7 @@
   <div class="row-block pull-to-top">
     <div class="module text-module">
       <div class="buttons">
-        <a href="#general" class="button background-white text-black smoothscroll">
+        <a href="#general" class="button   smoothscroll">
           <span class="border"></span><span class="extra-corners"></span>
           General Contacts
           <svg class="icon icon-down-arrow"><use xlink:href="#icon-down-arrow" /></svg>
@@ -24,7 +24,7 @@
 </div>
 
   <section  id="offices" class="margin-vertical">
-    <div class="row -halves background-white text-black hr-top-black">
+    <div class="row -halves   hr-top-black">
       <div class="row-block">
         <div class="module text-module">
           <h2 class="font-h1">Offices</h2>
@@ -34,7 +34,7 @@
 
     <ul class="row -quarters -separators semantic-only-list">
       {% for entry in craft.entries.section('offices').all() %}
-        <li class="row-block background-white text-black separate">
+        <li class="row-block   separate">
 
           <article class="module contact-module pad vcard image-wrap">
 
@@ -66,7 +66,7 @@
   </section>
 
   <section  id="general" class="margin-vertical">
-    <div class="row -halves background-white text-black hr-top-black"">
+    <div class="row -halves   hr-top-black"">
       <div class="row-block">
         <div class="module text-module">
           <h2 class="font-h1">General</h2>
@@ -77,7 +77,7 @@
 
     <ul class="row -quarters -separators semantic-only-list margin-bottom">
       {% for block in entry.contactBlocks.all() %}
-        <li class="row-block background-white text-black separate">
+        <li class="row-block   separate">
 
           <article class="module contact-module pad vcard image-wrap">
 

@@ -27,7 +27,6 @@
       }
     %}
 
-
     <!-- intro -->
     <div class="row -halves secondary-page-intro">
       <div class="row-block top-overlap-{{ entry.projectTagline ? 'h1' : 'p' }}">
@@ -39,7 +38,7 @@
         </div>
       </div>
       <div class="row-block">
-        <div class="meta background-white text-black">
+        <div class="meta  ">
           {% if entry.services | length %}
             <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
               <h3>Services</h3>
@@ -97,7 +96,7 @@
     {% if entry.projectLeaders|length %}
       <div class="row -single margin-top">
         <div class="row-block">
-          <div class="module text-module text-black">
+          <div class="module text-module ">
             <h3 class="font-h2">Project Leaders</h3>
           </div>
         </div>

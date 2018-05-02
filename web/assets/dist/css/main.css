@@ -676,11 +676,11 @@ body:hover .visually-hidden a, body:hover .visually-hidden input, body:hover .vi
       margin-top: 120px; } }
 
 @media screen and (min-width: 1200px) {
-  .row-block.pull-to-top .module, .row-block.pull-to-top .module.text-module, .row-block.pull-to-top .module.pad, .row-block.pull-to-top .module.pad-vertical, .row-block.pull-to-top-h1 .module, .row-block.pull-to-top-h1 .module.text-module, .row-block.pull-to-top-h1 .module.pad, .row-block.pull-to-top-h1 .module.pad-vertical {
+  .pull-to-top .module, .pull-to-top .module.text-module, .pull-to-top .module.pad, .pull-to-top .module.pad-vertical, .pull-to-top-h1 .module, .pull-to-top-h1 .module.text-module, .pull-to-top-h1 .module.pad, .pull-to-top-h1 .module.pad-vertical {
     padding-top: 0; } }
 
 @media screen and (min-width: 1200px) {
-  .row-block.pull-to-top-h1 {
+  .pull-to-top-h1 {
     margin-top: -7px; } }
 
 @media screen and (min-width: 750px) {
@@ -2057,17 +2057,16 @@ body.white-header .secondary-links a {
     .row.-separators .row-block::before {
       display: none; }
   @media screen and (min-width: 750px) {
-    .row.-separators.-halves::after {
+    .row.-separators.-halves .row-block::after {
       left: auto;
       width: 1px;
       right: -1px;
       height: auto;
       top: 40px;
       display: block;
-      bottom: 40px; } }
-  .row.-separators.-halves .row-block::before {
-    left: calc(-100% + 40px); }
-  @media screen and (min-width: 750px) {
+      bottom: 40px; }
+    .row.-separators.-halves .row-block::before {
+      left: calc(-100% + 40px); }
     .row.-separators.-halves .row-block:nth-of-type(even)::before {
       display: block; } }
   @media screen and (min-width: 600px) {
