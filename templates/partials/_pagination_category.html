@@ -1,0 +1,29 @@
+  {# Pagination for Categories #}
+  {% set prevCategory = category.prevSibling %}
+  {% if not prevCategory %}
+    {% set prevCategory = craft.categories().groupId(category.group.id).inReverse().one() %}
+  {% endif %}
+
+  {% set nextCategory = category.nextSibling %}
+  {% if not nextCategory %}
+    {% set nextCategory = craft.categories().groupId(category.group.id).one() %}
+  {% endif %}
+
+  <nav class="entry-navigation">
+    <ul class="semantic-only-list row -halves -separators">
+      <li class="row-block bigclicky">
+        <article class="module pad prev-post">
+          <div class="text-red font-details no-margin">Previous {{ category.group|trim('s', 'right') }}</div>
+          <h1 class="font-h2 post-title"><a href="{{ prevCategory.url }}" class="no-underline">{{ prevCategory.title }}</a></h1>
+          <svg class="icon icon-left-arrow"><use xlink:href="#icon-left-arrow" /></svg>
+        </article>
+      </li>
+      <li class="row-block bigclicky">
+        <article class="module pad next-post">
+          <div class="text-red font-details  no-margin">Next {{ category.group|trim('s', 'right') }}</div>
+          <h1 class="font-h2 post-title"><a href="{{ nextCategory.url }}" class="no-underline">{{ nextCategory.title }}</a></h1>
+          <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
+        </article>
+      </li>
+    </ul>
+  </nav>
