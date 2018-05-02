@@ -115,6 +115,20 @@
       </ul>
     {% endif %}
 
+    {% set relatedPosts = craft.entries.section('impact').relatedTo({ element: entry }).limit(2) %}
+    {% if relatedPosts|length < 2 %}
+      {% set omitId = relatedPosts|length == 1 ? relatedPosts[0].id : 0 %}
+      {% set categoryIds = entry.services.ids()|merge(entry.markets.ids()) %}
+      {% set limitCriteria = craft.entries.section('impact').id('not ' ~ omitId).limit(2 - relatedPosts|length) %}
+      {% set extraRelatedPosts = craft.similar.find({ element: entry, context: categoryIds, criteria: limitCriteria }) %}
+      {% set relatedPosts = relatedPosts|merge(extraRelatedPosts) %}
+    {% endif %}
+    {% include 'partials/_related-impact'
+      with {
+        'relatedPosts': relatedPosts,
+      }
+    %}
+
   </article>
 
 {% endblock %}
