@@ -15,6 +15,18 @@
   {% set title = category.title %}
   {% set subheader = category.description %}
 
+  {# Find Market Contacts and Offices #}
+  {% set marketContactsIds = category.marketContacts.ids() %}
+  {% if marketContactsIds|length %}
+    {% set marketContacts = craft.entries({
+      section: 'people',
+      with: [ 'office' ],
+      id: marketContactsIds,
+    }) %}
+    {% set marketContactsOffices = craft.entries.section('offices').relatedTo({ sourceElement: marketContactsIds, field: 'office' }).all() %}
+  {% endif %}
+
+
 {% else %}
 
   {% paginate craft.entries({
@@ -77,7 +89,7 @@ First we determin which. #}
 
   {% if allMasonry %}
 
-    <!-- all projects and intro text in masonty -->
+    {# All projects and intro text in masonry #}
     <div class="masonry-grid">
       <div class="masonry-sizer"></div>
       <ul class="semantic-only-list">
@@ -94,7 +106,7 @@ First we determin which. #}
 
   {% else %}
 
-    <!-- top row: project text and first project (wrapped so they can visually align) -->
+    {# Top row: project text and first project (wrapped so they can visually align) #}
     <div class="row -halves">
       <div class="row-block pull-to-top-h1">
         {{ introModule }}
@@ -107,7 +119,7 @@ First we determin which. #}
       {% endif %}
     </div>
 
-    <!-- all of the rest of the projects in masonry -->
+    {# All of the rest of the projects in masonry #}
     <div class="masonry-grid">
       <div class="masonry-sizer"></div>
       <ul class="semantic-only-list">
@@ -121,6 +133,22 @@ First we determin which. #}
       </ul>
     </div>
 
+  {% endif %}
+
+  {# Any Market Contacts? Show grouped by Office #}
+  {% if category is defined and marketContacts|length %}
+    <div class="market-contacts modal hidden">
+      <h2>{{ category.title }} Contacts</h2>
+      {% for office in marketContactsOffices %}
+        <h2>{{ office.title }}</h2>
+        {% for person in marketContacts %}
+          {% set personOffice = person.office[0] ?? null %}
+          {% if personOffice and personOffice.id == office.id %}
+            <li>{{ person.title }}</li>
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    </div>
   {% endif %}
 
   <nav class="pagination">
