@@ -136,15 +136,23 @@ First we determin which. #}
   {% endif %}
 
   {# Any Market Contacts? Show grouped by Office #}
-  {% if category is defined and marketContacts|length %}
-    <div class="market-contacts modal hidden">
+  {% if category is defined and marketContactsIds|length %}
+    <div class="market-contacts modal">
       <h2>{{ category.title }} Contacts</h2>
       {% for office in marketContactsOffices %}
         <h2>{{ office.title }}</h2>
         {% for person in marketContacts %}
           {% set personOffice = person.office[0] ?? null %}
           {% if personOffice and personOffice.id == office.id %}
-            <li>{{ person.title }}</li>
+            <ul class="semantic-only-list">
+              <li><a href="{{ person.getUrl() }}">{{ person.title }}</a></li>
+              {% if person.phoneNumber %}
+                <li>{{ person.phoneNumber }}</li>
+              {% endif %}
+              {% if person.email %}
+                <li><a href="mailto:{{ person.email }}">{{ person.email }}</a></li>
+              {% endif %}
+            </ul>
           {% endif %}
         {% endfor %}
       {% endfor %}
