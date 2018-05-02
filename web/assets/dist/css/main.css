@@ -932,7 +932,8 @@ h2, h3, h4, h5, h6 {
       .row.-halves .row-block {
         -ms-flex-preferred-size: 50%;
             flex-basis: 50%;
-        width: 50%; } }
+        width: 50%;
+        max-width: 50%; } }
     @media screen and (min-width: 750px) {
       .row.-halves .row-block.-right {
         margin-left: 50%; } }
@@ -940,7 +941,7 @@ h2, h3, h4, h5, h6 {
       .row.-halves .row-block.-double {
         -ms-flex-preferred-size: 100%;
             flex-basis: 100%;
-        width: 100%; } }
+        max-width: 100%; } }
   .row.-quarters .row-block {
     -ms-flex-preferred-size: 100%;
         flex-basis: 100%;
@@ -2013,6 +2014,8 @@ body.white-header .secondary-links a {
     right: 40px;
     position: absolute;
     background: #f4f2ed; }
+  .row.-separators.-halves .row-block:last-of-type::after {
+    display: none; }
   @media screen and (min-width: 750px) {
     .row.-separators.-halves .row-block:nth-of-type(odd)::after {
       right: 0;
@@ -2022,9 +2025,7 @@ body.white-header .secondary-links a {
       top: 40px;
       bottom: 40px; }
     .row.-separators.-halves .row-block:nth-of-type(even)::after {
-      left: calc(-100% + 40px); }
-    .row.-separators.-halves .row-block:last-of-type::after {
-      display: none; } }
+      left: calc(-100% + 40px); } }
 
 .row.-separators.-quarters .row-block {
   position: relative; }
@@ -2103,13 +2104,15 @@ body.white-header .secondary-links a {
       height: 1px;
       left: 40px;
       right: calc(-100% + 40px); }
-    .meta-item.-half::after {
-      right: 0;
+    .meta-item.-half:first-child::before {
+      display: none; }
+    .meta-item.-half.-row-end::before {
+      display: none; }
+    .meta-item.-half.-row-end::after {
+      left: 0;
       top: 32px;
       width: 1px;
       bottom: 40px; }
-    .meta-item.-half.-row-end::after, .meta-item.-half.-row-end::before, .meta-item.-half:first-child::after, .meta-item.-half:first-child::before {
-      display: none; }
     .meta-item.-full::before {
       top: 0;
       height: 1px;
@@ -2443,6 +2446,9 @@ body.white-header .secondary-links a {
     -ms-flex-positive: 1;
         flex-grow: 1; }
 
+.row-block .image-wrap.-portrait {
+  padding-bottom: 66.66%; }
+
 .post-module .category {
   color: #ff422d; }
 
@@ -2608,6 +2614,10 @@ body.white-header .secondary-links a {
 @media screen and (min-width: 1200px) {
   .page-expertise .masonry-grid .intro-block {
     min-height: calc( 100vw/3*(2/3)); } }
+
+@media screen and (min-width: 750px) {
+  .page-offices .page-intro .buttons {
+    margin-top: 76px; } }
 
 .award-table {
   padding: 0 40px; }

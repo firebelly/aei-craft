@@ -1,4 +1,5 @@
 {% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
+{% set bodyClass = 'overlapping-header' %}
 {% set title = entry.title %}
 
 {% block filters %}
@@ -14,28 +15,77 @@
 {% endblock %}
 
 {% block content %}
-  <h1>{{ entry.title }}</h1>
 
-  {% if entry.personQuote %}
-    <blockquote><p>{{ entry.personQuote }}</p></blockquote>
-  {% endif %}
+  {% include 'partials/_secondary-header'
+    with {
+      'headerImage': entry.personImage.one(),
+      'headerTitle': entry.title,
+      'headerSubtitle': entry.personTitle,
+    }
+  %}
 
-  <h3>{{ entry.title }}’s Recent Projects</h3>
-  {% set relatedEntries = craft.entries.section('projects').relatedTo({
+    <div class="row -halves secondary-page-intro">
+      <div class="row-block top-overlap-{{ entry.personQuote ? 'h1' : 'p' }}">
+        <div class="page-intro module text-module background-white text-black">
+          {% if entry.personQuote %}
+            <blockquote>"{{ entry.personQuote }}"</blockquote>
+          {% endif %}
+          <div class="user-content">{{ entry.description }}</div>
+        </div>
+      </div>
+      <div class="row-block">
+        <div class="meta background-white text-black">
+          {% if entry.phoneNumber %}
+            <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
+              <h3>Phone</h3>
+              <div class="content"><a href="tel:{{ entry.phoneNumber }}">{{ entry.phoneNumber }}</a></div>
+            </div>
+          {% endif %}
+          {% if entry.email %}
+            <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
+              <h3>Email</h3>
+              <div class="content">
+                <a href="mailto: {{ entry.email }}">
+                  {% for part in entry.email|split('@') %}
+                    <span class="email-part">{{ part }}{{ loop.index0==0 ? '@' : '' }}</span>
+                  {% endfor %}
+                </a>
+              </div>
+            </div>
+          {% endif %}
+          {% if entry.personCertifications %}
+            <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
+              <h3>Certifications</h3>
+              <div class="content">{{ entry.personCertifications }}</div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+  {% set relatedProjects = craft.entries.section('projects').relatedTo({
      targetElement: entry,
      field: 'projectLeaders.aeiPerson',
   }).all() %}
-  {% for relatedEntry in relatedEntries %}
-    <li><a href="{{ relatedEntry.getUrl() }}">{{ relatedEntry.title }}</a></li>
-  {% endfor %}
+  {% include 'partials/_related-projects'
+    with {
+      'relatedProjects': relatedProjects,
+      'relatedProjectsTitle': "#{ entry.title }’s Recent Projects"
+    }
+  %}
 
-  <h3>{{ entry.title }}’s Recent Impact</h3>
-  {% set relatedEntries = craft.entries.section('impact').relatedTo({
+
+  {% set relatedPosts = craft.entries.section('impact').relatedTo({
      targetElement: entry,
      field: 'impactPeople.aeiPerson',
   }).all() %}
-  {% for relatedEntry in relatedEntries %}
-    <li><a href="{{ relatedEntry.getUrl() }}">{{ relatedEntry.title }}</a></li>
-  {% endfor %}
+  {% include 'partials/_related-impact'
+    with {
+      'relatedPosts': relatedPosts,
+      'relatedPostsTitle': "#{ entry.title }’s Recent Impact"
+    }
+  %}
+
+  {% include "partials/_pagination_structure" with {'paginationSection': 'people', 'postName': 'Person'} %}
 
 {% endblock %}

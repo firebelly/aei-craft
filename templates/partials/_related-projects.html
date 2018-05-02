@@ -1,0 +1,16 @@
+{% if relatedProjects|length %}
+  <div class="row -single margin-top">
+    <div class="row-block">
+      <div class="module text-module text-black">
+        <h2 class="font-h2">{{ relatedProjectsTitle ?? 'Related Projects' }}</h2>
+      </div>
+    </div>
+  </div>
+  <ul class="row -halves semantic-only-list background-gray">
+    {% for project in relatedProjects %}
+      <li class="row-block">
+        {% include 'projects/_article' %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}

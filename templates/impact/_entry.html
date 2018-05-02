@@ -17,11 +17,13 @@
 
 {% block content %}
   <article class="single-impact" data-id="{{ entry.id }}">
-    {% set header = {
-      image: entry.impactImage.one(),
-      title: entry.title
-    } %}
-    {% include 'partials/_secondary-header' %}
+
+    {% include 'partials/_secondary-header'
+      with {
+        'headerImage': entry.impactImage.one(),
+        'headerTitle': entry.title,
+      }
+    %}
 
     <!-- intro -->
     <div class="row -halves secondary-page-intro">
@@ -116,34 +118,25 @@
 
     {% include 'partials/_media-blocks' %}
 
-    <div class="row -single margin-top">
-      <div class="row-block">
-        <div class="module text-module text-black">
-          <h3 class="font-h2">Related Impact</h3>
-        </div>
-      </div>
-    </div>
+
     {% set limitCriteria = craft.entries.section('impact').limit(2) %}
-    {% set relatedImpactEntries = craft.similar.find({
+    {% set relatedPosts = craft.similar.find({
       element: entry,
       context: entry.impactType,
       criteria: limitCriteria
     }) %}
-    <ul class="row -halves -separators semantic-only-list hr-top-off-white hr-bottom-off-white margin-bottom">
-      {% for post in relatedImpactEntries %}
-        <li class="row-block background-white text-black separate">
-          {% include 'impact/_article' %}
-        </li>
-      {% endfor %}
-      {% if relatedImpactEntries|length < 2 %}
-        {% set omitId = relatedImpactEntries|length == 1 ? relatedImpactEntries[0].id : 0 %}
-        {% for post in craft.entries.section('impact').id('not ' ~ omitId).limit(2 - relatedImpactEntries|length).all() %}
-          <li class="row-block background-white text-black separate">
-            {% include 'impact/_article' %}
-          </li>
-        {% endfor %}
-      {% endif %}
-    </ul>
+
+    {% if relatedPosts|length < 2 %}
+      {% set omitId = relatedPosts|length == 1 ? relatedPosts[0].id : 0 %}
+      {% set extraRelatedPosts = craft.entries.section('impact').id('not ' ~ omitId).limit(2 - relatedPosts|length).all() %}
+      {% set relatedPosts = relatedPosts|merge(extraRelatedPosts) %}
+    {% endif %}
+
+    {% include 'partials/_related-impact'
+      with {
+        'relatedPosts': relatedPosts,
+      }
+    %}
 
   </article>
 

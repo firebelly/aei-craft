@@ -53,7 +53,7 @@
   }
 }
 
-// Ensure that, in a row rather than masonty, project-titles will stretch to match height of neighbor title if necessary
+// Some changes for when not in masonty
 .row-block {
   .project-module {
     display: flex;
@@ -61,6 +61,9 @@
     .project-title {
       flex-grow: 1;
     }
+  }
+  .image-wrap.-portrait {
+    padding-bottom: $landscape-padding;
   }
 }
 

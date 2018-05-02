@@ -1,15 +1,15 @@
 <!-- header -->
 <div class="hero-wrap">
   <div class="hero-image image-wrap">
-    {% if header.image %}
-      <div class="lazy image" style="background-image: url('');" data-original="{{ header.image.getUrl('header') }}"></div>
+    {% if headerImage %}
+      <div class="lazy image -top-weight" style="background-image: url('');" data-original="{{ headerImage.getUrl('header') }}"></div>
     {% endif %}
   </div>
   <div class="row -halves">
     <div class="row-block -right">
-      <div class="module text-module background-{{ (header.color ?? null) ? header.color|lower : 'black' }} text-white font-smoothing">
-        <h1 class="font-h2 no-margin">{{ header.title }}</h1>
-        {% if header.subtitle ?? false %}<h2 class="font-captions no-margin">{{ header.subtitle }}</h2>{% endif %}
+      <div class="module text-module background-{{ (headerColor ?? null) ? headerColor|lower : 'black' }} text-white font-smoothing">
+        <h1 class="font-h2 no-margin">{{ headerTitle }}</h1>
+        {% if headerSubtitle ?? false %}<h2 class="font-captions no-margin">{{ headerSubtitle }}</h2>{% endif %}
       </div>
     </div>
   </div>

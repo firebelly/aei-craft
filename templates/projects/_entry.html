@@ -18,13 +18,15 @@
 
   <article class="single-project" data-id="{{ entry.id }}">
 
-    {% set header = {
-      image: entry.projectImage.one(),
-      title: entry.projectClientName,
-      subtitle: entry.projectName,
-      color: entry.colorSwatch.label
-    } %}
-    {% include 'partials/_secondary-header' %}
+    {% include 'partials/_secondary-header'
+      with {
+        'headerImage': entry.projectImage.one(),
+        'headerTitle': entry.projectClientName,
+        'headerSubtitle': entry.projectName,
+        'headerColor': entry.colorSwatch.label,
+      }
+    %}
+
 
     <!-- intro -->
     <div class="row -halves secondary-page-intro">

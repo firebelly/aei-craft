@@ -1,28 +1,68 @@
 {% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
+{% set bodyClass = 'overlapping-header' %}
 {% set title = entry.title %}
 
 {% block content %}
 
-  <h1>{{ entry.title }}</h1>
+  {% include 'partials/_secondary-header'
+    with {
+      'headerImage': entry.officeImage.one(),
+      'headerTitle': entry.title,
+    }
+  %}
 
-  <h3>Address</h3>
-  {{ entry.officeAddress1 }}<br>
-  {% if entry.officeAddress2 %}
-    {{ entry.officeAddress2 }}<br>
-  {% endif %}
-  {{ entry.officeCity }}, {{ entry.officeState }} {{ entry.officePostalCode }}<br>
-
-  <h3>Phone</h3>
-  {{ entry.phoneNumber }}<br>
-
-  <h3>Email</h3>
-  {{ entry.email }}<br>
-
-  {{ entry.description }}
-
-  {% if entry.careersUrl %}
-    <a target="_blank" href="{{ entry.careersUrl }}">{{ entry.title }} Careers</a>
-  {% endif %}
+    <div class="row -halves secondary-page-intro">
+      <div class="row-block top-overlap-p">
+        <div class="page-intro module text-module background-white text-black">
+          <div class="user-content">{{ entry.description }}</div>
+          {% if entry.careersUrl %}
+            <div class="buttons">
+              <a class="button" href="{{ entry.careersUrl }}">
+                <span class="border"></span><span class="extra-corners"></span>
+                {{ entry.title }} Careers
+                <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
+              </a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="row-block">
+        <div class="meta background-white text-black">
+          {% if entry.officeAddress1 %}
+            <div class="meta-item -full">
+              <h3>Address</h3>
+              <address class="content">
+                {% if entry.officeMapUrl %}<a href="{{ entry.officeMapUrl }}">{% endif %}
+                  {{ entry.officeAddress1 }}<br>
+                  {% if entry.officeAddress2 %}
+                    {{ entry.officeAddress2 }}<br>
+                  {% endif %}
+                  {{ entry.officeCity }}, {{ entry.officeState }} {{ entry.officePostalCode }}
+                {% if entry.officeMapUrl %}</a>{% endif %}
+              </address>
+            </div>
+          {% endif %}
+          {% if entry.phoneNumber %}
+            <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
+              <h3>Phone</h3>
+              <div class="content"><a href="tel:{{ entry.phoneNumber }}">{{ entry.phoneNumber }}</a></div>
+            </div>
+          {% endif %}
+          {% if entry.email %}
+            <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
+              <h3>Email</h3>
+              <div class="content">
+                <a href="mailto: {{ entry.email }}">
+                  {% for part in entry.email|split('@') %}
+                    <span class="email-part">{{ part }}{{ loop.index0==0 ? '@' : '' }}</span>
+                  {% endfor %}
+                </a>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
 
   {% include "partials/_pagination_structure" with {'paginationSection': 'offices', 'postName': 'Location'} %}
 

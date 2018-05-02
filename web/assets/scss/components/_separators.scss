@@ -53,6 +53,12 @@
         background: $off-white;
       }
 
+      &:last-of-type {
+        &::after {
+          display: none;
+        }
+      }
+
       @include media-md {
         &:nth-of-type(odd){
           &::after {
@@ -68,12 +74,6 @@
         &:nth-of-type(even){
           &::after {
             left: calc(-100% + #{$padding})
-          }
-        }
-
-        &:last-of-type {
-          &::after {
-            display: none;
           }
         }
       }
@@ -211,15 +211,18 @@
         left: $padding;
         right: calc(-100% + #{$padding});
       }
-      &::after {
-        right: 0;
-        top: 32px;
-        width: 1px;
-        bottom: $padding;
-      }
 
-      &.-row-end, &:first-child {
-        &::after, &::before { display: none; }
+      &:first-child {
+        &::before { display: none; }
+      }
+      &.-row-end {
+        &::before { display: none; }
+        &::after {
+          left: 0;
+          top: 32px;
+          width: 1px;
+          bottom: $padding;
+        }
       }
     }
 

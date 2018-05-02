@@ -8,50 +8,54 @@
     {% include '/partials/_theater-header' %}
   {% endfor %}
 
-  <!-- service section header -->
-  <div class="row -halves pad-vertical background-white text-black" id="services">
-    <div class="row-block">
-      <div class="module text-module">
-        <h2 class="font-h1">Services</h2>
+  <section id="services">
+    <!-- service section header -->
+    <div class="row -halves pad-vertical background-white text-black">
+      <div class="row-block">
+        <div class="module text-module">
+          <h2 class="font-h1">Services</h2>
+        </div>
+      </div>
+      <div class="row-block">
+        <div class="module text-module">
+          <div class="user-content">{{ entry.servicesDescription }}</div>
+        </div>
       </div>
     </div>
-    <div class="row-block">
-      <div class="module text-module">
-        <div class="user-content">{{ entry.servicesDescription }}</div>
-      </div>
-    </div>
-  </div>
 
-  <!-- services -quarters -->
-  <ul class="row -quarters photo-row-separators semantic-only-list background-white big-margin-bottom">
-  {% for service in craft.categories.group('services').all() %}
-    <li class="row-block">
-      {% include 'partials/_article-service' %}
-    </li>
-  {% endfor %}
-  </ul>
-
-  <!-- location section header -->
-  <div class="row -halves pad-vertical background-white text-black hr-top-black" id="locations">
-    <div class="row-block">
-      <div class="module text-module">
-        <h2 class="font-h1">Locations</h2>
-      </div>
-    </div>
-    <div class="row-block">
-      <div class="module text-module">
-        <div class="user-content">{{ entry.locationsDescription }}</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- locations -quarters -->
-  <ul class="row -quarters photo-row-separators semantic-only-list background-white big-margin-bottom">
-    {% for office in craft.entries.section('offices').all() %}
+    <!-- services -quarters -->
+    <ul class="row -quarters photo-row-separators semantic-only-list background-white big-margin-bottom">
+    {% for service in craft.categories.group('services').all() %}
       <li class="row-block">
-        {% include 'offices/_article' %}
+        {% include 'partials/_article-service' %}
       </li>
     {% endfor %}
-  </ul>
+    </ul>
+  </section>
+
+  <section id="locations" class="big-margin-vertical">
+    <!-- location section header -->
+    <div class="row -halves pad-vertical background-white text-black hr-top-black">
+      <div class="row-block">
+        <div class="module text-module">
+          <h2 class="font-h1">Locations</h2>
+        </div>
+      </div>
+      <div class="row-block">
+        <div class="module text-module">
+          <div class="user-content">{{ entry.locationsDescription }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- locations -quarters -->
+    <ul class="row -quarters photo-row-separators semantic-only-list background-white">
+      {% for office in craft.entries.section('offices').all() %}
+        <li class="row-block">
+          {% include 'offices/_article' %}
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
 
 {% endblock %}
