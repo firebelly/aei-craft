@@ -38,7 +38,12 @@
   background: #fff;
   z-index: 100;
   display: none;
+  overflow: auto;
   &.active {
     display: block;
+  }
+  .icon {
+    width: 9px;
+    height: 7px;
   }
 }

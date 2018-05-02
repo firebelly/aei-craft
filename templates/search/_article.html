@@ -1,1 +1,31 @@
-<li><a href="{{ entry.getUrl() }}">{{ entry.title }}</a></li>
+<article>
+	{% set entryType = entry.type.name ?? 'Services' %}
+	{% switch entryType %}
+		{% case "Services" %}
+			<h3><a href="{{ entry.getUrl() }}">{{ entry.title }}</a></h3>
+			<p class="excerpt">{{ entry.description | chop(limit=20, unit='w', append='…') }}</p>
+			<p><a href="{{ entry.getUrl() }}">View Service <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></p>
+
+		{% case "Projects" %}
+			<h3><a href="{{ entry.getUrl() }}">{{ entry.projectClientName }}</a></h3>
+			<p>{{ entry.projectName }}</p>
+			<p><a href="{{ entry.getUrl() }}">View Project <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></p>
+
+		{% case "Impact" %}
+			<h3><a href="{{ entry.getUrl() }}">{{ entry.title }}</a></h3>
+			<p class="excerpt">{{ entry.excerpt ? entry.excerpt : entry.description | chop(limit=20, unit='w', append='…') }}</p>
+			<p><a href="{{ entry.getUrl() }}">Read More <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></p>
+
+		{% case "Offices" %}
+			<h3><a href="{{ entry.getUrl() }}">{{ entry.title }}</a></h3>
+			<p>{{ entry.phoneNumber }}</p>
+			<p>{{ entry.email }}</p>
+			<p><a href="{{ entry.getUrl() }}">View Office <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></p>
+
+		{% case "Person" %}
+			<h3><a href="{{ entry.getUrl() }}">{{ entry.title }}</a></h3>
+			<p>{{ entry.personTitle }}</p>
+			<p><a href="{{ entry.getUrl() }}">View Bio <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></p>
+
+	{% endswitch %}
+</article>
