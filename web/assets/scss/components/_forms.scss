@@ -1,10 +1,7 @@
-@mixin cornerize($border-color, $background-color, $corner-width: 6px, $offset: 2px) {
- 
-  padding: 10px;
+@mixin outline-cornerize($border-color, $background-color, $corner-width: 6px, $offset: 2px) {
   overflow: hidden;
   position: relative;
-  display: inline-block;
-  background: $background-color; 
+  background: $background-color;
 
   .border {
     top: 0;
@@ -53,13 +50,27 @@
   }
 }
 
+@mixin solid-cornerize($color, $corner-width: 6px) {
+  background: $color;
+  position: relative;
+  clip-path: polygon(#{$corner-width} 0%, calc(100% - #{$corner-width}) 0%, 100% #{$corner-width}, 100% calc(100% - #{$corner-width}), calc(100% - #{$corner-width}) 100%, #{$corner-width} 100%, 0% calc(100% - #{$corner-width}), 0% #{$corner-width});
+}
+
+
 .button {
   @include font-buttons;
-  @include cornerize($black, $white);
   text-align: left;
   position: relative;
   text-decoration: none;
   padding: 11px 6*$beat 11px 11px;
+
+  &:not(.-solid) {
+    @include outline-cornerize($black, $white);
+  }
+
+  &.-solid {
+    @include solid-cornerize($red);
+  }
 
   .icon {
     position: absolute;
@@ -106,7 +117,7 @@
         border-color: $color;
       }
 
-      &:hover {    
+      &:hover {
         background-color: $color;
       }
     }
@@ -120,7 +131,7 @@
         background-color: $color;
       }
 
-      &:hover {    
+      &:hover {
         fill: $color;
         color: $color;
       }

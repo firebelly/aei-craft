@@ -149,7 +149,7 @@
   }
 }
 
-// Image
+// Image / Video
 .image-module, .video-module {
   @include clearfix;
   @include max-screen($breakpoint-md - 1px) {
@@ -179,6 +179,20 @@
 
       &.-right {
         float: right;
+      }
+    }
+  }
+}
+
+// Video
+.video-module {
+  .caption {
+    transition: transform 0.3s $ease;
+  }
+  &.theater-wrap.-open {
+    .caption {
+      @include media-md {
+        transform: translateY(#{6*$beat});
       }
     }
   }
@@ -214,54 +228,6 @@
       &:first-child {
         display: block;
       }
-    }
-  }
-}
-
-
-
-.theater-wrap {
-
-  .player-wrap {
-    top: 0;
-    left: 0;
-    opacity: 0;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    transition: opacity 0.3s;
-  }
-
-  .theater-close {
-    top: 0;
-    right: 0;
-    z-index: 2;
-    opacity: 0;
-    fill: $black;
-    position: absolute;
-    padding: $padding/2;
-
-    &:hover {
-      fill: $white;
-    }
-
-    .icon {
-      width: 16px;
-      height: 16px;
-    }
-  }
-
-  &.-open {
-
-    .player-wrap.player-ready {
-      opacity: 1;
-      transition: opacity 0.2s 0.3s $ease;
-    }
-
-    .theater-close {
-      opacity: 1;
-      cursor: pointer;
-      transition: opacity 0.2s 0.3s $ease;
     }
   }
 }
