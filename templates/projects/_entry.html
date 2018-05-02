@@ -129,6 +129,20 @@
       }
     %}
 
+    {% set relatedProjects = craft.entries.section('projects').relatedTo({ element: entry }).limit(2) %}
+    {% if relatedProjects|length < 2 %}
+      {% set omitId = relatedProjects|length == 1 ? relatedProjects[0].id : 0 %}
+      {% set categoryIds = entry.services.ids()|merge(entry.markets.ids()) %}
+      {% set limitCriteria = craft.entries.section('projects').id('not ' ~ omitId).limit(2 - relatedProjects|length) %}
+      {% set extraRelatedProjects = craft.similar.find({ element: entry, context: categoryIds, criteria: limitCriteria }) %}
+      {% set relatedProjects = relatedProjects|merge(extraRelatedProjects) %}
+    {% endif %}
+    {% include 'partials/_related-projects'
+      with {
+        'relatedProjects': relatedProjects,
+      }
+    %}
+
   </article>
 
 {% endblock %}
