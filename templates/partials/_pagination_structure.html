@@ -1,12 +1,26 @@
   {# Pagination for Structure sections #}
-  {% set prevEntry = craft.entries.section(paginationSection).positionedBefore(entry).orderBy('lft desc').one() %}
-  {% if not prevEntry %}
-    {% set prevEntry = craft.entries.section(paginationSection).inReverse().one() %}
+  {% if category is defined %}
+    {% set prevEntry = craft.entries.section(paginationSection).relatedTo(category).positionedBefore(entry).orderBy('lft desc').one() %}
+    {% if not prevEntry %}
+      {% set prevEntry = craft.entries.section(paginationSection).relatedTo(category).inReverse().one() %}
+    {% endif %}
+
+    {% set nextEntry = craft.entries.section(paginationSection).relatedTo(category).positionedAfter(entry).orderBy('lft asc').one() %}
+    {% if not nextEntry %}
+      {% set nextEntry = craft.entries.section(paginationSection).relatedTo(category).one() %}
+    {% endif %}
+  {% else %}
+    {% set prevEntry = craft.entries.section(paginationSection).positionedBefore(entry).orderBy('lft desc').one() %}
+    {% if not prevEntry %}
+      {% set prevEntry = craft.entries.section(paginationSection).inReverse().one() %}
+    {% endif %}
+
+    {% set nextEntry = craft.entries.section(paginationSection).positionedAfter(entry).orderBy('lft asc').one() %}
+    {% if not nextEntry %}
+      {% set nextEntry = craft.entries.section(paginationSection).one() %}
+    {% endif %}
   {% endif %}
-  {% set nextEntry = craft.entries.section(paginationSection).positionedAfter(entry).orderBy('lft asc').one() %}
-  {% if not nextEntry %}
-    {% set nextEntry = craft.entries.section(paginationSection).one() %}
-  {% endif %}
+
   <nav class="entry-navigation">
     <ul class="semantic-only-list row -halves -separators">
       <li class="row-block bigclicky">

@@ -1,14 +1,14 @@
 {% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
 {% set bodyClass = 'overlapping-header' %}
 {% set title = entry.title %}
+{% set personType = entry.personType.one() %}
 
 {% block filters %}
   <li class="filters-item">
     <a href="/people/">All</a>
   </li>
-  {% set entryPeopleTypeIds = entry.peopleTypes.ids() %}
   {% for cat in craft.categories.group('peopleTypes').all() %}
-    <li class="filters-item {% if cat.id in entryPeopleTypeIds %}current{% endif %}">
+    <li class="filters-item {% if cat.id == personType.id %}current{% endif %}">
       <a href="{{ cat.url }}">{{ cat.title }}</a>
     </li>
   {% endfor %}
@@ -86,6 +86,6 @@
     }
   %}
 
-  {% include "partials/_pagination_structure" with {'paginationSection': 'people', 'postName': 'Person'} %}
+  {% include "partials/_pagination_structure" with {'paginationSection': 'people', 'postName': 'in ' ~ personType.title, 'category': personType } %}
 
 {% endblock %}
