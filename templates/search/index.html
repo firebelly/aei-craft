@@ -3,14 +3,12 @@
 
 {% block content %}
 
-  <form action="{{ url('search') }}">
-      <input type="search" name="q" placeholder="Search">
+  <form action="{{ url('search') }}" class="search-form">
+      <input type="search" name="q" placeholder="Search" required>
       <input type="submit" value="Go">
   </form>
 
   {% if query %}
-
-    <h1>Search Results</h1>
 
     {% set expertisePosts = [] %}
     {% set impactPosts = [] %}
@@ -42,21 +40,33 @@
       {% set approachPosts = approachPosts|merge([service]) %}
     {% endfor %}
 
-    {% set search_sections = {
-      'Expertise': expertisePosts,
-      'Impact': impactPosts,
-      'Approach': approachPosts,
-      'People': peoplePosts,
-      } %}
+    {% if (expertisePosts|length + approachPosts|length + impactPosts|length + peoplePosts|length) == 0 %}
 
-      {% for title,entries in search_sections %}
-        <div class="search-section">
-          <h2>{{ title }}</h2>
-          {% for entry in entries %}
-            {% include 'search/_article' %}
-          {% endfor %}
-        </div>
-      {% endfor %}
+      <div class="no-results">
+        <p>No results found.</p>
+      </div>
+
+    {% else %}
+
+      <h1>Search Results</h1>
+
+      {% set search_sections = {
+        'Expertise': expertisePosts,
+        'Impact': impactPosts,
+        'Approach': approachPosts,
+        'People': peoplePosts,
+        } %}
+
+        {% for title,entries in search_sections %}
+          <div class="search-section">
+            <h2>{{ title }}</h2>
+            {% for entry in entries %}
+              {% include 'search/_article' %}
+            {% endfor %}
+          </div>
+        {% endfor %}
+
+    {% endif %}
 
   {% endif %}
 

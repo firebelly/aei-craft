@@ -28,3 +28,17 @@
     }
   }
 }
+
+.search-modal {
+  position: absolute;
+  top: 10vh;
+  left: 10%;
+  width: 80%;
+  height: 80vh;
+  background: #fff;
+  z-index: 100;
+  display: none;
+  &.active {
+    display: block;
+  }
+}
