@@ -65,6 +65,21 @@ var FB = (function($) {
       }
     });
 
+    // Search modal
+    $(document).on('click', '.search-open', function(e) {
+      e.preventDefault();
+      $.get('/search/', function(data) {
+        $('.search-modal').addClass('active').html(data).find('.search-form input[name=q]').focus();
+      });
+    });
+    $(document).on('submit', '.search-form', function(e) {
+      e.preventDefault();
+      var $this = $(this);
+      $.get($this.attr('action'), $this.serialize(), function(data) {
+        $('.search-modal').html(data);
+      });
+    });
+
     // Scroll down to hash after page load
     $(window).on('load',function() {
       if (window.location.hash) {

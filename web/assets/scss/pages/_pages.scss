@@ -28,3 +28,22 @@
     }
   }
 }
+
+.search-modal {
+  position: absolute;
+  top: 10vh;
+  left: 10%;
+  width: 80%;
+  height: 80vh;
+  background: #fff;
+  z-index: 100;
+  display: none;
+  overflow: auto;
+  &.active {
+    display: block;
+  }
+  .icon {
+    width: 9px;
+    height: 7px;
+  }
+}

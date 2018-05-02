@@ -1,0 +1,73 @@
+{% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
+{% set query = craft.request.getParam('q') %}
+
+{% block content %}
+
+  <form action="{{ url('search') }}" class="search-form">
+      <input type="search" name="q" placeholder="Search" required>
+      <input type="submit" value="Go">
+  </form>
+
+  {% if query %}
+
+    {% set expertisePosts = [] %}
+    {% set impactPosts = [] %}
+    {% set approachPosts = [] %}
+    {% set peoplePosts = [] %}
+
+    {% set entries = craft.entries.search(query).orderBy('score').all() %}
+    {% if entries|length %}
+      {% for entry in entries %}
+        {% switch entry.section %}
+          {% case "Projects" %}
+            {% set expertisePosts = expertisePosts|merge([entry]) %}
+          {% case "Offices" %}
+            {% set approachPosts = approachPosts|merge([entry]) %}
+          {% case "Impact" %}
+            {% set impactPosts = impactPosts|merge([entry]) %}
+          {% case "People" %}
+            {% set peoplePosts = peoplePosts|merge([entry]) %}
+        {% endswitch %}
+      {% endfor %}
+    {% endif %}
+
+    {% set services = craft.categories({
+      search: query,
+      orderBy: 'score',
+      group: 'services',
+    }).all() %}
+    {% for service in services %}
+      {% set approachPosts = approachPosts|merge([service]) %}
+    {% endfor %}
+
+    {% if (expertisePosts|length + approachPosts|length + impactPosts|length + peoplePosts|length) == 0 %}
+
+      <div class="no-results">
+        <p>No results found.</p>
+      </div>
+
+    {% else %}
+
+      <h1>Search Results</h1>
+
+      {% set search_sections = {
+        'Expertise': expertisePosts,
+        'Impact': impactPosts,
+        'Approach': approachPosts,
+        'People': peoplePosts,
+        } %}
+
+        {% for title,entries in search_sections %}
+          <div class="search-section">
+            <h2>{{ title }}</h2>
+            {% for entry in entries %}
+              {% include 'search/_article' %}
+            {% endfor %}
+          </div>
+        {% endfor %}
+
+    {% endif %}
+
+  {% endif %}
+
+{% endblock %}
