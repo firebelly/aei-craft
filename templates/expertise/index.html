@@ -69,7 +69,7 @@ First we determin which. #}
     <div class="font-h1 user-content">{{ subheader }}</div>
     <div class="buttons">
       {% if category is defined %}
-        <button class="contacts-open button">
+        <button class="contact-modal-open button">
           <span class="border"></span><span class="extra-corners"></span>
           Contacts
           <svg class="icon icon-plus"><use xlink:href="#icon-plus" /></svg>
@@ -85,7 +85,7 @@ First we determin which. #}
 
   {# Any Market Contacts? Show grouped by Office #}
   {% if category is defined and marketContactsIds|length %}
-    <div class="modal background-white text-black pad" id="contact-modal">
+    <div class="modal background-white text-black pad -unloaded" id="contact-modal">
       <h2 class="title">{{ category.title }} Contacts</h2>
       <ul class="offices semantic-only-list">
       {% for office in marketContactsOffices %}

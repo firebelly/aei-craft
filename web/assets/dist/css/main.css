@@ -2682,89 +2682,86 @@ body.white-header .secondary-links a {
   cursor: pointer;
   transition: opacity 0.2s 0.3s ease-out; }
 
-.modal {
-  top: 0;
+#contact-modal {
+  top: calc(100% - 120px);
   left: 0;
   width: 100%;
   z-index: 1001;
   position: absolute; }
-  .modal .icon-x {
-    fill: #f4f2ed;
-    position: absolute;
-    pointer-events: none; }
-
-#contact-modal .title {
-  margin-top: -8px;
-  font-weight: normal;
-  font-style: normal;
-  font-family: 'Formular Regular', sans-serif;
-  font-size: 22px;
-  line-height: 1.45455;
-  letter-spacing: -0.025em;
-  text-transform: none; }
-  @media screen and (min-width: 1200px) {
-    #contact-modal .title {
-      font-size: 33px;
-      line-height: 1.21212;
-      letter-spacing: -0.025em;
-      text-transform: none; } }
-
-#contact-modal .office {
-  position: relative;
-  border-top: 1px solid #f4f2ed;
-  padding: 40px 0; }
-  #contact-modal .office:first-of-type {
-    border-top: none; }
-  #contact-modal .office:last-of-type {
-    padding-bottom: 0; }
-  #contact-modal .office .office-title {
+  #contact-modal.-unloaded {
+    display: none; }
+  #contact-modal .title {
+    margin-top: -8px;
     font-weight: normal;
     font-style: normal;
     font-family: 'Formular Regular', sans-serif;
-    font-size: 16.5px;
+    font-size: 22px;
     line-height: 1.45455;
     letter-spacing: -0.025em;
-    text-transform: none;
-    margin: 0 0 16px;
-    color: #ff422d; }
-
-#contact-modal .contacts {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap; }
-  #contact-modal .contacts .contact {
-    -ms-flex: 0 0 0px;
-        flex: 0 0 0;
-    margin-top: 2em;
-    -ms-flex-preferred-size: 100%;
-        flex-basis: 100%; }
-    #contact-modal .contacts .contact:first-of-type {
-      margin-top: 0; }
-    @media screen and (min-width: 450px) {
-      #contact-modal .contacts .contact {
-        margin: 0;
-        -ms-flex-preferred-size: 50%;
-            flex-basis: 50%; }
-        #contact-modal .contacts .contact:nth-of-type(n+3) {
-          padding-top: 2em; }
-        #contact-modal .contacts .contact:nth-of-type(odd) {
-          padding-right: 40px; }
-        #contact-modal .contacts .contact:nth-of-type(even) {
-          padding-left: 40px;
-          border-left: 1px solid #f4f2ed; } }
-
-#contact-modal .icon-x {
-  width: 10.7px;
-  height: 10.7px;
-  top: 40px;
-  right: calc(100% + 14.7px); }
-  @media screen and (min-width: 1200px) {
-    #contact-modal .icon-x {
-      width: 24px;
-      height: 24px;
-      top: 40px;
-      right: calc(100% + 40px); } }
+    text-transform: none; }
+    @media screen and (min-width: 1200px) {
+      #contact-modal .title {
+        font-size: 33px;
+        line-height: 1.21212;
+        letter-spacing: -0.025em;
+        text-transform: none; } }
+  #contact-modal .office {
+    position: relative;
+    border-top: 1px solid #f4f2ed;
+    padding: 40px 0; }
+    #contact-modal .office:first-of-type {
+      border-top: none; }
+    #contact-modal .office:last-of-type {
+      padding-bottom: 0; }
+    #contact-modal .office .office-title {
+      font-weight: normal;
+      font-style: normal;
+      font-family: 'Formular Regular', sans-serif;
+      font-size: 16.5px;
+      line-height: 1.45455;
+      letter-spacing: -0.025em;
+      text-transform: none;
+      margin: 0 0 16px;
+      color: #ff422d; }
+  #contact-modal .contacts {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap; }
+    #contact-modal .contacts .contact {
+      -ms-flex: 0 0 0px;
+          flex: 0 0 0;
+      margin-top: 2em;
+      -ms-flex-preferred-size: 100%;
+          flex-basis: 100%; }
+      #contact-modal .contacts .contact:first-of-type {
+        margin-top: 0; }
+      @media screen and (min-width: 450px) {
+        #contact-modal .contacts .contact {
+          margin: 0;
+          -ms-flex-preferred-size: 50%;
+              flex-basis: 50%; }
+          #contact-modal .contacts .contact:nth-of-type(n+3) {
+            padding-top: 2em; }
+          #contact-modal .contacts .contact:nth-of-type(odd) {
+            padding-right: 40px; }
+          #contact-modal .contacts .contact:nth-of-type(even) {
+            padding-left: 40px;
+            border-left: 1px solid #f4f2ed; } }
+  #contact-modal .icon-x {
+    top: 40px;
+    width: 10.7px;
+    height: 10.7px;
+    fill: #f4f2ed;
+    position: absolute;
+    pointer-events: none;
+    right: calc(100% + 14.7px); }
+    @media screen and (min-width: 1200px) {
+      #contact-modal .icon-x {
+        width: 24px;
+        height: 24px;
+        top: 40px;
+        right: calc(100% + 40px); } }
 
 .overlay {
   top: 0;
@@ -2790,6 +2787,22 @@ body.white-header .secondary-links a {
 @media screen and (min-width: 750px) {
   .page-offices .page-intro .buttons {
     margin-top: 76px; } }
+
+.search-modal {
+  position: absolute;
+  top: 10vh;
+  left: 10%;
+  width: 80%;
+  height: 80vh;
+  background: #fff;
+  z-index: 100;
+  display: none;
+  overflow: auto; }
+  .search-modal.active {
+    display: block; }
+  .search-modal .icon {
+    width: 9px;
+    height: 7px; }
 
 .award-table {
   padding: 0 40px; }

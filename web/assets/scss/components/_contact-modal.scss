@@ -1,18 +1,14 @@
-.modal {
-  top: 0;
+#contact-modal {
+  top: calc(100% - #{$padding*3});
   left: 0;
   width: 100%;
   z-index: 1001;
   position: absolute;
 
-  .icon-x {
-    fill: $off-white;
-    position: absolute;
-    pointer-events: none;
+  &.-unloaded {
+    display: none;
   }
-}
 
-#contact-modal {
   .title {
     margin-top: -8px;
     @include font-h1;
@@ -36,7 +32,6 @@
       color: $red;
     }
   }
-
 
   .contacts {
     display: flex;
@@ -71,10 +66,14 @@
   }
 
   .icon-x {
+    top: $padding;
     width: 10.7px;
     height: 10.7px;
-    top: $padding;
+    fill: $off-white;
+    position: absolute;
+    pointer-events: none;
     right: calc(100% + 14.7px);
+
     @include media-lg {
       width: 24px;
       height: 24px;

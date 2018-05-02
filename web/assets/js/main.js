@@ -39,6 +39,7 @@ var FB = (function($) {
     $(document).keyup(function(e) {
       if (e.keyCode === 27) {
         _closeNav();
+        _closeContactModal();
       }
     });
 
@@ -65,21 +66,6 @@ var FB = (function($) {
       }
     });
 
-    // Search modal
-    $(document).on('click', '.search-open', function(e) {
-      e.preventDefault();
-      $.get('/search/', function(data) {
-        $('.search-modal').addClass('active').html(data).find('.search-form input[name=q]').focus();
-      });
-    });
-    $(document).on('submit', '.search-form', function(e) {
-      e.preventDefault();
-      var $this = $(this);
-      $.get($this.attr('action'), $this.serialize(), function(data) {
-        $('.search-modal').html(data);
-      });
-    });
-
     // Scroll down to hash after page load
     $(window).on('load',function() {
       if (window.location.hash) {
@@ -99,21 +85,40 @@ var FB = (function($) {
   } // end init()
 
   function _initContactModal() {
-    var $modal = $('#contact-modal')
+    var $modal = $('#contact-modal');
     if($modal.length) {
 
-      $('<div class="overlay close-contact-modal" data-id=""></div>')
-        .prependTo('body');
+      $('<div class="overlay contact-modal-close" id="contact-modal-overlay"></div>')
+      .prependTo('body').vel;
+
+      $modal.velocity("slideUp", { duration: 0 });
+      $('#contact-modal-overlay').velocity("fadeOut", { duration: 0 });
 
       $('<svg class="icon icon-x close-contact-modal"><use xlink:href="#icon-x" /></svg>')
         .prependTo($modal);
 
-      $('.close-contact-modal').click(function () {
+      $(document).on('click', '.contact-modal-close', function () { _closeContactModal() });
+      $(document).on('click', '.contact-modal-open', function () { _openContactModal() });
 
-      });
+      $modal.removeClass('-unloaded');
+
     }
   }
-
+  function _openContactModal() {
+    $('#contact-modal')
+      .velocity("fadeIn", { duration: 300, easing: 'easeOut', queue: false })
+      .velocity("slideDown", { duration: 300, easing: 'easeOut' });
+    $('#contact-modal-overlay').velocity("fadeIn", { duration: 100, easing: 'easeOut' });
+  }
+  function _closeContactModal() {
+    var $modal = $('#contact-modal');
+    if($modal.length) {
+      $modal
+      .velocity("fadeOut", { duration: 200, easing: 'easeOut', queue: false })
+      .velocity("slideUp", { duration: 200, easing: 'easeOut' });
+      $('#contact-modal-overlay').velocity("fadeOut", { delay: 100, duration: 200, easing: 'easeOut' });
+    }
+  }
 
 
   function _initTableSort() {
