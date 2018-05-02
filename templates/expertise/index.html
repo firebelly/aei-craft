@@ -67,22 +67,60 @@ First we determin which. #}
 {% set introModule %}
   <div class="module text-module">
     <div class="font-h1 user-content">{{ subheader }}</div>
-    {% if category is not defined %}
-      <div class="buttons">
+    <div class="buttons">
+      {% if category is defined %}
         <button class="contacts-open button">
           <span class="border"></span><span class="extra-corners"></span>
           Contacts
-          <svg class="icon icon-plus "><use xlink:href="#icon-plus" /></svg>
+          <svg class="icon icon-plus"><use xlink:href="#icon-plus" /></svg>
         </button>
-        <a class="button" href="/awards/">
-          <span class="border"></span><span class="extra-corners"></span>
-          Awards
-          <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
-        </a>
-      </div>
-    {% endif %}
+      {% endif %}
+      <a class="button" href="/awards/">
+        <span class="border"></span><span class="extra-corners"></span>
+        Awards
+        <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
+      </a>
+    </div>
   </div>
+
+  {# Any Market Contacts? Show grouped by Office #}
+  {% if category is defined and marketContactsIds|length %}
+    <div class="modal background-white text-black pad" id="contact-modal">
+      <h2 class="title">{{ category.title }} Contacts</h2>
+      <ul class="offices semantic-only-list">
+      {% for office in marketContactsOffices %}
+        <li class="office">
+          <h3 class="office-title">{{ office.title }}</h2>
+
+          <ul class="contacts semantic-only-list font-details">
+
+            {% for person in marketContacts %}
+              {% set personOffice = person.office[0] ?? null %}
+              {% if personOffice and personOffice.id == office.id %}
+                <li class="contact">
+                  <a href="{{ person.getUrl() }}">{{ person.title }}</a><br/>
+                  {% if person.phoneNumber %}
+                    {{ person.phoneNumber }}<br/>
+                  {% endif %}
+                  {% if person.email %}
+                    <a href="mailto:{{ person.email }}">
+                      {% for part in person.email|split('@') %}
+                        <span class="email-part">{{ part }}{{ loop.index0==0 ? '@' : '' }}</span>
+                      {% endfor %}
+                    </a>
+                  {% endif %}
+                </li>
+              {% endif %}
+            {% endfor %}
+
+          </ul>
+        </li>
+      {% endfor %}
+    </div>
+  {% endif %}
+
 {% endset %}
+
 
 {# Now, finally, build the content and apologize to TWIG gods. This is all for you, Ross. ;) #}
 {% block content %}
@@ -133,30 +171,6 @@ First we determin which. #}
       </ul>
     </div>
 
-  {% endif %}
-
-  {# Any Market Contacts? Show grouped by Office #}
-  {% if category is defined and marketContactsIds|length %}
-    <div class="market-contacts modal">
-      <h2>{{ category.title }} Contacts</h2>
-      {% for office in marketContactsOffices %}
-        <h2>{{ office.title }}</h2>
-        {% for person in marketContacts %}
-          {% set personOffice = person.office[0] ?? null %}
-          {% if personOffice and personOffice.id == office.id %}
-            <ul class="semantic-only-list">
-              <li><a href="{{ person.getUrl() }}">{{ person.title }}</a></li>
-              {% if person.phoneNumber %}
-                <li>{{ person.phoneNumber }}</li>
-              {% endif %}
-              {% if person.email %}
-                <li><a href="mailto:{{ person.email }}">{{ person.email }}</a></li>
-              {% endif %}
-            </ul>
-          {% endif %}
-        {% endfor %}
-      {% endfor %}
-    </div>
   {% endif %}
 
   <nav class="pagination">

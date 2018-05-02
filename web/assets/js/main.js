@@ -79,8 +79,27 @@ var FB = (function($) {
     _initMasonry();
     _initStatLabelWrappingDetection();
     _initTableSort();
+    _initContactModal();
 
   } // end init()
+
+  function _initContactModal() {
+    var $modal = $('#contact-modal')
+    if($modal.length) {
+
+      $('<div class="overlay close-contact-modal" data-id=""></div>')
+        .prependTo('body');
+
+      $('<svg class="icon icon-x close-contact-modal"><use xlink:href="#icon-x" /></svg>')
+        .prependTo($modal);
+
+      $('.close-contact-modal').click(function () {
+
+      });
+    }
+  }
+
+
 
   function _initTableSort() {
     $('.award-table table.sortable')
