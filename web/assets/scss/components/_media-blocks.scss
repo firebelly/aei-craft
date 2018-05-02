@@ -221,6 +221,7 @@
   }
 }
 
+// Quote Carousel
 .quote-carousel {
   &.-unslicked {
     blockquote {
@@ -231,3 +232,50 @@
     }
   }
 }
+
+// Link Grid
+.row.-spaced {
+  .link-grid-module {
+    .row-block {
+      margin: 0;
+    }
+  }
+}
+
+.link-grid-module {
+  .row-block {
+
+    @include min-screen($breakpoint-thirds-2col) {
+      min-height: calc((100vw - #{$padding})/2);
+    }
+
+    @include min-screen($breakpoint-thirds-3col) {
+      min-height: calc((100vw - #{$padding})/3);
+    }
+
+    @include media-lg {
+      min-height: calc(66.66vw / 3);
+    }
+  }
+    // Post Articles
+  .link-module {
+    min-height: 100%;
+    position: relative;
+    padding: $padding $padding ($padding+66px);
+
+    .category {
+      color: $red;
+    }
+    .title {
+      margin: 5px 0;
+    }
+    .excerpt {
+      margin: 4.5*$beat 0 5.5*$beat;
+    }
+    .button {
+      position: absolute;
+      bottom: $padding;
+    }
+  }
+}
+

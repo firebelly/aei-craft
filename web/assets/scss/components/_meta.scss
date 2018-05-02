@@ -2,7 +2,7 @@
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  padding-top: 10px;
+  margin-top: 10px;
 
   .meta-item {
     flex: 0 0 0;
@@ -28,6 +28,7 @@
 
     &.-half {
       flex-basis: 100%;
+
       @include min-screen($breakpoint-meta) {
         max-width: 50%;
         flex-basis: 50%;

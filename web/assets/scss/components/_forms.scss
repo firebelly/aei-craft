@@ -63,13 +63,21 @@
   position: relative;
   text-decoration: none;
   padding: 11px 6*$beat 11px 11px;
+  @include outline-cornerize($black, $white);
 
-  &:not(.-solid) {
-    @include outline-cornerize($black, $white);
+  &:hover {
+    background-color: $black;
+    fill: $white;
+    color: $white;
+    @include font-smoothing;
   }
+
 
   &.-solid {
     @include solid-cornerize($red);
+    &::before, &::after {
+      display: none;
+    }
   }
 
   .icon {
