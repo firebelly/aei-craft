@@ -35,7 +35,18 @@
       }
     %}
 
-  {% include "partials/_pagination_category" %}
+    {% set relatedPosts = craft.entries({
+      section: 'impact',
+      relatedTo: category,
+    }).all() %}
+    {% include 'partials/_related-impact'
+      with {
+        'relatedPosts': relatedPosts,
+        'relatedProjectsTitle': "#{ category.title } Impact",
+      }
+    %}
+
+    {% include "partials/_pagination_category" %}
 
   </article>
 
