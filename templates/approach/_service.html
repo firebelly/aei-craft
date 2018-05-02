@@ -1,13 +1,14 @@
 {% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
+{% set title = category.title %}
 {% set bodyClass = 'overlapping-header' %}
 
 {% block content %}
 
   <article class="single-service" data-id="{{ category.id }}">
     {% set header = {
-      image: category.serviceImage.one(), 
+      image: category.serviceImage.one(),
       title: category.title
-    } %}  
+    } %}
     {% include 'partials/_secondary-header' %}
 
     <!-- intro -->

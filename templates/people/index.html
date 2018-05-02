@@ -12,6 +12,7 @@
     ]
   }).limit(8) as paginationInfo, peopleEntries %}
 
+  {% set title = category.title %}
   {% set subheader = category.description %}
 
 {% else %}
@@ -23,6 +24,7 @@
     ]
   }).limit(8) as paginationInfo, peopleEntries %}
 
+  {% set title = 'People' %}
   {% set subheader = entry.subheader %}
 
 {% endif %}

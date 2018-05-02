@@ -1,4 +1,5 @@
 {% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
+{% set title = entry.title %}
 
 {% block filters %}
   <li class="filters-item">

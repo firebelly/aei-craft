@@ -1,4 +1,5 @@
 {% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
+{% set title = entry.title %}
 {% set bodyClass = 'overlapping-header' %}
 {% set impactType = entry.impactType.one() %}
 {% set impactPeople = entry.impactPeople.all() %}
@@ -123,7 +124,11 @@
       </div>
     </div>
     {% set limitCriteria = craft.entries.section('impact').limit(2) %}
-    {% set relatedImpactEntries = craft.similar.find({ element: entry, context: entry.impactType, criteria: limitCriteria }) %}
+    {% set relatedImpactEntries = craft.similar.find({
+      element: entry,
+      context: entry.impactType,
+      criteria: limitCriteria
+    }) %}
     <ul class="row -halves -separators semantic-only-list hr-top-off-white hr-bottom-off-white margin-bottom">
       {% for post in relatedImpactEntries %}
         <li class="row-block background-white text-black separate">
