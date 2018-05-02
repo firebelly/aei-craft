@@ -54,6 +54,24 @@
       }
     }
   }
+
+  &.-thirds {
+    .row-block {
+      flex-basis: 100%;
+      width: 100%;
+
+      @include min-screen($breakpoint-thirds-2col) {
+        flex-basis: 50%;
+        max-width: 50%;
+      }
+
+      @include min-screen($breakpoint-thirds-3col) {
+        flex-basis: 33.33%;
+        max-width: 33.33%;
+      }
+    }
+  }
+
   &.-quarters {
     .row-block {
       flex-basis: 100%;
@@ -61,12 +79,12 @@
 
       @include min-screen($breakpoint-quarters-2col) {
         flex-basis: 50%;
-        width: 50%;
+        max-width: 50%;
       }
 
       @include min-screen($breakpoint-quarters-4col) {
         flex-basis: 25%;
-        width: 25%;
+        max-width: 25%;
       }
     }
   }

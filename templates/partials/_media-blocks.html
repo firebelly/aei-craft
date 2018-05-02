@@ -6,6 +6,7 @@
         (block.width ?? null)=='full'
         or block.type=='header'
         or block.type=='video'
+        or block.type=='linkGrid'
       %}
 
       <div class="row-block {{ doubleWidth ? '-double' : '' }}">
@@ -23,7 +24,7 @@
         {% case "video" %}
           {% include 'partials/media-blocks/_video' %}
         {% case "linkGrid" %}
-          {% include 'partials/media-blocks/_link_grid' %}
+          {% include 'partials/media-blocks/_link-grid' %}
         {% endswitch %}
       </div>
 
