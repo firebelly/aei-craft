@@ -27,6 +27,13 @@
   @include fill;
 }
 
+.hide-md {
+  display: block;
+  @include media-md {
+    display: none;
+  }
+}
+
 .show-md {
   display: none;
   @include media-md {

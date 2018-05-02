@@ -13,7 +13,7 @@
         <p class="font-h1 no-margin">{{ pageHeader.subheader }}</p>
         <div class="buttons">
           {% if pageHeader.headerVideo %}
-            <button class="button theater-open show-md">
+            <button class="button theater-play show-md">
               <span class="border"></span><span class="extra-corners"></span>
               Play Video
               <svg class="icon icon-triangle"><use xlink:href="#icon-triangle" /></svg>
@@ -44,13 +44,15 @@
   </div>
   <div class="checkerboard-hero theater image-wrap">
     {% set headerImage = pageHeader.headerImage.one() %}
-    {% if headerImage %}
-        <div class="image lazy" style="background-image: url();" data-original="{{ headerImage.getUrl('header') }}"></div>
-    {% endif %}
+    <div class="image lazy" style="background-image: url();" data-original="{{ headerImage ? headerImage.getUrl('header') : '' }}">
+      {% if pageHeader.headerVideo %}
+        <button class="button -solid hide-md theater-play text-off-white background-red absolute-center">Play Video<svg class="icon icon-triangle"><use xlink:href="#icon-triangle" /></svg></button>
+      {% endif %}
+    </div>
     {% if pageHeader.headerVideo %}
       <div class="player-wrap fluid-width-video-wrapper fill">
         <div class="player" data-youtube-id="{{ youtubeid }}"></div>
-        <div class="theater-close"><svg class="icon icon-x"><use xlink:href="#icon-x" /></svg></div>
+        <div class="theater-stop"><svg class="icon icon-x"><use xlink:href="#icon-x" /></svg></div>
       </div>
     {% endif %}
   </div>

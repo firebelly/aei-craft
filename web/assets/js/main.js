@@ -214,7 +214,7 @@ var FB = (function($) {
     me.player = false;
 
     // Open the theater and play
-    me.open = function () {
+    me.play = function () {
       me.$theaterWrap
         .addClass('-open')
         .removeClass('-closed');
@@ -243,7 +243,7 @@ var FB = (function($) {
     }
 
     // Close the theater and stop
-    me.close = function () {
+    me.stop = function () {
       if(me.player) {
         me.player.stopVideo();
       }
@@ -252,14 +252,14 @@ var FB = (function($) {
         .addClass('-closed');
     }
 
-    // Add open/close functionality to DOM elements with apprpriate class
-    $theaterWrap.find('.theater-open').click(me.open);
-    $theaterWrap.find('.theater-close').click(me.close);
+    // Add play/stop functionality to DOM elements with apprpriate class
+    $theaterWrap.find('.theater-play').click(me.play);
+    $theaterWrap.find('.theater-stop').click(me.stop);
 
     // Close theater on ESC key press
     $(document).keyup(function(e) {
       if (e.keyCode === 27) {
-        me.close();
+        me.stop();
       }
     });
 

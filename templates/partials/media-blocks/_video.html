@@ -11,13 +11,15 @@
 <!-- checkerboard header w/ optional theater -->
 <div class="video-module theater-wrap -closed -full">
   <div class="theater image-wrap -hd-ratio">
-    {% if image %}
-        <div class="image lazy" style="background-image: url();" data-original="{{ image.getUrl('header') }}"></div>
-    {% endif %}
+    <div class="image lazy" style="background-image: url();" data-original="{{ image ? image.getUrl('header') : '' }}">
+      {% if block.youtubeUrl %}
+        <button class="button -solid theater-play text-off-white background-red absolute-center">Play Video<svg class="icon icon-triangle"><use xlink:href="#icon-triangle" /></svg></button>
+      {% endif %}
+    </div>
     {% if block.youtubeUrl %}
       <div class="player-wrap fluid-width-video-wrapper fill">
         <div class="player" data-youtube-id="{{ youtubeid }}"></div>
-        <div class="theater-close"><svg class="icon icon-x"><use xlink:href="#icon-x" /></svg></div>
+        <div class="theater-stop"><svg class="icon icon-x"><use xlink:href="#icon-x" /></svg></div>
       </div>
     {% endif %}
   </div>
