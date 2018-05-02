@@ -2,11 +2,9 @@
 
 {% block content %}
 
-
   {% for pageHeader in entry.pageHeader.all() %}
     {% include '/partials/_theater-header' %}
   {% endfor %}
-
 
   {% set rowNumber = 0 %}
   {% for block in entry.featureBlocks.all() %}

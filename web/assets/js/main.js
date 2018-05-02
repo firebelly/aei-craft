@@ -39,7 +39,6 @@ var FB = (function($) {
     $(document).keyup(function(e) {
       if (e.keyCode === 27) {
         _closeNav();
-        _closeTheater();
       }
     });
 
@@ -188,68 +187,82 @@ var FB = (function($) {
   }
 
   function _initTheater() {
-    if($('.theater #youtube-player').length) {
+    if($('.theater-wrap .player').length) {
 
-     $.getScript("https://www.youtube.com/iframe_api", function () {
+      $.getScript("https://www.youtube.com/iframe_api", function () {
 
-        $(document).on('click','.theater-close', function () {
-          _closeTheater();
-        });
-
-        $(document).on('click','.theater-open', function () {
-          _openTheater();
-        });
-
-        $(document).on('click','.theater-toggle', function () {
-          _toggleTheater();
+        $('.theater-wrap').each(function () {
+          var theater = new Theater($(this));
         });
       });
     }
   }
 
-  function _openTheater() {
-    $('.theater-wrap')
-      .addClass('-open')
-      .removeClass('-closed');
+  function Theater($theaterWrap) {
 
-    // Load video if not already loaded, then play
-    if(typeof youtubePlayer === 'undefined') {
-      var youtubeId = $('#youtube-player').attr('data-youtube-id');
-      youtubePlayer = new YT.Player('youtube-player', {
-        videoId: youtubeId,
-        playerVars: {
-            autoplay: 1,
-            rel: 0,
-            showinfo: 0,
-            modestbranding: 0,
-        },
-        events: {
-          'onReady': function (e) {
-            $('.theater-wrap .video').addClass('video-ready');
-            // e.target.playVideo();
+    // Alias this
+    var me = this;
+
+    // Find me in markup
+    me.$theaterWrap = $theaterWrap;
+    me.$player = me.$theaterWrap.find('.player');
+
+    // Get youtube id
+    me.youtubeId = me.$player.attr('data-youtube-id');
+
+    // This will store player object from youtube api
+    me.player = false;
+
+    // Open the theater and play
+    me.open = function () {
+      me.$theaterWrap
+        .addClass('-open')
+        .removeClass('-closed');
+
+      // Play if player object is already populated
+      if(me.player) {
+        me.player.playVideo();
+
+      // Otherwise populate it with api call
+      } else {
+        me.player = new YT.Player(me.$player[0], {
+          videoId: me.youtubeId,
+          playerVars: {
+              autoplay: 1,
+              rel: 0,
+              showinfo: 0,
+              modestbranding: 0,
           },
-        }
-      });
-    } else {
-      youtubePlayer.playVideo();
+          events: {
+            'onReady': function (e) {
+              me.$theaterWrap.find('.player-wrap').addClass('player-ready');
+            },
+          }
+        });
+      }
     }
-  }
 
-  function _closeTheater() {
-    if(typeof youtubePlayer !== 'undefined') {
-      youtubePlayer.stopVideo();
+    // Close the theater and stop
+    me.close = function () {
+      if(me.player) {
+        me.player.stopVideo();
+      }
+      me.$theaterWrap
+        .removeClass('-open')
+        .addClass('-closed');
     }
-    $('.theater-wrap')
-      .removeClass('-open')
-      .addClass('-closed');
-  }
 
-  function _toggleTheater() {
-    if($('.theater-wrap').hasClass('-open')) {
-      _closeTheater();
-    } else {
-      _openTheater();
-    }
+    // Add open/close functionality to DOM elements with apprpriate class
+    $theaterWrap.find('.theater-open').click(me.open);
+    $theaterWrap.find('.theater-close').click(me.close);
+
+    // Close theater on ESC key press
+    $(document).keyup(function(e) {
+      if (e.keyCode === 27) {
+        me.close();
+      }
+    });
+
   }
 
   // Called in quick succession as window is resized

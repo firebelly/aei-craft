@@ -18,8 +18,8 @@
     }
   }
 
-  &.-portrait, &.-landscape, &.-square {
-    height: 0; 
+  &.-portrait, &.-landscape, &.-square, &.-hd-ratio  {
+    height: 0;
   }
 
   &.-landscape {
@@ -32,6 +32,10 @@
 
   &.-square {
     padding-bottom: 100%;
+  }
+
+  &.-hd-ratio {
+    padding-bottom: 100% * 9/16;
   }
 
   @include media-md {

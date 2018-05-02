@@ -65,35 +65,25 @@
       padding: 0;
     }
   }
-}
 
-.theater-wrap {
-  .theater-cover-top, .theater-cover-bottom {
-    z-index: 1;
-    transition: transform 0.2s 0.4s $ease;
-  }
+  &.theater-wrap {
 
-  .video {
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-
-  &.-open {
-
-    .video.video-ready {
-      opacity: 1;
-      transition: opacity 0.2s 0.3s $ease;
+    .theater-cover-top, .theater-cover-bottom {
+      z-index: 1;
+      transition: transform 0.2s 0.4s $ease;
     }
 
-    @include media-md {
-      .theater-cover-top, .theater-cover-bottom {
-        transition: transform 0.2s $ease;
-      }
-      .theater-cover-top {
-        transform: translateY(-100%);
-      }
-      .theater-cover-bottom {
-        transform: translateY(100%);
+    &.-open {
+          @include media-md {
+        .theater-cover-top, .theater-cover-bottom {
+          transition: transform 0.2s $ease;
+        }
+        .theater-cover-top {
+          transform: translateY(-100%);
+        }
+        .theater-cover-bottom {
+          transform: translateY(100%);
+        }
       }
     }
   }

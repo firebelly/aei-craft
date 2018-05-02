@@ -1,0 +1,30 @@
+{% set image = block.image[0] ?? null %}
+
+{% if block.youtubeUrl %}
+  {% set ytregex1 = '/^(?:https?:\\/\\/)?(?:www\.)?(?:youtu\.be\\/|youtube\.com)(?:\\/embed\\/|\\/v\\/|\\/watch\\?v=||\\/watch\\\?.+&v=)/' %}
+  {% set ytregexTrailingSlash = '/(\\/)$/' %}
+  {% set ytregexTrailingVariables = '/(&+.*)/' %}
+  {% set youtubeid = block.youtubeUrl | replace(ytregex1, '') | replace(ytregexTrailingSlash, '') | replace(ytregexTrailingVariables, '') %}
+{% endif %}
+
+
+<!-- checkerboard header w/ optional theater -->
+<div class="video-module theater-wrap -closed -full">
+  <div class="theater image-wrap -hd-ratio">
+    {% if image %}
+        <div class="image lazy" style="background-image: url();" data-original="{{ image.getUrl('header') }}"></div>
+    {% endif %}
+    {% if block.youtubeUrl %}
+      <div class="player-wrap fluid-width-video-wrapper fill">
+        <div class="player" data-youtube-id="{{ youtubeid }}"></div>
+        <div class="theater-close"><svg class="icon icon-x"><use xlink:href="#icon-x" /></svg></div>
+      </div>
+    {% endif %}
+  </div>
+  {% if block.caption %}
+    <div class="caption -right font-captions theater-cover-bottom">
+      <svg class="icon icon-up-arrow"><use xlink:href="#icon-up-arrow" /></svg>
+      <p div class="no-margin">{{ block.caption }}</p>
+    </div>
+  {% endif %}
+</div>

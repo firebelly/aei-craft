@@ -1,0 +1,19 @@
+.text-module, .user-content {
+
+  p:not(:last-child) {
+    margin-bottom: 1.45em;
+  }
+
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+.user-content {
+  h2 { @include font-h1; }
+  h3, h4, h5, h6 { @include font-h2; }
+}
