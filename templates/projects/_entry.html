@@ -57,12 +57,6 @@
               <div class="content">{{ entry.projectLocation }}</div>
             </div>
           {% endif %}
-          {% if entry.projectLeedStatus %}
-            <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
-              <h3>LEED Status</h3>
-              <div class="content">{{ entry.projectLeedStatus }}</div>
-            </div>
-          {% endif %}
           {% if entry.projectPartners|length %}
             <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
               <h3>Partners</h3>
@@ -73,6 +67,12 @@
                   {% endfor %}
                 </ul>
               </div>
+            </div>
+          {% endif %}
+          {% if entry.projectLeedStatus %}
+            <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
+              <h3>LEED Status</h3>
+              <div class="content">{{ entry.projectLeedStatus }}</div>
             </div>
           {% endif %}
           {% if entry.projectAwards|length %}
