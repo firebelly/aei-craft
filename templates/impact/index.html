@@ -14,7 +14,7 @@
     with: [
       'impactImage'
     ]
-  }).id('not ' ~ omitId).order('featured desc, postDate desc').limit(5) as paginationInfo, impactEntries %}
+  }).id('not ' ~ omitId).orderBy('featured desc, postDate desc').limit(5) as paginationInfo, impactEntries %}
 
 {% else %}
 
@@ -27,7 +27,7 @@
     with: [
       'impactImage'
     ]
-  }).id('not ' ~ omitId).order('featured desc, postDate desc').limit(5) as paginationInfo, impactEntries %}
+  }).id('not ' ~ omitId).orderBy('featured desc, postDate desc').limit(5) as paginationInfo, impactEntries %}
 
 {% endif %}
 
@@ -64,9 +64,11 @@
 
   <ul class="row -halves -separators semantic-only-list">
     {% for post in impactEntries %}
-      <li class="row-block   separate">
+      <li class="row-block separate">
         {% include 'impact/_article' %}
       </li>
+    {% else %}
+      <li class="no-posts-found">No posts found.</li>
     {% endfor %}
   </ul>
 
