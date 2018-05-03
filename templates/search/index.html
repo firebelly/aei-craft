@@ -19,9 +19,9 @@
     {% set approachPosts = [] %}
     {% set peoplePosts = [] %}
 
-    {% set entries = craft.entries.search(query).orderBy('score').all() %}
+    {% set entries = craft.entries.search(query).orderBy('score') %}
     {% if entries|length %}
-      {% for entry in entries %}
+      {% for entry in entries.all() %}
         {% switch entry.section %}
           {% case "Projects" %}
             {% set expertisePosts = expertisePosts|merge([entry]) %}
@@ -39,8 +39,8 @@
       search: query,
       orderBy: 'score',
       group: 'services',
-    }).all() %}
-    {% for service in services %}
+    }) %}
+    {% for service in services.all() %}
       {% set approachPosts = approachPosts|merge([service]) %}
     {% endfor %}
 

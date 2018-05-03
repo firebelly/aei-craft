@@ -23,7 +23,7 @@
       with: [ 'office' ],
       id: marketContactsIds,
     }) %}
-    {% set marketContactsOffices = craft.entries.section('offices').relatedTo({ sourceElement: marketContactsIds, field: 'office' }).all() %}
+    {% set marketContactsOffices = craft.entries.section('offices').relatedTo({ sourceElement: marketContactsIds, field: 'office' }) %}
   {% endif %}
 
 
@@ -68,7 +68,7 @@ First we determin which. #}
   <div class="module text-module">
     <div class="font-h1 user-content">{{ subheader }}</div>
     <div class="buttons">
-      {% if category is defined %}
+      {% if category is defined and marketContactsIds|length %}
         <button class="contact-modal-open button">
           <span class="border"></span><span class="extra-corners"></span>
           Contacts
@@ -88,13 +88,13 @@ First we determin which. #}
     <div class="modal background-white text-black pad -unloaded" id="contact-modal">
       <h2 class="title">{{ category.title }} Contacts</h2>
       <ul class="offices semantic-only-list">
-      {% for office in marketContactsOffices %}
+      {% for office in marketContactsOffices.all() %}
         <li class="office">
           <h3 class="office-title">{{ office.title }}</h2>
 
           <ul class="contacts semantic-only-list font-details">
 
-            {% for person in marketContacts %}
+            {% for person in marketContacts.all() %}
               {% set personOffice = person.office[0] ?? null %}
               {% if personOffice and personOffice.id == office.id %}
                 <li class="contact">
