@@ -42,7 +42,7 @@ return [
     // Staging environment settings
     'staging' => [
         // Base site URL
-        'siteUrl' => null,
+        'siteUrl' => 'http://aei-craft.firebelly.co',
     ],
 
     // Production environment settings

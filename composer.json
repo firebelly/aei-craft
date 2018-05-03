@@ -31,8 +31,7 @@
     "nystudio107/craft-similar": "1.0.0",
     "mmikkel/incognito-field": "1.0.0",
     "verbb/super-table": "2.0.6",
-    "topshelfcraft/wordsmith": "3.0.2",
-    "amimpact/command-palette": "3.1.1"
+    "topshelfcraft/wordsmith": "3.0.2"
   },
   "autoload": {
     "psr-4": {
