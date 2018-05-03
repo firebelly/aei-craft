@@ -7,6 +7,11 @@
 }
 
 .page-expertise {
+
+  .intro-block {
+    position: relative;
+  }
+
   .masonry-grid {
     .intro-block {
       @include media-md {
