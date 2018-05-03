@@ -98,7 +98,7 @@ First we determin which. #}
               {% set personOffice = person.office[0] ?? null %}
               {% if personOffice and personOffice.id == office.id %}
                 <li class="contact">
-                  <a href="{{ person.getUrl() }}">{{ person.title }}</a><br/>
+                  <a href="{{ person.url }}">{{ person.title }}</a><br/>
                   {% if person.phoneNumber %}
                     {{ person.phoneNumber }}<br/>
                   {% endif %}

@@ -2,29 +2,29 @@
 	{% set entryType = entry.type.name ?? 'Services' %}
 	{% switch entryType %}
 		{% case "Services" %}
-			<h3><a href="{{ entry.getUrl() }}">{{ entry.title }}</a></h3>
+			<h3><a href="{{ entry.url }}">{{ entry.title }}</a></h3>
 			<p class="excerpt" class="dont-break-out">{{ entry.description | chop(limit=20, unit='w', append='…') }}</p>
-			<a href="{{ entry.getUrl() }}" class="read-more">View <span class="arrow-wrap">Service<svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></span></a>
+			<a href="{{ entry.url }}" class="read-more">View <span class="arrow-wrap">Service<svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></span></a>
 
 		{% case "Projects" %}
-			<h3><a href="{{ entry.getUrl() }}">{{ entry.projectClientName }}</a></h3>
+			<h3><a href="{{ entry.url }}">{{ entry.projectClientName }}</a></h3>
 			<p class="dont-break-out">{{ entry.projectName }}</p>
-			<a href="{{ entry.getUrl() }}" class="read-more">View <span class="arrow-wrap">Project<svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></span></a>
+			<a href="{{ entry.url }}" class="read-more">View <span class="arrow-wrap">Project<svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></span></a>
 
 		{% case "Impact" %}
-			<h3><a href="{{ entry.getUrl() }}">{{ entry.title }}</a></h3>
+			<h3><a href="{{ entry.url }}">{{ entry.title }}</a></h3>
 			<p class="excerpt" class="dont-break-out">{{ entry.excerpt ? entry.excerpt : entry.description | chop(limit=20, unit='w', append='…') }}</p>
-			<a href="{{ entry.getUrl() }}" class="read-more">Read <span class="arrow-wrap">More<svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></span></a>
+			<a href="{{ entry.url }}" class="read-more">Read <span class="arrow-wrap">More<svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></span></a>
 
 		{% case "Offices" %}
-			<h3><a href="{{ entry.getUrl() }}">{{ entry.title }}</a></h3>
+			<h3><a href="{{ entry.url }}">{{ entry.title }}</a></h3>
 			<p class="dont-break-out">{{ entry.phoneNumber }}<br>{{ entry.email }}</p>
-			<a href="{{ entry.getUrl() }}" class="read-more">View <span class="arrow-wrap"> Office<svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></span></a>
+			<a href="{{ entry.url }}" class="read-more">View <span class="arrow-wrap"> Office<svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></span></a>
 
 		{% case "Person" %}
-			<h3><a href="{{ entry.getUrl() }}">{{ entry.title }}</a></h3>
+			<h3><a href="{{ entry.url }}">{{ entry.title }}</a></h3>
 			<p>{{ entry.personTitle }}</p>
-			<a href="{{ entry.getUrl() }}" class="read-more">View <span class="arrow-wrap">Bio<svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></span></a>
+			<a href="{{ entry.url }}" class="read-more">View <span class="arrow-wrap">Bio<svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></span></a>
 
 	{% endswitch %}
 </article>

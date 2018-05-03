@@ -83,7 +83,7 @@
                     <li>
                     {% set aeiPerson = person.aeiPerson.one() %}
                     {% if aeiPerson %}
-                      <a href="{{ aeiPerson.getUrl() }}">{{ aeiPerson.title }}</a>
+                      <a href="{{ aeiPerson.url }}">{{ aeiPerson.title }}</a>
                     {% else %}
                       {{ person.personName }}
                       {% if person.personCompany %}

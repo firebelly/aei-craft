@@ -4,7 +4,7 @@
       {% set relatedEntry = row.relatedEntry.one() %}
       {% if relatedEntry %}
         {% set linkTitle = row.linkTitle ?? relatedEntry.title %}
-        {% set buttonUrl = relatedEntry.getUrl() %}
+        {% set buttonUrl = relatedEntry.url %}
       {% else %}
         {% set linkTitle = row.linkTitle %}
       {% endif %}

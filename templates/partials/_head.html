@@ -7,7 +7,7 @@
 
   <meta property="og:title" content="{% if seoTitle is defined %}{{ seoTitle }}{% elseif title is defined %}{{ title }} | {{ siteName }}{% else %}{{ siteName }}{% endif %}" />
   {% if mainImage is defined %}
-    <meta property="og:image" content="{{ mainImage.getUrl() }}"/>
+    <meta property="og:image" content="{{ mainImage.url }}"/>
   {% else %}
     <meta property="og:image" content=""/>
   {% endif %}
