@@ -31,7 +31,7 @@ return [
     // Dev environment settings
     'dev' => [
         // Base site URL
-        'siteUrl' => null,
+        'siteUrl' => 'http://aei-craft.localhost',
 
         'backupCommand' => '/usr/local/bin/mysqldump',
 
