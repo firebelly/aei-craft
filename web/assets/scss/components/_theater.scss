@@ -16,12 +16,12 @@
     right: 0;
     z-index: 2;
     opacity: 0;
-    fill: $black;
+    fill: $white;
     position: absolute;
     padding: $padding/2;
 
     &:hover {
-      fill: $white;
+      fill: $concrete-med;
     }
 
     .icon {

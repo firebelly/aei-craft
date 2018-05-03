@@ -2665,11 +2665,11 @@ body.white-header .secondary-links a {
   right: 0;
   z-index: 2;
   opacity: 0;
-  fill: #282826;
+  fill: #fff;
   position: absolute;
   padding: 20px; }
   .theater-wrap .theater-stop:hover {
-    fill: #fff; }
+    fill: #87847f; }
   .theater-wrap .theater-stop .icon {
     width: 16px;
     height: 16px; }
