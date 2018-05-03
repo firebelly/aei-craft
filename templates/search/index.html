@@ -1,5 +1,5 @@
-{% extends (craft.app.request.isAjax and not craft.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
-{% set query = craft.request.getParam('q') %}
+{% extends (craft.app.request.isAjax and not craft.app.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
+{% set query = craft.app.request.getParam('q') %}
 
 {% block content %}
 
