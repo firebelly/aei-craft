@@ -14,7 +14,7 @@
     background-position: center center;
 
     &.-top-weight {
-      background-position: top center;
+      background-position: top centers;
     }
   }
 
@@ -38,6 +38,12 @@
     padding-bottom: 100% * 9/16;
   }
 
+  &.-portrait-md {
+    .image {
+      background-position: top center;
+    }
+  }
+
   @include media-md {
     &.-landscape-md {
       padding-bottom: $landscape-padding;
@@ -45,6 +51,10 @@
 
     &.-portrait-md {
       padding-bottom: $portrait-padding;
+
+      .image {
+        background-position: center center;
+      }
     }
   }
 }

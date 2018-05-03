@@ -70,7 +70,7 @@
     }
 
     .primary-links-item {
-      color: $white;
+      color: $black;
       position: relative;
 
       a {
@@ -86,12 +86,12 @@
           position: absolute;
           background-size: 100% 100%;
           background-repeat: no-repeat;
-          background-image: url('../svgs/icon-right-arrow.svg');
+          background-image: url('../svgs/icon-right-arrow-white.svg');
         }
       }
 
       &.current a, a:hover {
-        color: $black;
+        color: $white;
         &::after {
           opacity: 1;
         }
@@ -121,19 +121,19 @@
       display: inline;
 
       a {
-        color: $white;
+        color: $black;
         text-decoration: none;
 
         &::after {
           content: '/';
-          color: $white;
+          color: $black;
           margin-left: 0.8ch;
           margin-right: 0.4ch;
         }
       }
 
       &.current a, a:hover {
-        color: $black;
+        color: $white;
       }
 
       &:last-child {
