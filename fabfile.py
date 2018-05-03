@@ -31,7 +31,7 @@ def devsetup():
 def deploy():
   update()
   composer_install()
-  clear_cache()
+  # clear_cache()
 
 def update():
   with cd(env.remotepath):
@@ -41,5 +41,5 @@ def composer_install():
   with cd(env.remotepath):
     run('~/bin/composer install')
 
-def clear_cache():
-  run ('curl -vs -o /dev/null {0}://{1}/actions/cacheClear/clear?key=fbclear > /dev/null 2>&1'.format(env.remote_protocol, env.hosts[0]))
+# def clear_cache():
+#   run ('curl -vs -o /dev/null {0}://{1}/actions/cacheClear/clear?key=fbclear > /dev/null 2>&1'.format(env.remote_protocol, env.hosts[0]))
