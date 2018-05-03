@@ -32,7 +32,7 @@
             <div class="meta-item -full">
               <h3>Address</h3>
               <address class="content">
-                {% if entry.officeMapUrl %}<a href="{{ entry.officeMapUrl }}">{% endif %}
+                {% if entry.officeMapUrl %}<a target="_blank" href="{{ entry.officeMapUrl }}">{% endif %}
                   {{ entry.officeAddress1 }}<br>
                   {% if entry.officeAddress2 %}
                     {{ entry.officeAddress2 }}<br>
