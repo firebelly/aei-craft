@@ -131,11 +131,13 @@
     position: relative;
     z-index: 2;
   }
-  &:hover {
-    color: $white;
-    .image {
-      opacity: 1;
-      transform: scale(2);
+  &.location-contact {
+    &:hover {
+      color: $white;
+      .image {
+        opacity: 1;
+        transform: scale(2);
+      }
     }
   }
 }

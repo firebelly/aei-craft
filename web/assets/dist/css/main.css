@@ -2537,9 +2537,9 @@ body.white-header .secondary-links a {
   .contact-module .content {
     position: relative;
     z-index: 2; }
-  .contact-module:hover {
+  .contact-module.location-contact:hover {
     color: #fff; }
-    .contact-module:hover .image {
+    .contact-module.location-contact:hover .image {
       opacity: 1;
       transform: scale(2); }
 
