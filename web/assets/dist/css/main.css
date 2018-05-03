@@ -733,6 +733,16 @@ body:hover .visually-hidden a, body:hover .visually-hidden input, body:hover .vi
 .no-underline, .no-underline a {
   text-decoration: none; }
 
+.dont-break-out {
+  /* These are technically the same, but use both */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  /* Instead use this non-standard one: */
+  word-break: break-word; }
+
+.no-break {
+  display: inline-block; }
+
 /* Slider */
 .slick-slider {
   position: relative;
@@ -821,6 +831,9 @@ body {
   text-transform: none;
   background: #fff;
   position: relative; }
+
+.no-scroll {
+  overflow-y: hidden; }
 
 a {
   color: inherit; }
@@ -1170,8 +1183,8 @@ body.white-header .secondary-links a {
         display: none; } }
   .site-nav .search-open {
     z-index: 1;
-    top: 40px;
-    left: 40px;
+    top: 24px;
+    left: 24px;
     position: absolute; }
   .site-nav .secondary-links {
     z-index: 1;
@@ -1288,22 +1301,6 @@ body.white-header .secondary-links a {
       text-decoration: underline; }
     .secondary-links .secondary-links-item a {
       text-decoration: none; }
-
-.search-open {
-  font-weight: normal;
-  font-style: normal;
-  font-family: 'Formular Mono', monospace;
-  font-size: 12px;
-  line-height: 1.33333;
-  letter-spacing: 0.075em;
-  text-transform: none; }
-  .search-open .icon-search {
-    top: 3px;
-    fill: #282826;
-    width: 10.5px;
-    height: 10.5px;
-    margin-left: 8px;
-    position: relative; }
 
 .nav-close {
   top: 0;
@@ -1460,7 +1457,7 @@ body.white-header .secondary-links a {
   text-align: left;
   position: relative;
   text-decoration: none;
-  padding: 11px 48px 11px 11px;
+  padding: 11px 56px 11px 11px;
   overflow: hidden;
   position: relative;
   background: #fff; }
@@ -1517,6 +1514,11 @@ body.white-header .secondary-links a {
     width: 7px;
     right: 20px;
     height: 7px; }
+  .button .icon-search {
+    top: 14px;
+    width: 10.3px;
+    right: 16px;
+    height: 10.3px; }
   .button .icon-right-arrow {
     top: 16px;
     width: 9px;
@@ -2440,7 +2442,7 @@ body.white-header .secondary-links a {
     height: 200%;
     background: #ff422d;
     position: absolute;
-    transition: transform 0.5s ease-out;
+    transition: transform 0.3s ease-out;
     transform: skew(-18deg) translateX(-100%); }
   .project-module::before {
     mix-blend-mode: color; }
@@ -2773,6 +2775,199 @@ body.white-header .secondary-links a {
   position: absolute;
   background-color: rgba(40, 40, 38, 0.75); }
 
+#search-modal {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  z-index: 10001;
+  left: 40px;
+  position: fixed;
+  background: #fff;
+  background: #fff;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out; }
+  #search-modal .scroll-wrap {
+    overflow-y: auto;
+    max-height: 100%;
+    padding: 120px 0; }
+  @media screen and (min-width: 1200px) {
+    #search-modal {
+      left: 33.33%; } }
+  #search-modal.active {
+    opacity: 1;
+    transform: none; }
+    #search-modal.active .icon-x {
+      opacity: 1;
+      transition: opacity 0s 0.3s; }
+  #search-modal .icon-x {
+    opacity: 0;
+    top: 40px;
+    width: 10.7px;
+    height: 10.7px;
+    fill: #f4f2ed;
+    position: absolute;
+    pointer-events: none;
+    right: calc(100% + 14.7px); }
+    @media screen and (min-width: 1200px) {
+      #search-modal .icon-x {
+        width: 24px;
+        height: 24px;
+        top: 127px;
+        right: calc(100% + 40px); } }
+
+.search-open {
+  font-weight: normal;
+  font-style: normal;
+  font-family: 'Formular Mono', monospace;
+  font-size: 12px;
+  line-height: 1.33333;
+  letter-spacing: 0.075em;
+  text-transform: none;
+  top: -16px;
+  left: -16px;
+  cursor: pointer;
+  padding: 16px;
+  position: relative;
+  display: inline-block; }
+  .search-open .icon-search {
+    top: 3px;
+    fill: #282826;
+    width: 10.5px;
+    height: 10.5px;
+    margin-left: 8px;
+    position: relative; }
+
+.search-form {
+  padding: 0 40px; }
+  .search-form input[type="search"] {
+    font-weight: normal;
+    font-style: normal;
+    font-family: 'Formular Regular', sans-serif;
+    font-size: 22px;
+    line-height: 1.45455;
+    letter-spacing: -0.025em;
+    text-transform: none;
+    border: 0;
+    border: none;
+    color: #282826;
+    outline: none;
+    display: block;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+    background: transparent; }
+    @media screen and (min-width: 1200px) {
+      .search-form input[type="search"] {
+        font-size: 33px;
+        line-height: 1.21212;
+        letter-spacing: -0.025em;
+        text-transform: none; } }
+  .search-form .button {
+    margin-top: 40px; }
+
+.search-results {
+  font-weight: normal;
+  font-style: normal;
+  font-family: 'Formular Mono', monospace;
+  font-size: 12px;
+  line-height: 1.33333;
+  letter-spacing: 0.075em;
+  text-transform: none;
+  width: 100%;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  overflow-x: hidden;
+  margin-top: 96px; }
+  .search-results h2 {
+    font-weight: normal;
+    font-style: normal;
+    font-family: 'Formular Mono', monospace;
+    font-size: 12px;
+    line-height: 1.33333;
+    letter-spacing: 0.075em;
+    text-transform: none;
+    margin: 0;
+    padding-bottom: 13px;
+    border-bottom: 1px solid #282826; }
+  .search-results .search-section {
+    width: 100%;
+    -ms-flex: 0 0 0px;
+        flex: 0 0 0;
+    -ms-flex-preferred-size: 100%;
+        flex-basis: 100%;
+    position: relative;
+    padding: 0 40px;
+    padding-top: 120px; }
+    .search-results .search-section:first-of-type {
+      padding-top: 0; }
+    @media screen and (min-width: 500px) {
+      .search-results .search-section {
+        max-width: 50%;
+        -ms-flex-preferred-size: 50%;
+            flex-basis: 50%; }
+        .search-results .search-section:nth-of-type(2) {
+          padding-top: 0; } }
+    @media screen and (min-width: 750px) {
+      .search-results .search-section {
+        padding-top: 0;
+        max-width: 25%;
+        -ms-flex-preferred-size: 25%;
+            flex-basis: 25%; } }
+    .search-results .search-section::after {
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      content: '';
+      right: -1px;
+      position: absolute;
+      background: #f4f2ed; }
+  .search-results .no-results {
+    font-weight: normal;
+    font-style: normal;
+    font-family: 'Formular Regular', sans-serif;
+    font-size: 16.5px;
+    line-height: 1.45455;
+    letter-spacing: -0.025em;
+    text-transform: none;
+    margin: 0;
+    color: red;
+    padding: 0 40px; }
+  .search-results .search-article {
+    padding: 35px 0 40px;
+    border-bottom: 1px solid #f4f2ed; }
+    .search-results .search-article h3 {
+      font-weight: normal;
+      font-style: normal;
+      font-family: 'Formular Regular', sans-serif;
+      font-size: 16.5px;
+      line-height: 1.45455;
+      letter-spacing: -0.025em;
+      text-transform: none;
+      color: #ff422d;
+      margin: 0 0 16px; }
+      .search-results .search-article h3, .search-results .search-article h3 a {
+        text-decoration: none; }
+    .search-results .search-article p {
+      margin: 0; }
+    .search-results .search-article .read-more {
+      display: block;
+      margin: 16px 0 0; }
+    .search-results .search-article .arrow-wrap {
+      position: relative;
+      text-decoration: underline; }
+      .search-results .search-article .arrow-wrap:after {
+        content: "\00a0\00a0"; }
+    .search-results .search-article .icon-right-arrow {
+      top: 5px;
+      right: 0;
+      fill: #282826;
+      width: 8.5px;
+      height: 6.5px;
+      position: absolute; }
+
 .page-impact .featured-post-block .category {
   color: #f4f2ed; }
 
@@ -2787,22 +2982,6 @@ body.white-header .secondary-links a {
 @media screen and (min-width: 750px) {
   .page-offices .page-intro .buttons {
     margin-top: 76px; } }
-
-.search-modal {
-  position: absolute;
-  top: 10vh;
-  left: 10%;
-  width: 80%;
-  height: 80vh;
-  background: #fff;
-  z-index: 100;
-  display: none;
-  overflow: auto; }
-  .search-modal.active {
-    display: block; }
-  .search-modal .icon {
-    width: 9px;
-    height: 7px; }
 
 .award-table {
   padding: 0 40px; }

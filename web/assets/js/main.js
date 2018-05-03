@@ -40,6 +40,7 @@ var FB = (function($) {
       if (e.keyCode === 27) {
         _closeNav();
         _closeContactModal();
+        _closeSearch();
       }
     });
 
@@ -81,45 +82,140 @@ var FB = (function($) {
     _initStatLabelWrappingDetection();
     _initTableSort();
     _initContactModal();
+    _initSearch();
 
   } // end init()
 
+  function _initSearch() {
+    // Open on click
+    $(document).on('click', '.search-open', function(e) {
+      e.preventDefault();
+      _openSearch();
+    });
+
+    $(document).on('click', '.search-close', function(e) {
+      e.preventDefault();
+      _closeSearch();
+    });
+
+    // Clutter up the DOM (add search modal and overlay)
+    $('<div id="search-modal"><div class="scroll-wrap"><div class="content"></div></div><svg class="icon icon-x"><use xlink:href="#icon-x" /></svg></div>')
+      .appendTo('body');
+    $('<div class="overlay search-close" id="search-overlay"></div>')
+      .appendTo('body');
+
+    // Hide the overlay
+    $('#search-overlay').velocity("fadeOut", { duration: 0 });
+
+    // Pipe in search results on submit
+    $(document).on('submit', '.search-form', function(e) {
+      e.preventDefault();
+      var $this = $(this);
+      $.get($this.attr('action'), $this.serialize(), function(data) {
+        var $content = $('#search-modal .content')
+        $content.html(data).velocity('fadeOut', {duration: 0});
+        $content.find('.search-section').velocity('fadeOut', {duration: 0});
+        $content.find('.search-article').velocity('fadeOut', {duration: 0});
+
+        var speed = 200;
+        var delay = 40;
+        var i = 0;
+        $content.velocity('fadeIn', {duration: speed, delay: delay*(i++)}).find('.search-form input[type="search"]').focus();
+        $content.find('.search-section').each(function () {
+          $(this).velocity('fadeIn', {duration: speed, delay: delay*(i++)});
+        });
+        $content.find('.search-article').each(function () {
+          $(this).velocity('fadeIn', {duration: speed, delay: delay*(i++)});
+        });
+      });
+    });
+  }
+
+  function _openSearch() {
+    // Hide mobile nav
+    _closeNav();
+
+    // Animate in the modal
+    $('#search-modal').addClass('active');
+    $('#search-overlay').velocity("fadeIn", { duration: 100, easing: 'easeOut' });
+
+    // Prevent body scroll
+    $('body').addClass('no-scroll');
+
+    // Fill with content
+    $.get('/search/', function(data) {
+      $('#search-modal .content').html(data).velocity('fadeIn', {duration: 200}).find('.search-form input[name=q]').focus();
+    });
+  }
+
+  function _closeSearch() {
+    // Animate it away
+    $('#search-modal').removeClass('active');
+    $('#search-modal .content').velocity("fadeOut", { duration: 100, easing: 'easeOut' });
+    $('#search-overlay').velocity("fadeOut", { delay: 300, duration: 300, easing: 'easeOut' });
+
+    // Enable scroll
+    $('body').removeClass('no-scroll');
+  }
+
   function _initContactModal() {
+
+    // Does the contact modal exist?
     var $modal = $('#contact-modal');
     if($modal.length) {
 
+      // Add junk to DOM.
       $('<div class="overlay contact-modal-close" id="contact-modal-overlay"></div>')
-      .prependTo('body').vel;
+      .appendTo('body');
+      $('<svg class="icon icon-x"><use xlink:href="#icon-x" /></svg>')
+        .prependTo($modal);
 
+      // Sweep it all under the rug.
       $modal.velocity("slideUp", { duration: 0 });
       $('#contact-modal-overlay').velocity("fadeOut", { duration: 0 });
 
-      $('<svg class="icon icon-x close-contact-modal"><use xlink:href="#icon-x" /></svg>')
-        .prependTo($modal);
-
+      // Init clicking behavior.
       $(document).on('click', '.contact-modal-close', function () { _closeContactModal() });
       $(document).on('click', '.contact-modal-open', function () { _openContactModal() });
 
+      // CSS will display: none this until the -unloaded class is removed.
       $modal.removeClass('-unloaded');
-
     }
   }
+
   function _openContactModal() {
-    $('#contact-modal')
-      .velocity("fadeIn", { duration: 300, easing: 'easeOut', queue: false })
-      .velocity("slideDown", { duration: 300, easing: 'easeOut' });
-    $('#contact-modal-overlay').velocity("fadeIn", { duration: 100, easing: 'easeOut' });
-  }
-  function _closeContactModal() {
+
+    // If it exists, animate the modal open and fade in its overlay.
     var $modal = $('#contact-modal');
     if($modal.length) {
+
+      var $overlay = $('#contact-modal-overlay');
+
       $modal
-      .velocity("fadeOut", { duration: 200, easing: 'easeOut', queue: false })
-      .velocity("slideUp", { duration: 200, easing: 'easeOut' });
-      $('#contact-modal-overlay').velocity("fadeOut", { delay: 100, duration: 200, easing: 'easeOut' });
+        .velocity("fadeIn", { duration: 300, easing: 'easeOut', queue: false })
+        .velocity("slideDown", { duration: 300, easing: 'easeOut' });
+
+      $overlay
+        .velocity("fadeIn", { duration: 200, easing: 'easeOut' });
     }
   }
 
+  function _closeContactModal() {
+
+    // If it exists, animate the modal closed and fade out the overlay.
+    var $modal = $('#contact-modal');
+    if($modal.length) {
+
+      var $overlay = $('#contact-modal-overlay');
+
+      $modal
+        .velocity("fadeOut", { duration: 300, easing: 'easeOut', queue: false })
+        .velocity("slideUp", { duration: 300, easing: 'easeOut' });
+
+      $overlay
+        .velocity("fadeOut", { delay: 300, duration: 300, easing: 'easeOut' });
+    }
+  }
 
   function _initTableSort() {
     $('.award-table table.sortable')

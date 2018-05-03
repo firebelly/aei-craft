@@ -4,8 +4,12 @@
 {% block content %}
 
   <form action="{{ url('search') }}" class="search-form">
-      <input type="search" name="q" placeholder="Search" required>
-      <input type="submit" value="Go">
+      <input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="search" value="{{ query ? query : '' }}" name="q" class="search-field form-control" placeholder="Search Terms" required="">
+      <button type="submit" class="button">
+        <span class="border"></span><span class="extra-corners"></span>
+        Search
+        <svg class="icon icon-search"><use xlink:href="#icon-search" /></svg>
+      </button>
   </form>
 
   {% if query %}
@@ -40,34 +44,32 @@
       {% set approachPosts = approachPosts|merge([service]) %}
     {% endfor %}
 
-    {% if (expertisePosts|length + approachPosts|length + impactPosts|length + peoplePosts|length) == 0 %}
+    <div class="search-results">
 
-      <div class="no-results">
-        <p>No results found.</p>
-      </div>
+      {% if (expertisePosts|length + approachPosts|length + impactPosts|length + peoplePosts|length) == 0 %}
 
-    {% else %}
+        <p class="no-results">No results found.</p>
 
-      <h1>Search Results</h1>
+      {% else %}
 
-      {% set search_sections = {
-        'Expertise': expertisePosts,
-        'Impact': impactPosts,
-        'Approach': approachPosts,
-        'People': peoplePosts,
-        } %}
+        {% set search_sections = {
+          'Expertise': expertisePosts,
+          'Impact': impactPosts,
+          'Approach': approachPosts,
+          'People': peoplePosts,
+          } %}
 
-        {% for title,entries in search_sections %}
-          <div class="search-section">
-            <h2>{{ title }}</h2>
-            {% for entry in entries %}
-              {% include 'search/_article' %}
-            {% endfor %}
-          </div>
-        {% endfor %}
+          {% for title,entries in search_sections %}
+            <section class="search-section">
+              <h2>{{ title }}</h2>
+              {% for entry in entries %}
+                {% include 'search/_article' %}
+              {% endfor %}
+            </section>
+          {% endfor %}
 
-    {% endif %}
-
+      {% endif %}
+    </div>
   {% endif %}
 
 {% endblock %}

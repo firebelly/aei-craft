@@ -1,16 +1,18 @@
 {% if relatedPosts|length %}
-  <div class="row -single margin-top">
-    <div class="row-block">
-      <div class="module text-module ">
-        <h3 class="font-h2">{{ relatedPostsTitle ?? 'Related Impact' }}</h3>
+  <section id="related-impact" class="margin-vertical">
+    <div class="row -single">
+      <div class="row-block">
+        <div class="module text-module ">
+          <h3 class="font-h2">{{ relatedPostsTitle ?? 'Related Impact' }}</h3>
+        </div>
       </div>
     </div>
-  </div>
-  <ul class="row -halves -separators semantic-only-list hr-top-off-white hr-bottom-off-white margin-bottom">
-    {% for post in relatedPosts %}
-      <li class="row-block   separate">
-        {% include 'impact/_article' %}
-      </li>
-    {% endfor %}
-  </ul>
+    <ul class="row -halves -separators semantic-only-list hr-top-off-white hr-bottom-off-white">
+      {% for post in relatedPosts %}
+        <li class="row-block   separate">
+          {% include 'impact/_article' %}
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
 {% endif %}

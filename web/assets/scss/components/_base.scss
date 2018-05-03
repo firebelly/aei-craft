@@ -15,6 +15,10 @@ body {
   position: relative;
 }
 
+.no-scroll {
+  overflow-y: hidden;
+}
+
 a {
   color: inherit;
 }
