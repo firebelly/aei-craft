@@ -6,7 +6,6 @@
 
   {% set title = category.title %}
   {% set featuredImpact = craft.entries.section('impact').relatedTo(category).featured(1).orderBy('RAND()').one() ?? craft.entries.section('impact').relatedTo(category).one() %}
-
   {% set omitId = featuredImpact ? featuredImpact.id : 0 %}
 
   {% paginate craft.entries({
@@ -15,7 +14,7 @@
     with: [
       'impactImage'
     ]
-  }).id('not ' ~ omitId).limit(5) as paginationInfo, impactEntries %}
+  }).id('not ' ~ omitId).order('featured desc, postDate desc').limit(5) as paginationInfo, impactEntries %}
 
 {% else %}
 
@@ -28,7 +27,7 @@
     with: [
       'impactImage'
     ]
-  }).id('not ' ~ omitId).limit(5) as paginationInfo, impactEntries %}
+  }).id('not ' ~ omitId).order('featured desc, postDate desc').limit(5) as paginationInfo, impactEntries %}
 
 {% endif %}
 
