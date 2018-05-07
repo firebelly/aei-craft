@@ -39,7 +39,7 @@ def update():
 
 def composer_install():
   with cd(env.remotepath):
-    run('~/bin/composer install')
+    run('php72 ~/bin/composer.phar install')
 
 # def clear_cache():
 #   run ('curl -vs -o /dev/null {0}://{1}/actions/cacheClear/clear?key=fbclear > /dev/null 2>&1'.format(env.remote_protocol, env.hosts[0]))
