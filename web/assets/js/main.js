@@ -8,6 +8,7 @@
 //=include "../bower_components/jquery_lazyload/jquery.lazyload.js"
 //=include "../bower_components/waypoints/lib/jquery.waypoints.js"
 //=include "../bower_components/isotope-layout/dist/isotope.pkgd.js"
+//=include "../bower_components/infinite-scroll/dist/infinite-scroll.pkgd.js"
 //=include "../bower_components/slick-carousel/slick/slick.js"
 //=include "../bower_components/tablesorter/jquery.tablesorter.js
 
@@ -49,6 +50,32 @@ var FB = (function($) {
       e.preventDefault();
       var href = $(this).attr('href');
       _scrollBody($(href), 500, 0, true);
+    });
+
+    // Infinite scroll
+    $('.infinite-scroll-container').infiniteScroll({
+      path: function() {
+        // Are there more pages?
+        if (this.pageIndex < parseInt($('.pagination').attr('data-total-pages'))) {
+          // Replace /p2 with this.loadCount + 1 from infinite scroll
+          var nextUrl = $('.pagination .next a').attr('href').replace(/(p[\d]+)$/, 'p' + (this.loadCount + 2));
+          // Omit the featured post if there is one
+          nextUrl += '?omitId=' + ($('.hero-wrap article').attr('data-id') || '');
+          return nextUrl;
+        } else {
+          return false;
+        }
+      },
+      append: false,
+      history: false,
+    });
+    $('.infinite-scroll-container').on( 'load.infiniteScroll', function( event, response ) {
+      var $items = $(response).find('.infinite-scroll-object');
+      $(this).append($items);
+      if ($('.masonry-grid').length) {
+        $('.masonry-grid').isotope('appended', $items);
+      }
+      _initLazyload();
     });
 
     // Bigclicky™
@@ -105,7 +132,7 @@ var FB = (function($) {
       .appendTo('body');
 
     // Hide the overlay
-    $('#search-overlay').velocity("fadeOut", { duration: 0 });
+    $('#search-overlay').velocity('fadeOut', { duration: 0 });
 
     // Pipe in search results on submit
     $(document).on('submit', '.search-form', function(e) {
@@ -114,17 +141,13 @@ var FB = (function($) {
       $.get($this.attr('action'), $this.serialize(), function(data) {
         var $content = $('#search-modal .content')
         $content.html(data).velocity('fadeOut', {duration: 0});
-        $content.find('.search-section').velocity('fadeOut', {duration: 0});
-        $content.find('.search-article').velocity('fadeOut', {duration: 0});
+        $content.find('.search-section,.search-article').velocity('fadeOut', {duration: 0});
 
         var speed = 200;
         var delay = 40;
         var i = 0;
         $content.velocity('fadeIn', {duration: speed, delay: delay*(i++)}).find('.search-form input[type="search"]').focus();
-        $content.find('.search-section').each(function () {
-          $(this).velocity('fadeIn', {duration: speed, delay: delay*(i++)});
-        });
-        $content.find('.search-article').each(function () {
+        $content.find('.search-section,.search-article').each(function () {
           $(this).velocity('fadeIn', {duration: speed, delay: delay*(i++)});
         });
       });
@@ -137,7 +160,7 @@ var FB = (function($) {
 
     // Animate in the modal
     $('#search-modal').addClass('active');
-    $('#search-overlay').velocity("fadeIn", { duration: 100, easing: 'easeOut' });
+    $('#search-overlay').velocity('fadeIn', { duration: 100, easing: 'easeOut' });
 
     // Prevent body scroll
     $('body').addClass('no-scroll');
@@ -249,8 +272,8 @@ var FB = (function($) {
   }
 
   function _initLazyload() {
-    $('.lazy').lazyload({
-      effect: "fadeIn",
+    $('.lazy:not(.lazyloaded').lazyload({
+      effect: 'fadeIn',
       effectTime: 100,
       threshold: 500,
       load: function() {
