@@ -1,4 +1,5 @@
 {% extends (craft.app.request.isAjax and not craft.app.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
+{% set statType = craft.categories.group('statTypes').slug('expertise').one() %}
 
 {% if category is defined %}
 
@@ -14,6 +15,7 @@
 
   {% set title = category.title %}
   {% set subheader = category.description %}
+  {% set stats = craft.entries.section('stats').relatedTo(category).orderBy('RAND()').limit(3) %}
 
   {# Find Market Contacts and Offices #}
   {% set marketContactsIds = category.marketContacts.ids() %}
@@ -40,6 +42,7 @@
 
   {% set title = entry.title %}
   {% set subheader = entry.description %}
+  {% set stats = craft.entries.section('stats').relatedTo(statType).orderBy('RAND()').limit(3) %}
 
 {% endif %}
 
@@ -124,7 +127,6 @@ First we determin which. #}
 
 {# Now, finally, build the content and apologize to TWIG gods. This is all for you, Ross. ;) #}
 {% block content %}
-
   {% if allMasonry %}
 
     {# All projects and intro text in masonry #}

@@ -1,12 +1,14 @@
 {% extends (craft.app.request.isAjax and not craft.app.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
 
 {% set bodyClass = 'overlapping-header' %}
+{% set statType = craft.categories.group('statTypes').slug('impact').one() %}
 
 {% if category is defined %}
 
   {% set title = category.title %}
   {% set featuredImpact = craft.entries.section('impact').relatedTo(category).featured(1).orderBy('RAND()').one() ?? craft.entries.section('impact').relatedTo(category).one() %}
   {% set omitId = featuredImpact ? featuredImpact.id : 0 %}
+  {% set stats = craft.entries.section('stats').relatedTo(category).orderBy('RAND()').limit(3) %}
 
   {% paginate craft.entries({
     section: 'impact',
@@ -21,6 +23,7 @@
   {% set title = 'Impact' %}
   {% set featuredImpact = craft.entries.section('impact').featured(1).orderBy('RAND()').one() ?? craft.entries.section('impact').one() %}
   {% set omitId = featuredImpact ? featuredImpact.id : 0 %}
+  {% set stats = craft.entries.section('stats').relatedTo(statType).orderBy('RAND()').limit(3) %}
 
   {% paginate craft.entries({
     section: 'impact',
@@ -68,7 +71,9 @@
         {% include 'impact/_article' %}
       </li>
     {% else %}
-      <li class="no-posts-found">No posts found.</li>
+      {% if not featuredImpact %}
+        <li class="no-posts-found">No posts found.</li>
+      {% endif %}
     {% endfor %}
   </ul>
 
