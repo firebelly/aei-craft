@@ -61,10 +61,10 @@
     </div>
     <div class="row-block pull-to-top">
       {% set block = {
-        figure: entry.numberOfPeople,
-        label: 'People',
-        figure2: entry.numberOfOffices,
-        label2: 'Offices',
+        statFigure: entry.numberOfPeople,
+        statLabel: 'People',
+        statFigure2: entry.numberOfOffices,
+        statLabel2: 'Offices',
       } %}
       {% include 'partials/media-blocks/_stat' %}
     </div>
