@@ -1,5 +1,6 @@
 {% extends (craft.app.request.isAjax and not craft.app.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
 {% set statType = craft.categories.group('statTypes').slug('expertise').one() %}
+{% set stats = [] %}
 
 {% if category is defined %}
 
@@ -15,7 +16,7 @@
 
   {% set title = category.title %}
   {% set subheader = category.description %}
-  {% set stats = craft.entries.section('stats').relatedTo(category).orderBy('RAND()').limit(3) %}
+  {% set stats = craft.entries.section('stats').relatedTo(category).orderBy('RAND()').limit(2).all() %}
 
   {# Find Market Contacts and Offices #}
   {% set marketContactsIds = category.marketContacts.ids() %}
@@ -42,7 +43,7 @@
 
   {% set title = entry.title %}
   {% set subheader = entry.description %}
-  {% set stats = craft.entries.section('stats').relatedTo(statType).orderBy('RAND()').limit(3) %}
+  {% set stats = craft.entries.section('stats').relatedTo(statType).orderBy('RAND()').limit(2).all() %}
 
 {% endif %}
 
@@ -138,7 +139,13 @@ First we determine which. #}
           {{ introModule }}
         </div>
         {% for project in projectEntries %}
-          <li class="masonry-item infinite-scroll-object">
+          {% if loop.index in ['3','7'] and stats|length %}
+            <li class="masonry-item">
+              {% include 'partials/media-blocks/_stat' with { 'block': stats|last } %}
+              {% set stats = stats|slice(0,-1) %}
+            </li>
+          {% endif %}
+          <li class="masonry-item infinite-scroll-object" data-index="{{ loop.index }}">
             {% include 'projects/_article' %}
           </li>
         {% endfor %}
@@ -166,7 +173,13 @@ First we determine which. #}
       <ul class="semantic-only-list infinite-scroll-container">
         {% for project in projectEntries %}
           {% if loop.index > 1 %}
-            <li class="masonry-item infinite-scroll-object">
+            {% if loop.index in ['3','7'] and stats|length %}
+              <li class="masonry-item">
+                {% include 'partials/media-blocks/_stat' with { 'block': stats|last } %}
+                {% set stats = stats|slice(0,-1) %}
+              </li>
+            {% endif %}
+            <li class="masonry-item infinite-scroll-object" data-index2="{{ loop.index }}">
               {% include 'projects/_article' %}
             </li>
           {% endif %}

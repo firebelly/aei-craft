@@ -14,7 +14,7 @@
   {% else %}
     {% set featuredImpact = craft.entries.section('impact').relatedTo(category).featured(1).orderBy('RAND()').one() ?? craft.entries.section('impact').relatedTo(category).one() %}
     {% set omitId = featuredImpact ? featuredImpact.id : 0 %}
-    {% set stats = craft.entries.section('stats').relatedTo(category).orderBy('RAND()').limit(3) %}
+    {% set stats = craft.entries.section('stats').relatedTo(category).orderBy('RAND()').limit(2).all() %}
   {% endif %}
 
   {% paginate craft.entries({
@@ -23,7 +23,7 @@
     with: [
       'impactImage'
     ]
-  }).id('not ' ~ omitId).orderBy('featured desc, postDate desc').limit(8) as paginationInfo, impactEntries %}
+  }).id('not ' ~ omitId).orderBy('featured desc, postDate desc').limit(12) as paginationInfo, impactEntries %}
 
 {% else %}
 
@@ -34,7 +34,7 @@
   {% else %}
     {% set featuredImpact = craft.entries.section('impact').featured(1).orderBy('RAND()').one() ?? craft.entries.section('impact').one() %}
     {% set omitId = featuredImpact ? featuredImpact.id : 0 %}
-    {% set stats = craft.entries.section('stats').relatedTo(statType).orderBy('RAND()').limit(3) %}
+    {% set stats = craft.entries.section('stats').relatedTo(statType).orderBy('RAND()').limit(2).all() %}
   {% endif %}
 
   {% paginate craft.entries({
@@ -42,7 +42,7 @@
     with: [
       'impactImage'
     ]
-  }).id('not ' ~ omitId).orderBy('featured desc, postDate desc').limit(8) as paginationInfo, impactEntries %}
+  }).id('not ' ~ omitId).orderBy('featured desc, postDate desc').limit(12) as paginationInfo, impactEntries %}
 
 {% endif %}
 
@@ -81,6 +81,12 @@
 
   <ul class="row -halves -separators semantic-only-list infinite-scroll-container">
     {% for post in impactEntries %}
+      {% if loop.index in ['3','8'] and stats|length %}
+        <li class="row-block separate">
+          {% include 'partials/media-blocks/_stat' with { 'block': stats|last } %}
+          {% set stats = stats|slice(0,-1) %}
+        </li>
+      {% endif %}
       <li class="row-block separate infinite-scroll-object">
         {% include 'impact/_article' %}
       </li>

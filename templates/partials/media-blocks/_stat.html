@@ -1,12 +1,12 @@
-{% if block.figure2 %}
+{% if block.statFigure2 %}
 
   <article class="module stat-two-figure-module">
     <div class="slash-wrap">
       <div class="figure figure-1">
-          {{ block.figure }}<span class="label">{{ block.label }}</span>
+          {{ block.statFigure }}<span class="label">{{ block.statLabel }}</span>
       </div>
       <div class="figure figure-2">
-          {{ block.figure2 }}<span class="label">{{ block.label2 }}</span>
+          {{ block.statFigure2 }}<span class="label">{{ block.statLabel2 }}</span>
       </div>
     </div>
   </article>
@@ -17,11 +17,11 @@
     <div class="centering-wrap">
       <div class="figure">
         <span class="slash-wrap">
-          {{ block.figure }}
+          {{ block.statFigure }}
         </span>
       </div>
       <div class="label">
-        <div class="text-wrap">{{ block.label }}</div>
+        <div class="text-wrap">{{ block.statLabel }}</div>
       </div>
     </div>
   </article>
