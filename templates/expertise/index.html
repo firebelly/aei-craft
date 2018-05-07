@@ -11,7 +11,7 @@
     'markets',
     'projectImage'
     ]
-  }).orderBy('featured desc, postDate desc').limit(20) as paginationInfo, projectEntries %}
+  }).orderBy('featured desc, postDate desc').limit(8) as paginationInfo, projectEntries %}
 
   {% set title = category.title %}
   {% set subheader = category.description %}
@@ -38,7 +38,7 @@
       'markets',
       'projectImage'
     ]
-  }).orderBy('featured desc, postDate desc').limit(20) as paginationInfo, projectEntries %}
+  }).orderBy('featured desc, postDate desc').limit(8) as paginationInfo, projectEntries %}
 
   {% set title = entry.title %}
   {% set subheader = entry.description %}
@@ -59,69 +59,70 @@
 
 {# If the first project is portrait, this page will have an all masonry layout.
 If landscape, the first post will be pulled out into a different grid.
-First we determin which. #}
+First we determine which. #}
 {% set firstProjectImage = projectEntries[0].projectImage[0] ?? null %}
 {% set firstProjectAspectRatio = firstProjectImage ?
   (firstProjectImage.getWidth() > firstProjectImage.getHeight() ? 'landscape' : 'portrait') :
   'landscape' %}
-{% set allMasonry = firstProjectAspectRatio == 'portrait' %}
+{% set allMasonry = (craft.app.request.isAjax or firstProjectAspectRatio == 'portrait') %}
 
 {# For clarity/DRY sake, save the intro module to a variable. #}
 {% set introModule %}
-  <div class="module text-module">
-    <div class="font-h1 user-content">{{ subheader }}</div>
-    <div class="buttons">
-      {% if category is defined and marketContactsIds|length %}
-        <button class="contact-modal-open button">
+  {% if not craft.app.request.isAjax %}
+    <div class="module text-module">
+      <div class="font-h1 user-content">{{ subheader }}</div>
+      <div class="buttons">
+        {% if category is defined and marketContactsIds|length %}
+          <button class="contact-modal-open button">
+            <span class="border"></span><span class="extra-corners"></span>
+            Contacts
+            <svg class="icon icon-plus"><use xlink:href="#icon-plus" /></svg>
+          </button>
+        {% endif %}
+        <a class="button" href="/awards/">
           <span class="border"></span><span class="extra-corners"></span>
-          Contacts
-          <svg class="icon icon-plus"><use xlink:href="#icon-plus" /></svg>
-        </button>
-      {% endif %}
-      <a class="button" href="/awards/">
-        <span class="border"></span><span class="extra-corners"></span>
-        Awards
-        <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
-      </a>
+          Awards
+          <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
+        </a>
+      </div>
     </div>
-  </div>
 
-  {# Any Market Contacts? Show grouped by Office #}
-  {% if category is defined and marketContactsIds|length %}
-    <div class="modal background-white text-black pad -unloaded" id="contact-modal">
-      <h2 class="title">{{ category.title }} Contacts</h2>
-      <ul class="offices semantic-only-list">
-      {% for office in marketContactsOffices.all() %}
-        <li class="office">
-          <h3 class="office-title">{{ office.title }}</h2>
+    {# Any Market Contacts? Show grouped by Office #}
+    {% if category is defined and marketContactsIds|length %}
+      <div class="modal background-white text-black pad -unloaded" id="contact-modal">
+        <h2 class="title">{{ category.title }} Contacts</h2>
+        <ul class="offices semantic-only-list">
+        {% for office in marketContactsOffices.all() %}
+          <li class="office">
+            <h3 class="office-title">{{ office.title }}</h2>
 
-          <ul class="contacts semantic-only-list font-details">
+            <ul class="contacts semantic-only-list font-details">
 
-            {% for person in marketContacts.all() %}
-              {% set personOffice = person.office[0] ?? null %}
-              {% if personOffice and personOffice.id == office.id %}
-                <li class="contact">
-                  <a href="{{ person.url }}">{{ person.title }}</a><br/>
-                  {% if person.phoneNumber %}
-                    {{ person.phoneNumber }}<br/>
-                  {% endif %}
-                  {% if person.email %}
-                    <a href="mailto:{{ person.email }}">
-                      {% for part in person.email|split('@') %}
-                        <span class="email-part">{{ part }}{{ loop.index0==0 ? '@' : '' }}</span>
-                      {% endfor %}
-                    </a>
-                  {% endif %}
-                </li>
-              {% endif %}
-            {% endfor %}
+              {% for person in marketContacts.all() %}
+                {% set personOffice = person.office[0] ?? null %}
+                {% if personOffice and personOffice.id == office.id %}
+                  <li class="contact">
+                    <a href="{{ person.url }}">{{ person.title }}</a><br/>
+                    {% if person.phoneNumber %}
+                      {{ person.phoneNumber }}<br/>
+                    {% endif %}
+                    {% if person.email %}
+                      <a href="mailto:{{ person.email }}">
+                        {% for part in person.email|split('@') %}
+                          <span class="email-part">{{ part }}{{ loop.index0==0 ? '@' : '' }}</span>
+                        {% endfor %}
+                      </a>
+                    {% endif %}
+                  </li>
+                {% endif %}
+              {% endfor %}
 
-          </ul>
-        </li>
-      {% endfor %}
-    </div>
-  {% endif %}
-
+            </ul>
+          </li>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endif %}{# End if not AJAX #}
 {% endset %}
 
 
@@ -132,12 +133,12 @@ First we determin which. #}
     {# All projects and intro text in masonry #}
     <div class="masonry-grid">
       <div class="masonry-sizer"></div>
-      <ul class="semantic-only-list">
+      <ul class="semantic-only-list infinite-scroll-container">
         <div class="masonry-item intro-block pull-to-top-h1">
           {{ introModule }}
         </div>
         {% for project in projectEntries %}
-          <li class="masonry-item">
+          <li class="masonry-item infinite-scroll-object">
             {% include 'projects/_article' %}
           </li>
         {% endfor %}
@@ -162,10 +163,10 @@ First we determin which. #}
     {# All of the rest of the projects in masonry #}
     <div class="masonry-grid">
       <div class="masonry-sizer"></div>
-      <ul class="semantic-only-list">
+      <ul class="semantic-only-list infinite-scroll-container">
         {% for project in projectEntries %}
           {% if loop.index > 1 %}
-            <li class="masonry-item">
+            <li class="masonry-item infinite-scroll-object">
               {% include 'projects/_article' %}
             </li>
           {% endif %}
@@ -175,7 +176,7 @@ First we determin which. #}
 
   {% endif %}
 
-  <nav class="pagination">
+  <nav class="pagination" data-total-pages="{{ paginationInfo.totalPages }}">
     <ul>
       {% if paginationInfo.prevUrl %}
       <li class="prev">

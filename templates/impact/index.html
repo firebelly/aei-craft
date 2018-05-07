@@ -2,13 +2,20 @@
 
 {% set bodyClass = 'overlapping-header' %}
 {% set statType = craft.categories.group('statTypes').slug('impact').one() %}
+{% set stats = [] %}
+{% set idsToExclude = ['and'] %}
 
 {% if category is defined %}
 
   {% set title = category.title %}
-  {% set featuredImpact = craft.entries.section('impact').relatedTo(category).featured(1).orderBy('RAND()').one() ?? craft.entries.section('impact').relatedTo(category).one() %}
-  {% set omitId = featuredImpact ? featuredImpact.id : 0 %}
-  {% set stats = craft.entries.section('stats').relatedTo(category).orderBy('RAND()').limit(3) %}
+  {% if craft.app.request.isAjax %}
+    {# AJAX call for infinite scroll #}
+    {% set omitId = craft.app.request.getQueryParam('omitId') %}
+  {% else %}
+    {% set featuredImpact = craft.entries.section('impact').relatedTo(category).featured(1).orderBy('RAND()').one() ?? craft.entries.section('impact').relatedTo(category).one() %}
+    {% set omitId = featuredImpact ? featuredImpact.id : 0 %}
+    {% set stats = craft.entries.section('stats').relatedTo(category).orderBy('RAND()').limit(3) %}
+  {% endif %}
 
   {% paginate craft.entries({
     section: 'impact',
@@ -16,21 +23,26 @@
     with: [
       'impactImage'
     ]
-  }).id('not ' ~ omitId).orderBy('featured desc, postDate desc').limit(5) as paginationInfo, impactEntries %}
+  }).id('not ' ~ omitId).orderBy('featured desc, postDate desc').limit(8) as paginationInfo, impactEntries %}
 
 {% else %}
 
   {% set title = 'Impact' %}
-  {% set featuredImpact = craft.entries.section('impact').featured(1).orderBy('RAND()').one() ?? craft.entries.section('impact').one() %}
-  {% set omitId = featuredImpact ? featuredImpact.id : 0 %}
-  {% set stats = craft.entries.section('stats').relatedTo(statType).orderBy('RAND()').limit(3) %}
+  {% if craft.app.request.isAjax %}
+    {# AJAX call for infinite scroll #}
+    {% set omitId = craft.app.request.getQueryParam('omitId') %}
+  {% else %}
+    {% set featuredImpact = craft.entries.section('impact').featured(1).orderBy('RAND()').one() ?? craft.entries.section('impact').one() %}
+    {% set omitId = featuredImpact ? featuredImpact.id : 0 %}
+    {% set stats = craft.entries.section('stats').relatedTo(statType).orderBy('RAND()').limit(3) %}
+  {% endif %}
 
   {% paginate craft.entries({
     section: 'impact',
     with: [
       'impactImage'
     ]
-  }).id('not ' ~ omitId).orderBy('featured desc, postDate desc').limit(5) as paginationInfo, impactEntries %}
+  }).id('not ' ~ omitId).orderBy('featured desc, postDate desc').limit(8) as paginationInfo, impactEntries %}
 
 {% endif %}
 
@@ -47,27 +59,29 @@
 
 {% block content %}
 
-  <!-- header (w/ featured post) -->
-  <div class="hero-wrap">
-    {% if featuredImpact %}
-      {% set post = featuredImpact %}
-      <div class="hero-image image-wrap">
-        {% set impactImage = post.impactImage[0] ?? null %}
-        {% if impactImage %}
-          <div class="lazy image" style="background-image: url('');" data-original="{{ impactImage.getUrl('thumb') }}"></div>
-        {% endif %}
-      </div>
-      <div class="row -halves">
-          <li class="row-block -right background-black text-off-white font-smoothing featured-post-block">
-            {% include 'impact/_article' %}
-          </li>
-      </div>
-    {% endif %}
-  </div>
+  {% if not craft.app.request.isAjax %}
+     {# header (w/ featured post) #}
+    <div class="hero-wrap">
+      {% if featuredImpact %}
+        {% set post = featuredImpact %}
+        <div class="hero-image image-wrap">
+          {% set impactImage = post.impactImage[0] ?? null %}
+          {% if impactImage %}
+            <div class="lazy image" style="background-image: url('');" data-original="{{ impactImage.getUrl('thumb') }}"></div>
+          {% endif %}
+        </div>
+        <div class="row -halves">
+            <li class="row-block -right background-black text-off-white font-smoothing featured-post-block">
+              {% include 'impact/_article' %}
+            </li>
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
 
-  <ul class="row -halves -separators semantic-only-list">
+  <ul class="row -halves -separators semantic-only-list infinite-scroll-container">
     {% for post in impactEntries %}
-      <li class="row-block separate">
+      <li class="row-block separate infinite-scroll-object">
         {% include 'impact/_article' %}
       </li>
     {% else %}
@@ -77,7 +91,7 @@
     {% endfor %}
   </ul>
 
-  <nav class="pagination">
+  <nav class="pagination" data-total-pages="{{ paginationInfo.totalPages }}">
     <ul>
       {% if paginationInfo.prevUrl %}
       <li class="prev">

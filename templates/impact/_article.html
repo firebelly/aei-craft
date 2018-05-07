@@ -1,4 +1,4 @@
-<article class="module post-module no-underline">
+<article class="module post-module no-underline" data-id="{{ post.id }}">
   {% set impactType = post.impactType[0] ?? null %}
   {% if impactType %}
     <div class="category font-details">{{ impactType }}</div>
