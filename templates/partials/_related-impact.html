@@ -8,8 +8,8 @@
       </div>
     </div>
     <ul class="row -halves -separators semantic-only-list hr-top-off-white hr-bottom-off-white">
-      {% for post in relatedPosts %}
-        <li class="row-block   separate">
+      {% for post in relatedPosts.all() %}
+        <li class="row-block separate">
           {% include 'impact/_article' %}
         </li>
       {% endfor %}

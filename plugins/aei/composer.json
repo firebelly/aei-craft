@@ -1,0 +1,44 @@
+{
+    "name": "firebelly/aei",
+    "description": "Firebelly plugin for custom AEI functionality",
+    "type": "craft-plugin",
+    "version": "1.0.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "aei"
+    ],
+    "support": {
+        "docs": "???",
+        "issues": "???"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Firebelly Design",
+            "homepage": "https://www.firebellydesign.com/"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "^3.0.0-RC1"
+    },
+    "autoload": {
+        "psr-4": {
+          "firebelly\\aei\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "AEI",
+        "handle": "aei",
+        "hasCpSettings": true,
+        "hasCpSection": true,
+        "changelogUrl": "???",
+        "components": {
+            "findProjectColor": "firebelly\\aei\\services\\FindProjectColor",
+            "deltekImport": "firebelly\\aei\\services\\DeltekImport"
+        },
+        "class": "firebelly\\aei\\AEI"
+    }
+}

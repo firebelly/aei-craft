@@ -1,0 +1,34 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Color Swatches field input
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+<ul class="color-swatches">
+    {% for option in field.options %}
+        {% set optionId = namespacedId ~ '-option-' ~ loop.index %}
+        {% set value = {
+            label: option.label,
+            color: option.color,
+        } %}
+        {% set colors = value.color | split(',') %}
+            <li>
+                <input type="radio" {% if colors|length == 1 %}data-hex="{{ value.color|trim('#') }}"{% endif %} name="{{ name }}" id="{{ optionId }}" value="{{ value | json_encode }}"{% if (option.default and not fieldValue.color) or (fieldValue.color == option.color) %} checked{% endif %}>
+
+                <label for="{{ optionId }}" style="
+                    {% switch colors | length %}
+                            {% case 1 %}
+                                background: {{ value.color }};
+                            {% default %}
+                                {% set percentage = 100 / colors | length %}
+                                background: linear-gradient(to bottom right, {% for color in colors %}{{ color }} {{ percentage * loop.index0 }}%, {{ color }} {{ percentage * loop.index }}%{% if not loop.last %},{% endif %}{% endfor %});
+                    {% endswitch %}
+                ">
+                    {{ option.color }}
+                </label>
+            </li>
+    {% endfor %}
+</ul>

@@ -19,15 +19,6 @@
 
 return [
     'modules' => [
-        'fb-module' => \modules\FB_Module::class,
-        'deltek-import-module' => [
-            'class' => \modules\deltekimportmodule\DeltekImportModule::class,
-            'components' => [
-                'deltekImportModuleService' => [
-                    'class' => 'modules\deltekimportmodule\services\DeltekImportModuleService',
-                ],
-            ],
-        ],
     ],
-    'bootstrap' => ['fb-module'],
+    'bootstrap' => [],
 ];

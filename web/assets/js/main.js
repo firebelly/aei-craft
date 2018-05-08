@@ -1,4 +1,4 @@
-// Firebelly 2016
+// AEI - Firebelly 2018
 /*jshint latedef:false*/
 
 //=include "../bower_components/jquery/dist/jquery.js"

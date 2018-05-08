@@ -1,0 +1,26 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * AEI plugin for Craft CMS
+ *
+ * DeltekImport Widget Settings
+ *
+ * @author    Firebelly Design
+ * @copyright Copyright (c) 2018 Firebelly Design
+ * @link      https://www.firebellydesign.com/
+ * @package   AEI
+ * @since     1.0.0
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("firebelly\\aei\\assetbundles\\aei\\AEIAsset") %}
+
+{{ forms.textField({
+    label: 'Message',
+    instructions: 'Enter a message here.',
+    id: 'message',
+    name: 'message',
+    value: widget['message']})
+}}

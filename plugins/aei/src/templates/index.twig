@@ -1,0 +1,42 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * AEI plugin for Craft CMS 3.x
+ *
+ * AEI index.twig
+ *
+ * @author    Firebelly Design
+ * @copyright Copyright (c) 2018 Firebelly Design
+ * @link      https://www.firebellydesign.com/
+ * @package   AEI
+ * @since     1.0.0
+ */
+#}
+
+{% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("firebelly\\aei\\assetbundles\\aei\\AEIAsset") %}
+{% do view.registerAssetBundle("firebelly\\aei\\assetbundles\\indexcpsection\\IndexCPSectionAsset") %}
+
+{# Link for the ? icon at the bottom of the page #}
+{% set docsUrl = "???" %}
+
+{# The title of this CP section #}
+{% set title = "AEI" %}
+
+{# The URL to this plugin's base CP section #}
+{% set pluginCpUrl = url('aei') %}
+
+{# Content that should appear in the page header#}
+{% block actionButton %}
+    <div class="buttons">
+        <a href="{{ pluginCpUrl }}" class="btn submit add icon">{{ "Click Me!"|t('aei') }}</a>
+    </div>
+{% endblock %}
+
+{# The content of the CP Section#}
+{% block content %}
+    <h2>{{ "Deltek Import"|t('aei') }}</h2>
+    <p class="textline">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+{% endblock %}
