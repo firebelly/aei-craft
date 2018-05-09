@@ -217,7 +217,7 @@ class DeltekImport extends Component
             $rel_rows = $rel_result->fetchAll();
             foreach($rel_rows as $rel_row) {
                 // Remove quotes around text
-                $fields['personQuote'] = trim($rel_row['quote'], ' "”“');
+                $fields['personQuote'] = trim(str_replace('&nbsp;', ' ', $rel_row['quote']), ' "”“');
             }
 
             // Find People Type IDs
