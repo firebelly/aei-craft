@@ -46,27 +46,48 @@ class DeltekImport extends Component
      *
      * @return string
      */
-    public function importRecords()
+    public function importRecords($sections_to_import)
     {
+        if (empty($sections_to_import)) {
+            return (object) [
+                'log' => 'Nothing done.',
+                'summary' => 'No sections selected to import.',
+            ];
+        }
+
         // Connect to Deltek db
         try {
             $this->db = new \PDO('mysql:host='.getenv('DELTEK_DB_SERVER').';dbname='.getenv('DELTEK_DB_DATABASE').';charset=utf8', getenv('DELTEK_DB_USER'), getenv('DELTEK_DB_PASSWORD'));
             $this->db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $e) {
-            $return .= 'ERROR: ' . $e->getMessage();
+            $this->log .= 'ERROR: ' . $e->getMessage();
         }
+        try {
+            // todo: check if each section is checked when running import
+            // first set default values from global plugin settings
+            // then check if overrides in request.params
+            if (in_array('offices', $sections_to_import)) {
+                $this->importOffices();
+            }
+            if (in_array('people', $sections_to_import)) {
+                $this->importPeople();
+            }
+            if (in_array('awards', $sections_to_import)) {
+                $this->importAwards();
+            }
+            if (in_array('projects', $sections_to_import)) {
+                // $this->importProjects();
+            }
 
-        // todo: check if each section is checked when running import
-        // first set default values from global plugin settings
-        // then check if overrides in request.params
-        $this->importOffices();
-        // $this->importPeople();
-        // $this->importAwards();
-        // $this->importProjects();
+            // todo: use generic ImportRecord class w/ common vars like local_log, exec_time, etc
+
+        } catch (Exception $e) {
+            $this->log .= 'ERROR: ' . $e->getMessage();
+        }
 
         return (object) [
             'log'     => $this->log,
-            'summary' => $this->summary,
+            'summary' => implode(', ', $this->summary),
         ];
     }
 
@@ -77,7 +98,8 @@ class DeltekImport extends Component
         $result = $this->db->query("SELECT * FROM offices");
         $local_log = '';
         $added = 0;
-        $edited = 0;
+        $updated = 0;
+        $time_start = microtime(true);
         foreach($result as $row) {
             $fields = [];
             $action_verb = 'updated';
@@ -91,7 +113,7 @@ class DeltekImport extends Component
                 $action_verb = 'added';
                 $added++;
             } else {
-                $edited++;
+                $updated++;
             }
 
             // Get our Super Table field
@@ -148,12 +170,14 @@ class DeltekImport extends Component
                 $local_log .= '<li>'.$row['office_name'].' save error: '.print_r($entry->getErrors(), true).'</li>';
             }
         }
-        $this->log .= '<h3>Offices</h3><ul>'.$local_log.'</li>';
+        $exec_time = sprintf("%.2f", (microtime(true) - $time_start));
+
+        $this->log .= '<h3>Offices ('.$exec_time.' seconds)</h3><ul>'.$local_log.'</ul>';
         if ($added>0) {
             $this->summary[] = $added . ' Offices added';
         }
-        if ($edited>0) {
-            $this->summary[] = $edited . ' Offices edited';
+        if ($updated>0) {
+            $this->summary[] = $updated . ' Offices updated';
         }
     }
 
@@ -162,45 +186,53 @@ class DeltekImport extends Component
      */
     private function importPeople() {
         $result = $this->db->query("SELECT * FROM employees");
+        $local_log = '';
+        $added = 0;
+        $updated = 0;
+        $time_start = microtime(true);
         foreach($result as $row) {
             $fields = [];
+            $action_verb = 'updated';
             $entry = Entry::find()->section('people')->where([
                 'content.field_personEmployeeNumber' => $row['employee_num']
             ])->one();
 
             if (!$entry) {
                 $entry = $this->makeNewEntry('person');
+                $action_verb = 'added';
+                $added++;
+            } else {
+                $updated++;
             }
 
             // Find Office
             $office = Entry::find()->section('offices')->where([
-                'title' => $row['office_name']
+                'title' => $row['officename']
             ])->one();
             $office_ids = $office ? [$office->id] : [];
 
             // Find Person Quote
-            // $person_quotes = [];
             $rel_result = $this->db->prepare('SELECT * FROM employee_quotes WHERE employee_num = ?');
             $rel_result->execute([ $row['employee_num'] ]);
             $rel_rows = $rel_result->fetchAll();
-            // Just populating single field for now, but see below if we switch to multiple...
             foreach($rel_rows as $rel_row) {
-                $fields['personQuote'] = $rel_row['text'];
+                // Remove quotes around text
+                $fields['personQuote'] = trim($rel_row['quote'], ' "”“');
             }
-            // For multiple quotes into a table field:
-            // foreach($rel_rows as $rel_row) {
-            //     $person_quotes[] = [
-            //         'quote' => $rel_row['quote'],
-            //     ];
-            // }
-            // $fields['personQuotes'] = $person_quotes;
 
             // Find People Type IDs
-            $people_type_ids = [];
-            foreach (explode(',', $row['person_type']) as $category_title) {
-                $category = $this->getCategory('peopleTypes', trim($category_title));
-                if ($category) {
-                    $people_type_ids[] = $category->id;
+            $person_type_ids = [];
+            foreach (explode(',', $row['primary_category']) as $category_title) {
+                if ($category = $this->getCategory('peopleTypes', trim($category_title))) {
+                    $person_type_ids[] = $category->id;
+                }
+            }
+
+            // Find Secondary People Type IDs
+            $secondary_person_type_ids = [];
+            foreach (explode(',', $row['primary_category']) as $category_title) {
+                if ($category = $this->getCategory('peopleTypes', trim($category_title))) {
+                    $secondary_person_type_ids[] = $category->id;
                 }
             }
 
@@ -227,16 +259,25 @@ class DeltekImport extends Component
                 'description'          => $row['bio'],
                 'personEmployeeNumber' => $row['employee_num'],
                 'office'               => $office_ids,
-                'peopleTypes'          => $people_type_ids,
+                'personType'           => $person_type_ids,
+                'secondaryPersonType'  => $secondary_person_type_ids,
                 'socialLinks'          => $social_links,
             ], $fields);
             $entry->setFieldValues($fields);
 
             if(Craft::$app->elements->saveElement($entry)) {
-                $this->log .= '<h3>Person '.$entry->title.' Saved OK!</h3>';
+                $local_log .= '<li>'.$entry->title.' '.$action_verb.' OK!</li>';
             } else {
-                $this->log .= '<p>Person '.$entry->title.' save error: '.print_r($entry->getErrors(), true).'</p>';
+                $local_log .= '<li>'.$entry->title.' '.$action_verb.' save error: '.print_r($entry->getErrors(), true).'</li>';
             }
+        }
+        $exec_time = sprintf("%.2f", (microtime(true) - $time_start));
+        $this->log .= '<h3>People ('.$exec_time.' seconds)</h3><ul>'.$local_log.'</ul>';
+        if ($added>0) {
+            $this->summary[] = $added . ' People added';
+        }
+        if ($updated>0) {
+            $this->summary[] = $updated . ' People updated';
         }
     }
 
@@ -244,9 +285,12 @@ class DeltekImport extends Component
      * Import Awards
      */
     private function importAwards() {
+        $local_log = '';
+        $added = 0;
+        $updated = 0;
+        $time_start = microtime(true);
         $result = $this->db->query("SELECT * FROM project_awards");
         foreach($result as $row) {
-            $fields = [];
             $entry = Entry::find()->section('awards')->where([
                 'content.field_awardKey' => $row['award_key']
             ])->one();
@@ -254,21 +298,32 @@ class DeltekImport extends Component
             if (!$entry) {
                 $entry = $this->makeNewEntry('awards');
                 $entry->title = $row['name'];
+                $action_verb = 'added';
+                $added++;
+            } else {
+                $action_verb = 'updated';
+                $updated++;
             }
 
-            $fields = array_merge([
+            $entry->setFieldValues([
                 'awardDate'   => $row['date'],
                 'awardIssuer' => $row['issuer'],
-            ], $fields);
-            $entry->setFieldValues($fields);
+                'awardKey'    => $row['award_key'],
+            ]);
 
             if(Craft::$app->elements->saveElement($entry)) {
-                $this->log .= '<h3>Award '.$row['name'].' Saved OK!</h3>';
-                // Store award entry id and project_num for setting associations in importProjects()
-                $this->awards_cache[] = [ 'id' => $entry->id, 'project_num' => $row['project_num'] ];
+                $local_log .= '<li>'.$entry->title.' '.$action_verb.' OK!</li>';
             } else {
-                $this->log .= '<p>Award '.$row['name'].' save error: '.print_r($entry->getErrors(), true).'</p>';
+                $local_log .= '<li>'.$entry->title.' '.$action_verb.' save error: '.print_r($entry->getErrors(), true).'</li>';
             }
+        }
+        $exec_time = sprintf("%.2f", (microtime(true) - $time_start));
+        $this->log .= '<h3>Awards ('.$exec_time.' seconds)</h3><ul>'.$local_log.'</ul>';
+        if ($added>0) {
+            $this->summary[] = $added . ' Awards added';
+        }
+        if ($updated>0) {
+            $this->summary[] = $updated . ' Awards updated';
         }
     }
 
@@ -359,6 +414,7 @@ class DeltekImport extends Component
                     } else {
                         $aeiPerson = [];
                     }
+
                     $project_quotes['new'.$i] = [
                         'type' => $blockType->id,
                         'fields' => [

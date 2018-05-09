@@ -39,9 +39,7 @@ var FB_Admin = (function($) {
           }, 500);
         }
       });
-
     });
-
   }
 
   // Public functions

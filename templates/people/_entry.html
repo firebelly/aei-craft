@@ -2,13 +2,14 @@
 {% set bodyClass = 'overlapping-header' %}
 {% set title = entry.title %}
 {% set personType = entry.personType.one() %}
+{% set secondaryPersonTypeIds = entry.secondaryPersonType.ids() %}
 
 {% block filters %}
   <li class="filters-item">
     <a href="/people/">All</a>
   </li>
   {% for cat in craft.categories.group('peopleTypes').all() %}
-    <li class="filters-item {% if cat.id == personType.id %}current{% endif %}">
+    <li class="filters-item {% if cat.id == personType.id or cat.id in secondaryPersonTypeIds %}current{% endif %}">
       <a href="{{ cat.url }}">{{ cat.title }}</a>
     </li>
   {% endfor %}
@@ -57,6 +58,18 @@
             <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
               <h3>Certifications</h3>
               <div class="content">{{ entry.personCertifications }}</div>
+            </div>
+          {% endif %}
+          {% if entry.socialLinks|length %}
+            <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
+              <h3>Social</h3>
+              <div class="content">
+                <ul class="semantic-only-list">
+                  {% for block in entry.socialLinks.all() %}
+                      <li><a target="_blank" href="{{ block.socialUrl }}">{{ block.socialNetwork }}</a></li>
+                  {% endfor %}
+                </ul>
+              </div>
             </div>
           {% endif %}
         </div>

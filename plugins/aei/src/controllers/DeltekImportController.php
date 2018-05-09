@@ -58,7 +58,8 @@ class DeltekImportController extends Controller
     public function actionImportRecords()
     {
         try {
-            $importResult = AEI::$plugin->deltekImport->importRecords();
+            $sections_to_import = Craft::$app->getRequest()->post('sections-to-import');
+            $importResult = AEI::$plugin->deltekImport->importRecords($sections_to_import);
             $response = [
                 'status'  => 1,
                 'log'     => $importResult->log,
@@ -68,7 +69,7 @@ class DeltekImportController extends Controller
             // Store import summary + log in aei_deltek_log table
             $deltekLog = new DeltekLog();
             $deltekLog->log = $importResult->log;
-            $deltekLog->summary = implode(',', $importResult->summary);
+            $deltekLog->summary = $importResult->summary;
             $deltekLog->save();
         } catch (Exception $e) {
             // todo: handle errors

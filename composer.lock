@@ -1777,6 +1777,7 @@
                     "mmikkel\\cpfieldinspect\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1788,16 +1789,12 @@
             ],
             "description": "Inspect field handles and easily edit field settings",
             "keywords": [
+                "Craft",
                 "cms",
                 "cp field inspect",
-                "craft",
                 "craft-plugin",
                 "craftcms"
             ],
-            "support": {
-                "docs": "https://github.com/mmikkel/CpFieldInspect-Craft/blob/master/README.md",
-                "issues": "https://github.com/mmikkel/CpFieldInspect-Craft/issues"
-            },
             "time": "2018-03-28T07:58:02+00:00"
         },
         {
