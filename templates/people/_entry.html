@@ -60,6 +60,18 @@
               <div class="content">{{ entry.personCertifications }}</div>
             </div>
           {% endif %}
+          {% if entry.socialLinks|length %}
+            <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
+              <h3>Social</h3>
+              <div class="content">
+                <ul class="semantic-only-list">
+                  {% for block in entry.socialLinks.all() %}
+                      <li><a target="_blank" href="{{ block.socialUrl }}">{{ block.socialNetwork }}</a></li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          {% endif %}
         </div>
       </div>
     </div>
