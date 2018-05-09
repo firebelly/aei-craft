@@ -2,13 +2,14 @@
 {% set bodyClass = 'overlapping-header' %}
 {% set title = entry.title %}
 {% set personType = entry.personType.one() %}
+{% set secondaryPersonType = entry.secondaryPersonType.one() %}
 
 {% block filters %}
   <li class="filters-item">
     <a href="/people/">All</a>
   </li>
   {% for cat in craft.categories.group('peopleTypes').all() %}
-    <li class="filters-item {% if cat.id == personType.id %}current{% endif %}">
+    <li class="filters-item {% if cat.id == personType.id or (secondaryPersonType|length and cat.id == secondaryPersonType.id) %}current{% endif %}">
       <a href="{{ cat.url }}">{{ cat.title }}</a>
     </li>
   {% endfor %}
