@@ -18,6 +18,8 @@
     "docs": "https://craftcms.com/docs",
     "rss": "https://craftcms.com/changelog.rss"
   },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "repositories": [
     {
       "type": "path",
@@ -37,7 +39,7 @@
     "mmikkel/incognito-field": "1.0.0",
     "verbb/super-table": "2.0.7",
     "topshelfcraft/wordsmith": "3.0.2",
-    "firebelly/aei": "^1.0.0"
+    "firebelly/aei": "^1.0"
   },
   "autoload": {
     "psr-4": {

@@ -1,26 +1,14 @@
 {# @var craft \craft\web\twig\variables\CraftVariable #}
 {#
 /**
- * AEI plugin for Craft CMS 3.x
- *
  * AEI index.twig
- *
- * @author    Firebelly Design
- * @copyright Copyright (c) 2018 Firebelly Design
- * @link      https://www.firebellydesign.com/
- * @package   AEI
- * @since     1.0.0
  */
 #}
 
 {% extends "_layouts/cp" %}
 {% import "_includes/forms" as forms %}
 
-{% do view.registerAssetBundle("firebelly\\aei\\assetbundles\\aei\\AEIAsset") %}
 {% do view.registerAssetBundle("firebelly\\aei\\assetbundles\\indexcpsection\\IndexCPSectionAsset") %}
-
-{# Link for the ? icon at the bottom of the page #}
-{% set docsUrl = "???" %}
 
 {# The title of this CP section #}
 {% set title = "AEI" %}
@@ -38,5 +26,13 @@
 {# The content of the CP Section#}
 {% block content %}
     <h2>{{ "Deltek Import"|t('aei') }}</h2>
-    <p class="textline">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p class="textline">This runs every night as an automated cronjob, but you can also run it manually here.</p>
+    <form method="post" id="deltek-import-form" action="/admin/actions/aei/deltek-import/import-records">
+        {{ csrfInput() }}
+        <div class="progress-bar"><div class="progress-done"></div></div>
+        <div class="log-output">{% if import_response is defined %}{{ import_response.log }}{% endif %}
+        </div>
+        <input type="hidden" name="action" value="eventbrite_import">
+        <p class="submit"><input type="submit" class="btn submit" name="submit" value="Run Importer"></p>
+    </form>
 {% endblock %}

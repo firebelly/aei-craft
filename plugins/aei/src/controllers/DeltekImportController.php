@@ -11,6 +11,7 @@
 namespace firebelly\aei\controllers;
 
 use firebelly\aei\AEI;
+use firebelly\aei\records\DeltekLog;
 
 use Craft;
 use craft\web\Controller;
@@ -46,34 +47,38 @@ class DeltekImportController extends Controller
      *         The actions must be in 'kebab-case'
      * @access protected
      */
-    protected $allowAnonymous = ['index', 'do-something'];
-
-    // Public Methods
-    // =========================================================================
-
-    /**
-     * Handle a request going to our plugin's index action URL,
-     * e.g.: actions/aei/deltek-import
-     *
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $result = 'Welcome to the DeltekImportController actionIndex() method';
-
-        return $result;
-    }
+    protected $allowAnonymous = ['import-records'];
 
     /**
      * Handle a request going to our plugin's actionDoSomething URL,
-     * e.g.: actions/aei/deltek-import/do-something
+     * e.g.: actions/aei/deltek-import/import-records
      *
      * @return mixed
      */
-    public function actionDoSomething()
+    public function actionImportRecords()
     {
-        $result = 'Welcome to the DeltekImportController actionDoSomething() method';
+        try {
+            $importResult = AEI::$plugin->deltekImport->importRecords();
+            $response = [
+                'status'  => 1,
+                'log'     => $importResult->log,
+                'summary' => $importResult->summary,
+            ];
 
-        return $result;
+            // Store import summary + log in aei_deltek_log table
+            $deltekLog = new DeltekLog();
+            $deltekLog->log = $importResult->log;
+            $deltekLog->summary = implode(',', $importResult->summary);
+            $deltekLog->save();
+        } catch (Exception $e) {
+            // todo: handle errors
+        }
+
+        if (Craft::$app->getRequest()->getIsAjax()) {
+            return json_encode($response);
+        } else {
+            return print_r($response);
+        }
+        // $this->returnErrorJson($e->getMessage());
     }
 }

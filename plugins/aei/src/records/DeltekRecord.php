@@ -16,7 +16,7 @@ use Craft;
 use craft\db\ActiveRecord;
 
 /**
- * AEIRecord Record
+ * DeltekLog Record
  *
  * ActiveRecord is the base class for classes representing relational data in terms of objects.
  * http://www.yiiframework.com/doc-2.0/guide-db-active-record.html
@@ -25,7 +25,7 @@ use craft\db\ActiveRecord;
  * @package   AEI
  * @since     1.0.0
  */
-class AEIRecord extends ActiveRecord
+class DeltekLog extends ActiveRecord
 {
      /**
      * @return string the table name
