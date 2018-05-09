@@ -14,6 +14,10 @@
     <div class="row -halves secondary-page-intro">
       <div class="row-block top-overlap-p">
         <div class="page-intro module text-module background-white text-black">
+          {% if entry.quotes|length %}
+            {% set block = { 'quotes': entry.quotes } %}
+            {% include 'partials/media-blocks/_quotes' with { 'block': block } %}
+          {% endif %}
           <div class="user-content">{{ entry.description }}</div>
           {% if entry.careersUrl %}
             <div class="buttons">
