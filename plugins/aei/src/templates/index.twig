@@ -32,7 +32,18 @@
         <div class="progress-bar"><div class="progress-done"></div></div>
         <div class="log-output">{% if import_response is defined %}{{ import_response.log }}{% endif %}
         </div>
-        <input type="hidden" name="action" value="eventbrite_import">
+        <ul>
+            {% for section in ['Projects', 'People', 'Offices', 'Awards', 'Impact'] %}
+                <li>
+                    {% include "_includes/forms/checkbox" with {
+                        name:      'sections-to-import[]',
+                        value:     section|lower,
+                        checked:   false,
+                        label:     section,
+                    } %}
+                </li>
+            {% endfor %}
+        </ul>
         <p class="submit"><input type="submit" class="btn submit" name="submit" value="Run Importer"></p>
     </form>
 {% endblock %}
