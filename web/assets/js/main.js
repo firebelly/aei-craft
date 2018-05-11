@@ -272,12 +272,12 @@ var FB = (function($) {
   }
 
   function _initLazyload() {
-    $('.lazy:not(.lazyloaded').lazyload({
+    $('.lazy:not(.lazyLoaded)').lazyload({
       effect: 'fadeIn',
       effectTime: 100,
       threshold: 500,
       load: function() {
-        $(this).addClass('lazyloaded');
+        $(this).addClass('lazyLoaded');
       }
     });
   }
