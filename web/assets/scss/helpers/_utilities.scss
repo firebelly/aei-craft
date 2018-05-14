@@ -27,20 +27,6 @@
   @include fill;
 }
 
-.hide-md {
-  display: block;
-  @include media-md {
-    display: none;
-  }
-}
-
-.show-md {
-  display: none;
-  @include media-md {
-    display: block;
-  }
-}
-
 @mixin no-underline {
   &, a {
     text-decoration: none;

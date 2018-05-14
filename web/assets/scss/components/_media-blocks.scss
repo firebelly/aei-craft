@@ -211,10 +211,11 @@
     @include media-lg {
       margin-top: 7*$beat;
     }
+
     .button {
       float: left;
-      margin-bottom: 2*$beat;
       margin-right: 2*$beat;
+      margin-bottom: 2*$beat;
 
       &:last-child {
         margin-right: 0;
