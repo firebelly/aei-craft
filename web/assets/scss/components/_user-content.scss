@@ -1,7 +1,11 @@
 .text-module, .user-content {
 
-  p:not(:last-child) {
-    margin-bottom: 1.45em;
+  p{
+    margin: 0;
+
+    &:not(:first-child) {
+      margin-top: 1.45em;
+    }
   }
 
   > :first-child {

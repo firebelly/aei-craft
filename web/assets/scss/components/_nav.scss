@@ -3,14 +3,17 @@
 .site-nav {
   top: 0;
   left: 0;
-  z-index: 100;
   height: 100%;
+  z-index: 100;
+  display: flex;
   position: fixed;
   right: $padding;
-  padding: $padding;
   overflow-y: auto;
+  padding: $padding;
+  flex-direction: column;
   background: $concrete-light;
   transition: transform 0.2s $ease;
+
 
   @include min-screen(900px) {
     right: auto;
@@ -19,32 +22,27 @@
 
   @include media-lg {
     width: 33.33%;
-    display: flex;
     transition: none;
-    // overflow-y: hidden;
-    flex-direction: column;
+  }
 
-    .secondary-links, .search-open {
+  .top-nav {
+    @include clearfix;
+
+    .search-open {
+      float: left;
+    }
+    .secondary-links {
+      float: right;
+    }
+
+    @include media-lg {
       display: none;
     }
   }
 
-  .search-open {
-    z-index: 1;
-    top: $padding - 2*$beat;
-    left: $padding - 2*$beat;
-    position: absolute;
-  }
-
-  .secondary-links {
-    z-index: 1;
-    top: $padding;
-    right: $padding;
-    position: absolute;
-  }
-
   .lockup {
     display: none;
+
     @include media-lg {
       display: block;
       margin-top: 12*$beat;
@@ -55,17 +53,15 @@
     @include font-h2;
     @include font-smoothing;
 
-    margin-top: 15 * $beat;
-
+    display: flex;
+    flex-shrink: 1;
+    min-height: 32*4px;
+    margin: $padding 0 0;
+    flex-basis: 24*$beat;
+    flex-direction: column;
+    justify-content: center;
 
     @include media-lg {
-      display: flex;
-      flex-shrink: 1;
-      min-height: 32*4px;
-      margin: $padding 0;
-      flex-direction: column;
-      justify-content: center;
-
       flex-basis: 38*$beat;
     }
 
@@ -111,11 +107,7 @@
     @include font-filter;
     @include font-smoothing;
     @include semantic-only-list;
-    margin: 10*$beat 0 0;
-
-    @include media-lg {
-      margin: 0;
-    }
+    margin: $padding 0 0;
 
     .filters-item {
       display: inline;
@@ -151,15 +143,19 @@
 
   .secondary-links-item {
     display: block;
-    margin-bottom: $beat;
+    text-align: right;
+    &:first-of-type {
+      margin-bottom: $beat;
+    }
 
     @include min-screen(430px) {
       display: inline-block;
+
+      &:first-of-type {
+        margin-right: 3ch;
+      }
     }
 
-    &:first-of-type {
-      margin-right: 3ch;
-    }
 
     &.current a, a:hover {
       text-decoration: underline;

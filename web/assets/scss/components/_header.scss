@@ -1,8 +1,6 @@
 // Header
 
 .site-header {
-  min-height: 16*$beat;
-
   background-color: $concrete-med;
 
   .secondary-links, .search-block {
@@ -11,6 +9,15 @@
 
   .lockup-block {
     background: $white;
+    padding: $padding $padding 0;
+  }
+
+  @include media-md {
+    min-height: 16*$beat;
+
+    .row-block {
+      padding: $padding;
+    }
   }
 
   @include media-lg {

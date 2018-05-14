@@ -10,35 +10,33 @@
   <div class="row -halves theater-cover-top">
     <div class="row-block pull-to-top-h1">
       <div class="module text-module background-white text-black">
-        <p class="font-h1 no-margin">{{ pageHeader.subheader }}</p>
-        <div class="buttons">
-          {% if pageHeader.headerVideo %}
-            <button class="button theater-play show-md">
-              <span class="border"></span><span class="extra-corners"></span>
-              Play Video
-              <svg class="icon icon-triangle"><use xlink:href="#icon-triangle" /></svg>
-            </button>
-          {% endif %}
-          {% if entry.slug == 'approach' %}
-            <a href="#services" class="button smoothscroll">
-              <span class="border"></span><span class="extra-corners"></span>
-              Services
-              <svg class="icon icon-down-arrow"><use xlink:href="#icon-down-arrow" /></svg>
-            </a>
-            <a href="#locations" class="button smoothscroll">
-              <span class="border"></span><span class="extra-corners"></span>
-              Locations
-              <svg class="icon icon-down-arrow"><use xlink:href="#icon-down-arrow" /></svg>
-            </a>
-          {% endif %}
-          {% if entry.slug == 'careers' %}
-            <a href="https://domestic-aeieng.icims.com/" class="button">
-              <span class="border"></span><span class="extra-corners"></span>
-              Search Jobs
-              <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
-            </a>
-          {% endif %}
-        </div>
+        <p class="font-h1">{{ pageHeader.subheader }}</p>
+        {% if pageHeader.headerVideo %}
+          <button class="button theater-play show-md">
+            <span class="border"></span><span class="extra-corners"></span>
+            Play Video
+            <svg class="icon icon-triangle"><use xlink:href="#icon-triangle" /></svg>
+          </button>
+        {% endif %}
+        {% if entry.slug == 'approach' %}
+          <a href="#services" class="button smoothscroll">
+            <span class="border"></span><span class="extra-corners"></span>
+            Services
+            <svg class="icon icon-down-arrow"><use xlink:href="#icon-down-arrow" /></svg>
+          </a>
+          <a href="#locations" class="button smoothscroll">
+            <span class="border"></span><span class="extra-corners"></span>
+            Locations
+            <svg class="icon icon-down-arrow"><use xlink:href="#icon-down-arrow" /></svg>
+          </a>
+        {% endif %}
+        {% if entry.slug == 'careers' %}
+          <a href="https://domestic-aeieng.icims.com/" class="button">
+            <span class="border"></span><span class="extra-corners"></span>
+            Search Jobs
+            <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
+          </a>
+        {% endif %}
       </div>
     </div>
   </div>
