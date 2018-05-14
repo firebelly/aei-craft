@@ -8,7 +8,7 @@
   position: fixed;
   right: $padding;
   padding: $padding;
-  overflow-y: scroll;
+  overflow-y: auto;
   background: $concrete-light;
   transition: transform 0.2s $ease;
 
