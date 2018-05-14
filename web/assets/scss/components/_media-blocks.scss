@@ -87,14 +87,16 @@
 }
 
 // If within a masonry-item, use landscape aspect ratio for height
-.masonry-item .stat-module {
+.masonry-item {
+    .stat-module, .stat-two-figure-module {
 
-  @include media-md {
-    height: calc( (100vw - #{$padding})/2*(2/3) );
-  }
+    @include media-md {
+      height: calc( (100vw - #{$padding})/2*(2/3) );
+    }
 
-  @include media-lg {
-    height: calc( 100vw/3*(2/3) );
+    @include media-lg {
+      height: calc( 100vw/3*(2/3) );
+    }
   }
 }
 
