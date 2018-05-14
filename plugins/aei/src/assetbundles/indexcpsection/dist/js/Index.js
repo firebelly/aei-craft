@@ -11,35 +11,71 @@
  */
 // Good Design for Good Reason for Good Namespace
 var FB_Admin = (function($) {
+  var _csrf,
+  $importForm,
+  $progressBar,
+  $log;
 
   function _init() {
+    $importForm = $('#deltek-import-form');
+    $progressBar = $importForm.find('.progressbar');
+    $log = $('#deltek-import-form .log-output');
+
     // Eventbrite Importer
-    $('#deltek-import-form').on('submit', function(e) {
+    $importForm.on('submit', function(e) {
       e.preventDefault();
       window.scrollTo(0,0);
 
       var $inputSubmit = $('#deltek-import-form input[type=submit]');
-      var $form = $(this);
-      var $log = $('#deltek-import-form .log-output')
-
+      _csrf = $importForm.find('input[name=CRAFT_CSRF_TOKEN]').val();
       // Show spinner + Working text after submitting
-      $inputSubmit.prop('disabled', true).val('Please wait...');
-      $log.html('<p><div id="graphic" class="spinner big"></div> Working... (be patient, can take a while)</p>');
+      $importForm.addClass('importing').find('input[type=submit]').prop('disabled', true).val('Please wait...');
+      $importForm.find('.info-output').removeClass('hidden');
+      $log.removeClass('hidden').html('<h2>Log output:</h2>');
+      _updateProgressBar();
+      _importNextSection();
+    });
+  }
 
+  function _updateProgressBar() {
+    if ($importForm.hasClass('importing')) {
+      var sectionsToImport = $importForm.find('input[type=checkbox]:checked').length;
+      var sectionsImported = $importForm.find('input[type=checkbox]:checked.done').length;
+      var percentDone = sectionsImported / sectionsToImport * 100;
+      $progressBar.removeClass('hidden').find('div').css('width', percentDone + '%');
+    } else {
+      $progressBar.addClass('hidden').find('div').css('width', '0');
+    }
+  }
+
+  function _importNextSection(section) {
+    var sectionsToImport = $importForm.find('input[type=checkbox]:checked:not(.done)');
+    if (sectionsToImport.length) {
       $.ajax({
         type: 'POST',
         dataType: 'json',
-        url: $form.attr('action'),
-        data: $(this).serialize(),
+        url: $importForm.attr('action'),
+        data: {
+          CRAFT_CSRF_TOKEN: _csrf,
+          'sections-to-import[]': sectionsToImport.first().val()
+        },
         success: function(data) {
           setTimeout(function() {
             // Display log messages from import script
-            $log.html('<h2>Summary:</h2>' + data.summary + '<h2>Log:</h2>' + data.log);
-            $inputSubmit.prop('disabled', false).val('Run Importer');
+            $log.append('<h3>' + data.summary + '</h3>' + data.log);
+            sectionsToImport.first().addClass('done');
+            _updateProgressBar();
+            _importNextSection();
           }, 500);
         }
       });
-    });
+    } else {
+      $importForm.removeClass('importing').find('input[type=submit]').prop('disabled', false).val('Run Importer');
+      $importForm.find('.info-output').addClass('hidden');
+      $importForm.find('input').removeClass('done');
+      $importForm[0].reset();
+      _updateProgressBar();
+    }
   }
 
   // Public functions

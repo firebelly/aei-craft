@@ -9,3 +9,21 @@
  * @package   AEI
  * @since     1.0.0
  */
+
+#deltek-import-form {
+}
+#deltek-import-form .progressbar {
+    position: relative;
+    left: auto;
+    margin: 10px 0 20px;
+}
+#deltek-import-form input.done+label::after {
+    content: ' (Done!)';
+}
+#deltek-import-form .log-output {
+    margin: 20px 0;
+    max-height: 400px;
+    overflow: auto;
+    background: #f1f5f8;
+    padding: 20px;
+}
