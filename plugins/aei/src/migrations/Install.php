@@ -115,11 +115,11 @@ class Install extends Migration
             $this->db->getIndexName(
                 '{{%aei_deltek_log}}',
                 'dateCreated',
-                true
+                false
             ),
             '{{%aei_deltek_log}}',
             'dateCreated',
-            true
+            false
         );
     }
 
