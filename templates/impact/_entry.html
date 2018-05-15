@@ -34,7 +34,7 @@
       </div>
       <div class="row-block">
         <div class="meta  ">
-          {% if impactType.slug == 'conferences-presentations' %}
+          {% if impactType.slug == 'presentations' %}
             <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
               <h3>Session</h3>
               <div class="content">
@@ -76,7 +76,7 @@
 
           {% if impactPeople|length %}
             <div class="meta-item -full">
-              <h3>{% if impactType.slug == 'conferences-presentations' %}Presented By{% else %}Author{% endif %}</h3>
+              <h3>{% if impactType.slug == 'presentations' %}Presented By{% else %}Author{% endif %}</h3>
               <div class="content -spaced">
                   <ul class="semantic-only-list">
                   {% for person in impactPeople %}
@@ -97,7 +97,7 @@
             </div>
           {% endif %}
 
-          {% if impactType.slug != 'conferences-presentations' %}
+          {% if impactType.slug != 'presentations' %}
             <div class="meta-item -full">
               <h3>Post Date</h3>
               <div class="content">{{ entry.postDate|date('m/d/y') }}</div>
