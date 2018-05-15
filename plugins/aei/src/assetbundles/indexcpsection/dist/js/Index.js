@@ -92,7 +92,7 @@ var DeltekImportIndex = (function($) {
   // Something went wrong
   function _importError(message) {
     $log.append(message);
-    $importForm.removeClass('importing');
+    $importForm.removeClass('importing').find('input[type=submit]').prop('disabled', false).val('Run Importer');
   }
 
   // Public functions

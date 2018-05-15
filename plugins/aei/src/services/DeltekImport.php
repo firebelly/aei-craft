@@ -12,12 +12,12 @@ namespace firebelly\aei\services;
 
 use firebelly\aei\AEI;
 use firebelly\aei\base\SectionImport;
+use firebelly\aei\records\DeltekLog;
 use Craft;
 use craft\base\Component;
 use craft\elements\Entry;
 use craft\elements\Category;
 use craft\records\EntryType;
-use craft\helpers\DateTimeHelper;
 use craft\mail\Message;
 use verbb\supertable\SuperTable;
 
@@ -39,7 +39,7 @@ class DeltekImport extends Component
     private $deltekDb = null;
     private $log = '';
     private $summary = [];
-    private $awards_cache = [];
+    private $categories_cache = [];
 
     /**
      * Run Deltek Import
@@ -78,12 +78,21 @@ class DeltekImport extends Component
             if (in_array('awards', $sections_to_import)) {
                 $this->importAwards();
             }
+            if (in_array('impact', $sections_to_import)) {
+                $this->importImpact();
+            }
             if (in_array('projects', $sections_to_import)) {
                 $this->importProjects();
             }
         } catch (\Exception $e) {
             $this->bomb('Import Error: ' . $e->getMessage());
         }
+
+        // Store import summary + log in aei_deltek_log table
+        $deltekLog = new DeltekLog();
+        $deltekLog->log = $this->log;
+        $deltekLog->summary = $this->summary;
+        $deltekLog->save();
 
         return (object) [
             'log'     => $this->log,
@@ -99,7 +108,6 @@ class DeltekImport extends Component
 
         $result = $this->deltekDb->query("SELECT * FROM offices");
         foreach($result as $row) {
-            $fields = [];
             $actionVerb = 'updated';
             $entry = Entry::find()->section('offices')->where([
                 'title' => $row['office_name']
@@ -127,7 +135,7 @@ class DeltekImport extends Component
                 $i++;
                 if (!empty($row['employee_num'])) {
                     $person = Entry::find()->section('people')->where([
-                        'content.field_employeeNum' => $row['employee_num']
+                        'content.field_personEmployeeNumber' => $row['employee_num']
                     ])->one();
                     $aeiPerson = ($person) ? [$person->id] : [];
                 } else {
@@ -145,7 +153,7 @@ class DeltekImport extends Component
                 ];
             }
 
-            $fields = array_merge([
+            $entry->setFieldValues([
                 'officeAddress1'   => $row['address1'],
                 'officeAddress2'   => $row['address2'],
                 'officeCity'       => $row['city'],
@@ -154,10 +162,9 @@ class DeltekImport extends Component
                 'officeCountry'    => $row['country'],
                 'phoneNumber'      => $row['phone'],
                 'description'      => $row['overview'],
-                'officeMapUrl'     => $row['map_url'],
+                'officeMapUrl'     => $this->validUrl($row['map_url']),
                 'quotes'           => $office_quotes,
-            ], $fields);
-            $entry->setFieldValues($fields);
+            ]);
 
             if(Craft::$app->elements->saveElement($entry)) {
                 $officesImport->saved($entry, $actionVerb);
@@ -178,7 +185,6 @@ class DeltekImport extends Component
 
         $result = $this->deltekDb->query("SELECT * FROM employees");
         foreach($result as $row) {
-            $fields = [];
             $actionVerb = 'updated';
             $entry = Entry::find()->section('people')->where([
                 'content.field_personEmployeeNumber' => $row['employee_num']
@@ -196,12 +202,13 @@ class DeltekImport extends Component
             $office_ids = $office ? [$office->id] : [];
 
             // Find Person Quote
+            $personQuote = '';
             $rel_result = $this->deltekDb->prepare('SELECT * FROM employee_quotes WHERE employee_num = ?');
             $rel_result->execute([ $row['employee_num'] ]);
             $rel_rows = $rel_result->fetchAll();
             foreach($rel_rows as $rel_row) {
                 // Remove quotes around text
-                $fields['personQuote'] = trim(str_replace('&nbsp;', ' ', $rel_row['quote']), ' "”“');
+                $personQuote = trim(str_replace('&nbsp;', ' ', $rel_row['quote']), ' "”“');
             }
 
             // Find People Type IDs
@@ -233,7 +240,7 @@ class DeltekImport extends Component
                 ];
             }
 
-            $fields = array_merge([
+            $entry->setFieldValues([
                 'email'                => $row['email'],
                 'personFirstName'      => $row['firstname'],
                 'personLastName'       => $row['lastname'],
@@ -247,8 +254,8 @@ class DeltekImport extends Component
                 'personType'           => $person_type_ids,
                 'secondaryPersonType'  => $secondary_person_type_ids,
                 'socialLinks'          => $social_links,
-            ], $fields);
-            $entry->setFieldValues($fields);
+                'personQuote'          => $personQuote,
+            ]);
 
             if(Craft::$app->elements->saveElement($entry)) {
                 $peopleImport->saved($entry, $actionVerb);
@@ -301,13 +308,11 @@ class DeltekImport extends Component
      * Import Impact
      */
     private function importImpact() {
-        $ImpactImport = new SectionImport('Impact');
+        $impactImport = new SectionImport('Impact');
 
-        $impact_type = 'Articles';
-        $impact_type_id = $this->getImpactType($impact_type);
-        $result = $this->deltekDb->query("SELECT * FROM impact_articles");
+        $result = $this->deltekDb->query("SELECT * FROM impacts");
         foreach($result as $row) {
-            $fields = [];
+            $actionVerb = 'updated';
             $entry = Entry::find()->section('impact')->where([
                 'content.field_impactKey' => $row['impact_key']
             ])->one();
@@ -315,27 +320,69 @@ class DeltekImport extends Component
             if (!$entry) {
                 $entry = $this->makeNewEntry('impact');
                 $entry->title = $row['title'];
+                $actionVerb = 'added';
             }
 
-            $fields = array_merge([
-                'description'          => (!empty($row['body']) ? $row['body'] : $row['abstract']),
-                'excerpt'              => (!empty($row['body']) ? $row['abstract'] : ''),
-                'impactPublication'    => $row['publication'],
-                'impactPublicationUrl' => $row['url'],
-                'impactType'           => $impact_type,
-                'impactAuthor'         => $this->getImpactPeopleMatrix($row['impact_key']),
-            ], $fields);
+            // Find Market IDs
+            $market_ids = [];
+            $markets = implode(',', array_filter([
+                $row['primary_market'],
+                $row['secondary_market'],
+                $row['tertiary_market'],
+            ]));
+            foreach (explode(',', $markets) as $category_title) {
+                $category = $this->getCategory('markets', trim($category_title));
+                if ($category) {
+                    $market_ids[] = $category->id;
+                }
+            }
+
+            // Some fields have duplicate contexts based on category
+            if ($row['category']=='Presentations') {
+                $sessionDate = new \DateTime($row['date']);
+                $sessionUrl = $this->validUrl($row['url']);
+                $conferenceHost = $row['host_or_publication'];
+                $impactPublication = '';
+                $impactPublicationUrl = '';
+            } else {
+                $sessionDate = '';
+                $sessionUrl = '';
+                $conferenceHost = '';
+                $impactPublication = $row['host_or_publication'];
+                $impactPublicationUrl = $this->validUrl($row['url']);
+            }
+            $fields = [
+                'description'          => $row['body'],
+                // 'excerpt'           => (!empty($row['body']) ? $row['abstract'] : ''),
+                'sessionDate'          => $sessionDate,
+                'sessionUrl'           => $sessionUrl,
+                'conferenceHost'       => $conferenceHost,
+                'conferenceLocation'   => $row['location'],
+                'impactPublication'    => $impactPublication,
+                'impactPublicationUrl' => $impactPublicationUrl,
+                'markets'              => $market_ids,
+                'impactType'           => $this->getImpactType($row['category']),
+                'impactPeople'         => $this->getImpactPeopleMatrix($row['impact_key']),
+                'impactKey'            => $row['impact_key'],
+                'featured'             => (!empty($row['is_featured']) ? 1 : 0),
+                // 'enabled'              => (!empty($row['is_enabled']) ? 1 : 0),
+            ];
             $entry->setFieldValues($fields);
 
             if(Craft::$app->elements->saveElement($entry)) {
-                $this->log .= '<h3>Impact ('.$impact_type.') '.$row['name'].' Saved OK!</h3>';
-                // Set postDate after save in case this is a new post
-                $entry->postDate = DateTimeHelper::formatTimeForDb($row['date']);
-                Craft::$app->elements->saveElement($entry);
+                $impactImport->saved($entry, $actionVerb);
+                if ($row['category'] != 'Presentations') {
+                    // Set postDate after save in case this is a new post
+                    $entry->postDate = new \DateTime($row['date']);
+                    Craft::$app->elements->saveElement($entry);
+                }
             } else {
-                $this->log .= '<p>Impact ('.$impact_type.') '.$row['bombe'].' save error: '.print_r($entry->getErrors(), true).'</p>';
+                $this->bomb('<li>Save error: '.print_r($entry->getErrors(), true).'</li>');
             }
         }
+        list($log, $summary) = $impactImport->finish();
+        $this->log .= $log;
+        $this->summary = array_merge($summary, $this->summary);
     }
 
     /**
@@ -345,8 +392,6 @@ class DeltekImport extends Component
         $projectsImport = new SectionImport('Projects');
         $result = $this->deltekDb->query('SELECT * FROM projects');
         foreach($result as $row) {
-
-            $fields = [];
             $new_entry = false;
             $entry = Entry::find()->section('projects')->where([
                 'content.field_projectNumber' => $row['project_num'],
@@ -436,7 +481,7 @@ class DeltekImport extends Component
                     'type' => 'stat',
                     'fields' => [
                         'statFigure' => $rel_row['text'],
-                        'statLabel' => $rel_row['subtext'],
+                        'statLabel'  => $rel_row['subtext'],
                     ]
                 ];
             }
@@ -523,12 +568,11 @@ class DeltekImport extends Component
                 ];
             }
 
-            $fields = array_merge([
+            $entry->setFieldValues([
                 'projectNumber'     => $row['project_num'],
                 'projectName'       => $row['name'],
                 'projectClientName' => $row['client'],
                 'projectTagline'    => $row['tagline'],
-                'featured'          => $row['is_featured'],
                 'projectLocation'   => $row['location'],
                 'projectLeedStatus' => $row['leed_status'],
                 'services'          => $service_ids,
@@ -536,9 +580,10 @@ class DeltekImport extends Component
                 'projectAwards'     => $award_ids,
                 'projectLeaders'    => $project_leaders,
                 'projectPartners'   => $project_partners,
-                'mediaBlocks' => $media_blocks
-            ], $fields);
-            $entry->setFieldValues($fields);
+                'mediaBlocks'       => $media_blocks,
+                'featured'          => (!empty($row['is_featured']) ? 1 : 0),
+                // 'enabled'           => (!empty($row['is_enabled']) ? 1 : 0),
+            ]);
 
             if(Craft::$app->elements->saveElement($entry)) {
                 $projectsImport->saved($entry, $actionVerb);
@@ -582,43 +627,43 @@ class DeltekImport extends Component
     {
         $impact_people = [];
         $i = 0;
-        $rel_result = $this->deltekDb->prepare('SELECT * FROM impact_authorship WHERE impact_key = ? LIMIT 1');
+        $rel_result = $this->deltekDb->prepare('SELECT * FROM impact_authorship WHERE impact_key = ?');
         $rel_result->execute([ $impact_key ]);
         $rel_rows = $rel_result->fetchAll();
         foreach($rel_rows as $rel_row) {
-            if (!empty($row['employee_num'])) {
+            $i++;
+            if (!empty($rel_row['employee_num'])) {
                 $person = Entry::find()->section('people')->where([
-                    'content.field_employeeNum' => $row['employee_num']
+                    'content.field_personEmployeeNumber' => $rel_row['employee_num']
                 ])->one();
                 $aeiPerson = ($person) ? [$person->id] : [];
             } else {
                 $aeiPerson = [];
             }
-            $impact_people['new'.$i] = [
-                'type' => 'person',
-                'fields' => [
-                    'aeiPerson'     => $aeiPerson,
-                    'personName'    => $rel_row['author_name'],
-                    'personCompany' => $rel_row['author_company'],
-                ]
-            ];
+            // Make sure we found an AEI person or have a name/company
+            if (!empty($aeiPerson) || !empty($rel_row['author_name']) || !empty($rel_row['author_company'])) {
+                $impact_people['new'.$i] = [
+                    'type' => 'person',
+                    'fields' => [
+                        'aeiPerson'     => $aeiPerson,
+                        'personName'    => $rel_row['author_name'],
+                        'personCompany' => $rel_row['author_company'],
+                    ]
+                ];
+            }
         }
         return $impact_people;
     }
 
     /**
      * Find Impact Type
-     * @param  string $impact_type slug of impact type
-     * @return array              People IDs
+     * @param  string $impact_type title of impact type
+     * @return array              Impact Type IDs
      */
     private function getImpactType(string $impact_type)
     {
-        $return = [];
         $category = $this->getCategory('impactTypes', $impact_type);
-        if ($category) {
-            $return[] = $category->id;
-        }
-        return $return;
+        return ($category) ? [$category->id] : [];
     }
 
     /**
@@ -629,12 +674,60 @@ class DeltekImport extends Component
     private function getCategory(string $category_group_handle, string $category_title)
     {
         if (empty($category_title) || empty($category_group_handle)) return;
+        // Populate category cache array for category handle if not set
+        if (empty($this->categories_cache[$category_group_handle])) {
+            $this->categories_cache[$category_group_handle] = [];
+        }
+        // Check if category is cached
+        if (!empty($this->categories_cache[$category_group_handle][$category_title])) {
+            return $this->categories_cache[$category_group_handle][$category_title];
+        }
         $category_group = Craft::$app->categories->getGroupByHandle($category_group_handle);
         $category = Category::find()->where([
             'title' => $category_title,
             'groupId' => $category_group->id,
         ])->one();
+        // Cache category for subsequent lookups
+        $this->categories_cache[$category_group_handle][$category_title] = $category;
         return $category;
+    }
+
+    function bomb(string $message) {
+        Craft::warning($message);
+        if (!Craft::$app->getConfig()->general->devMode) {
+            $this->sendMail($message, 'AEI bomb', 'nate@firebellydesign.com');
+        }
+        throw new \Exception($message);
+    }
+
+    /**
+     * Send an email
+     * @param string $message
+     * @param string $subject
+     * @param string $to_email
+     * @return bool
+     */
+    private function sendMail(string $message, string $subject, string $to_email): bool
+    {
+        $settings = Craft::$app->systemSettings->getSettings('email');
+        $message = new Message();
+        $message->setFrom([$settings['fromEmail'] => $settings['fromName']]);
+        $message->setTo($to_email);
+        $message->setSubject($subject);
+        $message->setHtmlBody($message);
+
+        return Craft::$app->mailer->send($message);
+    }
+
+    /**
+     * Ensure valid URL
+     * @param $url
+     * @return string
+     */
+    private function validUrl($url)
+    {
+        if (empty($url)) return $url;
+        else return parse_url($url, PHP_URL_SCHEME) === null ? 'http://' . $url : $url;
     }
 
     /**
@@ -688,30 +781,5 @@ class DeltekImport extends Component
         $result = Craft::$app->getElements()->saveElement($asset);
 
         return $asset;
-    }
-
-    function bomb(string $message) {
-        Craft::warning($message);
-        $this->sendMail($message, 'AEI bomb', 'nate@firebellydesign.com');
-        // throw new Exception($message);
-    }
-
-    /**
-     * Send an email
-     * @param $message
-     * @param $subject
-     * @param $to_email
-     * @return bool
-     */
-    private function sendMail($message, $subject, $to_email): bool
-    {
-        $settings = Craft::$app->systemSettings->getSettings('email');
-        $message = new Message();
-        $message->setFrom([$settings['fromEmail'] => $settings['fromName']]);
-        $message->setTo($to_email);
-        $message->setSubject($subject);
-        $message->setHtmlBody($message);
-
-        return Craft::$app->mailer->send($message);
     }
 }
