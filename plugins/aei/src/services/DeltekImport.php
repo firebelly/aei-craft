@@ -18,6 +18,7 @@ use craft\elements\Entry;
 use craft\elements\Category;
 use craft\records\EntryType;
 use craft\helpers\DateTimeHelper;
+use craft\mail\Message;
 use verbb\supertable\SuperTable;
 
 /**
@@ -56,12 +57,14 @@ class DeltekImport extends Component
             ];
         }
 
+        // $this->bomb('fail ouch!');
+
         // Connect to Deltek db
         try {
             $this->deltekDb = new \PDO('mysql:host='.getenv('DELTEK_DB_SERVER').';dbname='.getenv('DELTEK_DB_DATABASE').';charset=utf8', getenv('DELTEK_DB_USER'), getenv('DELTEK_DB_PASSWORD'));
             $this->deltekDb->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-        } catch(PDOException $e) {
-            $this->log .= 'ERROR: ' . $e->getMessage();
+        } catch(\PDOException $e) {
+            $this->bomb('PDO Error: ' . $e->getMessage());
         }
 
         // Import all sections specified in $sections_to_import array
@@ -78,8 +81,8 @@ class DeltekImport extends Component
             if (in_array('projects', $sections_to_import)) {
                 $this->importProjects();
             }
-        } catch (Exception $e) {
-            $this->log .= 'Import Error: ' . $e->getMessage();
+        } catch (\Exception $e) {
+            $this->bomb('Import Error: ' . $e->getMessage());
         }
 
         return (object) [
@@ -159,7 +162,7 @@ class DeltekImport extends Component
             if(Craft::$app->elements->saveElement($entry)) {
                 $officesImport->saved($entry, $actionVerb);
             } else {
-                $officesImport->log('<li>Save error: '.print_r($entry->getErrors(), true).'</li>');
+                $this->bomb('<li>Save error: '.print_r($entry->getErrors(), true).'</li>');
             }
         }
         list($log, $summary) = $officesImport->finish();
@@ -249,7 +252,7 @@ class DeltekImport extends Component
             if(Craft::$app->elements->saveElement($entry)) {
                 $peopleImport->saved($entry, $actionVerb);
             } else {
-                $peopleImport->log('<li>Save error: '.print_r($entry->getErrors(), true).'</li>');
+                $this->bomb('<li>Save error: '.print_r($entry->getErrors(), true).'</li>');
             }
         }
         list($log, $summary) = $peopleImport->finish();
@@ -285,7 +288,7 @@ class DeltekImport extends Component
             if(Craft::$app->elements->saveElement($entry)) {
                 $awardsImport->saved($entry, $actionVerb);
             } else {
-                $awardsImport->log('<li>Save error: '.print_r($entry->getErrors(), true).'</li>');
+                $this->bomb('<li>Save error: '.print_r($entry->getErrors(), true).'</li>');
             }
         }
         list($log, $summary) = $awardsImport->finish();
@@ -329,7 +332,7 @@ class DeltekImport extends Component
                 $entry->postDate = DateTimeHelper::formatTimeForDb($row['date']);
                 Craft::$app->elements->saveElement($entry);
             } else {
-                $this->log .= '<p>Impact ('.$impact_type.') '.$row['name'].' save error: '.print_r($entry->getErrors(), true).'</p>';
+                $this->log .= '<p>Impact ('.$impact_type.') '.$row['bombe'].' save error: '.print_r($entry->getErrors(), true).'</p>';
             }
         }
     }
@@ -381,7 +384,7 @@ class DeltekImport extends Component
             $q = 0;
             foreach($rel_rows as $rel_row) {
                 $q++;
-                if (!empty($row['employee_num'])) {
+                if (!empty($rel_row['employee_num'])) {
                     $person = Entry::find()->section('people')->where([
                         'content.field_personEmployeeNumber' => $rel_row['employee_num']
                     ])->one();
@@ -539,7 +542,7 @@ class DeltekImport extends Component
             if(Craft::$app->elements->saveElement($entry)) {
                 $projectsImport->saved($entry, $actionVerb);
             } else {
-                $projectsImport->log('<li>Save error: '.print_r($entry->getErrors(), true).'</li>');
+                $this->bomb('<li>Save error: '.print_r($entry->getErrors(), true).'</li>');
             }
         }
         list($log, $summary) = $projectsImport->finish();
@@ -684,5 +687,30 @@ class DeltekImport extends Component
         $result = Craft::$app->getElements()->saveElement($asset);
 
         return $asset;
+    }
+
+    function bomb(string $message) {
+        Craft::warning($message);
+        $this->sendMail($message, 'AEI bomb', 'nate@firebellydesign.com');
+        // throw new Exception($message);
+    }
+
+    /**
+     * Send an email
+     * @param $message
+     * @param $subject
+     * @param $to_email
+     * @return bool
+     */
+    private function sendMail($message, $subject, $to_email): bool
+    {
+        $settings = Craft::$app->systemSettings->getSettings('email');
+        $message = new Message();
+        $message->setFrom([$settings['fromEmail'] => $settings['fromName']]);
+        $message->setTo($to_email);
+        $message->setSubject($subject);
+        $message->setHtmlBody($message);
+
+        return Craft::$app->mailer->send($message);
     }
 }

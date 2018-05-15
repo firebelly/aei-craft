@@ -72,15 +72,13 @@ class DeltekImportController extends Controller
             $deltekLog->log = $importResult->log;
             $deltekLog->summary = $importResult->summary;
             $deltekLog->save();
-        } catch (Exception $e) {
-            // todo: handle errors
+        } catch (\Exception $e) {
+            $response = [
+                'status'  => 0,
+                'message' => $e->getMessage()
+            ];
         }
 
-        if (Craft::$app->getRequest()->getIsAjax()) {
-            return json_encode($response);
-        } else {
-            return print_r($response);
-        }
-        // $this->returnErrorJson($e->getMessage());
+        return json_encode($response);
     }
 }

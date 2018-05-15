@@ -10,16 +10,23 @@
  * @since     1.0.0
  */
 
-#deltek-import-form {
-}
 #deltek-import-form .progressbar {
     position: relative;
     left: auto;
     margin: 10px 0 20px;
 }
+
 #deltek-import-form input.done+label::after {
     content: ' (Done!)';
 }
+
+#deltek-import-form .info-output {
+    display: none;
+}
+#deltek-import-form.importing .info-output {
+    display: block;
+}
+
 #deltek-import-form .log-output {
     margin: 20px 0;
     max-height: 400px;
