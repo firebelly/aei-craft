@@ -53,12 +53,8 @@
 
 .search-open {
   @include font-buttons;
-  top: -2*$beat;
-  left: -2*$beat;
   cursor: pointer;
-  padding: 2*$beat;
-  position: relative;
-  display: inline-block;
+  padding: 0 2*$beat 2*$beat 0;
 
   .icon-search {
     top: 3px;

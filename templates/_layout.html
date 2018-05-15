@@ -9,8 +9,8 @@
 
     <nav class="site-nav" role="navigation">
 
-      <div class="lockup bigclicky nav-content">
-        <div class="affiliated-engineers">
+      <div class="lockup nav-content">
+        <div class="affiliated-engineers bigclicky">
           <h1 class="sr-only"><a href="/">{{ siteName }}</a></h1>
           <svg class="logo"><use xlink:href="#affiliated-engineers-logo" /></svg>
         </div>
@@ -18,6 +18,20 @@
           <li>Plan</li>
           <li>Design</li>
           <li>Commission</li>
+        </ul>
+      </div>
+
+      <div class="top-nav">
+        <div class="search-open nav-content">
+          Search <svg class="icon-search"><use xlink:href="#icon-search" /></svg>
+        </div>
+        <ul class="secondary-links semantic-only-list">
+          <li class="secondary-links-item {{ active('/careers/', 'url', 'current') }}">
+            <a href="/careers/">Careers</a>
+          </li>
+          <li class="secondary-links-item {{ active('/contact/', 'url', 'current') }}">
+            <a href="/contact/">Contact</a>
+          </li>
         </ul>
       </div>
 
@@ -33,18 +47,6 @@
         {% block filters %}{% endblock %}
       </ul>
 
-      <ul class="secondary-links semantic-only-list">
-        <li class="secondary-links-item {{ active('/careers/', 'url', 'current') }}">
-          <a href="/careers/">Careers</a>
-        </li>
-        <li class="secondary-links-item {{ active('/contact/', 'url', 'current') }}">
-          <a href="/contact/">Contact</a>
-        </li>
-      </ul>
-
-      <div class="search-open nav-content">
-        Search <svg class="icon-search"><use xlink:href="#icon-search" /></svg>
-      </div>
     </nav>
     {% if category is defined %}
       <div class="current-filter-label font-details">

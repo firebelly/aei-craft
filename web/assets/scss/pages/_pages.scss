@@ -31,6 +31,12 @@
         margin-top: 76px;
       }
     }
+    .quote-carousel {
+      margin-bottom: $padding;
+      @include media-lg {
+        margin-bottom: 66px;
+      }
+    }
   }
 }
 

@@ -6,14 +6,16 @@
 {% endif %}
 
 <!-- checkerboard header w/ optional theater -->
-<div class="checkerboard-header theater-wrap -closed">
+<div class="theater-header theater-wrap -closed">
   <div class="row -halves theater-cover-top">
     <div class="row-block pull-to-top-h1">
       <div class="module text-module background-white text-black">
-        <p class="font-h1 no-margin">{{ pageHeader.subheader }}</p>
-        <div class="buttons">
+        <div class="user-content">
+          <p class="font-h1">{{ pageHeader.subheader }}</p>
+        </div>
+        <div class="buttons {{ entry.slug == 'approach' or entry.slug == 'careers' ? '' : 'theater-play-button-only' }}">
           {% if pageHeader.headerVideo %}
-            <button class="button theater-play show-md">
+            <button class="button theater-play">
               <span class="border"></span><span class="extra-corners"></span>
               Play Video
               <svg class="icon icon-triangle"><use xlink:href="#icon-triangle" /></svg>
@@ -42,11 +44,11 @@
       </div>
     </div>
   </div>
-  <div class="checkerboard-hero theater image-wrap">
+  <div class="theater-hero theater image-wrap">
     {% set headerImage = pageHeader.headerImage.one() %}
     <div class="image lazy" style="background-image: url();" data-original="{{ headerImage ? headerImage.getUrl('header') : '' }}">
       {% if pageHeader.headerVideo %}
-        <button class="button -solid hide-md theater-play text-off-white background-red absolute-center">Play Video<svg class="icon icon-triangle"><use xlink:href="#icon-triangle" /></svg></button>
+        <button class="button -solid theater-play text-off-white background-red absolute-center">Play Video<svg class="icon icon-triangle"><use xlink:href="#icon-triangle" /></svg></button>
       {% endif %}
     </div>
     {% if pageHeader.headerVideo %}
