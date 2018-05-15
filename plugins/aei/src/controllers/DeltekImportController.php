@@ -47,6 +47,7 @@ class DeltekImportController extends Controller
      *         The actions must be in 'kebab-case'
      * @access protected
      */
+    // todo: remove this when done developing
     protected $allowAnonymous = ['import-records'];
 
     /**
@@ -58,7 +59,7 @@ class DeltekImportController extends Controller
     public function actionImportRecords()
     {
         try {
-            $sections_to_import = Craft::$app->getRequest()->post('sections-to-import');
+            $sections_to_import = Craft::$app->getRequest()->get('sections-to-import');
             $importResult = AEI::$plugin->deltekImport->importRecords($sections_to_import);
             $response = [
                 'status'  => 1,

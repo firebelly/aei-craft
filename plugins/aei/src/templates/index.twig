@@ -30,7 +30,7 @@
     <form method="post" id="deltek-import-form" action="/admin/actions/aei/deltek-import/import-records">
         {{ csrfInput() }}
         <ul>
-            {% for section in ['Projects', 'People', 'Offices', 'Awards', 'Impact'] %}
+            {% for section in ['Awards', 'Projects', 'People', 'Offices', 'Impact'] %}
                 <li>
                     {% include "_includes/forms/checkbox" with {
                         name:      'sections-to-import[]',

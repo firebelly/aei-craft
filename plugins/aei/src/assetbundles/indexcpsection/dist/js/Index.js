@@ -1,7 +1,7 @@
 /**
  * AEI plugin for Craft CMS
  *
- * Index Field JS
+ * Deltek Import Admin js
  *
  * @author    Firebelly Design
  * @copyright Copyright (c) 2018 Firebelly Design
@@ -10,7 +10,7 @@
  * @since     1.0.0
  */
 // Good Design for Good Reason for Good Namespace
-var FB_Admin = (function($) {
+var DeltekImportIndex = (function($) {
   var _csrf,
   $importForm,
   $progressBar,
@@ -52,7 +52,6 @@ var FB_Admin = (function($) {
     var sectionsToImport = $importForm.find('input[type=checkbox]:checked:not(.done)');
     if (sectionsToImport.length) {
       $.ajax({
-        type: 'POST',
         dataType: 'json',
         url: $importForm.attr('action'),
         data: {
@@ -86,4 +85,4 @@ var FB_Admin = (function($) {
 })(jQuery);
 
 // Fire up the mothership
-jQuery(document).ready(FB_Admin.init);
+jQuery(document).ready(DeltekImportIndex.init);
