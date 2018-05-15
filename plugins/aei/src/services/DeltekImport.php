@@ -242,6 +242,7 @@ class DeltekImport extends Component
                 'personTitle'          => $row['title'],
                 'description'          => $row['bio'],
                 'personEmployeeNumber' => $row['employee_num'],
+                'featured'             => $row['is_featured'],
                 'office'               => $office_ids,
                 'personType'           => $person_type_ids,
                 'secondaryPersonType'  => $secondary_person_type_ids,
