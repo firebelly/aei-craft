@@ -4,8 +4,70 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d4432557047f6242cd97810c4a1e6c6d",
+    "content-hash": "1807bc3857e4fa74ecfd891068a19aec",
     "packages": [
+        {
+            "name": "amimpact/command-palette",
+            "version": "3.1.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/am-impact/amcommand/zipball/bf70192b3a81516a7f5b27cfc4bc5d364c4fb7c5",
+                "reference": "bf70192b3a81516a7f5b27cfc4bc5d364c4fb7c5",
+                "shasum": ""
+            },
+            "require": {
+                "craftcms/cms": "^3.0.0-RC1"
+            },
+            "type": "craft-plugin",
+            "extra": {
+                "name": "Command Palette",
+                "handle": "command-palette",
+                "version": "3.1.1",
+                "schemaVersion": "3.0.0",
+                "hasSettings": true,
+                "hasCpSection": true,
+                "developer": "a&m impact",
+                "developerUrl": "http://www.am-impact.nl",
+                "description": "Command palette in Craft.",
+                "changelogUrl": "https://raw.githubusercontent.com/am-impact/amcommand/craft3/CHANGELOG.md",
+                "documentationUrl": "https://github.com/am-impact/amcommand/blob/master/README.md",
+                "components": {
+                    "entries": "amimpact\\commandpalette\\services\\Entries",
+                    "general": "amimpact\\commandpalette\\services\\General",
+                    "globals": "amimpact\\commandpalette\\services\\Globals",
+                    "plugins": "amimpact\\commandpalette\\services\\Plugins",
+                    "search": "amimpact\\commandpalette\\services\\Search",
+                    "settings": "amimpact\\commandpalette\\services\\Settings",
+                    "tasks": "amimpact\\commandpalette\\services\\Tasks",
+                    "utilities": "amimpact\\commandpalette\\services\\Utilities",
+                    "users": "amimpact\\commandpalette\\services\\Users"
+                },
+                "class": "amimpact\\commandpalette\\CommandPalette"
+            },
+            "autoload": {
+                "psr-4": {
+                    "amimpact\\commandpalette\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "a&m impact",
+                    "homepage": "http://www.am-impact.nl"
+                }
+            ],
+            "description": "Command palette in Craft.",
+            "keywords": [
+                "cms",
+                "command",
+                "craft",
+                "craftcms",
+                "plugin"
+            ],
+            "time": "2017-12-15T14:27:41+00:00"
+        },
         {
             "name": "barrelstrength/sprout-active",
             "version": "2.0.6",
