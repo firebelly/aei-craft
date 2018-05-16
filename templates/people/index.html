@@ -15,7 +15,7 @@
   }).limit(20) as paginationInfo, peopleEntries %}
 
   {% set title = category.title %}
-  {% set subheader = category.description %}
+  {% set subheader = category.body %}
   {% set entry = craft.entries.section('peopleIndex').one() %}
 
 {% else %}

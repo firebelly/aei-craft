@@ -161,7 +161,7 @@ class DeltekImport extends Component
                 'officePostalCode' => $row['postal_code'],
                 'officeCountry'    => $row['country'],
                 'phoneNumber'      => $row['phone'],
-                'description'      => $row['overview'],
+                'body'             => $row['overview'],
                 'officeMapUrl'     => $this->validUrl($row['map_url']),
                 'quotes'           => $office_quotes,
             ]);
@@ -247,7 +247,7 @@ class DeltekImport extends Component
                 'personCertifications' => $row['certifications'],
                 'phoneNumber'          => $row['phone'],
                 'personTitle'          => $row['title'],
-                'description'          => $row['bio'],
+                'body'                 => $row['bio'],
                 'personEmployeeNumber' => $row['employee_num'],
                 'featured'             => $row['is_featured'],
                 'office'               => $office_ids,
@@ -352,7 +352,7 @@ class DeltekImport extends Component
                 $impactPublicationUrl = $this->validUrl($row['url']);
             }
             $fields = [
-                'description'          => $row['body'],
+                'body'                 => $row['body'],
                 // 'excerpt'           => (!empty($row['body']) ? $row['abstract'] : ''),
                 'sessionDate'          => $sessionDate,
                 'sessionUrl'           => $sessionUrl,

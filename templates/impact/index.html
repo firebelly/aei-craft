@@ -23,7 +23,7 @@
     with: [
       'impactImage'
     ]
-  }).id('not ' ~ omitId).orderBy('featured desc, postDate desc').limit(12) as paginationInfo, impactEntries %}
+  }).id('not ' ~ omitId).orderBy('featured DESC, postDate DESC').limit(12) as paginationInfo, impactEntries %}
 
 {% else %}
 
@@ -42,7 +42,7 @@
     with: [
       'impactImage'
     ]
-  }).id('not ' ~ omitId).orderBy('featured desc, postDate desc').limit(12) as paginationInfo, impactEntries %}
+  }).id('not ' ~ omitId).orderBy('featured DESC, postDate DESC').limit(12) as paginationInfo, impactEntries %}
 
 {% endif %}
 

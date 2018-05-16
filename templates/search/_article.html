@@ -3,7 +3,7 @@
 	{% switch entryType %}
 		{% case "Services" %}
 			<h3><a href="{{ entry.url }}">{{ entry.title }}</a></h3>
-			<p class="excerpt" class="dont-break-out">{{ entry.description | chop(limit=20, unit='w', append='…') }}</p>
+			<p class="excerpt" class="dont-break-out">{{ entry.body | chop(limit=20, unit='w', append='…') }}</p>
 			<a href="{{ entry.url }}" class="read-more">View <span class="arrow-wrap">Service<svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></span></a>
 
 		{% case "Projects" %}
@@ -13,7 +13,7 @@
 
 		{% case "Impact" %}
 			<h3><a href="{{ entry.url }}">{{ entry.title }}</a></h3>
-			<p class="excerpt" class="dont-break-out">{{ entry.excerpt ? entry.excerpt : entry.description | chop(limit=20, unit='w', append='…') }}</p>
+			<p class="excerpt" class="dont-break-out">{{ entry.excerpt ? entry.excerpt : entry.body | chop(limit=20, unit='w', append='…') }}</p>
 			<a href="{{ entry.url }}" class="read-more">Read <span class="arrow-wrap">More<svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></span></a>
 
 		{% case "Offices" %}

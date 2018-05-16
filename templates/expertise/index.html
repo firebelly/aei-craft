@@ -12,10 +12,10 @@
     'markets',
     'projectImage'
     ]
-  }).orderBy('featured desc, postDate desc').limit(8) as paginationInfo, projectEntries %}
+  }).orderBy('featured DESC, postDate DESC').limit(8) as paginationInfo, projectEntries %}
 
   {% set title = category.title %}
-  {% set subheader = category.description %}
+  {% set subheader = category.body %}
   {% set stats = craft.entries.section('stats').relatedTo(category).orderBy('RAND()').limit(2).all() %}
 
   {# Find Market Contacts and Offices #}
@@ -39,10 +39,10 @@
       'markets',
       'projectImage'
     ]
-  }).orderBy('featured desc, postDate desc').limit(8) as paginationInfo, projectEntries %}
+  }).orderBy('featured DESC, postDate DESC').limit(8) as paginationInfo, projectEntries %}
 
   {% set title = entry.title %}
-  {% set subheader = entry.description %}
+  {% set subheader = entry.body %}
   {% set stats = craft.entries.section('stats').relatedTo(statType).orderBy('RAND()').limit(2).all() %}
 
 {% endif %}

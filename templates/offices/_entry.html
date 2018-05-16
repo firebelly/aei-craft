@@ -18,7 +18,7 @@
             {% set block = { 'quotes': entry.quotes } %}
             {% include 'partials/media-blocks/_quotes' with { 'block': block } %}
           {% endif %}
-          <div class="user-content">{{ entry.description }}</div>
+          <div class="user-content">{{ entry.body }}</div>
           {% if entry.careersUrl %}
             <div class="buttons">
               <a class="button" href="{{ entry.careersUrl }}">

@@ -4,7 +4,7 @@
     <div class="category font-details">{{ impactType }}</div>
   {% endif %}
   <h1 class="title font-h2"><a href="{{ post.url }}">{{ post.title }}</a></h1>
-  <p class="excerpt">{{ post.excerpt ? post.excerpt : post.description | chop(limit=20, unit='w', append='…') }}</p>
+  <p class="excerpt">{{ post.excerpt ? post.excerpt : post.body | chop(limit=20, unit='w', append='…') }}</p>
   <a class="button" href="{{ post.url }}">
     <span class="border"></span><span class="extra-corners"></span>
     Read More
