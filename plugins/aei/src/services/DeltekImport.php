@@ -362,6 +362,8 @@ class DeltekImport extends Component
                 }
             }
 
+            // todo: pull in quotes and images (refactor code from importProjects to share here)
+
             // Some fields have duplicate contexts based on category
             if ($row['category']=='Presentations') {
                 $sessionDate = new \DateTime($row['date']);
@@ -470,7 +472,7 @@ class DeltekImport extends Component
                 $personName = $rel_row['author'];
                 $personName = preg_replace('/^([^,]*), (.*)/', '$2 $1', $personName);
 
-                // Make comma-delineated string of company + title
+                // Make comma-delimited string of company + title
                 $companyTitle = implode(',', array_filter([$rel_row['author_company'], $rel_row['author_title']]));
 
                 // Clean up quote

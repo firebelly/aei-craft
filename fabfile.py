@@ -4,7 +4,7 @@ import os
 env.hosts = ['aei-craft.firebelly.co']
 env.user = 'firebelly'
 env.path = '~/Sites/aei-craft'
-env.remotepath = '/home/firebelly/webapps/aei_craft'
+env.remotepath = '/home/firebelly/webapps/aei'
 env.git_branch = 'master'
 env.warn_only = True
 env.remote_protocol = 'http'
