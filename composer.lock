@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1807bc3857e4fa74ecfd891068a19aec",
+    "content-hash": "c7fd2350eaef2ab2bbafe4f5c361d31e",
     "packages": [
         {
             "name": "amimpact/command-palette",
@@ -493,11 +493,11 @@
         },
         {
             "name": "craftcms/cms",
-            "version": "3.0.7",
+            "version": "3.0.8",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craftcms/cms/zipball/4b041728306579aec5badab7df7d4bf42440305b",
-                "reference": "4b041728306579aec5badab7df7d4bf42440305b",
+                "url": "https://api.github.com/repos/craftcms/cms/zipball/d443e51ce496620abd56a711f7484da7ce366422",
+                "reference": "d443e51ce496620abd56a711f7484da7ce366422",
                 "shasum": ""
             },
             "require": {
@@ -567,7 +567,7 @@
                 "docs": "https://github.com/craftcms/docs",
                 "rss": "https://github.com/craftcms/cms/releases.atom"
             },
-            "time": "2018-05-10T18:26:07+00:00"
+            "time": "2018-05-15T23:56:55+00:00"
         },
         {
             "name": "craftcms/oauth2-craftid",
