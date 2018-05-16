@@ -49,6 +49,9 @@ class SectionImport
         if ($this->updated>0) {
             $this->summary[] = $this->updated . ' ' . $this->sectionName . ' updated';
         }
+        if ($this->added + $this->updated == 0) {
+            $this->summary[] = 'No ' . $this->sectionName . ' added or updated';
+        }
 
         return [
             '<h3>'.$this->sectionName.' ('.$exec_time.' seconds)</h3><ul>'.$this->localLog.'</ul>',

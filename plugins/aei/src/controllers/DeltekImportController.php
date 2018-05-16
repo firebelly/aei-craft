@@ -11,7 +11,6 @@
 namespace firebelly\aei\controllers;
 
 use firebelly\aei\AEI;
-
 use Craft;
 use craft\web\Controller;
 
@@ -43,7 +42,8 @@ class DeltekImportController extends Controller
         try {
             // Import all sections specified in sections-to-import[] param
             $sections_to_import = Craft::$app->getRequest()->get('sections-to-import');
-            $importResult = AEI::$plugin->deltekImport->importRecords($sections_to_import);
+            $deltek_ids = Craft::$app->getRequest()->get('deltek-ids');
+            $importResult = AEI::$plugin->deltekImport->importRecords($sections_to_import, $deltek_ids);
             $response = [
                 'status'  => 1,
                 'log'     => $importResult->log,

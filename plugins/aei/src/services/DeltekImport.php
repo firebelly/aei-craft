@@ -16,6 +16,7 @@ use firebelly\aei\records\DeltekLog;
 use Craft;
 use craft\base\Component;
 use craft\elements\Entry;
+use craft\elements\Asset;
 use craft\elements\Category;
 use craft\records\EntryType;
 use craft\mail\Message;
@@ -40,6 +41,7 @@ class DeltekImport extends Component
     private $log = '';
     private $summary = [];
     private $categories_cache = [];
+    private $deltek_ids = [];
 
     /**
      * Run Deltek Import
@@ -48,7 +50,7 @@ class DeltekImport extends Component
      *
      * @return string
      */
-    public function importRecords($sections_to_import)
+    public function importRecords($sections_to_import, $deltek_ids='')
     {
         if (empty($sections_to_import)) {
             return (object) [
@@ -57,7 +59,10 @@ class DeltekImport extends Component
             ];
         }
 
-        // $this->bomb('fail ouch!');
+        // Optional IDs to specify which entries to import
+        if (!empty($deltek_ids)) {
+            $this->deltek_ids = array_map('trim', explode(',', $deltek_ids));
+        }
 
         // Connect to Deltek db
         try {
@@ -108,6 +113,9 @@ class DeltekImport extends Component
 
         $result = $this->deltekDb->query("SELECT * FROM offices");
         foreach($result as $row) {
+            // Filter by delted_ids passed in?
+            if (!empty($this->deltek_ids) && !in_array($row['office_name'], $this->deltek_ids)) continue;
+
             $actionVerb = 'updated';
             $entry = Entry::find()->section('offices')->where([
                 'title' => $row['office_name']
@@ -166,7 +174,7 @@ class DeltekImport extends Component
                 'quotes'           => $office_quotes,
             ]);
 
-            if(Craft::$app->elements->saveElement($entry)) {
+            if(Craft::$app->getElements()->saveElement($entry)) {
                 $officesImport->saved($entry, $actionVerb);
             } else {
                 $this->bomb('<li>Save error: '.print_r($entry->getErrors(), true).'</li>');
@@ -185,6 +193,9 @@ class DeltekImport extends Component
 
         $result = $this->deltekDb->query("SELECT * FROM employees");
         foreach($result as $row) {
+            // Filter by delted_ids passed in?
+            if (!empty($this->deltek_ids) && !in_array($row['employee_num'], $this->deltek_ids)) continue;
+
             $actionVerb = 'updated';
             $entry = Entry::find()->section('people')->where([
                 'content.field_personEmployeeNumber' => $row['employee_num']
@@ -202,13 +213,13 @@ class DeltekImport extends Component
             $office_ids = $office ? [$office->id] : [];
 
             // Find Person Quote
-            $personQuote = '';
+            $person_quote = '';
             $rel_result = $this->deltekDb->prepare('SELECT * FROM employee_quotes WHERE employee_num = ?');
             $rel_result->execute([ $row['employee_num'] ]);
             $rel_rows = $rel_result->fetchAll();
             foreach($rel_rows as $rel_row) {
                 // Remove quotes around text
-                $personQuote = trim(str_replace('&nbsp;', ' ', $rel_row['quote']), ' "”“');
+                $person_quote = trim(str_replace('&nbsp;', ' ', $rel_row['quote']), ' "”“');
             }
 
             // Find People Type IDs
@@ -218,6 +229,14 @@ class DeltekImport extends Component
                     $person_type_ids[] = $category->id;
                 }
             }
+
+            // Find Images
+            $filename = basename($row['photo_url']);
+            $image = Asset::find()->where([
+                'filename' => $filename,
+            ])->one();
+            $image_ids = $image ? [$image->id] : [];
+
 
             // Find Secondary People Type IDs
             $secondary_person_type_ids = [];
@@ -254,10 +273,11 @@ class DeltekImport extends Component
                 'personType'           => $person_type_ids,
                 'secondaryPersonType'  => $secondary_person_type_ids,
                 'socialLinks'          => $social_links,
-                'personQuote'          => $personQuote,
+                'personQuote'          => $person_quote,
+                'personImage'          => $image_ids,
             ]);
 
-            if(Craft::$app->elements->saveElement($entry)) {
+            if(Craft::$app->getElements()->saveElement($entry)) {
                 $peopleImport->saved($entry, $actionVerb);
             } else {
                 $this->bomb('<li>Save error: '.print_r($entry->getErrors(), true).'</li>');
@@ -276,6 +296,9 @@ class DeltekImport extends Component
 
         $result = $this->deltekDb->query("SELECT * FROM project_awards");
         foreach($result as $row) {
+            // Filter by delted_ids passed in?
+            if (!empty($this->deltek_ids) && !in_array($row['award_key'], $this->deltek_ids)) continue;
+
             $entry = Entry::find()->section('awards')->where([
                 'content.field_awardKey' => $row['award_key']
             ])->one();
@@ -293,7 +316,7 @@ class DeltekImport extends Component
                 'awardKey'    => $row['award_key'],
             ]);
 
-            if(Craft::$app->elements->saveElement($entry)) {
+            if(Craft::$app->getElements()->saveElement($entry)) {
                 $awardsImport->saved($entry, $actionVerb);
             } else {
                 $this->bomb('<li>Save error: '.print_r($entry->getErrors(), true).'</li>');
@@ -312,6 +335,9 @@ class DeltekImport extends Component
 
         $result = $this->deltekDb->query("SELECT * FROM impacts");
         foreach($result as $row) {
+            // Filter by delted_ids passed in?
+            if (!empty($this->deltek_ids) && !in_array($row['impact_key'], $this->deltek_ids)) continue;
+
             $actionVerb = 'updated';
             $entry = Entry::find()->section('impact')->where([
                 'content.field_impactKey' => $row['impact_key']
@@ -365,16 +391,16 @@ class DeltekImport extends Component
                 'impactPeople'         => $this->getImpactPeopleMatrix($row['impact_key']),
                 'impactKey'            => $row['impact_key'],
                 'featured'             => (!empty($row['is_featured']) ? 1 : 0),
-                // 'enabled'              => (!empty($row['is_enabled']) ? 1 : 0),
             ];
             $entry->setFieldValues($fields);
+            $entry->enabled = (!isset($row['is_enabled']) || !empty($row['is_enabled']) ? 1 : 0);
 
-            if(Craft::$app->elements->saveElement($entry)) {
+            if(Craft::$app->getElements()->saveElement($entry)) {
                 $impactImport->saved($entry, $actionVerb);
                 if ($row['category'] != 'Presentations') {
                     // Set postDate after save in case this is a new post
                     $entry->postDate = new \DateTime($row['date']);
-                    Craft::$app->elements->saveElement($entry);
+                    Craft::$app->getElements()->saveElement($entry);
                 }
             } else {
                 $this->bomb('<li>Save error: '.print_r($entry->getErrors(), true).'</li>');
@@ -392,7 +418,9 @@ class DeltekImport extends Component
         $projectsImport = new SectionImport('Projects');
         $result = $this->deltekDb->query('SELECT * FROM projects');
         foreach($result as $row) {
-            $new_entry = false;
+            // Filter by delted_ids passed in?
+            if (!empty($this->deltek_ids) && !in_array($row['project_num'], $this->deltek_ids)) continue;
+
             $entry = Entry::find()->section('projects')->where([
                 'content.field_projectNumber' => $row['project_num'],
             ])->one();
@@ -582,10 +610,10 @@ class DeltekImport extends Component
                 'projectPartners'   => $project_partners,
                 'mediaBlocks'       => $media_blocks,
                 'featured'          => (!empty($row['is_featured']) ? 1 : 0),
-                // 'enabled'           => (!empty($row['is_enabled']) ? 1 : 0),
             ]);
+            $entry->enabled = (!isset($row['is_enabled']) || !empty($row['is_enabled']) ? 1 : 0);
 
-            if(Craft::$app->elements->saveElement($entry)) {
+            if(Craft::$app->getElements()->saveElement($entry)) {
                 $projectsImport->saved($entry, $actionVerb);
             } else {
                 $this->bomb('<li>Save error: '.print_r($entry->getErrors(), true).'</li>');
@@ -594,13 +622,6 @@ class DeltekImport extends Component
         list($log, $summary) = $projectsImport->finish();
         $this->log .= $log;
         $this->summary = array_merge($summary, $this->summary);
-    }
-
-    /**
-     * Slugify a string (now unused)
-     */
-    private function slugify(string $title) {
-        return preg_replace('/[^a-z0-9\-]/', '-', strtolower($title) );
     }
 
     /**
@@ -692,6 +713,10 @@ class DeltekImport extends Component
         return $category;
     }
 
+    /**
+     * Error was triggered, email dev and log warning
+     * @param  string $message info about the error
+     */
     function bomb(string $message) {
         Craft::warning($message);
         if (!Craft::$app->getConfig()->general->devMode) {
@@ -715,12 +740,11 @@ class DeltekImport extends Component
         $message->setTo($to_email);
         $message->setSubject($subject);
         $message->setHtmlBody($message);
-
         return Craft::$app->mailer->send($message);
     }
 
     /**
-     * Ensure valid URL
+     * Ensure valid URL by adding http:// to avoid validation errors on URL fields
      * @param $url
      * @return string
      */

@@ -27,6 +27,7 @@ var DeltekImportIndex = (function($) {
 
       // Show spinner + Working text after submitting, disable submit button
       $importForm.addClass('importing').find('input[type=submit]').prop('disabled', true).val('Please wait...');
+      $importForm.find('input').removeClass('done');
       $log.removeClass('hidden').html('<h2>Log output:</h2>');
       // Show progress bar
       _updateProgressBar();
@@ -45,7 +46,8 @@ var DeltekImportIndex = (function($) {
         url: $importForm.attr('action'),
         data: {
           CRAFT_CSRF_TOKEN: $importForm.find('input[name=CRAFT_CSRF_TOKEN]').val(),
-          'sections-to-import[]': sectionsToImport.first().val()
+          'sections-to-import[]': sectionsToImport.first().val(),
+          'deltek-ids': $importForm.find('input[name=deltek-ids]').val()
         }
       }).done(function(data) {
         if (data.status == 1) {
@@ -84,8 +86,8 @@ var DeltekImportIndex = (function($) {
   // Finish import and reset form
   function _finishImport() {
     $importForm.removeClass('importing').find('input[type=submit]').prop('disabled', false).val('Run Importer');
-    $importForm.find('input').removeClass('done');
-    $importForm[0].reset();
+    // $importForm.find('input').removeClass('done');
+    // $importForm[0].reset();
     _updateProgressBar();
   }
 
