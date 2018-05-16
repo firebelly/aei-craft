@@ -10,3 +10,4 @@ logs/*
 *.map
 public/.well-known
 *.pyc
+web/uploads/
