@@ -237,7 +237,6 @@ class DeltekImport extends Component
             ])->one();
             $image_ids = $image ? [$image->id] : [];
 
-
             // Find Secondary People Type IDs
             $secondary_person_type_ids = [];
             foreach (explode(',', $row['primary_category']) as $category_title) {
@@ -377,9 +376,10 @@ class DeltekImport extends Component
                 $impactPublication = $row['host_or_publication'];
                 $impactPublicationUrl = $this->validUrl($row['url']);
             }
+
             $fields = [
-                'body'                 => $row['body'],
-                // 'excerpt'           => (!empty($row['body']) ? $row['abstract'] : ''),
+                'body'                 => $this->formatText($row['body']),
+                // 'excerpt'           => $row['excerpt'], // This isn't currently being sent
                 'sessionDate'          => $sessionDate,
                 'sessionUrl'           => $sessionUrl,
                 'conferenceHost'       => $conferenceHost,
@@ -432,10 +432,9 @@ class DeltekImport extends Component
             }
 
             /////////////////////////////////////
-            // Add one-time matrix field imports (stats, quotes, images)
+            // Add matrix fields (stats, quotes, images)
             $media_blocks = [];
             $i = 0;
-            // todo: find existing matrix blocks that have no deltek_id field?
 
             // Get our Super Table quotes field (inside mediaBlocks matrix field)
             $mediaBlockField = Craft::$app->fields->getFieldByHandle('mediaBlocks');
@@ -515,9 +514,37 @@ class DeltekImport extends Component
             }
             $media_blocks = array_merge($project_stats, $media_blocks);
 
-            // todo: add case_study as text block
-            // todo: pull images as image blocks
-            /////////////////////////////////////
+            // Project Images
+            $hero_image = [];
+            $project_images = [];
+            $rel_result = $this->deltekDb->prepare('SELECT * FROM project_photos WHERE project_num = ?');
+            $rel_result->execute([ $row['project_num'] ]);
+            $rel_rows = $rel_result->fetchAll();
+            foreach($rel_rows as $rel_row) {
+                $filename = basename($rel_row['photo_url']);
+                $filename = preg_replace('/(png|tif|jpg)$/i','jpg', $filename);
+                $image = Asset::find()->where([
+                    'filename' => $filename,
+                ])->one();
+                if ($image) {
+                    $caption = trim(str_replace('&nbsp;', ' ', $rel_row['caption']), ' "”“');
+                    // Is this the hero image? If so, set for fields below
+                    if ($rel_row['is_hero']==1) {
+                        $hero_image = [$image->id];
+                    } else {
+                        $i++;
+                        $project_images['new'.$i] = [
+                            'type' => 'image',
+                            'fields' => [
+                                'caption' => $caption,
+                                'width'   => (!empty($rel_row['full_width']) ? 'full' : 'half'),
+                                'image'   => [$image->id],
+                            ]
+                        ];
+                    }
+                }
+            }
+            $media_blocks = array_merge($project_images, $media_blocks);
 
             // Find Service IDs
             $service_ids = [];
@@ -603,11 +630,13 @@ class DeltekImport extends Component
                 'projectTagline'    => $row['tagline'],
                 'projectLocation'   => $row['location'],
                 'projectLeedStatus' => $row['leed_status'],
+                'body'              => $this->formatText($row['case_study']),
                 'services'          => $service_ids,
                 'markets'           => $market_ids,
                 'projectAwards'     => $award_ids,
                 'projectLeaders'    => $project_leaders,
                 'projectPartners'   => $project_partners,
+                'projectImage'      => $hero_image,
                 'mediaBlocks'       => $media_blocks,
                 'featured'          => (!empty($row['is_featured']) ? 1 : 0),
             ]);
@@ -752,6 +781,20 @@ class DeltekImport extends Component
     {
         if (empty($url)) return $url;
         else return parse_url($url, PHP_URL_SCHEME) === null ? 'http://' . $url : $url;
+    }
+
+    /**
+     * Add some p tags if text is not formatted
+     * @param $text
+     * @return string
+     */
+    private function formatText($text)
+    {
+        if (strip_tags($text) == $text) {
+            $text = preg_replace('#(\r\n?|\n){2,}#', "\n", $text);
+            $text = '<p>' . implode('</p><p>', array_filter(explode("\n", $text))) . '</p>';
+        }
+        return $text;
     }
 
     /**
