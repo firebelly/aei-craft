@@ -38,7 +38,7 @@
             <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
               <h3>Session</h3>
               <div class="content">
-                {% if entry.sessionUrl %}<a target="_blank" href="{{ entry.sessionUrl }}">{% endif %}{{ entry.title }}{% if entry.sessionUrl %}</a>{% endif %}
+                {{ entry.title }}
               </div>
             </div>
           {% endif %}
@@ -49,7 +49,7 @@
               <div class="content">
                 {{ entry.sessionDate|date('m/d/y') }}
                 {% set sessionTime = entry.sessionDate|date('ga') %}
-                {% if sessionTime != '12am' %}
+                {% if sessionTime != '12AM' %}
                   @ {{ sessionTime }}
                 {% endif %}
               </div>
@@ -69,7 +69,7 @@
             <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
               <h3>Host</h3>
               <div class="content">
-                {{ entry.conferenceHost }}
+                {% if entry.conferenceUrl %}<a target="_blank" href="{{ entry.conferenceUrl }}">{% endif %}{{ entry.conferenceHost }}{% if entry.conferenceUrl %}</a>{% endif %}
               </div>
             </div>
           {% endif %}
@@ -88,7 +88,10 @@
                       {{ person.personName }}
                       {% if person.personCompany %}
                         — {{ person.personCompany }}
-                      {% endif %}
+                      {%- endif -%}
+                      {%- if person.personRole -%}
+                        , {{ person.personRole }}
+                      {%- endif -%}
                     {% endif %}
                   </li>
                   {% endfor %}
