@@ -367,13 +367,13 @@ class DeltekImport extends Component
             // Some fields have duplicate contexts based on category
             if ($row['category']=='Presentations') {
                 $sessionDate = new \DateTime($row['date']);
-                $sessionUrl = $this->validUrl($row['url']);
+                $conferenceUrl = $this->validUrl($row['url']);
                 $conferenceHost = $row['host_or_publication'];
                 $impactPublication = '';
                 $impactPublicationUrl = '';
             } else {
                 $sessionDate = '';
-                $sessionUrl = '';
+                $conferenceUrl = '';
                 $conferenceHost = '';
                 $impactPublication = $row['host_or_publication'];
                 $impactPublicationUrl = $this->validUrl($row['url']);
@@ -383,7 +383,7 @@ class DeltekImport extends Component
                 'body'                 => $this->formatText($row['body']),
                 // 'excerpt'           => $row['excerpt'], // This isn't currently being sent
                 'sessionDate'          => $sessionDate,
-                'sessionUrl'           => $sessionUrl,
+                'conferenceUrl'        => $conferenceUrl,
                 'conferenceHost'       => $conferenceHost,
                 'conferenceLocation'   => $row['location'],
                 'impactPublication'    => $impactPublication,
