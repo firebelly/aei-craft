@@ -74,31 +74,22 @@
             </div>
           {% endif %}
 
-          {% if impactPeople|length %}
+          {% for person in impactPeople %}
             <div class="meta-item -full">
-              <h3>{% if impactType.slug == 'presentations' %}People{% else %}Author{% endif %}</h3>
-              <div class="content -spaced">
-                  <ul class="semantic-only-list">
-                  {% for person in impactPeople %}
-                    <li>
-                    {% set aeiPerson = person.aeiPerson.one() %}
-                    {% if aeiPerson %}
-                      <a href="{{ aeiPerson.url }}">{{ aeiPerson.title }}</a>
-                    {% else %}
-                      {{ person.personName }}
-                      {% if person.personCompany %}
-                        — {{ person.personCompany }}
-                      {%- endif -%}
-                      {%- if person.personRole -%}
-                        , {{ person.personRole }}
-                      {%- endif -%}
-                    {% endif %}
-                  </li>
-                  {% endfor %}
-                </ul>
+              <h3>{{ person.personRole }}</h3>
+              <div class="content">
+                {% set aeiPerson = person.aeiPerson.one() %}
+                {% if aeiPerson %}
+                  <a href="{{ aeiPerson.url }}">{{ aeiPerson.title }}</a>
+                {% else %}
+                  {{ person.personName }}
+                  {% if person.personCompany %}
+                    — {{ person.personCompany }}
+                  {%- endif -%}
+                {% endif %}
               </div>
             </div>
-          {% endif %}
+          {% endfor %}
 
           {% if impactType.slug == 'articles' %}
             <div class="meta-item -full">
