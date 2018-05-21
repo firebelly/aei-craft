@@ -9,18 +9,6 @@
 
     <nav class="site-nav" role="navigation">
 
-      <div class="lockup nav-content">
-        <div class="affiliated-engineers bigclicky">
-          <h1 class="sr-only"><a href="/">{{ siteName }}</a></h1>
-          <svg class="logo"><use xlink:href="#affiliated-engineers-logo" /></svg>
-        </div>
-        <ul class="plan-design-commission">
-          <li>Plan</li>
-          <li>Design</li>
-          <li>Commission</li>
-        </ul>
-      </div>
-
       <div class="top-nav">
         <div class="search-open nav-content">
           Search <svg class="icon-search"><use xlink:href="#icon-search" /></svg>
@@ -32,6 +20,21 @@
           <li class="secondary-links-item {{ active('/contact/', 'url', 'current') }}">
             <a href="/contact/">Contact</a>
           </li>
+          <li class="secondary-links-item {{ active('/contact/', 'url', 'current') }} home-link">
+            <a href="/contact/">Home</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="lockup nav-content">
+        <div class="affiliated-engineers bigclicky">
+          <h1 class="sr-only"><a href="/">{{ siteName }}</a></h1>
+          <svg class="logo"><use xlink:href="#affiliated-engineers-logo" /></svg>
+        </div>
+        <ul class="plan-design-commission">
+          <li>Plan</li>
+          <li>Design</li>
+          <li>Commission</li>
         </ul>
       </div>
 
