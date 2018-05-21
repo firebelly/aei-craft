@@ -36,9 +36,14 @@
       </div>
 
       <ul class="primary-links semantic-only-list nav-content">
-        {% for navItem in [ 'expertise', 'impact', 'approach', 'people' ] %}
-          <li class="primary-links-item {{ active(navItem, 1, 'current') }}">
-            <a href="/{{ navItem }}/">{{ navItem|capitalize }}</a>
+        {% for navItem in [
+          { slug: 'expertise', urlMatches: 'expertise|projects' },
+          { slug: 'impact', urlMatches: 'impact' },
+          { slug: 'approach', urlMatches: 'approach|services|offices' },
+          { slug: 'people', urlMatches: 'people' },
+        ] %}
+          <li class="primary-links-item {{ active(navItem.urlMatches, 1, 'current') }}">
+            <a href="/{{ navItem.slug }}/">{{ navItem.slug|capitalize }}</a>
           </li>
         {% endfor %}
       </ul>
