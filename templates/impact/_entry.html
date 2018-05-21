@@ -76,7 +76,7 @@
 
           {% if impactPeople|length %}
             <div class="meta-item -full">
-              <h3>{% if impactType.slug == 'presentations' %}Presented By{% else %}Author{% endif %}</h3>
+              <h3>{% if impactType.slug == 'presentations' %}People{% else %}Author{% endif %}</h3>
               <div class="content -spaced">
                   <ul class="semantic-only-list">
                   {% for person in impactPeople %}
@@ -97,7 +97,12 @@
             </div>
           {% endif %}
 
-          {% if impactType.slug != 'presentations' %}
+          {% if impactType.slug == 'articles' %}
+            <div class="meta-item -full">
+              <h3>Publication Date</h3>
+              <div class="content">{{ entry.impactPublicationDate|date('m/d/y') }}</div>
+            </div>
+          {% elseif impactType.slug != 'presentations' %}
             <div class="meta-item -full">
               <h3>Post Date</h3>
               <div class="content">{{ entry.postDate|date('m/d/y') }}</div>
