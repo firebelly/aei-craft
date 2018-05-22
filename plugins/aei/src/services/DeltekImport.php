@@ -97,7 +97,7 @@ class DeltekImport extends Component
         // Store import summary + log in aei_deltek_log table
         $deltekLog = new DeltekLog();
         $deltekLog->log = $this->log;
-        $deltekLog->summary = $this->summary;
+        $deltekLog->summary = implode(', ', $this->summary);
         $deltekLog->save();
 
         return (object) [
@@ -240,7 +240,7 @@ class DeltekImport extends Component
 
             // Find Secondary People Type IDs
             $secondary_person_type_ids = [];
-            foreach (explode(',', $row['primary_category']) as $category_title) {
+            foreach (explode(',', $row['secondary_category']) as $category_title) {
                 if ($category = $this->getCategory('peopleTypes', trim($category_title))) {
                     $secondary_person_type_ids[] = $category->id;
                 }
