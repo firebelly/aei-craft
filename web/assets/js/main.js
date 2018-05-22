@@ -7,10 +7,11 @@
 //=include "../bower_components/imagesloaded/imagesloaded.pkgd.min.js"
 //=include "../bower_components/jquery_lazyload/jquery.lazyload.js"
 //=include "../bower_components/waypoints/lib/jquery.waypoints.js"
+//=include "../bower_components/waypoints/lib/shortcuts/sticky.js"
 //=include "../bower_components/isotope-layout/dist/isotope.pkgd.js"
 //=include "../bower_components/infinite-scroll/dist/infinite-scroll.pkgd.js"
 //=include "../bower_components/slick-carousel/slick/slick.js"
-//=include "../bower_components/tablesorter/jquery.tablesorter.js
+//=include "../bower_components/tablesorter/jquery.tablesorter.js"
 
 // Good Design for Good Reason for Good Namespace
 var FB = (function($) {
@@ -280,17 +281,40 @@ var FB = (function($) {
       e.preventDefault();
       var $this = $(this);
       $.get($this.attr('action'), $this.serialize(), function(data) {
-        var $content = $('#search-modal .content')
+        var $content = $('#search-modal .content');
+        var $scrollContext = $('#search-modal .scroll-wrap')
+
         $content.html(data).velocity('fadeOut', {duration: 0});
         $content.find('.search-section,.search-article').velocity('fadeOut', {duration: 0});
 
         var speed = 200;
         var delay = 40;
         var i = 0;
+        var j = 0;
         $content.velocity('fadeIn', {duration: speed, delay: delay*(i++)}).find('.search-form input[type="search"]').focus();
-        $content.find('.search-section,.search-article').each(function () {
-          $(this).velocity('fadeIn', {duration: speed, delay: delay*(i++)});
+        $content.find('.search-section').each(function () {
+          $(this).velocity('fadeIn', {duration: speed, delay: delay*(j+i++)});
+
+          $(this).find('.search-article').each(function () {
+            if(i<10) {
+              $(this).velocity('fadeIn', {duration: speed, delay: delay*(j+i++)});
+            } else {
+              $(this).velocity('fadeIn', {delay: delay*(j+10), duration: 0});
+            }
+          });
+          j+=5;
+          i=0;
         });
+
+        $('.search-section-title').each(function () {
+          console.log('making sticky');
+          $this = $(this);
+          var sticky = new Waypoint.Sticky({
+            element: $this[0],
+            context: $scrollContext[0],
+          });
+        });
+
       });
     });
   }
@@ -308,7 +332,10 @@ var FB = (function($) {
 
     // Fill with content
     $.get('/search/', function(data) {
-      $('#search-modal .content').html(data).velocity('fadeIn', {duration: 200}).find('.search-form input[name=q]').focus();
+      $('#search-modal .content').html(data).velocity('fadeIn', {duration: 200});
+      setTimeout(function () {
+        $('#search-modal .content').find('.search-form input[name=q]').focus();
+      },100);
     });
   }
 
@@ -598,8 +625,11 @@ var FB = (function($) {
     breakpoint_sm = breakpointIndicatorString === 'sm' || breakpoint_md;
     breakpoint_xs = breakpointIndicatorString === 'xs' || breakpoint_sm;
 
+    // Refit stats
+    _fitFigures();
 
-    _fitFigures()
+    // Refix waypoints
+    Waypoint.refreshAll();
   }
 
   function _initMasonry() {
