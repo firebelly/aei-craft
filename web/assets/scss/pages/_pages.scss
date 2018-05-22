@@ -4,6 +4,13 @@
       color: $off-white;
     }
   }
+  .row .row-block {
+    .module {
+      &.stat-two-figure-module {
+        min-height: 100%;
+      }
+    }
+  }
 }
 
 .page-expertise {

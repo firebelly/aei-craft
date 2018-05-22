@@ -68,11 +68,11 @@
 body.overlapping-header {
   @include media-md {
     .site-header {
-      position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
       z-index: 1;
+      width: 100%;
+      position: absolute;
     }
     #sticky-nav .secondary-links {
       background-color: rgba($black, 0.5);
