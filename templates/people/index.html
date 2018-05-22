@@ -12,7 +12,7 @@
     with: [
       'personImage'
     ]
-  }).limit(20) as paginationInfo, peopleEntries %}
+  }).limit(40) as paginationInfo, peopleEntries %}
 
   {% set title = category.title %}
   {% set subheader = category.body %}
@@ -27,7 +27,7 @@
     with: [
       'personImage'
     ]
-  }).limit(20) as paginationInfo, peopleEntries %}
+  }).limit(40) as paginationInfo, peopleEntries %}
 
   {% set title = 'People' %}
   {% set subheader = entry.subheader %}
@@ -76,13 +76,28 @@
 
   <!-- people -quarters -->
   <section class="big-margin-vertical" id="people">
-    <ul class="row -quarters photo-row-separators semantic-only-list">
+    <ul class="row -quarters photo-row-separators semantic-only-list infinite-scroll-container">
       {% for person in peopleEntries %}
-        <li class="row-block">
+        <li class="row-block infinite-scroll-object">
           {% include 'people/_article' %}
         </li>
       {% endfor %}
     </ul>
   </section>
+
+  <nav class="pagination" data-total-pages="{{ paginationInfo.totalPages }}">
+    <ul>
+      {% if paginationInfo.prevUrl %}
+      <li class="prev">
+        <a rel="prev" href="{{ paginationInfo.prevUrl }}">Previous Page</a>
+      </li>
+      {% endif %}
+      {% if paginationInfo.nextUrl %}
+      <li class="next">
+        <a rel="next" href="{{ paginationInfo.nextUrl }}">Next Page</a>
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
 
 {% endblock %}
