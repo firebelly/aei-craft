@@ -1,11 +1,6 @@
 // Header
 
 .site-header {
-  background-color: $concrete-med;
-
-  .secondary-links, .search-block {
-    display: none;
-  }
 
   .lockup-block {
     background: $white;
@@ -21,24 +16,50 @@
   }
 
   @include media-lg {
-
     .lockup-block {
       display: none;
     }
+  }
+}
 
-    .secondary-links, .search-block {
-      display: block;
+#sticky-nav {
+  display: none;
+
+  @include media-lg {
+    @include hardware-acceleration;
+    z-index: 10;
+    display: flex;
+    height: 16*$beat;
+    position: absolute;
+    transition: opacity 0.2s;
+
+    &.-unstuck {
+      width: 66.67%;
+      position: fixed;
+    }
+
+    &.-scrolled {
+      opacity: 0;
+    }
+    &.-scrolling-up {
+      opacity: 1;
     }
 
     .search-block {
       background: $white;
     }
 
+    .row-block {
+      padding: $padding;
+    }
+
     .secondary-links {
+      background-color: $concrete-med;
       text-align: right;
       a {
         color: $white;
         @include font-smoothing;
+        display: inline-block;
       }
     }
   }
@@ -47,26 +68,23 @@
 body.overlapping-header {
   @include media-md {
     .site-header {
-      top: 0;
-      left: 0;
-      z-index: 1;
-      width: 100%;
-      position: absolute;
-      background-color: rgba($black,0.5);
+      display: none;
+    }
+    #sticky-nav .secondary-links {
+      background-color: rgba($black, 0.5);
     }
   }
 }
 
 body.white-header {
-  .site-header {
+  #sticky-nav .secondary-links {
     background-color: $white;
-  }
-  .secondary-links a {
-    color: $black;
+
+    a {
+      color: $black;
+    }
   }
 }
-
-
 
 .lockup {
   @include clearfix;
@@ -89,8 +107,8 @@ body.white-header {
     @include min-screen(850px) {
       @include font-details;
       @include semantic-only-list;
-      margin: 0;
       top: -3px;
+      margin: 0;
       float: right;
       display: block;
       text-align: right;

@@ -15,6 +15,10 @@
   }
 }
 
+@mixin hardware-acceleration {
+  backface-visibility: hidden;
+}
+
 // Responsive mixins by Andy Richardson (@andimal): https://github.com/andimal/sass-responsive-mixin-madness
 @mixin media-xs() {
   @media screen and (max-height: $breakpoint-sm - 1) {

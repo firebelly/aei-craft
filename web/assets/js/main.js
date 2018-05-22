@@ -110,8 +110,110 @@ var FB = (function($) {
     _initTableSort();
     _initContactModal();
     _initSearch();
+    _initStickyNav();
 
   } // end init()
+
+  // Code for sticky nav
+  function _initStickyNav() {
+
+    // Make StickyNav class
+    function StickyNav() {
+
+      // Cached jqueries
+      var $nav = $('#sticky-nav');
+
+      // The reason I did all this...
+      var turningPoint = 250;
+
+      // Alias this
+      var me = this;
+
+      var scrollTop = $(window).scrollTop();
+      var lastScrollTop = scrollTop;
+
+      var scrolled, scrollingUp, unstuck;
+
+      // Determine whether nav should be sticky and make it so
+      this.refreshState = function () {
+        lastScrollTop = scrollTop;
+        scrollTop = $(window).scrollTop();
+
+        var lastScrolled = scrolled;
+        scrolled = scrollTop > turningPoint;
+        if (scrolled !== lastScrolled ) {
+          if(scrolled) {
+
+            // Mark this as is currently scrolled
+            $nav.addClass('-scrolled');
+
+            if(!unstuck) {
+              // Mark this as having had scrolled at some point
+              $nav.addClass('-unstuck');
+              unstuck = true;
+
+              turningPoint = 128;
+
+              // Prevent a transition
+              $nav.css('transition','none');
+              setTimeout(function () {
+                $nav.css('transition','');
+              },1);
+            }
+
+          }
+          if(!scrolled){ $nav.removeClass('-scrolled'); }
+        }
+
+        var lastScrollingUp = scrollingUp;
+        scrollingUp = lastScrollTop > scrollTop;
+        if (scrollingUp !== lastScrollingUp ) {
+          if(scrollingUp && unstuck) { $nav.addClass('-scrolling-up'); }
+          if(!scrollingUp){ $nav.removeClass('-scrolling-up'); }
+        }
+
+        if(scrollTop < 5 && unstuck) {
+          unstuck = false;
+          $nav.removeClass('-unstuck');
+        }
+      };
+
+      // Init the stickinav and tie behavior to window events
+      this.init = function () {
+
+        // Start off in correct state
+        me.refreshState();
+
+        // Scroll Handling
+        var lastMove = 0;
+        var eventThrottle = 40;
+        window.addEventListener("scroll", function() {
+          if(breakpoint_md) {
+
+            var now = Date.now();
+            if (now > lastMove + eventThrottle) {
+            lastMove = now;
+              me.refreshState();
+            }
+          }
+        });
+
+        // Resize Handling
+        $(window).resize(function () {
+          me.refreshState();
+        });
+
+        // Tell CSS the nav is ready to reveal
+        $nav.removeClass('-unloaded');
+      };
+
+      // Fire away
+      this.init();
+    }
+
+    // Make the nav
+    _stickyNav = new StickyNav();
+  }
 
   function _initSearch() {
     // Open on click
