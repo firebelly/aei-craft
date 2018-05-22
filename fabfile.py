@@ -28,9 +28,10 @@ def devsetup():
   local('cp .env-example .env')
   print "OK DONE! Hello? Are you still awake?\nEdit your .env file with local credentials\nRun `npx gulp watch` to run local gulp to compile & watch assets"
 
-def deploy():
+def deploy(composer='y'):
   update()
-  composer_install()
+  if composer == 'y':
+    composer_install()
   # clear_cache()
 
 def update():
