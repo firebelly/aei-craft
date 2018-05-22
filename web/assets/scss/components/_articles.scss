@@ -1,9 +1,11 @@
 // Project Article
 .project-module {
+  @include hardware-acceleration;
   overflow: hidden;
   position: relative;
 
   &::after, &::before {
+    @include hardware-acceleration;
     left: 0;
     z-index: 1;
     top: -100%;

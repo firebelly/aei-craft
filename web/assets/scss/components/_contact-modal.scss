@@ -1,9 +1,10 @@
 #contact-modal {
-  top: calc(100% - #{$padding*3});
+  @include hardware-acceleration;
   left: 0;
   width: 100%;
   z-index: 1001;
   position: absolute;
+  top: calc(100% - #{$padding*3});
 
   &.-unloaded {
     display: none;
