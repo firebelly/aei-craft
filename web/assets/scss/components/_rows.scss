@@ -78,6 +78,7 @@
       flex-basis: 100%;
       width: 100%;
 
+
       @include min-screen($breakpoint-quarters-2col) {
         flex-basis: 50%;
         max-width: 50%;

@@ -1,4 +1,5 @@
 .theater-wrap {
+  @include hardware-acceleration;
 
   .player-wrap {
     top: 0;
