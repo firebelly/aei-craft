@@ -17,10 +17,18 @@
 
 {% do view.registerAssetBundle("firebelly\\aei\\assetbundles\\aei\\AEIAsset") %}
 
-{{ forms.textField({
-    label: 'Some Field',
-    instructions: 'Enter some setting here.',
-    id: 'someAttribute',
-    name: 'someAttribute',
-    value: settings['someAttribute']})
-}}
+<h2>Deltek Import Sections</h2>
+<p>Select which sections get imported every night.</p>
+
+<ul>
+{% for section in ['Awards', 'Projects', 'People', 'Offices', 'Impact'] %}
+    <li>
+        {% include "_includes/forms/checkbox" with {
+            name:      'deltekImportSections['~section~']',
+            value:     section,
+            checked:   settings['deltekImportSections'][section],
+            label:     section,
+        } %}
+    </li>
+{% endfor %}
+</ul>

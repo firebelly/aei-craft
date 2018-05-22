@@ -42,6 +42,7 @@ class DeltekImport extends Component
     private $summary = [];
     private $categories_cache = [];
     private $deltek_ids = [];
+    private $superTableQuotesField = null;
 
     /**
      * Run Deltek Import
@@ -348,6 +349,28 @@ class DeltekImport extends Component
                 $actionVerb = 'added';
             }
 
+            // Add matrix fields (stats, quotes, images)
+            $media_blocks = [];
+            $i = 0;
+
+            // Find impact images
+            list($hero_image, $related_images) = $this->getRelatedPhotos('impact_photos', 'impact_key', $row['impact_key'], $i);
+            // Update matrix field index
+            $i = $i + count($related_images);
+            // Merge in any images found to matrix
+            $media_blocks = array_merge($related_images, $media_blocks);
+
+            $related_quotes = $this->getRelatedQuotes('impact_quotes', 'impact_key', $row['impact_key']);
+            if (!empty($related_quotes)) {
+                $i++;
+                $media_blocks = array_merge(['new'.$i => [
+                    'type' => 'quotes',
+                    'fields' => [
+                        'quotes' => $related_quotes,
+                    ]
+                ]], $media_blocks);
+            }
+
             // Find Market IDs
             $market_ids = [];
             $markets = implode(',', array_filter([
@@ -362,11 +385,12 @@ class DeltekImport extends Component
                 }
             }
 
-            // todo: pull in quotes and images (refactor code from importProjects to share here)
+            // todo: refactor code from importProjects to share quotes
+            // todo: pull impact_projects
 
             // Some fields have duplicate contexts based on category
             if ($row['category']=='Presentations') {
-                $sessionDate = new \DateTime($row['date']);
+                $sessionDate = new \DateTime($row['session_date']);
                 $conferenceUrl = $this->validUrl($row['url']);
                 $conferenceHost = $row['host_or_publication'];
                 $impactPublication = '';
@@ -377,6 +401,7 @@ class DeltekImport extends Component
                 $conferenceHost = '';
                 $impactPublication = $row['host_or_publication'];
                 $impactPublicationUrl = $this->validUrl($row['url']);
+                $impactPublicationDate = $this->validUrl($row['session_date']);
             }
 
             $fields = [
@@ -392,15 +417,18 @@ class DeltekImport extends Component
                 'impactType'           => $this->getImpactType($row['category']),
                 'impactPeople'         => $this->getImpactPeopleMatrix($row['impact_key']),
                 'impactKey'            => $row['impact_key'],
+                'impactImage'          => $hero_image,
+                'mediaBlocks'          => $media_blocks,
                 'featured'             => (!empty($row['is_featured']) ? 1 : 0),
             ];
             $entry->setFieldValues($fields);
+            $entry->postDate = new \DateTime($row['date']);
             $entry->enabled = (!isset($row['is_enabled']) || !empty($row['is_enabled']) ? 1 : 0);
 
             if(Craft::$app->getElements()->saveElement($entry)) {
                 $impactImport->saved($entry, $actionVerb);
-                if ($row['category'] != 'Presentations') {
-                    // Set postDate after save in case this is a new post
+                // Set postDate after save if new post (can't set on first save)
+                if ($actionVerb == 'added') {
                     $entry->postDate = new \DateTime($row['date']);
                     Craft::$app->getElements()->saveElement($entry);
                 }
@@ -438,57 +466,7 @@ class DeltekImport extends Component
             $media_blocks = [];
             $i = 0;
 
-            // Get our Super Table quotes field (inside mediaBlocks matrix field)
-            $mediaBlockField = Craft::$app->fields->getFieldByHandle('mediaBlocks');
-            $blockTypes = Craft::$app->matrix->getBlockTypesByFieldId($mediaBlockField->id);
-            foreach($blockTypes as $blockType) {
-                if ($blockType->handle=='quotes') {
-                    $matrixFields = Craft::$app->fields->getFieldsByLayoutId($blockType->fieldLayoutId);
-                    $quoteSuperTableBlocks = SuperTable::$plugin->service->getBlockTypesByFieldId($matrixFields[0]->id);
-                }
-            }
-            $blockType = $quoteSuperTableBlocks[0]; // There will only ever be one SuperTable_BlockType
-
-            // todo: error handling above if quote field isn't found?
-
-            // Project Quotes
-            $project_quotes = [];
-            $rel_result = $this->deltekDb->prepare('SELECT * FROM project_quotes WHERE project_num = ?');
-            $rel_result->execute([ $row['project_num'] ]);
-            $rel_rows = $rel_result->fetchAll();
-            $q = 0;
-            foreach($rel_rows as $rel_row) {
-                $q++;
-                if (!empty($rel_row['employee_num'])) {
-                    $person = Entry::find()->section('people')->where([
-                        'content.field_personEmployeeNumber' => $rel_row['employee_num']
-                    ])->one();
-                    $aeiPerson = ($person) ? [$person->id] : [];
-                } else {
-                    $aeiPerson = [];
-                }
-
-                // Reverse lastName, firstName formatting
-                $personName = $rel_row['author'];
-                $personName = preg_replace('/^([^,]*), (.*)/', '$2 $1', $personName);
-
-                // Make comma-delimited string of company + title
-                $companyTitle = implode(',', array_filter([$rel_row['author_company'], $rel_row['author_title']]));
-
-                // Clean up quote
-                $quote = trim(str_replace('&nbsp;', ' ', $rel_row['quote']), ' "”“');
-
-                $project_quotes['new'.$q] = [
-                    'type' => $blockType->id,
-                    'fields' => [
-                        'quote'         => $quote,
-                        'personName'    => $personName,
-                        'personCompany' => $companyTitle,
-                        'quoteKey'      => $rel_row['quote_key'],
-                        'aeiPerson'     => $aeiPerson,
-                    ]
-                ];
-            }
+            $project_quotes = $this->getRelatedQuotes('project_quotes', 'project_num', $row['project_num']);
             if (!empty($project_quotes)) {
                 $i++;
                 $media_blocks = array_merge(['new'.$i => [
@@ -516,37 +494,12 @@ class DeltekImport extends Component
             }
             $media_blocks = array_merge($project_stats, $media_blocks);
 
-            // Project Images
-            $hero_image = [];
-            $project_images = [];
-            $rel_result = $this->deltekDb->prepare('SELECT * FROM project_photos WHERE project_num = ?');
-            $rel_result->execute([ $row['project_num'] ]);
-            $rel_rows = $rel_result->fetchAll();
-            foreach($rel_rows as $rel_row) {
-                $filename = basename($rel_row['photo_url']);
-                $filename = preg_replace('/(png|tif|jpg)$/i','jpg', $filename);
-                $image = Asset::find()->where([
-                    'filename' => $filename,
-                ])->one();
-                if ($image) {
-                    $caption = trim(str_replace('&nbsp;', ' ', $rel_row['caption']), ' "”“');
-                    // Is this the hero image? If so, set for fields below
-                    if ($rel_row['is_hero']==1) {
-                        $hero_image = [$image->id];
-                    } else {
-                        $i++;
-                        $project_images['new'.$i] = [
-                            'type' => 'image',
-                            'fields' => [
-                                'caption' => $caption,
-                                'width'   => (!empty($rel_row['full_width']) ? 'full' : 'half'),
-                                'image'   => [$image->id],
-                            ]
-                        ];
-                    }
-                }
-            }
-            $media_blocks = array_merge($project_images, $media_blocks);
+            // Find project images
+            list($hero_image, $related_images) = $this->getRelatedPhotos('project_photos', 'project_num', $row['project_num'], $i);
+            // Update matrix field index
+            $i = $i + count($related_images);
+            // Merge in any images found to matrix
+            $media_blocks = array_merge($related_images, $media_blocks);
 
             // Find Service IDs
             $service_ids = [];
@@ -700,6 +653,7 @@ class DeltekImport extends Component
                         'aeiPerson'     => $aeiPerson,
                         'personName'    => $rel_row['author_name'],
                         'personCompany' => $rel_row['author_company'],
+                        'personRole'    => $rel_row['role'],
                     ]
                 ];
             }
@@ -716,6 +670,129 @@ class DeltekImport extends Component
     {
         $category = $this->getCategory('impactTypes', $impact_type);
         return ($category) ? [$category->id] : [];
+    }
+
+    /**
+     * Get Related Photos for deltek object
+     * @param  string $photos_table     lookup table for images
+     * @param  string $deltek_id_field  deltek_id field
+     * @param  string $deltek_id        deltek id
+     * @param  int $i                   current counter for matrix fields
+     * @return array
+     */
+    private function getRelatedPhotos($photos_table, $deltek_id_field, $deltek_id, $i)
+    {
+        $hero_image = [];
+        $related_images = [];
+        $rel_result = $this->deltekDb->prepare('SELECT * FROM `'.$photos_table.'` WHERE `'.$deltek_id_field.'` = ?');
+        $rel_result->execute([ $deltek_id ]);
+        $rel_rows = $rel_result->fetchAll();
+        foreach($rel_rows as $rel_row) {
+            $filename = basename($rel_row['photo_url']);
+            $filename = preg_replace('/(png|tif|jpg)$/i','jpg', $filename);
+            $image = Asset::find()->where([
+                'filename' => $filename,
+            ])->one();
+            if ($image) {
+                $caption = trim(str_replace('&nbsp;', ' ', $rel_row['caption']), ' "”“');
+                // Is this the hero image? If so, set for return
+                if ($rel_row['is_hero']==1) {
+                    $hero_image = [$image->id];
+                } else {
+                    // Otherwise add image to matrix fields to return
+                    $i++;
+                    $related_images['new'.$i] = [
+                        'type' => 'image',
+                        'fields' => [
+                            'caption' => $caption,
+                            'width'   => (!empty($rel_row['full_width']) ? 'full' : 'half'),
+                            'image'   => [$image->id],
+                        ]
+                    ];
+                }
+            }
+        }
+
+        // Return arrays of images found
+        return [$hero_image, $related_images];
+    }
+
+    /**
+     * Get Related Quotes for deltek object
+     * @param  string $quotes_table     lookup table for quotes
+     * @param  string $deltek_id_field  deltek_id field
+     * @param  string $deltek_id        deltek id
+     * @return array
+     */
+    private function getRelatedQuotes($quotes_table, $deltek_id_field, $deltek_id)
+    {
+        // Get our "quotes" Super Table field (inside "mediaBlocks" matrix field)
+        if (empty($this->superTableQuotesField)) {
+            $mediaBlockField = Craft::$app->fields->getFieldByHandle('mediaBlocks');
+            $blockTypes = Craft::$app->matrix->getBlockTypesByFieldId($mediaBlockField->id);
+            foreach($blockTypes as $blockType) {
+                if ($blockType->handle=='quotes') {
+                    $matrixFields = Craft::$app->fields->getFieldsByLayoutId($blockType->fieldLayoutId);
+                    // Cache this return for future use
+                    $this->superTableQuotesField = SuperTable::$plugin->service->getBlockTypesByFieldId($matrixFields[0]->id);
+                }
+            }
+        }
+        // For some reaons we couldn't find the super table block
+        if (empty($this->superTableQuotesField)) {
+            Craft::warning('Could not find Super Table field for quotes in mediaBlocks!');
+            return [];
+        }
+
+        $blockType = $this->superTableQuotesField[0]; // There will only ever be one SuperTable_BlockType
+
+        // Find related quotes
+        $related_quotes = [];
+        $rel_result = $this->deltekDb->prepare('SELECT * FROM `'.$quotes_table.'` WHERE `'.$deltek_id_field.'` = ?');
+        $rel_result->execute([ $deltek_id ]);
+        $rel_rows = $rel_result->fetchAll();
+        $q = 0;
+        foreach($rel_rows as $rel_row) {
+            $q++;
+            if (!empty($rel_row['employee_num'])) {
+                $person = Entry::find()->section('people')->where([
+                    'content.field_personEmployeeNumber' => $rel_row['employee_num']
+                ])->one();
+                $aeiPerson = ($person) ? [$person->id] : [];
+            } else {
+                $aeiPerson = [];
+            }
+
+            $personName = '';
+            // There are different field names for author in impact_quotes and related_quotes (gak)
+            if (!empty($rel_row['author'])) {
+                $personName = $rel_row['author'];
+            } else if (!empty($rel_row['quote_author'])) {
+                $personName = $rel_row['quote_author'];
+            }
+            // Reverse lastName, firstName formatting (commenting this out when I saw "Quinn Evans Architects, AIA Washington Award in Architecture" in the db)
+            // $personName = preg_replace('/^([^,]*), (.*)/', '$2 $1', $personName);
+
+            // Make comma-delimited string of company + title
+            $companyTitle = implode(',', array_filter([$rel_row['author_company'], $rel_row['author_title']]));
+
+            // Clean up quote
+            $quote = trim(str_replace('&nbsp;', ' ', $rel_row['quote']), ' "”“');
+
+            $related_quotes['new'.$q] = [
+                'type' => $blockType->id,
+                'fields' => [
+                    'quote'         => $quote,
+                    'personName'    => $personName,
+                    'personCompany' => $companyTitle,
+                    'quoteKey'      => $rel_row['quote_key'],
+                    'aeiPerson'     => $aeiPerson,
+                ]
+            ];
+        }
+
+        // Return array of quotes found
+        return $related_quotes;
     }
 
     /**

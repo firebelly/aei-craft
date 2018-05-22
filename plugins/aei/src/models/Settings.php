@@ -39,7 +39,13 @@ class Settings extends Model
      *
      * @var string
      */
-    public $someAttribute = 'Some Default';
+    public $deltekImportSections = [
+        'Awards' => true,
+        'Projects' => true,
+        'People' => true,
+        'Offices' => true,
+        'Impact' => true,
+    ];
 
     // Public Methods
     // =========================================================================
@@ -57,8 +63,13 @@ class Settings extends Model
     public function rules()
     {
         return [
-            ['someAttribute', 'string'],
-            ['someAttribute', 'default', 'value' => 'Some Default'],
+            ['deltekImportSections', 'default', 'value' => [
+                'Awards' => true,
+                'Projects' => true,
+                'People' => true,
+                'Offices' => true,
+                'Impact' => true,
+            ]],
         ];
     }
 }
