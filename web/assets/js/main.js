@@ -111,8 +111,49 @@ var FB = (function($) {
     _initContactModal();
     _initSearch();
     _initStickyNav();
+    _fitFigures();
 
   } // end init()
+
+  function _fitFigures() {
+    console.log('running!');
+    $('.fit-figure').each( function () {
+
+      // Who am i?
+      var $figure = $(this);
+
+      // What should I fit?
+      var $container = $figure.closest('.fit-figure-container');
+
+      // Try 10 sizes, one after the other, til I don't fit no more
+      for (i=1; i<10; i++) {
+
+        // Set the font size
+        $figure.css('font-size',i+'em');
+        $figure.attr('data-figure-size', i); // We'll use this data-attr for tying figures
+
+        // If I'm too big, go with one size smaller
+        if($figure.width()>=$container.width()) {
+          $figure.css('font-size', (i-1)+'em');
+          $figure.attr('data-figure-size', i-1);
+          break;
+        }
+      }
+    });
+
+    $('.tie-fit-figures').each(function () {
+      console.log('found tied!');
+      var smallest = 10;
+      var $figures = $(this).find('.fit-figure');
+      $figures.each(function () {
+        var size = parseInt( $(this).attr('data-figure-size') );
+        smallest = Math.min(smallest,size);
+      });
+
+      $figures.css('font-size', smallest+'em');
+      $figures.attr('data-figure-size', smallest);
+    });
+  }
 
   // Code for sticky nav
   function _initStickyNav() {
@@ -358,12 +399,26 @@ var FB = (function($) {
       swipe: false,
       touchMove: false,
       draggable: false,
+      pauseOnHover: false,
     }).removeClass('-unslicked');
   }
 
   function _scrollBody(element, duration, delay) {
     isAnimating = true;
     element.velocity("scroll", {
+      duration: duration,
+      delay: delay,
+      offset: 0,
+      complete: function(elements) {
+        isAnimating = false;
+      }
+    }, "easeOutSine");
+  }
+
+  function _scrollContainer(container, element, duration, delay) {
+    isAnimating = true;
+    element.velocity("scroll", {
+      container: container,
       duration: duration,
       delay: delay,
       offset: 0,
@@ -423,6 +478,10 @@ var FB = (function($) {
     });
     $(document).on('click','.nav-toggle', function () {
       _toggleNav();
+    });
+    $(document).on('click','.open-filters', function () {
+      _openNav();
+      _scrollContainer($('.site-nav'),$('.filters'),250,250);
     });
   }
 
@@ -540,6 +599,9 @@ var FB = (function($) {
     breakpoint_md = breakpointIndicatorString === 'md' || breakpoint_lg;
     breakpoint_sm = breakpointIndicatorString === 'sm' || breakpoint_md;
     breakpoint_xs = breakpointIndicatorString === 'xs' || breakpoint_sm;
+
+
+    _fitFigures()
   }
 
   function _initMasonry() {

@@ -220,7 +220,7 @@
   }
 }
 
-.current-filter-label {
+.current-filter-label, .open-filters {
   top: 172px;
   z-index: 2;
   right: 100%;
@@ -253,6 +253,10 @@
   @include media-lg {
     display: none;
   }
+}
+
+.open-filters {
+  cursor: pointer;
 }
 
 @include max-screen ($breakpoint-lg - 1px) {

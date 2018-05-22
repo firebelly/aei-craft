@@ -1,23 +1,30 @@
+{% set substitutions = {
+  '%': '<span class="percent">%</span>'
+} %}
+
 {% if block.statFigure2 %}
 
-  <article class="module stat-two-figure-module">
+  <article class="module stat-two-figure-module tie-fit-figures">
     <div class="slash-wrap">
-      <div class="figure figure-1">
-          {{ block.statFigure }}<span class="label">{{ block.statLabel }}</span>
+      <div class="figure figure-1 fit-figure-container">
+          <span class="fit-figure">{{ block.statFigure|escape|replace(substitutions)|raw }}</span><span class="label">{{ block.statLabel }}</span>
       </div>
-      <div class="figure figure-2">
-          {{ block.statFigure2 }}<span class="label">{{ block.statLabel2 }}</span>
+      <div class="figure figure-2 fit-figure-container">
+          <span class="fit-figure">{{ block.statFigure2|escape|replace(substitutions)|raw }}</span><span class="label">{{ block.statLabel2 }}</span>
       </div>
     </div>
   </article>
 
 {% else %}
 
+
+  {% set figureChars = block.statFigure|length %}
+
   <article class="module stat-module">
     <div class="centering-wrap">
-      <div class="figure">
-        <span class="slash-wrap">
-          {{ block.statFigure }}
+      <div class="figure fit-figure-container">
+        <span class="slash-wrap fit-figure">
+          {{ block.statFigure|escape|replace(substitutions)|raw }}
         </span>
       </div>
       <div class="label">

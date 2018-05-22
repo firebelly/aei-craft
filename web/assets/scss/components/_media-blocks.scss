@@ -1,5 +1,6 @@
 // 1 Number Stat
 .stat-module {
+  overflow: hidden;
   background-color: $white;
   padding: 1.5*$padding $padding;
 
@@ -19,28 +20,11 @@
   }
 
   .figure {
-    @include font-stat-medium;
     padding-right: 12px;
 
     @include media-md {
-      min-width: 55%;
+      max-width: 50%
     }
-
-    @include media-lg {
-      @include font-stat-large;
-    }
-
-    // .unit {
-    //   top: -32px;
-    //   margin-left: 0.2ch;
-    //   position: relative;
-    //   @include font-size(22,22);
-
-    //   @include media-lg {
-    //     top: -46px;
-    //     @include font-size(33,33);
-    //   }
-    // }
 
     .slash-wrap {
       position: relative;
@@ -48,15 +32,15 @@
       padding-right: 4*$beat;
 
       @include media-md {
-        width: 100%;
+        // width: 100%;
       }
 
       &::after {
         right: 0;
         width: 2px;
         content: '';
-        top: 1.5*$beat;
-        bottom: 1.5*$beat;
+        top: .1em;
+        bottom: .1em;
         position: absolute;
         transform: skew(-18deg);
         background-color: $concrete-light;
@@ -86,23 +70,10 @@
   }
 }
 
-// If within a masonry-item, use landscape aspect ratio for height
-.masonry-item {
-    .stat-module, .stat-two-figure-module {
-
-    @include media-md {
-      height: calc( (100vw - #{$padding})/2*(2/3) );
-    }
-
-    @include media-lg {
-      height: calc( 100vw/3*(2/3) );
-    }
-  }
-}
-
 // 2 Number Stat
 .stat-two-figure-module {
   height: 100%;
+  overflow: hidden;
   padding: $padding;
   background: $white;
   position: relative;
@@ -130,15 +101,11 @@
   }
 
   .figure {
-    @include font-stat-small;
     margin: 0;
     max-width: 33.33%;
     flex-basis: 33.33%;
-
-    @include media-md {
-      @include font-stat-medium;
-    }
   }
+
   .label {
     @include font-details;
     display: block;
@@ -148,6 +115,51 @@
   .figure-2 {
     align-self: flex-end;
     text-align: right;
+  }
+}
+
+.stat-module, .stat-two-figure-module {
+
+  .percent {
+    top: -1em;
+    line-height: 1;
+    font-size: .33em;
+    position: relative;
+    margin-left: 0.2ch;
+  }
+
+  .fit-figure-container {
+    // JS will take .fit-figure (child) and test 1-10em based on this 11px
+    // It will take biggest that fits.
+    @include formular-medium;
+    @include paragraph-style (11, 11, $ls: -.025em);
+  }
+
+  .fit-figure {
+    &[data-figure-size="1"],
+    &[data-figure-size="2"],
+    &[data-figure-size="3"],
+    &[data-figure-size="4"],
+    &[data-figure-size="5"] {
+      @include formular-bold;
+    }
+  }
+}
+
+// Aspect ratio height for stats
+.masonry-item, .row .row-block {
+  .module {
+    &.stat-module, &.stat-two-figure-module {
+      min-height: initial;
+
+      @include media-md {
+        height: calc( (100vw - #{$padding})/2*(2/3) );
+      }
+
+      @include media-lg {
+        height: calc( 100vw/3*(2/3) );
+      }
+    }
   }
 }
 

@@ -43,7 +43,10 @@
 }
 
 .page-intro {
-  .page-quote {
-    margin-bottom: 70px;
+  .page-quote, .page-headline {
+    margin-bottom: $padding;
+    @include media-md {
+      margin-bottom: 70px;
+    }
   }
 }

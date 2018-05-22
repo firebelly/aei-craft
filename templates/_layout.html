@@ -4,7 +4,7 @@
 
   {% include '/partials/_head' %}
 
-  <body class="{% if bodyClass is defined %}{{ bodyClass }}{% endif %} page-{{ segment(1) }}" {% if bodyId is defined %}id="{{ bodyId }}"{% endif %}>
+  <body class="{% if bodyClass is defined %}{{ bodyClass }}{% endif %} page-{{ segment(1) ? segment(1) : 'home' }}" {% if bodyId is defined %}id="{{ bodyId }}"{% endif %}>
     <div id="breakpoint-indicator"></div>
 
     <nav class="site-nav" role="navigation">
@@ -60,6 +60,11 @@
       <div class="current-filter-label font-details">
         {{ category }}
         <a href="/{{ segment(1) }}/" class="close-filter"><svg class="icon-x"><use xlink:href="#icon-x" /></svg></a>
+      </div>
+    {% endif %}
+    {% if entry.slug == 'people' or entry.slug == 'expertise' or entry.slug == 'approach' %}
+      <div class="open-filters font-details">
+        Filters
       </div>
     {% endif %}
     <div class="nav-open"><svg class="icon-hamburger"><use xlink:href="#icon-hamburger" /></svg></div>
