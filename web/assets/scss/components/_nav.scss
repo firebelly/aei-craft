@@ -221,7 +221,7 @@
 }
 
 .current-filter-label, .open-filters {
-  top: 172px;
+  top: 132px;
   z-index: 2;
   right: 100%;
   position: fixed;
@@ -231,6 +231,10 @@
   transform-origin: 100% 0%;
   transform: rotate(-90deg);
   transition: opacity 0.2s $ease;
+
+  @include media-md {
+    top: 172px;
+  }
 
   a.close-filter {
     position: absolute;

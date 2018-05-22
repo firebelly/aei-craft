@@ -6,11 +6,15 @@
 
   <article class="module stat-two-figure-module tie-fit-figures">
     <div class="slash-wrap">
-      <div class="figure figure-1 fit-figure-container">
+      <div class="figure figure-1">
+        <div class="fit-figure-container">
           <span class="fit-figure">{{ block.statFigure|escape|replace(substitutions)|raw }}</span><span class="label">{{ block.statLabel }}</span>
+        </div>
       </div>
-      <div class="figure figure-2 fit-figure-container">
+      <div class="figure figure-2">
+        <div class="fit-figure-container">
           <span class="fit-figure">{{ block.statFigure2|escape|replace(substitutions)|raw }}</span><span class="label">{{ block.statLabel2 }}</span>
+        </div>
       </div>
     </div>
   </article>

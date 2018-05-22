@@ -116,7 +116,6 @@ var FB = (function($) {
   } // end init()
 
   function _fitFigures() {
-    console.log('running!');
     $('.fit-figure').each( function () {
 
       // Who am i?
@@ -142,7 +141,6 @@ var FB = (function($) {
     });
 
     $('.tie-fit-figures').each(function () {
-      console.log('found tied!');
       var smallest = 10;
       var $figures = $(this).find('.fit-figure');
       $figures.each(function () {

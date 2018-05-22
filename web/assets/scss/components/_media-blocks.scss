@@ -106,6 +106,17 @@
     flex-basis: 33.33%;
   }
 
+  .fit-figure-container {
+    @include media-md {
+      width: 130%;
+    }
+  }
+
+  .figure-2 .fit-figure-container {
+    position: relative;
+    left: -30%;
+  }
+
   .label {
     @include font-details;
     display: block;
@@ -121,7 +132,7 @@
 .stat-module, .stat-two-figure-module {
 
   .percent {
-    top: -1em;
+    top: -1.3em;
     line-height: 1;
     font-size: .33em;
     position: relative;
@@ -146,7 +157,7 @@
   }
 }
 
-// Aspect ratio height for stats
+// Aspect ratio height
 .masonry-item, .row .row-block {
   .module {
     &.stat-module, &.stat-two-figure-module {

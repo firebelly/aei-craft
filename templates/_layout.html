@@ -62,7 +62,7 @@
         <a href="/{{ segment(1) }}/" class="close-filter"><svg class="icon-x"><use xlink:href="#icon-x" /></svg></a>
       </div>
     {% endif %}
-    {% if entry.slug == 'people' or entry.slug == 'expertise' or entry.slug == 'approach' %}
+    {% if craft.request.lastSegment == 'people' or craft.request.lastSegment == 'expertise' or craft.request.lastSegment == 'impact' %}
       <div class="open-filters font-details">
         Filters
       </div>
