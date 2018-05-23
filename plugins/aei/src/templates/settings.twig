@@ -15,17 +15,15 @@
 
 {% import "_includes/forms" as forms %}
 
-{% do view.registerAssetBundle("firebelly\\aei\\assetbundles\\aei\\AEIAsset") %}
-
 <h2>Deltek Import Sections</h2>
-<p>Select which sections get imported every night.</p>
+<p>Select which sections get imported every night:</p>
 
 <ul>
 {% for section in ['Awards', 'Projects', 'People', 'Offices', 'Impact'] %}
     <li>
         {% include "_includes/forms/checkbox" with {
             name:      'deltekImportSections['~section~']',
-            value:     section,
+            value:     1,
             checked:   settings['deltekImportSections'][section],
             label:     section,
         } %}

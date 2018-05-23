@@ -1,9 +1,17 @@
 {# @var craft \craft\web\twig\variables\CraftVariable #}
 {#
-/**
- * AEI index.twig
- */
-#}
+ /**
+  * AEI plugin for Craft CMS 3.x
+  *
+  * AEI Deltek Import index
+  *
+  * @author    Firebelly Design
+  * @copyright Copyright (c) 2018 Firebelly Design
+  * @link      https://www.firebellydesign.com/
+  * @package   AEI
+  * @since     1.0.0
+  */
+ #}
 
 {% extends "_layouts/cp" %}
 {% import "_includes/forms" as forms %}
@@ -13,13 +21,10 @@
 {# The title of this CP section #}
 {% set title = "AEI" %}
 
-{# The URL to this plugin's base CP section #}
-{% set pluginCpUrl = url('aei') %}
-
 {# Content that should appear in the page header#}
 {% block actionButton %}
     <div class="buttons">
-        <a href="{{ pluginCpUrl }}" class="btn submit">{{ "View Logs"|t('aei') }}</a>
+        <a href="{{ url('aei/logs') }}" class="btn submit">{{ "View Logs"|t('aei') }}</a>
         <a href="/admin/settings/plugins/aei" class="btn submit">{{ "Settings"|t('aei') }}</a>
         <a href="/admin/utilities/asset-indexes" class="btn submit">{{ "Asset Indexes"|t('aei') }}</a>
     </div>
@@ -32,7 +37,7 @@
     <form method="post" id="deltek-import-form" action="/admin/actions/aei/deltek-import/import-records">
         {{ csrfInput() }}
         <ul>
-            {% for section in ['Awards', 'Projects', 'People', 'Offices', 'Impact'] %}
+            {% for section in craft.app.getModule('aei').getDeltekSections() %}
                 <li>
                     {% include "_includes/forms/checkbox" with {
                         name:      'sections-to-import[]',
@@ -44,7 +49,7 @@
             {% endfor %}
         </ul>
         <p>Optionally pass in comma-delimited <code>project_num, employee_num, impact_key,</code> or <code>office_name</code> values to only import items that match those Deltek IDs:</p>
-        <p><input type="text" name="deltek-ids" size="50"></p>
+        <p><input type="text" name="deltek-ids" size="50" placeholder="e.g. 08658-01, 07177-00"></p>
 
         <div class="info-output"><p><div id="graphic" class="spinner"></div> Importing... (be patient, can take a while)</p></div>
         <div class="progressbar hidden"><div class="progressbar-inner"></div></div>

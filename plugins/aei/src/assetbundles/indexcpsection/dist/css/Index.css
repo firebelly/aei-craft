@@ -34,3 +34,20 @@
     background: #f1f5f8;
     padding: 20px;
 }
+
+table.deltek-logs .log-date {
+    width: 15%;
+}
+table.deltek-logs .log-summary {
+    width: 25%;
+}
+table.deltek-logs .log-log {
+    width: 50%;
+}
+
+table.deltek-logs td.log div {
+    background: #eee;
+    padding: 10px;
+    max-height: 200px;
+    overflow: auto;
+}

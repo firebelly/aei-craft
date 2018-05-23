@@ -24,14 +24,6 @@ use craft\web\Controller;
 class DeltekImportController extends Controller
 {
     /**
-     * @var    bool|array Allows anonymous access to this controller's actions.
-     *         The actions must be in 'kebab-case'
-     * @access protected
-     */
-    // todo: remove this when done developing
-    protected $allowAnonymous = ['import-records'];
-
-    /**
      * Import Records request
      * actions/aei/deltek-import/import-records
      *

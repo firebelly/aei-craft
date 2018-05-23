@@ -145,7 +145,7 @@ First we determine which. #}
               {% set stats = stats|slice(0,-1) %}
             </li>
           {% endif %}
-          <li class="masonry-item infinite-scroll-object" data-index="{{ loop.index }}">
+          <li class="masonry-item infinite-scroll-object">
             {% include 'projects/_article' %}
           </li>
         {% endfor %}
@@ -179,7 +179,7 @@ First we determine which. #}
                 {% set stats = stats|slice(0,-1) %}
               </li>
             {% endif %}
-            <li class="masonry-item infinite-scroll-object" data-index2="{{ loop.index }}">
+            <li class="masonry-item infinite-scroll-object">
               {% include 'projects/_article' %}
             </li>
           {% endif %}

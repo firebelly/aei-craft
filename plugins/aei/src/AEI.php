@@ -30,15 +30,6 @@ use craft\events\RegisterUrlRulesEvent;
 use yii\base\Event;
 
 /**
- * Craft plugins are very much like little applications in and of themselves. We’ve made
- * it as simple as we can, but the training wheels are off. A little prior knowledge is
- * going to be required to write a plugin.
- *
- * For the purposes of the plugin docs, we’re going to assume that you know PHP and SQL,
- * as well as some semi-advanced concepts like object-oriented programming and PHP namespaces.
- *
- * https://craftcms.com/docs/plugins/introduction
- *
  * @author    Firebelly Design
  * @package   AEI
  * @since     1.0.0
@@ -60,6 +51,13 @@ class AEI extends Plugin
      * @var AEI
      */
     public static $plugin;
+    public static $deltekSections = [
+                'Awards',
+                'Projects',
+                'People',
+                'Offices',
+                'Impact',
+            ];
 
     // Public Properties
     // =========================================================================
@@ -105,13 +103,13 @@ class AEI extends Plugin
         // );
 
         // Register our CP routes
-        Event::on(
-            UrlManager::class,
-            UrlManager::EVENT_REGISTER_CP_URL_RULES,
-            function (RegisterUrlRulesEvent $event) {
-                $event->rules['deltek/import'] = 'aei/deltek-import/run-import';
-            }
-        );
+        // Event::on(
+        //     UrlManager::class,
+        //     UrlManager::EVENT_REGISTER_CP_URL_RULES,
+        //     function (RegisterUrlRulesEvent $event) {
+        //         $event->rules['aei/deltek/logs'] = 'aei/deltek-import/logs';
+        //     }
+        // );
 
         // Register our fields
         Event::on(
@@ -170,6 +168,15 @@ class AEI extends Plugin
         );
     }
 
+    /**
+     * Return static array of Deltek Sections handled by importer
+     * @return array
+     */
+    public function getDeltekSections()
+    {
+        return self::$deltekSections;
+    }
+
     // Protected Methods
     // =========================================================================
 
@@ -191,7 +198,7 @@ class AEI extends Plugin
      */
     protected function settingsHtml(): string
     {
-        return Craft::$app->view->renderTemplate(
+        return Craft::$app->getView()->renderTemplate(
             'aei/settings',
             [
                 'settings' => $this->getSettings()

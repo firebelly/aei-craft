@@ -21,6 +21,7 @@ use craft\elements\Category;
 use craft\records\EntryType;
 use craft\mail\Message;
 use verbb\supertable\SuperTable;
+use yii\db\Expression;
 
 /**
  * DeltekImport Service
@@ -45,6 +46,16 @@ class DeltekImport extends Component
     private $superTableQuotesField = null;
 
     /**
+     * Returns deltek log records for /admin/aei/logs template
+     * @return [array] active records
+     */
+    public function getDeltekLogs()
+    {
+        $logs = DeltekLog::find()->orderBy('dateCreated DESC')->all();
+        return $logs;
+    }
+
+    /**
      * Run Deltek Import
      *
      * AEI::$plugin->deltekImport->importRecords()
@@ -53,10 +64,12 @@ class DeltekImport extends Component
      */
     public function importRecords($sections_to_import, $deltek_ids='')
     {
+        $timeStart = microtime(true);
         if (empty($sections_to_import)) {
             return (object) [
                 'log' => 'Nothing done.',
                 'summary' => 'No sections selected to import.',
+                'exec_time' => '0',
             ];
         }
 
@@ -100,9 +113,15 @@ class DeltekImport extends Component
         $deltekLog->summary = implode(', ', $this->summary);
         $deltekLog->save();
 
+        // Clear out older logs
+        $this->cleanUpLogs();
+
+        $exec_time = sprintf("%.2f", (microtime(true) - $timeStart));
+
         return (object) [
             'log'     => $this->log,
             'summary' => implode(', ', $this->summary),
+            'exec_time' => $exec_time,
         ];
     }
 
@@ -129,7 +148,7 @@ class DeltekImport extends Component
             }
 
             // Get our Super Table field
-            $field = Craft::$app->fields->getFieldByHandle('quotes');
+            $field = Craft::$app->getFields()->getFieldByHandle('quotes');
             $blockTypes = SuperTable::$plugin->service->getBlockTypesByFieldId($field->id);
             $blockType = $blockTypes[0];
 
@@ -385,8 +404,20 @@ class DeltekImport extends Component
                 }
             }
 
-            // todo: refactor code from importProjects to share quotes
-            // todo: pull impact_projects
+            // Associate Projects with Impact
+            $project_ids = [];
+            $rel_result = $this->deltekDb->prepare("SELECT * FROM impact_projects WHERE impact_key = ?");
+            $rel_result->execute([ $row['impact_key'] ]);
+            $rel_rows = $rel_result->fetchAll();
+            foreach($rel_rows as $rel_row) {
+                // See if this project is imported already
+                $project = Entry::find()->section('projects')->where([
+                    'content.field_projectNumber' => $rel_row['project_num'],
+                ])->one();
+                if ($project) {
+                    $project_ids[] = $project->id;
+                }
+            }
 
             // Some fields have duplicate contexts based on category
             if ($row['category']=='Presentations') {
@@ -419,6 +450,7 @@ class DeltekImport extends Component
                 'impactKey'            => $row['impact_key'],
                 'impactImage'          => $hero_image,
                 'mediaBlocks'          => $media_blocks,
+                'relatedProjects'      => $project_ids,
                 'featured'             => (!empty($row['is_featured']) ? 1 : 0),
             ];
             $entry->setFieldValues($fields);
@@ -466,13 +498,13 @@ class DeltekImport extends Component
             $media_blocks = [];
             $i = 0;
 
-            $project_quotes = $this->getRelatedQuotes('project_quotes', 'project_num', $row['project_num']);
-            if (!empty($project_quotes)) {
+            $related_quotes = $this->getRelatedQuotes('project_quotes', 'project_num', $row['project_num']);
+            if (!empty($related_quotes)) {
                 $i++;
                 $media_blocks = array_merge(['new'.$i => [
                     'type' => 'quotes',
                     'fields' => [
-                        'quotes' => $project_quotes,
+                        'quotes' => $related_quotes,
                     ]
                 ]], $media_blocks);
             }
@@ -599,6 +631,13 @@ class DeltekImport extends Component
 
             if(Craft::$app->getElements()->saveElement($entry)) {
                 $projectsImport->saved($entry, $actionVerb);
+                // If new project, add task queue to set project color
+                if ($actionVerb == 'added') {
+                  Craft::$app->queue->push(new SetProjectColor([
+                      'description' => 'Setting project color for '.$entry->id,
+                      'project_id' => $entry->id,
+                  ]));
+                }
             } else {
                 $this->bomb('<li>Save error: '.print_r($entry->getErrors(), true).'</li>');
             }
@@ -728,8 +767,8 @@ class DeltekImport extends Component
     {
         // Get our "quotes" Super Table field (inside "mediaBlocks" matrix field)
         if (empty($this->superTableQuotesField)) {
-            $mediaBlockField = Craft::$app->fields->getFieldByHandle('mediaBlocks');
-            $blockTypes = Craft::$app->matrix->getBlockTypesByFieldId($mediaBlockField->id);
+            $mediaBlockField = Craft::$app->getFields()->getFieldByHandle('mediaBlocks');
+            $blockTypes = Craft::$app->getMatrix()->getBlockTypesByFieldId($mediaBlockField->id);
             foreach($blockTypes as $blockType) {
                 if ($blockType->handle=='quotes') {
                     $matrixFields = Craft::$app->fields->getFieldsByLayoutId($blockType->fieldLayoutId);
@@ -811,7 +850,7 @@ class DeltekImport extends Component
         if (!empty($this->categories_cache[$category_group_handle][$category_title])) {
             return $this->categories_cache[$category_group_handle][$category_title];
         }
-        $category_group = Craft::$app->categories->getGroupByHandle($category_group_handle);
+        $category_group = Craft::$app->getCategories()->getGroupByHandle($category_group_handle);
         $category = Category::find()->where([
             'title' => $category_title,
             'groupId' => $category_group->id,
@@ -842,13 +881,13 @@ class DeltekImport extends Component
      */
     private function sendMail(string $message, string $subject, string $to_email): bool
     {
-        $settings = Craft::$app->systemSettings->getSettings('email');
+        $settings = Craft::$app->getSystemSettings()->getSettings('email');
         $message = new Message();
         $message->setFrom([$settings['fromEmail'] => $settings['fromName']]);
         $message->setTo($to_email);
         $message->setSubject($subject);
         $message->setHtmlBody($message);
-        return Craft::$app->mailer->send($message);
+        return Craft::$app->getMailer()->send($message);
     }
 
     /**
@@ -874,6 +913,13 @@ class DeltekImport extends Component
             $text = '<p>' . implode('</p><p>', array_filter(explode("\n", $text))) . '</p>';
         }
         return $text;
+    }
+
+    /**
+     * Clean up older Deltek logs, removing anything 30 days or older
+     */
+    private function cleanUpLogs() {
+        DeltekLog::deleteAll(['<', 'dateCreated', new Expression('DATE_SUB(NOW(), INTERVAL 30 DAY)')]);
     }
 
     /**

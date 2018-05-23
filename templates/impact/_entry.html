@@ -118,6 +118,12 @@
 
     {% include 'partials/_media-blocks' %}
 
+    {% set relatedProjects = entry.relatedProjects.all() %}
+    {% include 'partials/_related-projects'
+      with {
+        'relatedProjects': relatedProjects,
+      }
+    %}
 
     {% set limitCriteria = craft.entries.section('impact').limit(2) %}
     {% set relatedPosts = craft.similar.find({

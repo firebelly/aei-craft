@@ -1,0 +1,55 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+ /**
+  * AEI plugin for Craft CMS 3.x
+  *
+  * AEI Deltek Import logs
+  *
+  * @author    Firebelly Design
+  * @copyright Copyright (c) 2018 Firebelly Design
+  * @link      https://www.firebellydesign.com/
+  * @package   AEI
+  * @since     1.0.0
+  */
+ #}
+
+{% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("firebelly\\aei\\assetbundles\\indexcpsection\\IndexCPSectionAsset") %}
+
+{# The title of this CP section #}
+{% set title = "AEI Deltek Import Logs" %}
+
+{# Content that should appear in the page header #}
+{% block actionButton %}
+    <div class="buttons">
+        <a href="{{ url('aei') }}" class="btn submit">{{ "Importer"|t('aei') }}</a>
+        <a href="/admin/settings/plugins/aei" class="btn submit">{{ "Settings"|t('aei') }}</a>
+        <a href="/admin/utilities/asset-indexes" class="btn submit">{{ "Asset Indexes"|t('aei') }}</a>
+    </div>
+{% endblock %}
+
+{# The content of the CP Section#}
+{% block content %}
+    <h2>Import logs are stored for the last 30 days.</h2>
+    {% set logs = craft.app.getModule('aei').deltekImport.getDeltekLogs() %}
+    <table class="data fullwidth deltek-logs">
+        <thead>
+        <tr>
+          <th scope="col" class="log-date">Date</th>
+          <th scope="col" class="log-summary">Summary</th>
+          <th scope="col" class="log-log">Log</th>
+        </tr>
+        </thead>
+        <tbody>
+          {% for log in logs %}
+            <tr>
+              <td>{{ log.dateUpdated }}</td>
+              <td><strong>{{ log.summary }}</strong></td>
+              <td class="log"><div>{{ log.log|raw }}</div></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
