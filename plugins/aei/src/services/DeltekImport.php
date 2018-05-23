@@ -190,8 +190,10 @@ class DeltekImport extends Component
                 'officeCountry'    => $row['country'],
                 'phoneNumber'      => $row['phone'],
                 'body'             => $row['overview'],
+                'careersUrl'       => (!empty($row['careers_url']) ? $this->validUrl($row['careers_url']) : ''),
                 'officeMapUrl'     => $this->validUrl($row['map_url']),
                 'quotes'           => $office_quotes,
+                'officeImage'      => $this->getPhoto($row['photo_url']),
             ]);
 
             if(Craft::$app->getElements()->saveElement($entry)) {
@@ -250,13 +252,6 @@ class DeltekImport extends Component
                 }
             }
 
-            // Find Images
-            $filename = basename($row['photo_url']);
-            $image = Asset::find()->where([
-                'filename' => $filename,
-            ])->one();
-            $image_ids = $image ? [$image->id] : [];
-
             // Find Secondary People Type IDs
             $secondary_person_type_ids = [];
             foreach (explode(',', $row['secondary_category']) as $category_title) {
@@ -293,7 +288,7 @@ class DeltekImport extends Component
                 'secondaryPersonType'  => $secondary_person_type_ids,
                 'socialLinks'          => $social_links,
                 'personQuote'          => $person_quote,
-                'personImage'          => $image_ids,
+                'personImage'          => $this->getPhoto($row['photo_url']),
             ]);
 
             if(Craft::$app->getElements()->saveElement($entry)) {
@@ -711,6 +706,18 @@ class DeltekImport extends Component
         return ($category) ? [$category->id] : [];
     }
 
+    private function getPhoto($filename)
+    {
+        if (empty($filename)) {
+            return [];
+        }
+        $filename = basename($filename);
+        $image = Asset::find()->where([
+            'filename' => $filename,
+        ])->one();
+        return $image ? [$image->id] : [];
+    }
+
     /**
      * Get Related Photos for deltek object
      * @param  string $photos_table     lookup table for images
@@ -777,7 +784,7 @@ class DeltekImport extends Component
                 }
             }
         }
-        // For some reaons we couldn't find the super table block
+        // For some reason we couldn't find the Super Table field
         if (empty($this->superTableQuotesField)) {
             Craft::warning('Could not find Super Table field for quotes in mediaBlocks!');
             return [];
@@ -809,8 +816,6 @@ class DeltekImport extends Component
             } else if (!empty($rel_row['quote_author'])) {
                 $personName = $rel_row['quote_author'];
             }
-            // Reverse lastName, firstName formatting (commenting this out when I saw "Quinn Evans Architects, AIA Washington Award in Architecture" in the db)
-            // $personName = preg_replace('/^([^,]*), (.*)/', '$2 $1', $personName);
 
             // Make comma-delimited string of company + title
             $companyTitle = implode(',', array_filter([$rel_row['author_company'], $rel_row['author_title']]));
