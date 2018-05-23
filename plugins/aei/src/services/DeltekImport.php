@@ -712,6 +712,7 @@ class DeltekImport extends Component
             return [];
         }
         $filename = basename($filename);
+        $filename = preg_replace('/(png|tif|jpg|psd)$/i','jpg', $filename);
         $image = Asset::find()->where([
             'filename' => $filename,
         ])->one();
@@ -735,7 +736,7 @@ class DeltekImport extends Component
         $rel_rows = $rel_result->fetchAll();
         foreach($rel_rows as $rel_row) {
             $filename = basename($rel_row['photo_url']);
-            $filename = preg_replace('/(png|tif|jpg)$/i','jpg', $filename);
+            $filename = preg_replace('/(png|tif|jpg|psd)$/i','jpg', $filename);
             $image = Asset::find()->where([
                 'filename' => $filename,
             ])->one();
