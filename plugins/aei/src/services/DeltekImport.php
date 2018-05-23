@@ -261,6 +261,7 @@ class DeltekImport extends Component
             }
 
             // Populate Social Links (matrix field), currently just Linkedin
+            $social_links = [];
             if (!empty($row['linkedin'])) {
                 $social_links = [
                     'new1' => [
