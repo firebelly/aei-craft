@@ -515,7 +515,7 @@ class DeltekImport extends Component
                 $project_stats['new'.$i] = [
                     'type' => 'stat',
                     'fields' => [
-                        'statFigure' => $rel_row['text'],
+                        'statFigure' => $this->fixStatFigure($rel_row['text']),
                         'statLabel'  => $rel_row['subtext'],
                     ]
                 ];
@@ -920,6 +920,15 @@ class DeltekImport extends Component
             $text = '<p>' . implode('</p><p>', array_filter(explode("\n", $text))) . '</p>';
         }
         return $text;
+    }
+
+    /**
+     * Fix stat figures for db save
+     */
+    private function fixStatFigure($figure) {
+        // Stats with just 0 don't save in db, get nulled out
+        $figure = preg_replace('/^0$/', 'zero', $figure);
+        return $figure;
     }
 
     /**
