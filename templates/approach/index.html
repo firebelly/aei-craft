@@ -25,7 +25,7 @@
 
     <!-- services -quarters -->
     <ul class="row -quarters photo-row-separators semantic-only-list  big-margin-bottom">
-    {% for service in craft.categories.group('services').all() %}
+    {% for service in craft.categories.group('services').orderBy('title asc').all() %}
       <li class="row-block">
         {% include 'services/_article' %}
       </li>
@@ -50,7 +50,7 @@
 
     <!-- locations -quarters -->
     <ul class="row -quarters photo-row-separators semantic-only-list ">
-      {% for office in craft.entries.section('offices').all() %}
+      {% for office in craft.entries.section('offices').orderBy('title asc').all() %}
         <li class="row-block">
           {% include 'offices/_article' %}
         </li>
