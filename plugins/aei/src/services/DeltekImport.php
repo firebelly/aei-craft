@@ -487,6 +487,7 @@ class DeltekImport extends Component
             if (!$entry) {
                 $entry = $this->makeNewEntry('projects');
                 $actionVerb = 'added';
+                $colorSwatch = AEI::$plugin->findProjectColor->randomSwatch();
             }
 
             /////////////////////////////////////
@@ -621,6 +622,7 @@ class DeltekImport extends Component
                 'projectPartners'   => $project_partners,
                 'projectImage'      => $hero_image,
                 'mediaBlocks'       => $media_blocks,
+                'colorSwatch'       => $colorSwatch,
                 'featured'          => (!empty($row['is_featured']) ? 1 : 0),
             ]);
             $entry->enabled = (!isset($row['is_enabled']) || !empty($row['is_enabled']) ? 1 : 0);

@@ -30,6 +30,16 @@ use craft\base\Component;
  */
 class FindProjectColor extends Component
 {
+    public $colorSwatches = [
+        'Copper' => '#664747',
+        'Brass' => '#725e4f',
+        'Green' => '#545b44',
+        'Blue' => '#3d4460',
+        'Teal' => '#475b66',
+        'Violet' => '#56425b',
+        'Gray' => '#595954',
+    ];
+
     // Public Methods
     // =========================================================================
 
@@ -39,17 +49,13 @@ class FindProjectColor extends Component
      *
      * From any other plugin file, call it like this:
      *
-     *     AEI::$plugin->findProjectColor->exampleService()
+     *     AEI::$plugin->findProjectColor->randomColor()
      *
      * @return mixed
      */
-    public function exampleService()
+    public function randomSwatch()
     {
-        $result = 'something';
-        // Check our Plugin's settings for `someAttribute`
-        if (AEI::$plugin->getSettings()->someAttribute) {
-        }
-
-        return $result;
+        $key = array_rand($this->colorSwatches);
+        return ['label' => $key, 'color' => $this->colorSwatches[$key]];
     }
 }
