@@ -628,12 +628,12 @@ class DeltekImport extends Component
             if(Craft::$app->getElements()->saveElement($entry)) {
                 $projectsImport->saved($entry, $actionVerb);
                 // If new project, add task queue to set project color
-                if ($actionVerb == 'added') {
-                  Craft::$app->queue->push(new SetProjectColor([
-                      'description' => 'Setting project color for '.$entry->id,
-                      'project_id' => $entry->id,
-                  ]));
-                }
+                // if ($actionVerb == 'added') {
+                //   Craft::$app->queue->push(new SetProjectColor([
+                //       'description' => 'Setting project color for '.$entry->id,
+                //       'project_id' => $entry->id,
+                //   ]));
+                // }
             } else {
                 $this->bomb('<li>Save error: '.print_r($entry->getErrors(), true).'</li>');
             }
@@ -712,7 +712,7 @@ class DeltekImport extends Component
         if (empty($filename)) {
             return [];
         }
-        $filename = basename($filename);
+        $filename = basename(trim($filename));
         $filename = preg_replace('/(png|tif|jpg|psd)$/i','jpg', $filename);
         $image = Asset::find()->where([
             'filename' => $filename,
@@ -736,7 +736,7 @@ class DeltekImport extends Component
         $rel_result->execute([ $deltek_id ]);
         $rel_rows = $rel_result->fetchAll();
         foreach($rel_rows as $rel_row) {
-            $filename = basename($rel_row['photo_url']);
+            $filename = basename(trim($rel_row['photo_url']));
             $filename = preg_replace('/(png|tif|jpg|psd)$/i','jpg', $filename);
             $image = Asset::find()->where([
                 'filename' => $filename,
