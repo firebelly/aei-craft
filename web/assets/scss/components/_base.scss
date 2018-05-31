@@ -25,8 +25,20 @@ a {
 
 blockquote {
   @include font-h1;
-  margin-left: 0;
   margin-right: 0;
+  position: relative;
+  margin-left: -8px;
+  padding-left: 8px;
+
+  @include media-lg {
+    margin-left: -12px;
+    padding-left: 12px;
+  }
+
+  .hang {
+    position: absolute;
+    left: 0;
+  }
 
   footer {
     @include font-details;

@@ -1,8 +1,8 @@
-<div class="module quotes-module pad">
+<div class="module quotes-module">
   <div class="quote-carousel -unslicked">
     {% for row in block.quotes.all() %}
       <blockquote class="no-margin">
-        "{{ row.quote }}"
+        &ldquo;{{ row.quote }}&rdquo;
         {% set person = row.aeiPerson.one() %}
         {% if person %}
           <footer>— <cite><a href="{{ person.url }}">{{ person.title }}</a>{% if row.personCompany %}, {{ row.personCompany }}{% endif %}</cite></footer>

@@ -113,8 +113,20 @@ var FB = (function($) {
     _initSearch();
     _initStickyNav();
     _fitFigures();
+    _hangQuotes();
 
   } // end init()
+
+  // Wrap first quotation mark in blockquotes in a span to apply hanging quotes
+  function _hangQuotes() {
+    $('blockquote').each(function () {
+      var content = $(this).html().trim();
+      if(content[0]==='“') {
+        var content = '<span class="hang">“</span>'+content.slice(1);
+        $(this).empty().append(content);
+      }
+    });
+  }
 
   function _fitFigures() {
     $('.fit-figure').each( function () {
@@ -172,7 +184,7 @@ var FB = (function($) {
       var scrollTop = $(window).scrollTop();
       var lastScrollTop = scrollTop;
 
-      var scrolled, scrollingUp, unstuck;
+      var scrolled, scrollingUp, stuck;
 
       // Determine whether nav should be sticky and make it so
       this.refreshState = function () {
@@ -187,10 +199,10 @@ var FB = (function($) {
             // Mark this as is currently scrolled
             $nav.addClass('-scrolled');
 
-            if(!unstuck) {
+            if(!stuck) {
               // Mark this as having had scrolled at some point
               $nav.addClass('-stuck');
-              unstuck = true;
+              stuck = true;
 
               turningPoint = 128;
 
@@ -208,12 +220,12 @@ var FB = (function($) {
         var lastScrollingUp = scrollingUp;
         scrollingUp = lastScrollTop > scrollTop;
         if (scrollingUp !== lastScrollingUp ) {
-          if(scrollingUp && unstuck) { $nav.addClass('-scrolling-up'); }
+          if(scrollingUp && stuck) { $nav.addClass('-scrolling-up'); }
           if(!scrollingUp){ $nav.removeClass('-scrolling-up'); }
         }
 
-        if(scrollTop < 5 && unstuck) {
-          unstuck = false;
+        if(scrollTop < 5 && stuck) {
+          stuck = false;
           $nav.removeClass('-stuck');
         }
       };
@@ -417,7 +429,9 @@ var FB = (function($) {
 
   function _initSlick() {
     $('.quote-carousel').slick({
-      arrows: false,
+      // arrows: false,
+      nextArrow: '<div class="next"><svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></div>',
+      prevArrow: '<div class="prev"><svg class="icon icon-left-arrow"><use xlink:href="#icon-left-arrow" /></svg></div>',
       autoplay: true,
       autoplaySpeed: 5000,
       fade: true,
