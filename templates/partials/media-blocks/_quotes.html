@@ -2,7 +2,7 @@
   <div class="quote-carousel -unslicked">
     {% for row in block.quotes.all() %}
       <blockquote class="no-margin">
-        &ldquo;{{ row.quote }}&rdquo;
+        <span class="hang">&ldquo;</span>{{ row.quote }}&rdquo;
         {% set person = row.aeiPerson.one() %}
         {% if person %}
           <footer>— <cite><a href="{{ person.url }}">{{ person.title }}</a>{% if row.personCompany %}, {{ row.personCompany }}{% endif %}</cite></footer>

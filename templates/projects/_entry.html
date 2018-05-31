@@ -28,7 +28,7 @@
     %}
 
     <!-- intro -->
-    <div class="row -halves secondary-page-intro">
+    <div class="row -halves content-blocks -spaced">
       <div class="row-block top-overlap-{{ entry.projectTagline ? 'h1' : 'p' }}">
         <div class="page-intro module text-module background-white text-black">
           {% if entry.projectTagline %}
@@ -37,12 +37,12 @@
           <div class="user-content">{{ entry.body }}</div>
         </div>
       </div>
-      <div class="row-block">
+      <div class="row-block last-on-sm">
         <div class="meta">
           {% if entry.services | length %}
             <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
               <h3>Services</h3>
-              <div class="content">
+              <div class="content -spaced">
                 <ul class="semantic-only-list">
                   {% for service in entry.services.all() %}
                     <li><a href="{{ service.url }}">{{ service.title }}</a></li>
@@ -58,9 +58,9 @@
             </div>
           {% endif %}
           {% if entry.projectPartners|length %}
-            <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
+            <div class="meta-item -full">
               <h3>Partners</h3>
-              <div class="content">
+              <div class="content -spaced">
                 <ul class="semantic-only-list">
                   {% for partner in entry.projectPartners.all() %}
                     <li>{{ partner.partnerName }}{{ partner.partnerName and partner.partnerRole ? ' - ' : '' }}{{ partner.partnerRole }}</li>
@@ -89,9 +89,10 @@
           {% endif %}
         </div>
       </div>
-    </div>
 
-    {% include 'partials/_media-blocks' %}
+      {% include 'partials/_media-blocks' %}
+
+    </div>
 
     {% if entry.projectLeaders|length %}
       <div class="row -single margin-top">

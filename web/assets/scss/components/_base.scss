@@ -27,12 +27,12 @@ blockquote {
   @include font-h1;
   margin-right: 0;
   position: relative;
-  margin-left: -8px;
-  padding-left: 8px;
+  margin-left: -10px;
+  padding-left: 10px;
 
   @include media-lg {
-    margin-left: -12px;
-    padding-left: 12px;
+    margin-left: -14px;
+    padding-left: 14px;
   }
 
   .hang {
