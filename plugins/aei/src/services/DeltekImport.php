@@ -161,9 +161,9 @@ class DeltekImport extends Component
             $rel_rows = $rel_result->fetchAll();
             foreach($rel_rows as $rel_row) {
                 $i++;
-                if (!empty($row['employee_num'])) {
+                if (!empty($rel_row['employee_num'])) {
                     $person = Entry::find()->section('people')->where([
-                        'content.field_personEmployeeNumber' => $row['employee_num']
+                        'content.field_personEmployeeNumber' => $rel_row['employee_num']
                     ])->one();
                     $aeiPerson = ($person) ? [$person->id] : [];
                 } else {
@@ -181,6 +181,30 @@ class DeltekImport extends Component
                 ];
             }
 
+            // Find Office Leaders
+            $office_leaders = [];
+            $i = 0;
+
+            $rel_result = $this->deltekDb->prepare('SELECT * FROM office_leadership WHERE office_name = ?');
+            $rel_result->execute([ $row['office_name'] ]);
+            $rel_rows = $rel_result->fetchAll();
+            foreach($rel_rows as $rel_row) {
+                $i++;
+                $person = Entry::find()->section('people')->where([
+                    'content.field_personEmployeeNumber' => $rel_row['employee_num']
+                ])->one();
+                if ($person) {
+                    $office_leaders['new'.$i] = [
+                        'type' => 'person',
+                        'fields' => [
+                            'aeiPerson'   => [$person->id],
+                            'personTitle' => $rel_row['employee_title'],
+                        ]
+                    ];
+                }
+            }
+
+
             $entry->setFieldValues([
                 'officeAddress1'   => $row['address1'],
                 'officeAddress2'   => $row['address2'],
@@ -192,6 +216,7 @@ class DeltekImport extends Component
                 'body'             => $row['overview'],
                 'careersUrl'       => (!empty($row['careers_url']) ? $this->validUrl($row['careers_url']) : ''),
                 'officeMapUrl'     => $this->validUrl($row['map_url']),
+                'officeLeaders'    => $office_leaders,
                 'quotes'           => $office_quotes,
                 'officeImage'      => $this->getPhoto($row['photo_url']),
             ]);
