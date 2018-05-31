@@ -22,6 +22,10 @@
     left: 33.33%;
   }
 
+  @include media-xl {
+    left: $nav-max-width;
+  }
+
   &.active {
     opacity: 1;
     transform: none;
@@ -54,6 +58,7 @@
 .search-open {
   @include font-buttons;
   cursor: pointer;
+  text-decoration: underline;
   padding: 0 2*$beat 2*$beat 0;
 
   .icon-search {
@@ -61,7 +66,7 @@
     fill: $black;
     width: 10.5px;
     height: 10.5px;
-    margin-left: $beat;
+    margin-left: $beat*2;
     position: relative;
   }
 }

@@ -85,11 +85,11 @@
     justify-content: space-between;
 
     &::after {
+      top: 0;
+      bottom: 0;
       right: 50%;
       width: 2px;
       content: '';
-      top: 0;
-      bottom: 0;
       position: absolute;
       transform: skew(-18deg);
       background-color: $concrete-light;
@@ -124,8 +124,8 @@
   }
 
   .figure-2 {
-    align-self: flex-end;
     text-align: right;
+    align-self: flex-end;
   }
 }
 
@@ -169,6 +169,10 @@
 
       @include media-lg {
         height: calc( 100vw/3*(2/3) );
+      }
+
+      @include media-xl {
+        height: calc( (100vw - #{$nav-max-width})/2*(2/3) );
       }
     }
   }
@@ -283,7 +287,7 @@
       min-height: calc(66.66vw / 3);
     }
   }
-    // Post Articles
+
   .link-module {
     min-height: 100%;
     position: relative;

@@ -189,7 +189,7 @@ var FB = (function($) {
 
             if(!unstuck) {
               // Mark this as having had scrolled at some point
-              $nav.addClass('-unstuck');
+              $nav.addClass('-stuck');
               unstuck = true;
 
               turningPoint = 128;
@@ -214,7 +214,7 @@ var FB = (function($) {
 
         if(scrollTop < 5 && unstuck) {
           unstuck = false;
-          $nav.removeClass('-unstuck');
+          $nav.removeClass('-stuck');
         }
       };
 

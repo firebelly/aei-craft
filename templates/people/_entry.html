@@ -1,8 +1,11 @@
 {% extends (craft.app.request.isAjax and not craft.app.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
-{% set bodyClass = 'overlapping-header' %}
+{% set bodyClass = '' %}
 {% set title = entry.title %}
 {% set personType = entry.personType.one() %}
 {% set secondaryPersonTypeIds = entry.secondaryPersonType.ids() %}
+{% set headerImage = entry.personImage.one() %}
+{% set headerTitle = entry.title %}
+{% set headerSubtitle = entry.personTitle %}
 
 {% block filters %}
   <li class="filters-item">
@@ -17,14 +20,22 @@
 
 {% block content %}
 
-  {% include 'partials/_secondary-header'
-    with {
-      'headerImage': entry.personImage.one(),
-      'headerTitle': entry.title,
-      'headerSubtitle': entry.personTitle,
-    }
-  %}
-
+  <!-- header -->
+  <div class="hero-wrap">
+    <div class="hero-image image-wrap">
+      {% if headerImage %}
+        <div class="lazy image -top-weight" style="background-image: url('');" data-original="{{ headerImage.getUrl('header') }}"></div>
+      {% endif %}
+    </div>
+  </div>
+   <div class="row -halves">
+      <div class="row-block -right">
+        <div class="module text-module background-{{ (headerColor ?? null) ? headerColor|lower : 'black' }} text-white font-smoothing">
+          <h1 class="font-h2 no-margin">{{ headerTitle }}</h1>
+          {% if headerSubtitle ?? false %}<h2 class="font-details no-margin">{{ headerSubtitle }}</h2>{% endif %}
+        </div>
+      </div>
+    </div>
     <div class="row -halves secondary-page-intro">
       <div class="row-block top-overlap-{{ entry.personQuote ? 'h1' : 'p' }}">
         <div class="page-intro module text-module background-white text-black">

@@ -11,7 +11,7 @@
 
       <div class="top-nav">
         <div class="search-open nav-content">
-          Search <svg class="icon-search"><use xlink:href="#icon-search" /></svg>
+          Search<svg class="icon-search"><use xlink:href="#icon-search" /></svg>
         </div>
         <ul class="secondary-links semantic-only-list">
           <li class="secondary-links-item {{ active('/careers/', 'url', 'current') }}">
@@ -42,7 +42,7 @@
         {% for navItem in [
           { slug: 'expertise', urlMatches: 'expertise|projects' },
           { slug: 'impact', urlMatches: 'impact' },
-          { slug: 'approach', urlMatches: 'approach|services|offices' },
+          { slug: 'approach', urlMatches: 'approach|services|offices|awards' },
           { slug: 'people', urlMatches: 'people' },
         ] %}
           <li class="primary-links-item {{ active(navItem.urlMatches, 1, 'current') }}">
@@ -56,7 +56,7 @@
       </ul>
 
     </nav>
-    {% if category is defined %}
+    {% if category is defined and segment(1) != 'services' %}
       <div class="current-filter-label font-details">
         {{ category }}
         <a href="/{{ segment(1) }}/" class="close-filter"><svg class="icon-x"><use xlink:href="#icon-x" /></svg></a>

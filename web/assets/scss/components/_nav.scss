@@ -26,6 +26,10 @@
     transition: none;
   }
 
+  @include media-xl {
+    width: $nav-max-width;
+  }
+
   .top-nav {
     @include clearfix;
 
