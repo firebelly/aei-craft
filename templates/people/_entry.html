@@ -20,32 +20,28 @@
 
 {% block content %}
 
-  <!-- header -->
-  <div class="hero-wrap">
-    <div class="hero-image image-wrap">
-      {% if headerImage %}
-        <div class="lazy image -top-weight" style="background-image: url('');" data-original="{{ headerImage.getUrl('header') }}"></div>
-      {% endif %}
-    </div>
-  </div>
-   <div class="row -halves">
-      <div class="row-block -right">
-        <div class="module text-module background-{{ (headerColor ?? null) ? headerColor|lower : 'black' }} text-white font-smoothing">
-          <h1 class="font-h2 no-margin">{{ headerTitle }}</h1>
-          {% if headerSubtitle ?? false %}<h2 class="font-details no-margin">{{ headerSubtitle }}</h2>{% endif %}
-        </div>
+    <!-- header -->
+    <div class="hero-wrap">
+      <div class="hero-image image-wrap">
+        {% if headerImage %}
+          <div class="lazy image -top-weight" style="background-image: url('');" data-original="{{ headerImage.getUrl('header') }}"></div>
+        {% endif %}
       </div>
     </div>
     <div class="row -halves secondary-page-intro">
-      <div class="row-block top-overlap-{{ entry.personQuote ? 'h1' : 'p' }}">
+      <div class="row-block">
         <div class="page-intro module text-module background-white text-black">
           {% if entry.personQuote %}
-            <blockquote class="page-quote">"{{ entry.personQuote }}"</blockquote>
+            <blockquote class="page-quote">&ldquo;{{ entry.personQuote }}&rdquo;</blockquote>
           {% endif %}
           <div class="user-content">{{ entry.body }}</div>
         </div>
       </div>
       <div class="row-block">
+        <div class="text-module background-{{ (headerColor ?? null) ? headerColor|lower : 'black' }} text-white font-smoothing">
+          <h1 class="font-h2 no-margin">{{ headerTitle }}</h1>
+          {% if headerSubtitle ?? false %}<h2 class="font-details no-margin">{{ headerSubtitle }}</h2>{% endif %}
+        </div>
         <div class="meta  ">
           {% if entry.phoneNumber %}
             <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
