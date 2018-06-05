@@ -52,10 +52,10 @@ class AEI extends Plugin
      */
     public static $plugin;
     public static $deltekSections = [
+                'Offices',
+                'People',
                 'Awards',
                 'Projects',
-                'People',
-                'Offices',
                 'Impact',
             ];
 

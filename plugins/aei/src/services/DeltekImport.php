@@ -97,11 +97,11 @@ class DeltekImport extends Component
             if (in_array('awards', $sections_to_import)) {
                 $this->importAwards();
             }
-            if (in_array('impact', $sections_to_import)) {
-                $this->importImpact();
-            }
             if (in_array('projects', $sections_to_import)) {
                 $this->importProjects();
+            }
+            if (in_array('impact', $sections_to_import)) {
+                $this->importImpact();
             }
         } catch (\Exception $e) {
             $this->bomb('Import Error: ' . $e->getMessage());
