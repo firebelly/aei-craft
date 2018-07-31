@@ -85,11 +85,11 @@
     justify-content: space-between;
 
     &::after {
+      top: 0;
+      bottom: 0;
       right: 50%;
       width: 2px;
       content: '';
-      top: 0;
-      bottom: 0;
       position: absolute;
       transform: skew(-18deg);
       background-color: $concrete-light;
@@ -124,8 +124,8 @@
   }
 
   .figure-2 {
-    align-self: flex-end;
     text-align: right;
+    align-self: flex-end;
   }
 }
 
@@ -169,6 +169,10 @@
 
       @include media-lg {
         height: calc( 100vw/3*(2/3) );
+      }
+
+      @include media-xl {
+        height: calc( (100vw - #{$nav-max-width})/2*(2/3) );
       }
     }
   }
@@ -248,7 +252,59 @@
 }
 
 // Quote Carousel
+// Blockquotes currently use a negative-margin with compensatory padding to create hanging quotes.  In the carousel that will effect sizing, so we remove the negative margin and instead adjust the module padding
+.quotes-module {
+  padding: $padding $padding $padding #{$padding - 10px};
+
+  @include media-lg {
+    padding: $padding $padding $padding #{$padding - 9px};
+  }
+
+  blockquote {
+    margin: 0;
+  }
+}
+
 .quote-carousel {
+  position: relative;
+  padding-bottom: $padding*2;
+
+  .next, .prev {
+      bottom: 0;
+      left: 10px;
+      cursor: pointer;
+      position: absolute;
+
+      @include media-md {
+        left: 9px;
+      }
+
+      .icon {
+        width: 20px;
+        height: 15px;
+        fill: $black;
+        transition: transform 0.1s $ease;
+      }
+  }
+
+  .prev {
+    &:hover {
+      .icon { transform: translateX(-5px); }
+    }
+  }
+
+  .next {
+    margin-left: $padding*2;
+
+    @include media-md {
+      margin-left: $padding;
+    }
+
+    &:hover {
+      .icon { transform: translateX(5px); }
+    }
+  }
+
   &.-unslicked {
     blockquote {
       display: none;
@@ -283,7 +339,7 @@
       min-height: calc(66.66vw / 3);
     }
   }
-    // Post Articles
+
   .link-module {
     min-height: 100%;
     position: relative;

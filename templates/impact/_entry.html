@@ -26,13 +26,13 @@
     %}
 
     <!-- intro -->
-    <div class="row -halves secondary-page-intro">
+    <div class="row -halves -spaced content-blocks">
       <div class="row-block top-overlap-p">
         <div class="page-intro module text-module background-white text-black">
           <div class="user-content">{{ entry.body }}</div>
         </div>
       </div>
-      <div class="row-block">
+      <div class="row-block last-on-sm">
         <div class="meta  ">
           {% if impactType.slug == 'presentations' %}
             <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
@@ -114,9 +114,11 @@
 
         </div>
       </div>
+
+      {% include 'partials/_media-blocks' %}
+
     </div>
 
-    {% include 'partials/_media-blocks' %}
 
     {% set relatedProjects = entry.relatedProjects.all() %}
     {% include 'partials/_related-projects'

@@ -72,8 +72,17 @@
 
       {% case "impact" %}
 
+
+        {% set impactPosts = block.impactPosts.all() %}
+        {% if impactPosts|length < 2 %}
+          {% set omitId = impactPosts|length == 1 ? impactPosts[0].id : 0 %}
+          {% set extraImpactPosts = craft.entries.section('impact').id('not ' ~ omitId).limit(2 - impactPosts|length).all() %}
+          {% set impactPosts = impactPosts|merge(extraImpactPosts) %}
+        {% endif %}
+
+
         <ul class="row -halves -separators semantic-only-list">
-          {% for post in block.impactPosts.all() %}
+          {% for post in impactPosts %}
             <li class="row-block   separate">
               {% include 'impact/_article' %}
             </li>

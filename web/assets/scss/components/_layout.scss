@@ -8,6 +8,10 @@
     padding-left: 33.33%;
   }
 
+  @include media-xl {
+    padding-left: $nav-max-width;
+  }
+
   .right-col {
     display: flex;
     min-height: 100vh;

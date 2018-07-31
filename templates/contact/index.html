@@ -45,7 +45,7 @@
               <h1 class="font-p"><a href="{{ entry.url }}" class="fn org url"><span class="organization-name sr-only">AEI</span><span class="organization-unit">{{ entry.title }}</span></a></h1>
               <div class="font-details">
                 {% if entry.phoneNumber %}
-                  <div class="tel"><a href="tel:{{ entry.phoneNumber }}">{{ entry.phoneNumber }}</a></div>
+                  <div class="tel">{{ entry.phoneNumber }}</div>
                  {% endif %}
                 {% if entry.email %}
                   <div class="email">

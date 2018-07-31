@@ -1,5 +1,4 @@
 {% if entry.mediaBlocks|length %}
-<div class="row -halves -spaced">
     {% for block in entry.mediaBlocks.all() %}
 
       {% set doubleWidth =
@@ -29,5 +28,4 @@
       </div>
 
     {% endfor %}
-  </div>
 {% endif %}

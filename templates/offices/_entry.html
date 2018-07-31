@@ -52,15 +52,16 @@
               <div class="content"><a href="tel:{{ entry.phoneNumber }}">{{ entry.phoneNumber }}</a></div>
             </div>
           {% endif %}
-          {% if entry.email %}
-            <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
-              <h3>Email</h3>
+          {% if entry.officeLeaders|length %}
+            <div class="meta-item -full">
+              <h3>Office Leaders</h3>
               <div class="content">
-                <a href="mailto: {{ entry.email }}">
-                  {% for part in entry.email|split('@') %}
-                    <span class="email-part">{{ part }}{{ loop.index0==0 ? '@' : '' }}</span>
+                <ul class="semantic-only-list">
+                  {% for leader in entry.officeLeaders.all() %}
+                    {% set person = leader.aeiPerson.one() %}
+                    <li><a href="{{ person.url }}">{{ person.title }}</a> — {{ leader.personTitle }}</li>
                   {% endfor %}
-                </a>
+                </ul>
               </div>
             </div>
           {% endif %}

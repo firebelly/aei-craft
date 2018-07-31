@@ -27,11 +27,14 @@ $portrait-padding: 133.33%;
 $ease: ease-out;
 
 // Breakpoints
-$breakpoint-sm: 480px;
-$breakpoint-md: 750px;
-$breakpoint-lg: 1200px;
 $breakpoint-thirds-2col: 600px;
 $breakpoint-thirds-3col: 900px;
 $breakpoint-quarters-2col: 550px;
 $breakpoint-quarters-4col: 900px;
 $breakpoint-meta: 800px;
+$nav-max-width: 480px;
+
+$breakpoint-sm: 480px;
+$breakpoint-md: 750px;
+$breakpoint-lg: 1200px;
+$breakpoint-xl: $nav-max-width*3;

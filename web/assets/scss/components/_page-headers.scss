@@ -11,6 +11,10 @@
     min-height: calc(66.67vw * .667);
   }
 
+  @include media-xl {
+    min-height: calc((100vw - #{$nav-max-width}) * .667);
+  }
+
   .row {
     @include hardware-acceleration;
     z-index: 1;
@@ -55,6 +59,10 @@
 
   @include media-lg {
     min-height: calc((66.67vw)*9/16);
+  }
+
+  @include media-xl {
+    min-height: calc((100vw - #{$nav-max-width})*9/16);
   }
 
   .row {

@@ -40,6 +40,11 @@
     @content;
   }
 }
+@mixin media-xl() {
+  @media screen and (min-width: $breakpoint-xl) {
+    @content;
+  }
+}
 
 // On-the fly media-queries
 @mixin screen($res-min, $res-max) {

@@ -27,6 +27,9 @@
       @include media-lg {
         min-height: calc( 100vw/3*(2/3) );
       }
+      @include media-xl {
+        min-height: calc( (100vw - #{$nav-max-width})/2*(2/3) );
+      }
     }
   }
 }
