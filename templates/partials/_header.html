@@ -21,6 +21,9 @@
     </div>
   </div>
   <ul class="secondary-links links-block row-block">
+    {% if entry is defined and entry.isEditable() %}
+      <li class="secondary-links-item edit-link"><a href="{{ entry.cpEditUrl }}">Edit Entry</a></li>
+    {% endif %}
     <li class="secondary-links-item {{ active('/careers/', 'url', 'current') }}">
       <a href="/careers/">Careers</a>
     </li>
