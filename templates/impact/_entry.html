@@ -38,7 +38,7 @@
             <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
               <h3>Session</h3>
               <div class="content">
-                {{ entry.title }}
+                {% if entry.conferenceUrl %}<a target="_blank" href="{{ entry.conferenceUrl }}">{% endif %}{{ entry.title }}{% if entry.conferenceUrl %}</a>{% endif %}
               </div>
             </div>
           {% endif %}
@@ -69,7 +69,7 @@
             <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
               <h3>Host</h3>
               <div class="content">
-                {% if entry.conferenceUrl %}<a target="_blank" href="{{ entry.conferenceUrl }}">{% endif %}{{ entry.conferenceHost }}{% if entry.conferenceUrl %}</a>{% endif %}
+                {{ entry.conferenceHost }}
               </div>
             </div>
           {% endif %}
