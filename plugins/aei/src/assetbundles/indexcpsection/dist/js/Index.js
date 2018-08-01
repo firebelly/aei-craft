@@ -48,7 +48,7 @@ var DeltekImportIndex = (function($) {
           CRAFT_CSRF_TOKEN: $importForm.find('input[name=CRAFT_CSRF_TOKEN]').val(),
           'sections-to-import[]': sectionsToImport.first().val(),
           'deltek-ids': $importForm.find('input[name=deltek-ids]').val(),
-          'import-mode': $importForm.find('input[name=import-mode]').val()
+          'import-mode': $importForm.find('input[name=import-mode]:checked').val()
         }
       }).done(function(data) {
         if (data.status == 1) {
