@@ -50,6 +50,8 @@
         </ul>
         <p>Optionally pass in comma-delimited <code>project_num, employee_num, impact_key,</code> or <code>office_name</code> values to only import items that match those Deltek IDs:</p>
         <p><input type="text" name="deltek-ids" size="50" placeholder="e.g. 08658-01, 07177-00"></p>
+        <p><input type="checkbox" name="import-mode" value="refresh"> Refresh From Deltek</p>
+        <p><em style="color: #ccc;">If checked, will add new media blocks for existing projects & impact posts</em></p>
 
         <div class="info-output"><p><div id="graphic" class="spinner"></div> Importing... (be patient, can take a while)</p></div>
         <div class="progressbar hidden"><div class="progressbar-inner"></div></div>

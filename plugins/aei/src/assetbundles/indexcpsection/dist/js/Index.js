@@ -47,7 +47,8 @@ var DeltekImportIndex = (function($) {
         data: {
           CRAFT_CSRF_TOKEN: $importForm.find('input[name=CRAFT_CSRF_TOKEN]').val(),
           'sections-to-import[]': sectionsToImport.first().val(),
-          'deltek-ids': $importForm.find('input[name=deltek-ids]').val()
+          'deltek-ids': $importForm.find('input[name=deltek-ids]').val(),
+          'import-mode': $importForm.find('input[name=import-mode]').val()
         }
       }).done(function(data) {
         if (data.status == 1) {
@@ -72,7 +73,7 @@ var DeltekImportIndex = (function($) {
 
   // Hide/show progress bar and show percent done if available
   function _updateProgressBar() {
-    var sectionsToImport = $importForm.find('input[type=checkbox]:checked').length;
+    var sectionsToImport = $importForm.find('input[name=sections-to-import]:checked').length;
     // Only show progress bar if more than one section is importing
     if ($importForm.hasClass('importing') && sectionsToImport > 1) {
       var sectionsImported = $importForm.find('input[type=checkbox]:checked.done').length;

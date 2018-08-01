@@ -19,6 +19,7 @@ class SectionImport
     public $added = 0;
     public $updated = 0;
     public $timeStart = 0;
+    public $importMode = 'basic';
     private $sectionName = '';
     private $summary = [];
 
@@ -27,8 +28,12 @@ class SectionImport
         $this->timeStart = microtime(true);
     }
 
-    public function log($log_html) {
-        $this->localLog .= $log_html;
+    public function log($logHtml) {
+        $this->localLog .= $logHtml;
+    }
+
+    public function setImportMode($importMode) {
+        $this->importMode = $importMode;
     }
 
     public function saved($entry, $actionVerb) {
@@ -41,7 +46,7 @@ class SectionImport
     }
 
     public function finish() {
-        $exec_time = sprintf("%.2f", (microtime(true) - $this->timeStart));
+        $execTime = sprintf("%.2f", (microtime(true) - $this->timeStart));
 
         if ($this->added>0) {
             $this->summary[] = $this->added . ' ' . $this->sectionName . ' added';
@@ -54,7 +59,7 @@ class SectionImport
         }
 
         return [
-            '<h3>'.$this->sectionName.' ('.$exec_time.' seconds)</h3><ul>'.$this->localLog.'</ul>',
+            '<h3>'.$this->sectionName.' ('.$execTime.' seconds -- import mode: '.$this->importMode.')</h3><ul>'.$this->localLog.'</ul>',
             $this->summary,
         ];
     }

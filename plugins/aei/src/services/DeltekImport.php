@@ -41,8 +41,8 @@ class DeltekImport extends Component
     private $deltekDb = null;
     private $log = '';
     private $summary = [];
-    private $categories_cache = [];
-    private $deltek_ids = [];
+    private $deltekIds = [];
+    private $categoriesCache = [];
     private $superTableQuotesField = null;
 
     /**
@@ -62,10 +62,10 @@ class DeltekImport extends Component
      *
      * @return string
      */
-    public function importRecords($sections_to_import, $deltek_ids='')
+    public function importRecords($sectionsToImport, $deltekIds='', $importMode='basic')
     {
         $timeStart = microtime(true);
-        if (empty($sections_to_import)) {
+        if (empty($sectionsToImport)) {
             return (object) [
                 'log' => 'Nothing done.',
                 'summary' => 'No sections selected to import.',
@@ -74,8 +74,8 @@ class DeltekImport extends Component
         }
 
         // Optional IDs to specify which entries to import
-        if (!empty($deltek_ids)) {
-            $this->deltek_ids = array_map('trim', explode(',', $deltek_ids));
+        if (!empty($deltekIds)) {
+            $this->deltekIds = array_map('trim', explode(',', $deltekIds));
         }
 
         // Connect to Deltek db
@@ -86,22 +86,22 @@ class DeltekImport extends Component
             $this->bomb('PDO Error: ' . $e->getMessage());
         }
 
-        // Import all sections specified in $sections_to_import array
+        // Import all sections specified in $sectionsToImport array
         try {
-            if (in_array('offices', $sections_to_import)) {
+            if (in_array('offices', $sectionsToImport)) {
                 $this->importOffices();
             }
-            if (in_array('people', $sections_to_import)) {
+            if (in_array('people', $sectionsToImport)) {
                 $this->importPeople();
             }
-            if (in_array('awards', $sections_to_import)) {
+            if (in_array('awards', $sectionsToImport)) {
                 $this->importAwards();
             }
-            if (in_array('projects', $sections_to_import)) {
-                $this->importProjects();
+            if (in_array('projects', $sectionsToImport)) {
+                $this->importProjects($importMode);
             }
-            if (in_array('impact', $sections_to_import)) {
-                $this->importImpact();
+            if (in_array('impact', $sectionsToImport)) {
+                $this->importImpact($importMode);
             }
         } catch (\Exception $e) {
             $this->bomb('Import Error: ' . $e->getMessage());
@@ -116,12 +116,12 @@ class DeltekImport extends Component
         // Clear out older logs
         $this->cleanUpLogs();
 
-        $exec_time = sprintf("%.2f", (microtime(true) - $timeStart));
+        $execTime = sprintf("%.2f", (microtime(true) - $timeStart));
 
         return (object) [
             'log'     => $this->log,
             'summary' => implode(', ', $this->summary),
-            'exec_time' => $exec_time,
+            'exec_time' => $execTime,
         ];
     }
 
@@ -134,7 +134,7 @@ class DeltekImport extends Component
         $result = $this->deltekDb->query("SELECT * FROM offices");
         foreach($result as $row) {
             // Filter by delted_ids passed in?
-            if (!empty($this->deltek_ids) && !in_array($row['office_name'], $this->deltek_ids)) continue;
+            if (!empty($this->deltekIds) && !in_array($row['office_name'], $this->deltekIds)) continue;
 
             $actionVerb = 'updated';
             $entry = Entry::find()->section('offices')->where([
@@ -153,52 +153,52 @@ class DeltekImport extends Component
             $blockType = $blockTypes[0];
 
             // Find Office Quotes
-            $office_quotes = [];
+            $officeQuotes = [];
             $i = 0;
 
-            $rel_result = $this->deltekDb->prepare('SELECT * FROM office_quotes WHERE office_name = ?');
-            $rel_result->execute([ $row['office_name'] ]);
-            $rel_rows = $rel_result->fetchAll();
-            foreach($rel_rows as $rel_row) {
+            $relResult = $this->deltekDb->prepare('SELECT * FROM office_quotes WHERE office_name = ?');
+            $relResult->execute([ $row['office_name'] ]);
+            $relRows = $relResult->fetchAll();
+            foreach($relRows as $relRow) {
                 $i++;
-                if (!empty($rel_row['employee_num'])) {
+                if (!empty($relRow['employee_num'])) {
                     $person = Entry::find()->section('people')->where([
-                        'content.field_personEmployeeNumber' => $rel_row['employee_num']
+                        'content.field_personEmployeeNumber' => $relRow['employee_num']
                     ])->one();
                     $aeiPerson = ($person) ? [$person->id] : [];
                 } else {
                     $aeiPerson = [];
                 }
-                $office_quotes['new'.$i] = [
+                $officeQuotes['new'.$i] = [
                     'type' => $blockType->id,
                     'fields' => [
-                        'quote'         => $rel_row['quote'],
+                        'quote'         => $relRow['quote'],
                         'personName'    => '', // no override field in office_quotes table for this
-                        'personCompany' => $rel_row['employee_title'],
-                        'quoteKey'      => $rel_row['quote_key'],
+                        'personCompany' => $relRow['employee_title'],
+                        'quoteKey'      => $relRow['quote_key'],
                         'aeiPerson'     => $aeiPerson,
                     ]
                 ];
             }
 
             // Find Office Leaders
-            $office_leaders = [];
+            $officeLeaders = [];
             $i = 0;
 
-            $rel_result = $this->deltekDb->prepare('SELECT * FROM office_leadership WHERE office_name = ?');
-            $rel_result->execute([ $row['office_name'] ]);
-            $rel_rows = $rel_result->fetchAll();
-            foreach($rel_rows as $rel_row) {
+            $relResult = $this->deltekDb->prepare('SELECT * FROM office_leadership WHERE office_name = ?');
+            $relResult->execute([ $row['office_name'] ]);
+            $relRows = $relResult->fetchAll();
+            foreach($relRows as $relRow) {
                 $i++;
                 $person = Entry::find()->section('people')->where([
-                    'content.field_personEmployeeNumber' => $rel_row['employee_num']
+                    'content.field_personEmployeeNumber' => $relRow['employee_num']
                 ])->one();
                 if ($person) {
-                    $office_leaders['new'.$i] = [
+                    $officeLeaders['new'.$i] = [
                         'type' => 'person',
                         'fields' => [
                             'aeiPerson'   => [$person->id],
-                            'personTitle' => $rel_row['employee_title'],
+                            'personTitle' => $relRow['employee_title'],
                         ]
                     ];
                 }
@@ -216,8 +216,8 @@ class DeltekImport extends Component
                 'body'             => $row['overview'],
                 'careersUrl'       => (!empty($row['careers_url']) ? $this->validUrl($row['careers_url']) : ''),
                 'officeMapUrl'     => $this->validUrl($row['map_url']),
-                'officeLeaders'    => $office_leaders,
-                'quotes'           => $office_quotes,
+                'officeLeaders'    => $officeLeaders,
+                'quotes'           => $officeQuotes,
                 'officeImage'      => $this->getPhoto($row['photo_url']),
             ]);
 
@@ -241,7 +241,7 @@ class DeltekImport extends Component
         $result = $this->deltekDb->query("SELECT * FROM employees");
         foreach($result as $row) {
             // Filter by delted_ids passed in?
-            if (!empty($this->deltek_ids) && !in_array($row['employee_num'], $this->deltek_ids)) continue;
+            if (!empty($this->deltekIds) && !in_array($row['employee_num'], $this->deltekIds)) continue;
 
             $actionVerb = 'updated';
             $entry = Entry::find()->section('people')->where([
@@ -257,38 +257,38 @@ class DeltekImport extends Component
             $office = Entry::find()->section('offices')->where([
                 'title' => $row['officename']
             ])->one();
-            $office_ids = $office ? [$office->id] : [];
+            $officeIds = $office ? [$office->id] : [];
 
             // Find Person Quote
-            $person_quote = '';
-            $rel_result = $this->deltekDb->prepare('SELECT * FROM employee_quotes WHERE employee_num = ?');
-            $rel_result->execute([ $row['employee_num'] ]);
-            $rel_rows = $rel_result->fetchAll();
-            foreach($rel_rows as $rel_row) {
+            $personQuote = '';
+            $relResult = $this->deltekDb->prepare('SELECT * FROM employee_quotes WHERE employee_num = ?');
+            $relResult->execute([ $row['employee_num'] ]);
+            $relRows = $relResult->fetchAll();
+            foreach($relRows as $relRow) {
                 // Remove quotes around text
-                $person_quote = trim(str_replace('&nbsp;', ' ', $rel_row['quote']), ' "”“');
+                $personQuote = trim(str_replace('&nbsp;', ' ', $relRow['quote']), ' "”“');
             }
 
             // Find People Type IDs
-            $person_type_ids = [];
-            foreach (explode(',', $row['primary_category']) as $category_title) {
-                if ($category = $this->getCategory('peopleTypes', trim($category_title))) {
-                    $person_type_ids[] = $category->id;
+            $personTypeIds = [];
+            foreach (explode(',', $row['primary_category']) as $categoryTitle) {
+                if ($category = $this->getCategory('peopleTypes', trim($categoryTitle))) {
+                    $personTypeIds[] = $category->id;
                 }
             }
 
             // Find Secondary People Type IDs
-            $secondary_person_type_ids = [];
-            foreach (explode(',', $row['secondary_category']) as $category_title) {
-                if ($category = $this->getCategory('peopleTypes', trim($category_title))) {
-                    $secondary_person_type_ids[] = $category->id;
+            $secondaryPersonTypeIds = [];
+            foreach (explode(',', $row['secondary_category']) as $categoryTitle) {
+                if ($category = $this->getCategory('peopleTypes', trim($categoryTitle))) {
+                    $secondaryPersonTypeIds[] = $category->id;
                 }
             }
 
             // Populate Social Links (matrix field), currently just Linkedin
-            $social_links = [];
+            $socialLinks = [];
             if (!empty($row['linkedin'])) {
-                $social_links = [
+                $socialLinks = [
                     'new1' => [
                         'type' => 'socialLink',
                         'fields' => [
@@ -309,11 +309,11 @@ class DeltekImport extends Component
                 'body'                 => $row['bio'],
                 'personEmployeeNumber' => $row['employee_num'],
                 'featured'             => $row['is_featured'],
-                'office'               => $office_ids,
-                'personType'           => $person_type_ids,
-                'secondaryPersonType'  => $secondary_person_type_ids,
-                'socialLinks'          => $social_links,
-                'personQuote'          => $person_quote,
+                'office'               => $officeIds,
+                'personType'           => $personTypeIds,
+                'secondaryPersonType'  => $secondaryPersonTypeIds,
+                'socialLinks'          => $socialLinks,
+                'personQuote'          => $personQuote,
                 'personImage'          => $this->getPhoto($row['photo_url']),
             ]);
 
@@ -337,7 +337,7 @@ class DeltekImport extends Component
         $result = $this->deltekDb->query("SELECT * FROM project_awards");
         foreach($result as $row) {
             // Filter by delted_ids passed in?
-            if (!empty($this->deltek_ids) && !in_array($row['award_key'], $this->deltek_ids)) continue;
+            if (!empty($this->deltekIds) && !in_array($row['award_key'], $this->deltekIds)) continue;
 
             $entry = Entry::find()->section('awards')->where([
                 'content.field_awardKey' => $row['award_key']
@@ -370,73 +370,96 @@ class DeltekImport extends Component
     /**
      * Import Impact
      */
-    private function importImpact() {
+    private function importImpact($importMode) {
         $impactImport = new SectionImport('Impact');
+        $impactImport->setImportMode($importMode);
 
         $result = $this->deltekDb->query("SELECT * FROM impacts");
         foreach($result as $row) {
             // Filter by delted_ids passed in?
-            if (!empty($this->deltek_ids) && !in_array($row['impact_key'], $this->deltek_ids)) continue;
+            if (!empty($this->deltekIds) && !in_array($row['impact_key'], $this->deltekIds)) continue;
 
             $actionVerb = 'updated';
-            $entry = Entry::find()->section('impact')->where([
-                'content.field_impactKey' => $row['impact_key']
-            ])->one();
+            $entry = Entry::find()
+                        ->section('impact')
+                        ->with([ 'mediaBlocks' ])
+                        ->where([
+                            'content.field_impactKey' => $row['impact_key']
+                        ])->one();
 
             if (!$entry) {
                 $entry = $this->makeNewEntry('impact');
                 $entry->title = $row['title'];
                 $actionVerb = 'added';
+                $deltekIdsImported = [];
+                $mediaBlocks = [];
+                $body = $this->formatText($row['body']);
+            } else {
+                $deltekIdsImported = explode(',', $entry->deltekIdsImported);
+                // Pull existing mediaBlocks Value
+                $mediaBlocksField = Craft::$app->getFields()->getFieldByHandle('mediaBlocks');
+                $existingMatrixQuery = $entry->getFieldValue('mediaBlocks');
+                $mediaBlocks = $mediaBlocksField->serializeValue($existingMatrixQuery, $entry);
+                // Don't populate body from deltek unless new entry
+                $body = $entry->body;
             }
+            /////////////////////////////////////
+            // Only pull mediaBlocks if adding new entry, or we're doing a refresh from Deltek
+            if ($actionVerb == 'added' || $importMode == 'refresh') {
+                // Add matrix fields (quotes, images)
+                $i = 0;
 
-            // Add matrix fields (stats, quotes, images)
-            $media_blocks = [];
-            $i = 0;
+                // Find impact images
+                list($heroImage, $relatedImages, $deltekIdsImported) = $this->getRelatedPhotos('impact_photos', 'impact_key', $row['impact_key'], $i, 'photo_key', $deltekIdsImported);
+                // Update matrix field index
+                $i = $i + count($relatedImages);
+                // Merge in any images found to matrix
+                $mediaBlocks = array_merge($mediaBlocks, $relatedImages);
 
-            // Find impact images
-            list($hero_image, $related_images) = $this->getRelatedPhotos('impact_photos', 'impact_key', $row['impact_key'], $i);
-            // Update matrix field index
-            $i = $i + count($related_images);
-            // Merge in any images found to matrix
-            $media_blocks = array_merge($related_images, $media_blocks);
+                list($relatedQuotes, $deltekIdsImported) = $this->getRelatedQuotes('impact_quotes', 'impact_key', $row['impact_key'], 'quote_key', $deltekIdsImported);
+                foreach ($relatedQuotes as $relatedQuote) {
+                    $i++;
+                    $mediaBlocks = array_merge($mediaBlocks, ['new'.$i => [
+                        'type' => 'quotes',
+                        'fields' => [
+                            'quotes' => $relatedQuote,
+                        ]
+                    ]]);
+                }
 
-            $related_quotes = $this->getRelatedQuotes('impact_quotes', 'impact_key', $row['impact_key']);
-            if (!empty($related_quotes)) {
-                $i++;
-                $media_blocks = array_merge(['new'.$i => [
-                    'type' => 'quotes',
-                    'fields' => [
-                        'quotes' => $related_quotes,
-                    ]
-                ]], $media_blocks);
+            } else {
+
+                // Set old heroImage if not refreshing
+                $heroImage = $entry->impactImage;
+
             }
 
             // Find Market IDs
-            $market_ids = [];
+            $marketIds = [];
             $markets = implode(',', array_filter([
                 $row['primary_market'],
                 $row['secondary_market'],
                 $row['tertiary_market'],
             ]));
-            foreach (explode(',', $markets) as $category_title) {
-                $category = $this->getCategory('markets', trim($category_title));
+            foreach (explode(',', $markets) as $categoryTitle) {
+                $category = $this->getCategory('markets', trim($categoryTitle));
                 if ($category) {
-                    $market_ids[] = $category->id;
+                    $marketIds[] = $category->id;
                 }
             }
 
             // Associate Projects with Impact
-            $project_ids = [];
-            $rel_result = $this->deltekDb->prepare("SELECT * FROM impact_projects WHERE impact_key = ?");
-            $rel_result->execute([ $row['impact_key'] ]);
-            $rel_rows = $rel_result->fetchAll();
-            foreach($rel_rows as $rel_row) {
+            $projectIds = [];
+            $relResult = $this->deltekDb->prepare("SELECT * FROM impact_projects WHERE impact_key = ?");
+            $relResult->execute([ $row['impact_key'] ]);
+            $relRows = $relResult->fetchAll();
+            foreach($relRows as $relRow) {
                 // See if this project is imported already
                 $project = Entry::find()->section('projects')->where([
-                    'content.field_projectNumber' => $rel_row['project_num'],
+                    'content.field_projectNumber' => $relRow['project_num'],
                 ])->one();
                 if ($project) {
-                    $project_ids[] = $project->id;
+                    $projectIds[] = $project->id;
                 }
             }
 
@@ -457,7 +480,7 @@ class DeltekImport extends Component
             }
 
             $fields = [
-                'body'                 => $this->formatText($row['body']),
+                'body'                 => $body,
                 // 'excerpt'           => $row['excerpt'], // This isn't currently being sent
                 'sessionDate'          => $sessionDate,
                 'conferenceUrl'        => $conferenceUrl,
@@ -465,18 +488,19 @@ class DeltekImport extends Component
                 'conferenceLocation'   => $row['location'],
                 'impactPublication'    => $impactPublication,
                 'impactPublicationUrl' => $impactPublicationUrl,
-                'markets'              => $market_ids,
+                'markets'              => $marketIds,
                 'impactType'           => $this->getImpactType($row['category']),
                 'impactPeople'         => $this->getImpactPeopleMatrix($row['impact_key']),
                 'impactKey'            => $row['impact_key'],
-                'impactImage'          => $hero_image,
-                'mediaBlocks'          => $media_blocks,
-                'relatedProjects'      => $project_ids,
+                'relatedProjects'      => $projectIds,
                 'featured'             => (!empty($row['is_featured']) ? 1 : 0),
+                'deltekIdsImported'    => implode(',', $deltekIdsImported),
+                'impactImage'          => $heroImage,
+                'mediaBlocks'          => $mediaBlocks
             ];
             $entry->setFieldValues($fields);
             $entry->postDate = new \DateTime($row['date']);
-            $entry->enabled = (!isset($row['is_enabled']) || !empty($row['is_enabled']) ? 1 : 0);
+            // $entry->enabled = (!isset($row['is_enabled']) || !empty($row['is_enabled']) ? 1 : 0);
 
             if(Craft::$app->getElements()->saveElement($entry)) {
                 $impactImport->saved($entry, $actionVerb);
@@ -497,141 +521,175 @@ class DeltekImport extends Component
     /**
      * Import Projects
      */
-    private function importProjects() {
+    private function importProjects($importMode) {
         $projectsImport = new SectionImport('Projects');
+        $projectsImport->setImportMode($importMode);
         $result = $this->deltekDb->query('SELECT * FROM projects');
         foreach($result as $row) {
             // Filter by delted_ids passed in?
-            if (!empty($this->deltek_ids) && !in_array($row['project_num'], $this->deltek_ids)) continue;
+            if (!empty($this->deltekIds) && !in_array($row['project_num'], $this->deltekIds)) continue;
 
-            $entry = Entry::find()->section('projects')->where([
-                'content.field_projectNumber' => $row['project_num'],
-            ])->one();
+            $entry = Entry::find()
+                        ->section('projects')
+                        ->with([ 'mediaBlocks' ])
+                        ->where([
+                            'content.field_projectNumber' => $row['project_num']
+                        ])->one();
 
             $actionVerb = 'updated';
             if (!$entry) {
                 $entry = $this->makeNewEntry('projects');
                 $actionVerb = 'added';
                 $colorSwatch = AEI::$plugin->findProjectColor->randomSwatch();
+                $deltekIdsImported = [];
+                $mediaBlocks = [];
+                $body = $this->formatText($row['case_study']);
+            } else {
+                $deltekIdsImported = explode(',', $entry->deltekIdsImported);
+                // Pull existing mediaBlocks Value
+                $mediaBlocksField = Craft::$app->getFields()->getFieldByHandle('mediaBlocks');
+                $existingMatrixQuery = $entry->getFieldValue('mediaBlocks');
+                $mediaBlocks = $mediaBlocksField->serializeValue($existingMatrixQuery, $entry);
+                // Maintain colorswatch from saved entry
+                $colorSwatch = $entry->colorSwatch;
+                // Don't populate body from deltek unless new entry
+                $body = $entry->body;
             }
 
             /////////////////////////////////////
-            // Add matrix fields (stats, quotes, images)
-            $media_blocks = [];
-            $i = 0;
+            // Only pull mediaBlocks if adding new entry, or we're doing a refresh from Deltek
+            if ($actionVerb == 'added' || $importMode == 'refresh') {
 
-            $related_quotes = $this->getRelatedQuotes('project_quotes', 'project_num', $row['project_num']);
-            if (!empty($related_quotes)) {
-                $i++;
-                $media_blocks = array_merge(['new'.$i => [
-                    'type' => 'quotes',
-                    'fields' => [
-                        'quotes' => $related_quotes,
-                    ]
-                ]], $media_blocks);
+                // Add matrix fields (stats, quotes, images)
+                $i = 0;
+
+                list($relatedQuotes, $deltekIdsImported) = $this->getRelatedQuotes('project_quotes', 'project_num', $row['project_num'], 'quote_key', $deltekIdsImported);
+                foreach ($relatedQuotes as $relatedQuote) {
+                    $i++;
+                    $mediaBlocks = array_merge($mediaBlocks, ['new'.$i => [
+                        'type' => 'quotes',
+                        'fields' => [
+                            'quotes' => $relatedQuote,
+                        ]
+                    ]]);
+                }
+
+                // Project Stats
+                $projectStats = [];
+                $inSql = '';
+                $params = [ $row['project_num'] ];
+                if (count($deltekIdsImported) > 0) {
+                    $in  = str_repeat('?,', count($deltekIdsImported) - 1) . '?';
+                    $inSql = ' AND `stat_key` NOT IN ('.$in.')';
+                    $params = array_merge($params, $deltekIdsImported);
+                }
+                $relResult = $this->deltekDb->prepare('SELECT * FROM project_stats WHERE project_num = ?'.$inSql);
+                $relResult->execute($params);
+                $relRows = $relResult->fetchAll();
+                foreach($relRows as $relRow) {
+                    $i++;
+                    $projectStats['new'.$i] = [
+                        'type' => 'stat',
+                        'fields' => [
+                            'statFigure' => $this->fixStatFigure($relRow['text']),
+                            'statLabel'  => $relRow['subtext'],
+                            'statKey'    => $relRow['stat_key'],
+                        ]
+                    ];
+                    $deltekIdsImported[] = $relRow['stat_key'];
+                }
+                $mediaBlocks = array_merge($mediaBlocks, $projectStats);
+
+                // Find project images
+                list($heroImage, $relatedImages, $deltekIdsImported) = $this->getRelatedPhotos('project_photos', 'project_num', $row['project_num'], $i, 'photo_key', $deltekIdsImported);
+                // Update matrix field index
+                $i = $i + count($relatedImages);
+                // Merge in any images found to matrix
+                $mediaBlocks = array_merge($mediaBlocks, $relatedImages);
+
+            } else {
+
+                // Set old heroImage if not refreshing
+                $heroImage = $entry->projectImage;
+
             }
-
-            // Project Stats
-            $project_stats = [];
-            $rel_result = $this->deltekDb->prepare('SELECT * FROM project_stats WHERE project_num = ?');
-            $rel_result->execute([ $row['project_num'] ]);
-            $rel_rows = $rel_result->fetchAll();
-            foreach($rel_rows as $rel_row) {
-                $i++;
-                $project_stats['new'.$i] = [
-                    'type' => 'stat',
-                    'fields' => [
-                        'statFigure' => $this->fixStatFigure($rel_row['text']),
-                        'statLabel'  => $rel_row['subtext'],
-                    ]
-                ];
-            }
-            $media_blocks = array_merge($project_stats, $media_blocks);
-
-            // Find project images
-            list($hero_image, $related_images) = $this->getRelatedPhotos('project_photos', 'project_num', $row['project_num'], $i);
-            // Update matrix field index
-            $i = $i + count($related_images);
-            // Merge in any images found to matrix
-            $media_blocks = array_merge($related_images, $media_blocks);
 
             // Find Service IDs
-            $service_ids = [];
-            foreach (explode(',', $row['services']) as $category_title) {
-                $category = $this->getCategory('services', trim($category_title));
+            $serviceIds = [];
+            foreach (explode(',', $row['services']) as $categoryTitle) {
+                $category = $this->getCategory('services', trim($categoryTitle));
                 if ($category) {
-                    $service_ids[] = $category->id;
+                    $serviceIds[] = $category->id;
                 }
             }
 
             // Find Market IDs
-            $market_ids = [];
+            $marketIds = [];
             $markets = implode(',', array_filter([
                 $row['primary_market'],
                 $row['secondary_market'],
                 $row['tertiary_market'],
             ]));
-            foreach (explode(',', $markets) as $category_title) {
-                $category = $this->getCategory('markets', trim($category_title));
+            foreach (explode(',', $markets) as $categoryTitle) {
+                $category = $this->getCategory('markets', trim($categoryTitle));
                 if ($category) {
-                    $market_ids[] = $category->id;
+                    $marketIds[] = $category->id;
                 }
             }
 
             // Find Project Awards
-            $award_ids = [];
-            $rel_result = $this->deltekDb->prepare("SELECT * FROM project_awards WHERE project_num = ?");
-            $rel_result->execute([ $row['project_num'] ]);
-            $rel_rows = $rel_result->fetchAll();
-            foreach($rel_rows as $rel_row) {
+            $awardIds = [];
+            $relResult = $this->deltekDb->prepare("SELECT * FROM project_awards WHERE project_num = ?");
+            $relResult->execute([ $row['project_num'] ]);
+            $relRows = $relResult->fetchAll();
+            foreach($relRows as $relRow) {
                 // See if this award is imported already
                 $award = Entry::find()->section('awards')->where([
-                    'content.field_awardKey' => $rel_row['award_key'],
+                    'content.field_awardKey' => $relRow['award_key'],
                 ])->one();
                 if ($award) {
-                    $award_ids[] = $award->id;
+                    $awardIds[] = $award->id;
                 }
             }
 
             // Find Project Leaders (matrix field)
-            $project_leaders = [];
-            $rel_result = $this->deltekDb->prepare('SELECT * FROM project_leaders WHERE project_num = ?');
-            $rel_result->execute([ $row['project_num'] ]);
-            $rel_rows = $rel_result->fetchAll();
+            $projectLeaders = [];
+            $relResult = $this->deltekDb->prepare('SELECT * FROM project_leaders WHERE project_num = ?');
+            $relResult->execute([ $row['project_num'] ]);
+            $relRows = $relResult->fetchAll();
             $i = 0;
-            foreach($rel_rows as $rel_row) {
+            foreach($relRows as $relRow) {
                 $i++;
                 $person = Entry::find()->section('people')->where([
-                    'content.field_personEmployeeNumber' => $rel_row['employee_num'],
+                    'content.field_personEmployeeNumber' => $relRow['employee_num'],
                 ])->one();
                 if ($person) {
-                    $project_leaders['new'.$i] = [
+                    $projectLeaders['new'.$i] = [
                         'type' => 'projectLeader',
                         'fields' => [
                             'aeiPerson'   => [$person->id],
-                            'leaderTitle' => $rel_row['project_role'],
+                            'leaderTitle' => $relRow['project_role'],
                         ]
                     ];
                 }
             }
 
             // Find Project Partners (matrix field)
-            $project_partners = [];
-            $rel_result = $this->deltekDb->prepare('SELECT * FROM project_partners WHERE project_num = ?');
-            $rel_result->execute([ $row['project_num'] ]);
-            $rel_rows = $rel_result->fetchAll();
+            $projectPartners = [];
+            $relResult = $this->deltekDb->prepare('SELECT * FROM project_partners WHERE project_num = ?');
+            $relResult->execute([ $row['project_num'] ]);
+            $relRows = $relResult->fetchAll();
             $i = 0;
-            foreach($rel_rows as $rel_row) {
+            foreach($relRows as $relRow) {
                 $i++;
-                $project_partners['new'.$i] = [
+                $projectPartners['new'.$i] = [
                     'type' => 'projectPartner',
                     'fields' => [
-                        'partnerName' => $rel_row['partner'],
-                        'partnerRole' => $rel_row['role'],
+                        'partnerName' => $relRow['partner'],
+                        'partnerRole' => $relRow['role'],
                     ]
                 ];
             }
-
             $entry->setFieldValues([
                 'projectNumber'     => $row['project_num'],
                 'projectName'       => $row['name'],
@@ -639,18 +697,27 @@ class DeltekImport extends Component
                 'projectTagline'    => $row['tagline'],
                 'projectLocation'   => $row['location'],
                 'projectLeedStatus' => $row['leed_status'],
-                'body'              => $this->formatText($row['case_study']),
-                'services'          => $service_ids,
-                'markets'           => $market_ids,
-                'projectAwards'     => $award_ids,
-                'projectLeaders'    => $project_leaders,
-                'projectPartners'   => $project_partners,
-                'projectImage'      => $hero_image,
-                'mediaBlocks'       => $media_blocks,
+                'body'              => $body,
+                'services'          => $serviceIds,
+                'markets'           => $marketIds,
+                'projectAwards'     => $awardIds,
+                'projectLeaders'    => $projectLeaders,
+                'projectPartners'   => $projectPartners,
                 'colorSwatch'       => $colorSwatch,
                 'featured'          => (!empty($row['is_featured']) ? 1 : 0),
+                'deltekIdsImported' => implode(',', $deltekIdsImported),
+                'projectImage'      => $heroImage,
+                'mediaBlocks'       => $mediaBlocks
             ]);
-            $entry->enabled = (!isset($row['is_enabled']) || !empty($row['is_enabled']) ? 1 : 0);
+            // $entry->enabled = (!isset($row['is_enabled']) || !empty($row['is_enabled']) ? 1 : 0);
+
+            // Only save media blocks if adding new entry, or we're doing a refresh from Deltek
+            // if ($actionVerb == 'added') {
+            //     $fields = array_merge($fields, [
+            //         'projectImage' => $heroImage,
+            //         'mediaBlocks'  => $mediaBlocks
+            //     ]);
+            // }
 
             if(Craft::$app->getElements()->saveElement($entry)) {
                 $projectsImport->saved($entry, $actionVerb);
@@ -661,6 +728,9 @@ class DeltekImport extends Component
                 //       'project_id' => $entry->id,
                 //   ]));
                 // }
+                if ($actionVerb != 'added' && $importMode == 'refresh') {
+                    // append new media blocks
+                }
             } else {
                 $this->bomb('<li>Save error: '.print_r($entry->getErrors(), true).'</li>');
             }
@@ -672,12 +742,12 @@ class DeltekImport extends Component
 
     /**
      * Init a new Entry with type attributes
-     * @param  string $entry_type Slug of entry type
+     * @param  string $entryType Slug of entry type
      * @return object             New Entry object
      */
-    private function makeNewEntry(string $entry_type)
+    private function makeNewEntry(string $entryType)
     {
-        $entryType = EntryType::find()->where(['handle' => $entry_type])->one();
+        $entryType = EntryType::find()->where(['handle' => $entryType])->one();
         $entry = new Entry();
         $entry->sectionId = $entryType->getAttribute('sectionId');
         $entry->typeId = $entryType->getAttribute('id');
@@ -687,50 +757,50 @@ class DeltekImport extends Component
 
     /**
      * Find People Matrix for Impact post
-     * @param  string $impact_key Deltek ID of Impact post
+     * @param  string $impactKey Deltek ID of Impact post
      * @return array              People IDs
      */
-    private function getImpactPeopleMatrix(string $impact_key)
+    private function getImpactPeopleMatrix(string $impactKey)
     {
-        $impact_people = [];
+        $impactPeople = [];
         $i = 0;
-        $rel_result = $this->deltekDb->prepare('SELECT * FROM impact_authorship WHERE impact_key = ?');
-        $rel_result->execute([ $impact_key ]);
-        $rel_rows = $rel_result->fetchAll();
-        foreach($rel_rows as $rel_row) {
+        $relResult = $this->deltekDb->prepare('SELECT * FROM impact_authorship WHERE impact_key = ?');
+        $relResult->execute([ $impactKey ]);
+        $relRows = $relResult->fetchAll();
+        foreach($relRows as $relRow) {
             $i++;
-            if (!empty($rel_row['employee_num'])) {
+            if (!empty($relRow['employee_num'])) {
                 $person = Entry::find()->section('people')->where([
-                    'content.field_personEmployeeNumber' => $rel_row['employee_num']
+                    'content.field_personEmployeeNumber' => $relRow['employee_num']
                 ])->one();
                 $aeiPerson = ($person) ? [$person->id] : [];
             } else {
                 $aeiPerson = [];
             }
             // Make sure we found an AEI person or have a name/company
-            if (!empty($aeiPerson) || !empty($rel_row['author_name']) || !empty($rel_row['author_company'])) {
-                $impact_people['new'.$i] = [
+            if (!empty($aeiPerson) || !empty($relRow['author_name']) || !empty($relRow['author_company'])) {
+                $impactPeople['new'.$i] = [
                     'type' => 'person',
                     'fields' => [
                         'aeiPerson'     => $aeiPerson,
-                        'personName'    => $rel_row['author_name'],
-                        'personCompany' => $rel_row['author_company'],
-                        'personRole'    => $rel_row['role'],
+                        'personName'    => $relRow['author_name'],
+                        'personCompany' => $relRow['author_company'],
+                        'personRole'    => $relRow['role'],
                     ]
                 ];
             }
         }
-        return $impact_people;
+        return $impactPeople;
     }
 
     /**
      * Find Impact Type
-     * @param  string $impact_type title of impact type
+     * @param  string $impactType title of impact type
      * @return array              Impact Type IDs
      */
-    private function getImpactType(string $impact_type)
+    private function getImpactType(string $impactType)
     {
-        $category = $this->getCategory('impactTypes', $impact_type);
+        $category = $this->getCategory('impactTypes', $impactType);
         return ($category) ? [$category->id] : [];
     }
 
@@ -749,57 +819,67 @@ class DeltekImport extends Component
 
     /**
      * Get Related Photos for deltek object
-     * @param  string $photos_table     lookup table for images
-     * @param  string $deltek_id_field  deltek_id field
-     * @param  string $deltek_id        deltek id
-     * @param  int $i                   current counter for matrix fields
+     * @param  string $photosTable     lookup table for images
+     * @param  string $deltekIdField   deltek_id field
+     * @param  string $deltekId        deltek id
+     * @param  int $i                  current counter for matrix fields
      * @return array
      */
-    private function getRelatedPhotos($photos_table, $deltek_id_field, $deltek_id, $i)
+    private function getRelatedPhotos($photosTable, $deltekLookupField, $deltekId, $i, $deltekIdField, $deltekIdsImported)
     {
-        $hero_image = [];
-        $related_images = [];
-        $rel_result = $this->deltekDb->prepare('SELECT * FROM `'.$photos_table.'` WHERE `'.$deltek_id_field.'` = ?');
-        $rel_result->execute([ $deltek_id ]);
-        $rel_rows = $rel_result->fetchAll();
-        foreach($rel_rows as $rel_row) {
-            $filename = basename(trim($rel_row['photo_url']));
+        $heroImage = [];
+        $relatedImages = [];
+        $inSql = '';
+        $params = [ $deltekId ];
+        if (count($deltekIdsImported) > 0) {
+            $in  = str_repeat('?,', count($deltekIdsImported) - 1) . '?';
+            $inSql = ' AND `'.$deltekIdField.'` NOT IN ('.$in.')';
+            $params = array_merge($params, $deltekIdsImported);
+        }
+        $relResult = $this->deltekDb->prepare('SELECT * FROM `'.$photosTable.'` WHERE `'.$deltekLookupField.'` = ?'.$inSql);
+        $relResult->execute($params);
+        $relRows = $relResult->fetchAll();
+        foreach($relRows as $relRow) {
+            $filename = basename(trim($relRow['photo_url']));
             $filename = preg_replace('/(png|tif|jpg|psd)$/i','jpg', $filename);
             $image = Asset::find()->where([
                 'filename' => $filename,
             ])->one();
             if ($image) {
-                $caption = trim(str_replace('&nbsp;', ' ', $rel_row['caption']), ' "”“');
+                $caption = trim(str_replace('&nbsp;', ' ', $relRow['caption']), ' "”“');
                 // Is this the hero image? If so, set for return
-                if ($rel_row['is_hero']==1) {
-                    $hero_image = [$image->id];
+                if ($relRow['is_hero']==1) {
+                    $heroImage = [$image->id];
                 } else {
                     // Otherwise add image to matrix fields to return
                     $i++;
-                    $related_images['new'.$i] = [
+                    $relatedImages['new'.$i] = [
                         'type' => 'image',
                         'fields' => [
-                            'caption' => $caption,
-                            'width'   => (!empty($rel_row['full_width']) ? 'full' : 'half'),
-                            'image'   => [$image->id],
+                            'caption'  => $caption,
+                            'width'    => (!empty($relRow['full_width']) ? 'full' : 'half'),
+                            'image'    => [$image->id],
+                            'photoKey' => $relRow['photo_key'],
                         ]
                     ];
+                    // Append to array of deltek ids
+                    $deltekIdsImported[] = $relRow[$deltekIdField];
                 }
             }
         }
 
-        // Return arrays of images found
-        return [$hero_image, $related_images];
+        // Return array of images found + updated array of $deltekIdsImported
+        return [$heroImage, $relatedImages, $deltekIdsImported];
     }
 
     /**
      * Get Related Quotes for deltek object
-     * @param  string $quotes_table     lookup table for quotes
-     * @param  string $deltek_id_field  deltek_id field
-     * @param  string $deltek_id        deltek id
+     * @param  string $quotesTable     lookup table for quotes
+     * @param  string $deltekIdField  deltek_id field
+     * @param  string $deltekId        deltek id
      * @return array
      */
-    private function getRelatedQuotes($quotes_table, $deltek_id_field, $deltek_id)
+    private function getRelatedQuotes($quotesTable, $deltekLookupField, $deltekId, $deltekIdField, $deltekIdsImported)
     {
         // Get our "quotes" Super Table field (inside "mediaBlocks" matrix field)
         if (empty($this->superTableQuotesField)) {
@@ -822,16 +902,21 @@ class DeltekImport extends Component
         $blockType = $this->superTableQuotesField[0]; // There will only ever be one SuperTable_BlockType
 
         // Find related quotes
-        $related_quotes = [];
-        $rel_result = $this->deltekDb->prepare('SELECT * FROM `'.$quotes_table.'` WHERE `'.$deltek_id_field.'` = ?');
-        $rel_result->execute([ $deltek_id ]);
-        $rel_rows = $rel_result->fetchAll();
-        $q = 0;
-        foreach($rel_rows as $rel_row) {
-            $q++;
-            if (!empty($rel_row['employee_num'])) {
+        $relatedQuotes = [];
+        $inSql = '';
+        $params = [ $deltekId ];
+        if (count($deltekIdsImported) > 0) {
+            $in  = str_repeat('?,', count($deltekIdsImported) - 1) . '?';
+            $inSql = ' AND `'.$deltekIdField.'` NOT IN ('.$in.')';
+            $params = array_merge($params, $deltekIdsImported);
+        }
+        $relResult = $this->deltekDb->prepare('SELECT * FROM `'.$quotesTable.'` WHERE `'.$deltekLookupField.'` = ?'.$inSql);
+        $relResult->execute($params);
+        $relRows = $relResult->fetchAll();
+        foreach($relRows as $relRow) {
+            if (!empty($relRow['employee_num'])) {
                 $person = Entry::find()->section('people')->where([
-                    'content.field_personEmployeeNumber' => $rel_row['employee_num']
+                    'content.field_personEmployeeNumber' => $relRow['employee_num']
                 ])->one();
                 $aeiPerson = ($person) ? [$person->id] : [];
             } else {
@@ -840,57 +925,59 @@ class DeltekImport extends Component
 
             $personName = '';
             // There are different field names for author in impact_quotes and related_quotes (gak)
-            if (!empty($rel_row['author'])) {
-                $personName = $rel_row['author'];
-            } else if (!empty($rel_row['quote_author'])) {
-                $personName = $rel_row['quote_author'];
+            if (!empty($relRow['author'])) {
+                $personName = $relRow['author'];
+            } else if (!empty($relRow['quote_author'])) {
+                $personName = $relRow['quote_author'];
             }
 
             // Make comma-delimited string of company + title
-            $companyTitle = implode(',', array_filter([$rel_row['author_company'], $rel_row['author_title']]));
+            $companyTitle = implode(',', array_filter([$relRow['author_company'], $relRow['author_title']]));
 
             // Clean up quote
-            $quote = trim(str_replace('&nbsp;', ' ', $rel_row['quote']), ' "”“');
+            $quote = trim(str_replace('&nbsp;', ' ', $relRow['quote']), ' "”“');
 
-            $related_quotes['new'.$q] = [
+            $relatedQuotes[] = ['new1' => [
                 'type' => $blockType->id,
                 'fields' => [
                     'quote'         => $quote,
                     'personName'    => $personName,
                     'personCompany' => $companyTitle,
-                    'quoteKey'      => $rel_row['quote_key'],
+                    'quoteKey'      => $relRow['quote_key'],
                     'aeiPerson'     => $aeiPerson,
                 ]
-            ];
+            ]];
+            // Append to array of deltek ids
+            $deltekIdsImported[] = $relRow[$deltekIdField];
         }
 
-        // Return array of quotes found
-        return $related_quotes;
+        // Return array of quotes found + updated array of $deltekIdsImported
+        return [$relatedQuotes, $deltekIdsImported];
     }
 
     /**
      * Get category of entry
-     * @param string               $category_group_handle category group handle
-     * @param string               $category_title        category title
+     * @param string               $categoryGroupHandle category group handle
+     * @param string               $categoryTitle        category title
      */
-    private function getCategory(string $category_group_handle, string $category_title)
+    private function getCategory(string $categoryGroupHandle, string $categoryTitle)
     {
-        if (empty($category_title) || empty($category_group_handle)) return;
+        if (empty($categoryTitle) || empty($categoryGroupHandle)) return;
         // Populate category cache array for category handle if not set
-        if (empty($this->categories_cache[$category_group_handle])) {
-            $this->categories_cache[$category_group_handle] = [];
+        if (empty($this->categoriesCache[$categoryGroupHandle])) {
+            $this->categoriesCache[$categoryGroupHandle] = [];
         }
         // Check if category is cached
-        if (!empty($this->categories_cache[$category_group_handle][$category_title])) {
-            return $this->categories_cache[$category_group_handle][$category_title];
+        if (!empty($this->categoriesCache[$categoryGroupHandle][$categoryTitle])) {
+            return $this->categoriesCache[$categoryGroupHandle][$categoryTitle];
         }
-        $category_group = Craft::$app->getCategories()->getGroupByHandle($category_group_handle);
+        $categoryGroup = Craft::$app->getCategories()->getGroupByHandle($categoryGroupHandle);
         $category = Category::find()->where([
-            'title' => $category_title,
-            'groupId' => $category_group->id,
+            'title' => $categoryTitle,
+            'groupId' => $categoryGroup->id,
         ])->one();
         // Cache category for subsequent lookups
-        $this->categories_cache[$category_group_handle][$category_title] = $category;
+        $this->categoriesCache[$categoryGroupHandle][$categoryTitle] = $category;
         return $category;
     }
 
@@ -898,7 +985,7 @@ class DeltekImport extends Component
      * Error was triggered, email dev and log warning
      * @param  string $message info about the error
      */
-    function bomb(string $message) {
+    private function bomb(string $message) {
         Craft::warning($message);
         if (!Craft::$app->getConfig()->general->devMode) {
             $this->sendMail($message, 'AEI bomb', 'nate@firebellydesign.com');
@@ -910,15 +997,15 @@ class DeltekImport extends Component
      * Send an email
      * @param string $message
      * @param string $subject
-     * @param string $to_email
+     * @param string $toEmail
      * @return bool
      */
-    private function sendMail(string $message, string $subject, string $to_email): bool
+    private function sendMail(string $message, string $subject, string $toEmail): bool
     {
         $settings = Craft::$app->getSystemSettings()->getSettings('email');
         $message = new Message();
         $message->setFrom([$settings['fromEmail'] => $settings['fromName']]);
-        $message->setTo($to_email);
+        $message->setTo($toEmail);
         $message->setSubject($subject);
         $message->setHtmlBody($message);
         return Craft::$app->getMailer()->send($message);
