@@ -389,7 +389,6 @@ class DeltekImport extends Component
 
             if (!$entry) {
                 $entry = $this->makeNewEntry('impact');
-                $entry->title = $row['title'];
                 $actionVerb = 'added';
                 $deltekIdsImported = [];
                 $mediaBlocks = [];
@@ -403,6 +402,9 @@ class DeltekImport extends Component
                 // Don't populate body from deltek unless new entry
                 $body = $entry->body;
             }
+            // Always update title from Deltek
+            $entry->title = $row['title'];
+
             /////////////////////////////////////
             // Only pull mediaBlocks if adding new entry, or we're doing a refresh from Deltek
             if ($actionVerb == 'added' || $importMode == 'refresh') {
@@ -496,8 +498,13 @@ class DeltekImport extends Component
                 'featured'             => (!empty($row['is_featured']) ? 1 : 0),
                 'deltekIdsImported'    => implode(',', $deltekIdsImported),
                 'impactImage'          => $heroImage,
-                'mediaBlocks'          => $mediaBlocks
             ];
+            // Only add/update media blocks if adding new entry, or we're doing a refresh from Deltek
+            if ($actionVerb == 'added' || $importMode == 'refresh') {
+                $fields = array_merge($fields, [
+                    'mediaBlocks'  => $mediaBlocks
+                ]);
+            }
             $entry->setFieldValues($fields);
             $entry->postDate = new \DateTime($row['date']);
             // $entry->enabled = (!isset($row['is_enabled']) || !empty($row['is_enabled']) ? 1 : 0);
@@ -508,6 +515,14 @@ class DeltekImport extends Component
                 if ($actionVerb == 'added') {
                     $entry->postDate = new \DateTime($row['date']);
                     Craft::$app->getElements()->saveElement($entry);
+                } else {
+                    // Also update any drafts for post
+                    $drafts = Craft::$app->getEntryRevisions()->getDraftsByEntryId($entry->id);
+                    foreach ($drafts as $draft) {
+                        $draft->setFieldValues($fields);
+                        $draft->title = $row['title'];
+                        Craft::$app->getEntryRevisions()->saveDraft($draft);
+                    }
                 }
             } else {
                 $this->bomb('<li>Save error: '.print_r($entry->getErrors(), true).'</li>');
@@ -690,7 +705,7 @@ class DeltekImport extends Component
                     ]
                 ];
             }
-            $entry->setFieldValues([
+            $fields = [
                 'projectNumber'     => $row['project_num'],
                 'projectName'       => $row['name'],
                 'projectClientName' => $row['client'],
@@ -707,30 +722,28 @@ class DeltekImport extends Component
                 'featured'          => (!empty($row['is_featured']) ? 1 : 0),
                 'deltekIdsImported' => implode(',', $deltekIdsImported),
                 'projectImage'      => $heroImage,
-                'mediaBlocks'       => $mediaBlocks
-            ]);
+            ];
             // $entry->enabled = (!isset($row['is_enabled']) || !empty($row['is_enabled']) ? 1 : 0);
 
-            // Only save media blocks if adding new entry, or we're doing a refresh from Deltek
-            // if ($actionVerb == 'added') {
-            //     $fields = array_merge($fields, [
-            //         'projectImage' => $heroImage,
-            //         'mediaBlocks'  => $mediaBlocks
-            //     ]);
-            // }
+            // Only add/update media blocks if adding new entry, or we're doing a refresh from Deltek
+            if ($actionVerb == 'added' || $importMode == 'refresh') {
+                $fields = array_merge($fields, [
+                    'mediaBlocks'  => $mediaBlocks
+                ]);
+            }
 
+            $entry->setFieldValues($fields);
             if(Craft::$app->getElements()->saveElement($entry)) {
-                $projectsImport->saved($entry, $actionVerb);
-                // If new project, add task queue to set project color
-                // if ($actionVerb == 'added') {
-                //   Craft::$app->queue->push(new SetProjectColor([
-                //       'description' => 'Setting project color for '.$entry->id,
-                //       'project_id' => $entry->id,
-                //   ]));
-                // }
-                if ($actionVerb != 'added' && $importMode == 'refresh') {
-                    // append new media blocks
+                if ($actionVerb != 'added') {
+                    // Also update any drafts for post
+                    $drafts = Craft::$app->getEntryRevisions()->getDraftsByEntryId($entry->id);
+                    foreach ($drafts as $draft) {
+                        $draft->setFieldValues($fields);
+                        Craft::$app->getEntryRevisions()->saveDraft($draft);
+                    }
                 }
+                $projectsImport->saved($entry, $actionVerb, (!empty($drafts) ? count($drafts) : 0));
+
             } else {
                 $this->bomb('<li>Save error: '.print_r($entry->getErrors(), true).'</li>');
             }

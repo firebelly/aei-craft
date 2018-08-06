@@ -36,8 +36,9 @@ class SectionImport
         $this->importMode = $importMode;
     }
 
-    public function saved($entry, $actionVerb) {
-        $this->log('<li>'.$entry->title.' '.$actionVerb.' OK!</li>');
+    public function saved($entry, $actionVerb, $numDrafts=0) {
+        $draftsTxt = $numDrafts > 0 ? ' ('.$numDrafts.' drafts updated)' : '';
+        $this->log('<li>'.$entry->title.' '.$actionVerb.' OK!'.$draftsTxt.'</li>');
         if ($actionVerb == 'added') {
             $this->added++;
         } else {

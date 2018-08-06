@@ -36,22 +36,39 @@
     <p class="textline">This runs every night as an automated cronjob, but you can also run it manually here.</p>
     <form method="post" id="deltek-import-form" action="/admin/actions/aei/deltek-import/import-records">
         {{ csrfInput() }}
-        <ul>
-            {% for section in craft.app.getModule('aei').getDeltekSections() %}
-                <li>
-                    {% include "_includes/forms/checkbox" with {
-                        name:      'sections-to-import[]',
-                        value:     section|lower,
-                        checked:   false,
-                        label:     section,
-                    } %}
-                </li>
-            {% endfor %}
-        </ul>
-        <p>Optionally pass in comma-delimited <code>project_num, employee_num, impact_key,</code> or <code>office_name</code> values to only import items that match those Deltek IDs:</p>
-        <p><input type="text" name="deltek-ids" size="50" placeholder="e.g. 08658-01, 07177-00"></p>
-        <p><input type="checkbox" name="import-mode" value="refresh"> Refresh From Deltek</p>
-        <p><em style="color: #ccc;">If checked, will add new media blocks for existing projects & impact posts</em></p>
+        <div class="field">
+          <ul>
+              {% for section in craft.app.getModule('aei').getDeltekSections() %}
+                  <li>
+                      {% include "_includes/forms/checkbox" with {
+                          name:      'sections-to-import[]',
+                          value:     section|lower,
+                          checked:   false,
+                          label:     section,
+                      } %}
+                  </li>
+              {% endfor %}
+          </ul>
+        </div>
+        <div class="field">
+          <div class="heading">
+            <label>Matching IDs</label>
+            <div class="instructions">
+              <p>Optionally pass in comma-delimited <code>project_num, employee_num, impact_key,</code> or <code>office_name</code> values to only import items that match those Deltek IDs:</p>
+            </div>
+          </div>
+          <div class="input ltr">
+            <input type="text" name="deltek-ids" size="50" placeholder="e.g. 08658-01, 07177-00">
+          </div>
+        </div>
+        <div class="field">
+          <div class="heading">
+            <label><input type="checkbox" name="import-mode" value="refresh"> Refresh From Deltek</label>
+            <div class="instructions">
+              <p>If checked, will add new media blocks for existing projects & impact posts</p>
+            </div>
+          </div>
+        </div>
 
         <div class="info-output"><p><div id="graphic" class="spinner"></div> Importing... (be patient, can take a while)</p></div>
         <div class="progressbar hidden"><div class="progressbar-inner"></div></div>
