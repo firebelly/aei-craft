@@ -16,7 +16,7 @@
         {% set project = block.featuredProjects.orderBy('RAND()')[0] ?? null %}
         {% if project %}
 
-          {% set projectColor = (project.colorSwatch.label ?? null) ? headerColor|lower : 'black' %}
+          {% set projectColor = (project.colorSwatch.label ?? null) ? project.colorSwatch.label|lower : 'black' %}
 
           <div class="row -halves {{ cycle(['','-flip-order-md'],rowNumber) }}">
             <div class="row-block">
