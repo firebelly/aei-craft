@@ -41,7 +41,6 @@
     ]
   }).orderBy('featured DESC, postDate DESC').limit(8) as paginationInfo, projectEntries %}
 
-  {% set title = entry.title %}
   {% set subheader = entry.body %}
   {% set stats = craft.entries.section('stats').relatedTo(statType).orderBy('RAND()').limit(2).all() %}
 

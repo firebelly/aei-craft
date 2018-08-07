@@ -1,5 +1,4 @@
 {% extends (craft.app.request.isAjax and not craft.app.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
-{% set title = entry.title %}
 {% set bodyClass = 'single overlapping-header' %}
 
 {% block filters %}

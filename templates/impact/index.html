@@ -26,7 +26,6 @@
 
 {% else %}
 
-  {% set title = 'Impact' %}
   {% if craft.app.request.isAjax %}
     {# AJAX call for infinite scroll #}
     {% set omitId = craft.app.request.getQueryParam('omitId') %}
