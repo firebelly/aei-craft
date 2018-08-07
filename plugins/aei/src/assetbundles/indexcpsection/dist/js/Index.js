@@ -39,7 +39,7 @@ var DeltekImportIndex = (function($) {
   // Import each section selected, one-by-one
   function _importNextSection(section) {
     // Find all sections to import
-    var sectionsToImport = $importForm.find('input[type=checkbox]:checked:not(.done)');
+    var sectionsToImport = $importForm.find('input[name="sections-to-import[]"]:checked:not(.done)');
     if (sectionsToImport.length) {
       $.ajax({
         dataType: 'json',
@@ -73,10 +73,10 @@ var DeltekImportIndex = (function($) {
 
   // Hide/show progress bar and show percent done if available
   function _updateProgressBar() {
-    var sectionsToImport = $importForm.find('input[name=sections-to-import]:checked').length;
+    var sectionsToImport = $importForm.find('input[name="sections-to-import[]"]:checked').length;
     // Only show progress bar if more than one section is importing
     if ($importForm.hasClass('importing') && sectionsToImport > 1) {
-      var sectionsImported = $importForm.find('input[type=checkbox]:checked.done').length;
+      var sectionsImported = $importForm.find('input[name="sections-to-import[]"]:checked.done').length;
       var percentDone = sectionsImported / sectionsToImport * 100;
       $progressBar.removeClass('hidden').find('div').css('width', percentDone + '%');
     } else {
