@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c305745f7f73bd373dbd82509de085e3",
+    "content-hash": "3bfd8e0c0c77b4a9d4ff5aa34eac49aa",
     "packages": [
         {
             "name": "amimpact/command-palette",
@@ -1037,6 +1037,42 @@
                 "parser"
             ],
             "time": "2015-11-01T10:19:22+00:00"
+        },
+        {
+            "name": "ether/seo",
+            "version": "3.3.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ethercreative/seo/zipball/0c16162f94f2859168641f6e4f5a6906978f5d3b",
+                "reference": "0c16162f94f2859168641f6e4f5a6906978f5d3b",
+                "shasum": ""
+            },
+            "require": {
+                "craftcms/cms": "^3.0.0-RC1"
+            },
+            "type": "craft-plugin",
+            "extra": {
+                "handle": "seo",
+                "name": "SEO",
+                "developer": "Ether Creative",
+                "developerUrl": "https://ethercreative.co.uk",
+                "class": "ether\\seo\\Seo",
+                "schemaVersion": "3.0.0"
+            },
+            "autoload": {
+                "psr-4": {
+                    "ether\\seo\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "SEO utilities including a unique field type, sitemap, & redirect manager",
+            "support": {
+                "issues": "https://github.com/ethercreative/seo",
+                "docs": "https://github.com/ethercreative/seo/blob/v3/README.md"
+            },
+            "time": "2018-06-25T15:22:34+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
