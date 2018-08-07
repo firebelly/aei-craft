@@ -44,6 +44,7 @@ class DeltekImport extends Component
     private $deltekIds = [];
     private $categoriesCache = [];
     private $superTableQuotesField = null;
+    private $importMode = 'basic';
 
     /**
      * Returns deltek log records for /admin/aei/logs template
@@ -73,6 +74,9 @@ class DeltekImport extends Component
             ];
         }
 
+        // Import mode: basic=just update basic fields, refresh=add new media_blocks from deltek
+        $this->importMode = $importMode;
+
         // Optional IDs to specify which entries to import
         if (!empty($deltekIds)) {
             $this->deltekIds = array_map('trim', explode(',', $deltekIds));
@@ -98,10 +102,10 @@ class DeltekImport extends Component
                 $this->importAwards();
             }
             if (in_array('projects', $sectionsToImport)) {
-                $this->importProjects($importMode);
+                $this->importProjects();
             }
             if (in_array('impact', $sectionsToImport)) {
-                $this->importImpact($importMode);
+                $this->importImpact();
             }
         } catch (\Exception $e) {
             $this->bomb('Import Error: ' . $e->getMessage());
@@ -133,7 +137,7 @@ class DeltekImport extends Component
 
         $result = $this->deltekDb->query("SELECT * FROM offices");
         foreach($result as $row) {
-            // Filter by delted_ids passed in?
+            // Filter by deltek_ids passed in?
             if (!empty($this->deltekIds) && !in_array($row['office_name'], $this->deltekIds)) continue;
 
             $actionVerb = 'updated';
@@ -240,7 +244,7 @@ class DeltekImport extends Component
 
         $result = $this->deltekDb->query("SELECT * FROM employees");
         foreach($result as $row) {
-            // Filter by delted_ids passed in?
+            // Filter by deltek_ids passed in?
             if (!empty($this->deltekIds) && !in_array($row['employee_num'], $this->deltekIds)) continue;
 
             $actionVerb = 'updated';
@@ -336,7 +340,7 @@ class DeltekImport extends Component
 
         $result = $this->deltekDb->query("SELECT * FROM project_awards");
         foreach($result as $row) {
-            // Filter by delted_ids passed in?
+            // Filter by deltek_ids passed in?
             if (!empty($this->deltekIds) && !in_array($row['award_key'], $this->deltekIds)) continue;
 
             $entry = Entry::find()->section('awards')->where([
@@ -370,70 +374,81 @@ class DeltekImport extends Component
     /**
      * Import Impact
      */
-    private function importImpact($importMode) {
+    private function importImpact() {
         $impactImport = new SectionImport('Impact');
-        $impactImport->setImportMode($importMode);
+        $impactImport->setImportMode($this->importMode);
 
         $result = $this->deltekDb->query("SELECT * FROM impacts");
         foreach($result as $row) {
-            // Filter by delted_ids passed in?
+            // Filter by deltek_ids passed in?
             if (!empty($this->deltekIds) && !in_array($row['impact_key'], $this->deltekIds)) continue;
 
-            $actionVerb = 'updated';
             $entry = Entry::find()
                         ->section('impact')
-                        ->with([ 'mediaBlocks' ])
+                        ->status(null)
+                        ->with(['mediaBlocks'])
                         ->where([
                             'content.field_impactKey' => $row['impact_key']
                         ])->one();
 
+            $fields = [];
+
             if (!$entry) {
-                $entry = $this->makeNewEntry('impact');
+                // New entry
                 $actionVerb = 'added';
+                $entry = $this->makeNewEntry('impact');
+                // New entries are disabled by default
+                $entry->enabled = 0;
                 $deltekIdsImported = [];
                 $mediaBlocks = [];
-                $body = $this->formatText($row['body']);
+
+                // Only populate body on new entry
+                $fields = array_merge($fields, [
+                    'body' => $this->formatText($row['body']),
+                ]);
             } else {
+                // Existing entry
+                $actionVerb = 'updated';
+
+                // Pull all Deltek IDs already imported for this post
                 $deltekIdsImported = explode(',', $entry->deltekIdsImported);
-                // Pull existing mediaBlocks Value
-                $mediaBlocksField = Craft::$app->getFields()->getFieldByHandle('mediaBlocks');
-                $existingMatrixQuery = $entry->getFieldValue('mediaBlocks');
-                $mediaBlocks = $mediaBlocksField->serializeValue($existingMatrixQuery, $entry);
-                // Don't populate body from deltek unless new entry
-                $body = $entry->body;
+
+                // Find any drafts for entry
+                $drafts = Craft::$app->getEntryRevisions()->getDraftsByEntryId($entry->id);
             }
             // Always update title from Deltek
             $entry->title = $row['title'];
 
             /////////////////////////////////////
-            // Only pull mediaBlocks if adding new entry, or we're doing a refresh from Deltek
-            if ($actionVerb == 'added' || $importMode == 'refresh') {
-                // Add matrix fields (quotes, images)
-                $i = 0;
+            // Pull mediaBlocks if adding new entry, or we're doing a refresh from Deltek (and entry is disabled or has drafts)
+            if ($actionVerb == 'added' || ($this->importMode == 'refresh' && (!$entry->enabled || count($drafts)>0))) {
+                if ($actionVerb != 'added') {
+                    // Pull existing mediaBlocks, so we can just append new ones
+                    $mediaBlocksField = Craft::$app->getFields()->getFieldByHandle('mediaBlocks');
+                    $existingMatrixQuery = $entry->getFieldValue('mediaBlocks');
+                    $mediaBlocks = $mediaBlocksField->serializeValue($existingMatrixQuery, $entry);
+                }
+
+                // Var to keep track of new media blocks
+                $mediaBlockNew = 0;
 
                 // Find impact images
-                list($heroImage, $relatedImages, $deltekIdsImported) = $this->getRelatedPhotos('impact_photos', 'impact_key', $row['impact_key'], $i, 'photo_key', $deltekIdsImported);
+                list($heroImage, $relatedImages, $deltekIdsImported) = $this->getRelatedPhotos('impact_photos', 'impact_key', $row['impact_key'], $mediaBlockNew, 'photo_key', $deltekIdsImported);
                 // Update matrix field index
-                $i = $i + count($relatedImages);
+                $mediaBlockNew = $mediaBlockNew + count($relatedImages);
                 // Merge in any images found to matrix
                 $mediaBlocks = array_merge($mediaBlocks, $relatedImages);
 
                 list($relatedQuotes, $deltekIdsImported) = $this->getRelatedQuotes('impact_quotes', 'impact_key', $row['impact_key'], 'quote_key', $deltekIdsImported);
                 foreach ($relatedQuotes as $relatedQuote) {
-                    $i++;
-                    $mediaBlocks = array_merge($mediaBlocks, ['new'.$i => [
+                    $mediaBlockNew++;
+                    $mediaBlocks = array_merge($mediaBlocks, ['new'.$mediaBlockNew => [
                         'type' => 'quotes',
                         'fields' => [
                             'quotes' => $relatedQuote,
                         ]
                     ]]);
                 }
-
-            } else {
-
-                // Set old heroImage if not refreshing
-                $heroImage = $entry->impactImage;
-
             }
 
             // Find Market IDs
@@ -482,7 +497,6 @@ class DeltekImport extends Component
             }
 
             $fields = [
-                'body'                 => $body,
                 // 'excerpt'           => $row['excerpt'], // This isn't currently being sent
                 'sessionDate'          => $sessionDate,
                 'conferenceUrl'        => $conferenceUrl,
@@ -497,17 +511,18 @@ class DeltekImport extends Component
                 'relatedProjects'      => $projectIds,
                 'featured'             => (!empty($row['is_featured']) ? 1 : 0),
                 'deltekIdsImported'    => implode(',', $deltekIdsImported),
-                'impactImage'          => $heroImage,
             ];
-            // Only add/update media blocks if adding new entry, or we're doing a refresh from Deltek
-            if ($actionVerb == 'added' || $importMode == 'refresh') {
-                $fields = array_merge($fields, [
-                    'mediaBlocks'  => $mediaBlocks
-                ]);
-            }
+
             $entry->setFieldValues($fields);
             $entry->postDate = new \DateTime($row['date']);
-            // $entry->enabled = (!isset($row['is_enabled']) || !empty($row['is_enabled']) ? 1 : 0);
+
+            // Add fields to be saved for disabled entries
+            if (!$entry->enabled) {
+                $fields = array_merge($fields, [
+                    'impactImage' => $heroImage,
+                    'mediaBlocks' => $mediaBlocks,
+                ]);
+            }
 
             if(Craft::$app->getElements()->saveElement($entry)) {
                 $impactImport->saved($entry, $actionVerb);
@@ -515,9 +530,15 @@ class DeltekImport extends Component
                 if ($actionVerb == 'added') {
                     $entry->postDate = new \DateTime($row['date']);
                     Craft::$app->getElements()->saveElement($entry);
-                } else {
+                } elseif (count($drafts) > 0) {
+                    if ($entry->enabled) {
+                        // Add fields to be saved to drafts (if not already added above when !$entry->enabled)
+                        $fields = array_merge($fields, [
+                            'impactImage' => $heroImage,
+                            'mediaBlocks' => $mediaBlocks,
+                        ]);
+                    }
                     // Also update any drafts for post
-                    $drafts = Craft::$app->getEntryRevisions()->getDraftsByEntryId($entry->id);
                     foreach ($drafts as $draft) {
                         $draft->setFieldValues($fields);
                         $draft->title = $row['title'];
@@ -536,52 +557,67 @@ class DeltekImport extends Component
     /**
      * Import Projects
      */
-    private function importProjects($importMode) {
+    private function importProjects() {
         $projectsImport = new SectionImport('Projects');
-        $projectsImport->setImportMode($importMode);
+        $projectsImport->setImportMode($this->importMode);
         $result = $this->deltekDb->query('SELECT * FROM projects');
         foreach($result as $row) {
-            // Filter by delted_ids passed in?
+            // Filter by deltek_ids passed in?
             if (!empty($this->deltekIds) && !in_array($row['project_num'], $this->deltekIds)) continue;
 
             $entry = Entry::find()
                         ->section('projects')
-                        ->with([ 'mediaBlocks' ])
+                        ->status(null)
+                        ->with(['mediaBlocks'])
                         ->where([
                             'content.field_projectNumber' => $row['project_num']
                         ])->one();
 
-            $actionVerb = 'updated';
+            $fields = [];
             if (!$entry) {
-                $entry = $this->makeNewEntry('projects');
+                // New entry
                 $actionVerb = 'added';
-                $colorSwatch = AEI::$plugin->findProjectColor->randomSwatch();
+                $entry = $this->makeNewEntry('projects');
+                // New entries are disabled by default
+                $entry->enabled = 0;
                 $deltekIdsImported = [];
                 $mediaBlocks = [];
-                $body = $this->formatText($row['case_study']);
+                $drafts = [];
+                // Only populate these fields for new entry
+                $fields = array_merge($fields, [
+                    'colorSwatch' => AEI::$plugin->findProjectColor->randomSwatch(),
+                    'body'        => $this->formatText($row['case_study']),
+                ]);
             } else {
+                // Existing entry
+                $actionVerb = 'updated';
+
+                // Pull all Deltek IDs already imported for this post
                 $deltekIdsImported = explode(',', $entry->deltekIdsImported);
-                // Pull existing mediaBlocks Value
-                $mediaBlocksField = Craft::$app->getFields()->getFieldByHandle('mediaBlocks');
-                $existingMatrixQuery = $entry->getFieldValue('mediaBlocks');
-                $mediaBlocks = $mediaBlocksField->serializeValue($existingMatrixQuery, $entry);
-                // Maintain colorswatch from saved entry
-                $colorSwatch = $entry->colorSwatch;
-                // Don't populate body from deltek unless new entry
-                $body = $entry->body;
+
+                // Find any drafts for entry
+                $drafts = Craft::$app->getEntryRevisions()->getDraftsByEntryId($entry->id);
             }
 
             /////////////////////////////////////
-            // Only pull mediaBlocks if adding new entry, or we're doing a refresh from Deltek
-            if ($actionVerb == 'added' || $importMode == 'refresh') {
+            // Pull mediaBlocks if adding new entry, or we're doing a refresh from Deltek (and entry is disabled or has drafts)
+            if ($actionVerb == 'added' || ($this->importMode == 'refresh' && (!$entry->enabled || count($drafts)>0))) {
 
-                // Add matrix fields (stats, quotes, images)
-                $i = 0;
+
+                if ($actionVerb != 'added') {
+                    // Pull existing mediaBlocks, so we can just append new ones
+                    $mediaBlocksField = Craft::$app->getFields()->getFieldByHandle('mediaBlocks');
+                    $existingMatrixQuery = $entry->getFieldValue('mediaBlocks');
+                    $mediaBlocks = $mediaBlocksField->serializeValue($existingMatrixQuery, $entry);
+                }
+
+                // Var to keep track of new media blocks
+                $mediaBlockNew = 0;
 
                 list($relatedQuotes, $deltekIdsImported) = $this->getRelatedQuotes('project_quotes', 'project_num', $row['project_num'], 'quote_key', $deltekIdsImported);
                 foreach ($relatedQuotes as $relatedQuote) {
-                    $i++;
-                    $mediaBlocks = array_merge($mediaBlocks, ['new'.$i => [
+                    $mediaBlockNew++;
+                    $mediaBlocks = array_merge($mediaBlocks, ['new'.$mediaBlockNew => [
                         'type' => 'quotes',
                         'fields' => [
                             'quotes' => $relatedQuote,
@@ -602,8 +638,8 @@ class DeltekImport extends Component
                 $relResult->execute($params);
                 $relRows = $relResult->fetchAll();
                 foreach($relRows as $relRow) {
-                    $i++;
-                    $projectStats['new'.$i] = [
+                    $mediaBlockNew++;
+                    $projectStats['new'.$mediaBlockNew] = [
                         'type' => 'stat',
                         'fields' => [
                             'statFigure' => $this->fixStatFigure($relRow['text']),
@@ -616,16 +652,10 @@ class DeltekImport extends Component
                 $mediaBlocks = array_merge($mediaBlocks, $projectStats);
 
                 // Find project images
-                list($heroImage, $relatedImages, $deltekIdsImported) = $this->getRelatedPhotos('project_photos', 'project_num', $row['project_num'], $i, 'photo_key', $deltekIdsImported);
-                // Update matrix field index
-                $i = $i + count($relatedImages);
+                list($heroImage, $relatedImages, $deltekIdsImported) = $this->getRelatedPhotos('project_photos', 'project_num', $row['project_num'], $mediaBlockNew, 'photo_key', $deltekIdsImported);
+
                 // Merge in any images found to matrix
                 $mediaBlocks = array_merge($mediaBlocks, $relatedImages);
-
-            } else {
-
-                // Set old heroImage if not refreshing
-                $heroImage = $entry->projectImage;
 
             }
 
@@ -705,45 +735,48 @@ class DeltekImport extends Component
                     ]
                 ];
             }
-            $fields = [
+
+            $fields = array_merge($fields, [
                 'projectNumber'     => $row['project_num'],
                 'projectName'       => $row['name'],
                 'projectClientName' => $row['client'],
                 'projectTagline'    => $row['tagline'],
                 'projectLocation'   => $row['location'],
                 'projectLeedStatus' => $row['leed_status'],
-                'body'              => $body,
                 'services'          => $serviceIds,
                 'markets'           => $marketIds,
                 'projectAwards'     => $awardIds,
                 'projectLeaders'    => $projectLeaders,
                 'projectPartners'   => $projectPartners,
-                'colorSwatch'       => $colorSwatch,
                 'featured'          => (!empty($row['is_featured']) ? 1 : 0),
                 'deltekIdsImported' => implode(',', $deltekIdsImported),
-                'projectImage'      => $heroImage,
-            ];
-            // $entry->enabled = (!isset($row['is_enabled']) || !empty($row['is_enabled']) ? 1 : 0);
+            ]);
 
-            // Only add/update media blocks if adding new entry, or we're doing a refresh from Deltek
-            if ($actionVerb == 'added' || $importMode == 'refresh') {
+            if (!$entry->enabled) {
+                // Add fields to be saved for disabled entries
                 $fields = array_merge($fields, [
-                    'mediaBlocks'  => $mediaBlocks
+                    'projectImage' => $heroImage,
+                    'mediaBlocks'  => $mediaBlocks,
                 ]);
             }
 
             $entry->setFieldValues($fields);
             if(Craft::$app->getElements()->saveElement($entry)) {
-                if ($actionVerb != 'added') {
+                if ($actionVerb != 'added' && count($drafts) > 0) {
+                    if ($entry->enabled) {
+                        // Add fields to be saved to drafts (if not already added above when !$entry->enabled)
+                        $fields = array_merge($fields, [
+                            'projectImage' => $heroImage,
+                            'mediaBlocks'  => $mediaBlocks,
+                        ]);
+                    }
                     // Also update any drafts for post
-                    $drafts = Craft::$app->getEntryRevisions()->getDraftsByEntryId($entry->id);
                     foreach ($drafts as $draft) {
                         $draft->setFieldValues($fields);
                         Craft::$app->getEntryRevisions()->saveDraft($draft);
                     }
                 }
                 $projectsImport->saved($entry, $actionVerb, (!empty($drafts) ? count($drafts) : 0));
-
             } else {
                 $this->bomb('<li>Save error: '.print_r($entry->getErrors(), true).'</li>');
             }
@@ -838,7 +871,7 @@ class DeltekImport extends Component
      * @param  int $i                  current counter for matrix fields
      * @return array
      */
-    private function getRelatedPhotos($photosTable, $deltekLookupField, $deltekId, $i, $deltekIdField, $deltekIdsImported)
+    private function getRelatedPhotos($photosTable, $deltekLookupField, $deltekId, $mediaBlockNew, $deltekIdField, $deltekIdsImported)
     {
         $heroImage = [];
         $relatedImages = [];
@@ -865,8 +898,8 @@ class DeltekImport extends Component
                     $heroImage = [$image->id];
                 } else {
                     // Otherwise add image to matrix fields to return
-                    $i++;
-                    $relatedImages['new'.$i] = [
+                    $mediaBlockNew++;
+                    $relatedImages['new'.$mediaBlockNew] = [
                         'type' => 'image',
                         'fields' => [
                             'caption'  => $caption,
