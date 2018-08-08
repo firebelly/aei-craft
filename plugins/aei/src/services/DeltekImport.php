@@ -432,13 +432,7 @@ class DeltekImport extends Component
                 // Var to keep track of new media blocks
                 $mediaBlockNew = 0;
 
-                // Find impact images
-                list($heroImage, $relatedImages, $deltekIdsImported) = $this->getRelatedPhotos('impact_photos', 'impact_key', $row['impact_key'], $mediaBlockNew, 'photo_key', $deltekIdsImported);
-                // Update matrix field index
-                $mediaBlockNew = $mediaBlockNew + count($relatedImages);
-                // Merge in any images found to matrix
-                $mediaBlocks = array_merge($mediaBlocks, $relatedImages);
-
+                // Find impact quotes
                 list($relatedQuotes, $deltekIdsImported) = $this->getRelatedQuotes('impact_quotes', 'impact_key', $row['impact_key'], 'quote_key', $deltekIdsImported);
                 foreach ($relatedQuotes as $relatedQuote) {
                     $mediaBlockNew++;
@@ -449,6 +443,11 @@ class DeltekImport extends Component
                         ]
                     ]]);
                 }
+
+                // Find impact images
+                list($heroImage, $relatedImages, $deltekIdsImported) = $this->getRelatedPhotos('impact_photos', 'impact_key', $row['impact_key'], $mediaBlockNew, 'photo_key', $deltekIdsImported);
+                // Merge in any images found to matrix
+                $mediaBlocks = array_merge($mediaBlocks, $relatedImages);
 
                 if (!$entry->enabled) {
                     // Add fields to be saved for disabled entries
@@ -504,7 +503,7 @@ class DeltekImport extends Component
                 $impactPublicationDate = $this->validUrl($row['session_date']);
             }
 
-            $fields = [
+            $fields = array_merge($fields, [
                 // 'excerpt'           => $row['excerpt'], // This isn't currently being sent
                 'sessionDate'          => $sessionDate,
                 'conferenceUrl'        => $conferenceUrl,
@@ -519,7 +518,7 @@ class DeltekImport extends Component
                 'relatedProjects'      => $projectIds,
                 'featured'             => (!empty($row['is_featured']) ? 1 : 0),
                 'deltekIdsImported'    => implode(',', $deltekIdsImported),
-            ];
+            ]);
 
             $entry->setFieldValues($fields);
             $entry->postDate = new \DateTime($row['date']);
