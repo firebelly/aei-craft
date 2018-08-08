@@ -449,6 +449,14 @@ class DeltekImport extends Component
                         ]
                     ]]);
                 }
+
+                if (!$entry->enabled) {
+                    // Add fields to be saved for disabled entries
+                    $fields = array_merge($fields, [
+                        'impactImage' => $heroImage,
+                        'mediaBlocks'  => $mediaBlocks,
+                    ]);
+                }
             }
 
             // Find Market IDs
@@ -516,14 +524,6 @@ class DeltekImport extends Component
             $entry->setFieldValues($fields);
             $entry->postDate = new \DateTime($row['date']);
 
-            // Add fields to be saved for disabled entries
-            if (!$entry->enabled) {
-                $fields = array_merge($fields, [
-                    'impactImage' => $heroImage,
-                    'mediaBlocks' => $mediaBlocks,
-                ]);
-            }
-
             if(Craft::$app->getElements()->saveElement($entry)) {
                 $impactImport->saved($entry, $actionVerb);
                 // Set postDate after save if new post (can't set on first save)
@@ -531,7 +531,7 @@ class DeltekImport extends Component
                     $entry->postDate = new \DateTime($row['date']);
                     Craft::$app->getElements()->saveElement($entry);
                 } elseif (count($drafts) > 0) {
-                    if ($entry->enabled) {
+                    if ($entry->enabled && $this->importMode == 'refresh') {
                         // Add fields to be saved to drafts (if not already added above when !$entry->enabled)
                         $fields = array_merge($fields, [
                             'impactImage' => $heroImage,
@@ -657,6 +657,13 @@ class DeltekImport extends Component
                 // Merge in any images found to matrix
                 $mediaBlocks = array_merge($mediaBlocks, $relatedImages);
 
+                if (!$entry->enabled) {
+                    // Add fields to be saved for disabled entries
+                    $fields = array_merge($fields, [
+                        'projectImage' => $heroImage,
+                        'mediaBlocks'  => $mediaBlocks,
+                    ]);
+                }
             }
 
             // Find Service IDs
@@ -752,18 +759,10 @@ class DeltekImport extends Component
                 'deltekIdsImported' => implode(',', $deltekIdsImported),
             ]);
 
-            if (!$entry->enabled) {
-                // Add fields to be saved for disabled entries
-                $fields = array_merge($fields, [
-                    'projectImage' => $heroImage,
-                    'mediaBlocks'  => $mediaBlocks,
-                ]);
-            }
-
             $entry->setFieldValues($fields);
             if(Craft::$app->getElements()->saveElement($entry)) {
                 if ($actionVerb != 'added' && count($drafts) > 0) {
-                    if ($entry->enabled) {
+                    if ($entry->enabled && $this->importMode == 'refresh') {
                         // Add fields to be saved to drafts (if not already added above when !$entry->enabled)
                         $fields = array_merge($fields, [
                             'projectImage' => $heroImage,

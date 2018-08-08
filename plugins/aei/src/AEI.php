@@ -26,6 +26,7 @@ use craft\services\Fields;
 use craft\services\Dashboard;
 use craft\events\RegisterComponentTypesEvent;
 use craft\events\RegisterUrlRulesEvent;
+use craft\helpers\UrlHelper;
 
 use yii\base\Event;
 
@@ -92,6 +93,20 @@ class AEI extends Plugin
         if (Craft::$app instanceof ConsoleApplication) {
             $this->controllerNamespace = 'firebelly\aei\console\controllers';
         }
+
+        // Add Refresh from Deltek button on admin sidebar if entry is project/impact and is disabled/draft
+        Craft::$app->getView()->hook('cp.entries.edit.details', function(array &$context) {
+            // @var EntryModel $entry
+            $entry = $context['entry'];
+
+            if (in_array($entry->type, ['projects', 'impact'])) {
+                if (!$entry->enabled || !empty($entry->draftId)) {
+                    $deltek_id = ($entry->type == 'projects') ? $entry->projectNumber : $entry->impactKey;
+                    $url = UrlHelper::actionUrl('aei/deltek-import/import-records?sections-to-import[]='.$entry->type.'&deltek-ids='.$deltek_id.'&import-mode=refresh&referrer='.urlencode(Craft::$app->getRequest()->getUrl()));
+                    return '<div class="meta"><a href="'.$url.'" class="btn">Refresh from Deltek</a></div>';
+                }
+            }
+        });
 
         // Register our site routes
         // Event::on(

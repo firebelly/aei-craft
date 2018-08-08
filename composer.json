@@ -27,14 +27,14 @@
     }
   ],
   "require": {
-    "craftcms/cms": "3.0.18",
+    "craftcms/cms": "3.0.19",
     "vlucas/phpdotenv": "^2.4.0",
     "craftcms/ckeditor": "1.0.0-beta.2",
     "mmikkel/cp-field-inspect": "1.0.4",
     "verbb/expanded-singles": "1.0.4",
     "clubstudioltd/craft-asset-rev": "6.0.1",
     "barrelstrength/sprout-active": "2.0.7",
-    "nystudio107/craft-similar": "1.0.2",
+    "nystudio107/craft-similar": "1.0.3",
     "mmikkel/incognito-field": "1.0.0",
     "verbb/super-table": "2.0.7",
     "topshelfcraft/wordsmith": "3.0.2",

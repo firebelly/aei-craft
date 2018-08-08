@@ -35,21 +35,27 @@ class DeltekImportController extends Controller
             // Import all sections specified in sections-to-import[] param
             $sectionsToImport = Craft::$app->getRequest()->get('sections-to-import');
             $deltekIds = Craft::$app->getRequest()->get('deltek-ids');
+            $referrer = Craft::$app->getRequest()->get('referrer');
             $importMode = Craft::$app->getRequest()->get('import-mode') ?? 'basic';
             $importResult = AEI::$plugin->deltekImport->importRecords($sectionsToImport, $deltekIds, $importMode);
             $response = [
                 'status'  => 1,
                 'log'     => $importResult->log,
                 'summary' => $importResult->summary,
+                'message' => 'Success! '.$importResult->summary,
             ];
 
         } catch (\Exception $e) {
             $response = [
                 'status'  => 0,
-                'message' => $e->getMessage()
+                'message' => 'Error! '.$e->getMessage()
             ];
         }
-
-        return json_encode($response);
+        if (!empty($referrer)) {
+            Craft::$app->getSession()->setNotice($response['message']);
+            return $this->redirect(urldecode($referrer));
+        } else {
+            return json_encode($response);
+        }
     }
 }
