@@ -11,3 +11,4 @@ logs/*
 public/.well-known
 *.pyc
 web/uploads/
+php.ini
