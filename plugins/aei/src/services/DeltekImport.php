@@ -57,6 +57,57 @@ class DeltekImport extends Component
     }
 
     /**
+     * Update all deltekId fields for projects and impact
+     *
+     * AEI::$plugin->deltekImport->updateAllDeltekIds()
+     *
+     * @return string
+     */
+    public function updateAllDeltekIds()
+    {
+        $return = '';
+        $projects = Entry::find()->section('projects')->limit(5);
+        foreach ($projects as $entry) {
+            Craft::$app->getElements()->saveElement($entry);
+            $return .= '<p>PROJECT '.$entry->title.' saved</p>';
+        }
+        $return .= '<hr>';
+        $impact = Entry::find()->section('impact')->limit(5);
+        foreach ($impact as $entry) {
+            Craft::$app->getElements()->saveElement($entry);
+            $return .= '<p>IMPACT '.$entry->title.' saved</p>';
+        }
+        return $return;
+    }
+
+    /**
+     * Get Deltek IDs for entry
+     *
+     * AEI::$plugin->deltekImport->getDeltekIds()
+     *
+     * @return array
+     */
+    public function getDeltekIds($entry)
+    {
+        $deltekIds = [];
+        $mediaBlocks = $entry->getFieldValue('mediaBlocks')->all();
+        // echo'<pre>';var_dump($mediaBlocks);echo'</pre>'; die();
+        foreach ($mediaBlocks as $mediaBlock) {
+            if ($mediaBlock->getType()->name === 'Image') {
+                $deltekIds[] = $mediaBlock->getFieldValue('photoKey');
+            } else if ($mediaBlock->getType()->name === 'Quote(s)') {
+                // Quotes are in supertable, but imported quotes are imported as single entries in that supertable (hence [0])
+                if (!empty($mediaBlock->getFieldValue('quotes')[0]->getFieldValue('quoteKey'))) {
+                    $deltekIds[] = $mediaBlock->getFieldValue('quotes')[0]->getFieldValue('quoteKey');
+                }
+            } else if ($mediaBlock->getType()->name === 'Stat') {
+                $deltekIds[] = $mediaBlock->getFieldValue('statKey');
+            }
+        }
+        return $deltekIds;
+    }
+
+    /**
      * Run Deltek Import
      *
      * AEI::$plugin->deltekImport->importRecords()
@@ -433,7 +484,7 @@ class DeltekImport extends Component
                 $mediaBlockNew = 0;
 
                 // Find impact quotes
-                list($relatedQuotes, $deltekIdsImported) = $this->getRelatedQuotes('impact_quotes', 'impact_key', $row['impact_key'], 'quote_key', $deltekIdsImported);
+                $relatedQuotes = $this->getRelatedQuotes('impact_quotes', 'impact_key', $row['impact_key'], 'quote_key', $deltekIdsImported);
                 foreach ($relatedQuotes as $relatedQuote) {
                     $mediaBlockNew++;
                     $mediaBlocks = array_merge($mediaBlocks, ['new'.$mediaBlockNew => [
@@ -445,7 +496,7 @@ class DeltekImport extends Component
                 }
 
                 // Find impact images
-                list($heroImage, $relatedImages, $deltekIdsImported) = $this->getRelatedPhotos('impact_photos', 'impact_key', $row['impact_key'], $mediaBlockNew, 'photo_key', $deltekIdsImported);
+                list($heroImage, $relatedImages) = $this->getRelatedPhotos('impact_photos', 'impact_key', $row['impact_key'], $mediaBlockNew, 'photo_key', $deltekIdsImported);
                 // Merge in any images found to matrix
                 $mediaBlocks = array_merge($mediaBlocks, $relatedImages);
 
@@ -517,7 +568,6 @@ class DeltekImport extends Component
                 'impactKey'            => $row['impact_key'],
                 'relatedProjects'      => $projectIds,
                 'featured'             => (!empty($row['is_featured']) ? 1 : 0),
-                'deltekIdsImported'    => implode(',', $deltekIdsImported),
             ]);
 
             $entry->setFieldValues($fields);
@@ -613,7 +663,7 @@ class DeltekImport extends Component
                 // Var to keep track of new media blocks
                 $mediaBlockNew = 0;
 
-                list($relatedQuotes, $deltekIdsImported) = $this->getRelatedQuotes('project_quotes', 'project_num', $row['project_num'], 'quote_key', $deltekIdsImported);
+                $relatedQuotes = $this->getRelatedQuotes('project_quotes', 'project_num', $row['project_num'], 'quote_key', $deltekIdsImported);
                 foreach ($relatedQuotes as $relatedQuote) {
                     $mediaBlockNew++;
                     $mediaBlocks = array_merge($mediaBlocks, ['new'.$mediaBlockNew => [
@@ -651,7 +701,7 @@ class DeltekImport extends Component
                 $mediaBlocks = array_merge($mediaBlocks, $projectStats);
 
                 // Find project images
-                list($heroImage, $relatedImages, $deltekIdsImported) = $this->getRelatedPhotos('project_photos', 'project_num', $row['project_num'], $mediaBlockNew, 'photo_key', $deltekIdsImported);
+                list($heroImage, $relatedImages) = $this->getRelatedPhotos('project_photos', 'project_num', $row['project_num'], $mediaBlockNew, 'photo_key', $deltekIdsImported);
 
                 // Merge in any images found to matrix
                 $mediaBlocks = array_merge($mediaBlocks, $relatedImages);
@@ -755,7 +805,6 @@ class DeltekImport extends Component
                 'projectLeaders'    => $projectLeaders,
                 'projectPartners'   => $projectPartners,
                 'featured'          => (!empty($row['is_featured']) ? 1 : 0),
-                'deltekIdsImported' => implode(',', $deltekIdsImported),
             ]);
 
             $entry->setFieldValues($fields);
@@ -906,14 +955,12 @@ class DeltekImport extends Component
                             'photoKey' => $relRow['photo_key'],
                         ]
                     ];
-                    // Append to array of deltek ids
-                    $deltekIdsImported[] = $relRow[$deltekIdField];
                 }
             }
         }
 
-        // Return array of images found + updated array of $deltekIdsImported
-        return [$heroImage, $relatedImages, $deltekIdsImported];
+        // Return array of heroImage + relatedImages
+        return [$heroImage, $relatedImages];
     }
 
     /**
@@ -991,12 +1038,10 @@ class DeltekImport extends Component
                     'aeiPerson'     => $aeiPerson,
                 ]
             ]];
-            // Append to array of deltek ids
-            $deltekIdsImported[] = $relRow[$deltekIdField];
         }
 
-        // Return array of quotes found + updated array of $deltekIdsImported
-        return [$relatedQuotes, $deltekIdsImported];
+        // Return array of quotes found
+        return $relatedQuotes;
     }
 
     /**

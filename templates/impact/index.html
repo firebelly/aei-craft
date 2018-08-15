@@ -7,6 +7,7 @@
 {% if category is defined %}
 
   {% set title = category.title %}
+  {% set entry = craft.entries.section('impactIndex').one() %}
   {% if craft.app.request.isAjax %}
     {# AJAX call for infinite scroll #}
     {% set omitId = craft.app.request.getQueryParam('omitId') %}
@@ -15,7 +16,6 @@
     {% set omitId = featuredImpact ? featuredImpact.id : 0 %}
     {% set stats = craft.entries.section('stats').relatedTo(category).orderBy('RAND()').limit(2).all() %}
   {% endif %}
-
   {% paginate craft.entries({
     section: 'impact',
     relatedTo: category,

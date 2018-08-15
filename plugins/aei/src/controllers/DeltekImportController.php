@@ -58,4 +58,10 @@ class DeltekImportController extends Controller
             return json_encode($response);
         }
     }
+
+    /** Update all deltekId fields for projects/imact */
+    public function actionUpdateAllDeltekIds() {
+        return AEI::$plugin->deltekImport->updateAllDeltekIds();
+    }
+
 }

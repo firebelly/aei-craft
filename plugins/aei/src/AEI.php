@@ -24,6 +24,7 @@ use craft\console\Application as ConsoleApplication;
 use craft\web\UrlManager;
 use craft\services\Fields;
 use craft\services\Dashboard;
+use craft\services\Elements;
 use craft\events\RegisterComponentTypesEvent;
 use craft\events\RegisterUrlRulesEvent;
 use craft\helpers\UrlHelper;
@@ -108,6 +109,20 @@ class AEI extends Plugin
             }
         });
 
+        // Before saving project or impact, set deltek_ids field for future imports to avoid duplicate mediaBlocks
+        Event::on(Elements::class, Elements::EVENT_BEFORE_SAVE_ELEMENT, function(Event $event) {
+            if ($event->element instanceof \craft\elements\Entry) {
+                if (!$event->element->propagating) {
+                    if (in_array($event->element->type, ['projects', 'impact'])) {
+                        $element = $event->element;
+                        $deltekIds = AEI::$plugin->deltekImport->getDeltekIds($element);
+                        $element->deltekIdsImported = implode(',', $deltekIds);
+                        Craft::info('Elements::EVENT_BEFORE_SAVE_ELEMENT / AEI plugin setting deltek_ids field for element '.$element->title.' / deltek_ids: '.(implode(',', $deltekIds)), __METHOD__);
+                    }
+                }
+            }
+        });
+
         // Register our site routes
         // Event::on(
         //     UrlManager::class,
@@ -145,15 +160,15 @@ class AEI extends Plugin
         );
 
         // Do something after we're installed
-        Event::on(
-            Plugins::class,
-            Plugins::EVENT_AFTER_INSTALL_PLUGIN,
-            function (PluginEvent $event) {
-                if ($event->plugin === $this) {
-                    // We were just installed
-                }
-            }
-        );
+        // Event::on(
+        //     Plugins::class,
+        //     Plugins::EVENT_AFTER_INSTALL_PLUGIN,
+        //     function (PluginEvent $event) {
+        //         if ($event->plugin === $this) {
+        //             // We were just installed
+        //         }
+        //     }
+        // );
 
 /**
  * Logging in Craft involves using one of the following methods:

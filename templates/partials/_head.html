@@ -22,6 +22,18 @@
   <![endif]-->
   <script src="{{ '/assets/js/no-build/modernizr.custom.js' }}"></script>
 
+  {% if craft.app.config.env == 'production' %}
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123910148-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-123910148-1');
+  </script>
+  {% endif %}
+
   <!-- Inject SVGs Defs for SVG icon use -->
   <script>
     var ajax = new XMLHttpRequest();

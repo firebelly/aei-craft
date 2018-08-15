@@ -16,6 +16,7 @@
 
   {% set title = category.title %}
   {% set subheader = category.body %}
+  {% set seo_description = category.body|striptags %}
   {% set stats = craft.entries.section('stats').relatedTo(category).orderBy('RAND()').limit(2).all() %}
 
   {# Find Market Contacts and Offices #}

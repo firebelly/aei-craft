@@ -12,7 +12,7 @@
 
 
 	<title>{% if title is defined %}{{ title }} | {{ siteName }}{% else %}{{ seo.title }}{% endif %}</title>
-	<meta name="description" content="{{ seo.description }}" />
+	<meta name="description" content="{% if seo_description is defined %}{{ seo_description }}{% else %}{{ seo.description }}{% endif %}" />
 
 	{% set fb = social.facebook -%}
 	<meta property="fb:app_id" content="{# TODO: Facebook App ID #}">
@@ -20,7 +20,7 @@
 	<meta property="og:type" content="website" />
 	<meta property="og:title" content="{{ fb.title }}" />
 	<meta property="og:image" content="{{ craft.seo.facebookImage(fb.image) }}" />
-	<meta property="og:description" content="{{ fb.description }}" />
+	<meta property="og:description" content="{% if seo_description is defined %}{{ seo_description }}{% else %}{{ fb.description }}{% endif %}" />
 	<meta property="og:site_name" content="{{ seo.title }}" />
 	<meta property="og:locale" content="{{ locale }}" />
 	{% for locale in locales -%}
@@ -32,7 +32,7 @@
 	<meta name="twitter:site" content="{# TODO: Twitter Handle  #}" />
 	<meta name="twitter:url" content="{{ craft.app.request.absoluteUrl }}" />
 	<meta name="twitter:title" content="{{ tw.title }}" />
-	<meta name="twitter:description" content="{{ tw.description }}" />
+	<meta name="twitter:description" content="{% if seo_description is defined %}{{ seo_description }}{% else %}{{ tw.description }}{% endif %}" />
 	<meta name="twitter:image" content="{{ craft.seo.twitterImage(tw.image) }}" />
 
 	<link rel="home" href="{{ siteUrl }}" />
