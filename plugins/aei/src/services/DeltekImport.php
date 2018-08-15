@@ -86,14 +86,16 @@ class DeltekImport extends Component
             $mediaBlocks = $entry->getFieldValue('mediaBlocks')->all();
             foreach ($mediaBlocks as $mediaBlock) {
                 if ($mediaBlock->getType()->name === 'Image') {
-                    $deltekId = $mediaBlock->getFieldValue('photoKey');
+                    // $deltekId = $mediaBlock->getFieldValue('photoKey');
+                    // Force updating all photoKeys
+                    $deltekId = '';
 
                     // Deltek ID not set? Try to find it in Deltek db
                     if (empty($deltekId)) {
-                        $image = $mediaBlock->getFieldValue('image');
+                        $image = $mediaBlock->getFieldValue('image')->one();
                         $filename = basename(trim($image->filename));
                         $filename = preg_replace('/jpg$/i','', $filename);
-                        $q = $this->deltekDb->query("SELECT photo_key FROM `{$singleTypeName}_photos` WHERE {$deltekLookupColumn} LIKE '%{$filename}%'");
+                        $q = $this->deltekDb->query("SELECT photo_key FROM `{$singleTypeName}_photos` WHERE photo_url LIKE '%{$filename}%'");
                         $deltekId = $q->fetchColumn();
                         // Did we find anything?
                         if (!empty($deltekId)) {
