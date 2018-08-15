@@ -63,19 +63,74 @@ class DeltekImport extends Component
      *
      * @return string
      */
-    public function updateAllDeltekIds()
+    public function updateAllDeltekIds($type='projects')
     {
-        $return = '';
-        $projects = Entry::find()->section('projects')->all();
-        foreach ($projects as $entry) {
-            Craft::$app->getElements()->saveElement($entry);
-            $return .= '<p>PROJECT '.$entry->title.' saved</p>';
+        if (!in_array($type, ['projects', 'impact'])) {
+            return 'Bad request';
         }
-        $return .= '<hr>';
-        $impact = Entry::find()->section('impact')->all();
-        foreach ($impact as $entry) {
+
+        // Connect to Deltek db
+        try {
+            $this->deltekDb = new \PDO('mysql:host='.getenv('DELTEK_DB_SERVER').';dbname='.getenv('DELTEK_DB_DATABASE').';charset=utf8', getenv('DELTEK_DB_USER'), getenv('DELTEK_DB_PASSWORD'));
+            $this->deltekDb->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        } catch(\PDOException $e) {
+            $this->bomb('PDO Error: ' . $e->getMessage());
+        }
+        $singleTypeName = $type=='projects' ? 'project' : 'impact';
+        $deltekLookupColumn = $type=='projects' ? 'project_num' : 'impact_key';
+        $deltekLookupCraftField = $type=='projects' ? 'projectNumber' : 'impactKey';
+
+        $return = '';
+        $entries = Entry::find()->section($type)->all();
+        foreach ($entries as $entry) {
+            $mediaBlocks = $entry->getFieldValue('mediaBlocks')->all();
+            foreach ($mediaBlocks as $mediaBlock) {
+                if ($mediaBlock->getType()->name === 'Image') {
+                    $deltekId = $mediaBlock->getFieldValue('photoKey');
+
+                    // Deltek ID not set? Try to find it in Deltek db
+                    if (empty($deltekId)) {
+                        $image = $mediaBlock->getFieldValue('image');
+                        $filename = basename(trim($image->filename));
+                        $filename = preg_replace('/jpg$/i','', $filename);
+                        $q = $this->deltekDb->query("SELECT photo_key FROM `{$singleTypeName}_photos` WHERE {$deltekLookupColumn} LIKE '%{$filename}%'");
+                        $deltekId = $q->fetchColumn();
+                        // Did we find anything?
+                        if (!empty($deltekId)) {
+                            $mediaBlock->setFieldValue('photoKey', $deltekId);
+                            Craft::$app->elements->saveElement($mediaBlock);
+                            $deltekIds[] = $deltekId;
+                        }
+                    } else {
+                        $deltekIds[] = $deltekId;
+                    }
+                } else if ($mediaBlock->getType()->name === 'Quote(s)') {
+                    // Quotes are in supertable, but imported quotes are imported as single entries in that supertable (hence [0])
+                    $deltekId = $mediaBlock->getFieldValue('quotes')[0]->getFieldValue('quoteKey');
+                    if (!empty($deltekId)) {
+                        $deltekIds[] = $deltekId;
+                    }
+                } else if ($mediaBlock->getType()->name === 'Stat') {
+                    $deltekId = $mediaBlock->getFieldValue('statKey');
+
+                    // Deltek ID not set? Try to find it in Deltek db
+                    if (empty($deltekId)) {
+                        $deltekLookupId = $entry->getFieldValue($deltekLookupCraftField);
+                        $q = $this->deltekDb->query("SELECT stat_key FROM `{$singleTypeName}_stats` WHERE {$deltekLookupColumn} ='{$deltekLookupId}'");
+                        $deltekId = $q->fetchColumn();
+                        // Did we find anything?
+                        if (!empty($deltekId)) {
+                            $mediaBlock->setFieldValue('statKey', $deltekId);
+                            Craft::$app->elements->saveElement($mediaBlock);
+                            $deltekIds[] = $deltekId;
+                        }
+                    } else {
+                        $deltekIds[] = $deltekId;
+                    }
+                }
+            }
             Craft::$app->getElements()->saveElement($entry);
-            $return .= '<p>IMPACT '.$entry->title.' saved</p>';
+            $return .= '<p>'.$type.' : '.$entry->title.' saved</p>';
         }
         return $return;
     }
@@ -91,17 +146,23 @@ class DeltekImport extends Component
     {
         $deltekIds = [];
         $mediaBlocks = $entry->getFieldValue('mediaBlocks')->all();
-        // echo'<pre>';var_dump($mediaBlocks);echo'</pre>'; die();
         foreach ($mediaBlocks as $mediaBlock) {
             if ($mediaBlock->getType()->name === 'Image') {
-                $deltekIds[] = $mediaBlock->getFieldValue('photoKey');
+                $deltekId = $mediaBlock->getFieldValue('photoKey');
+                if (!empty($deltekId)) {
+                    $deltekIds[] = $mediaBlock->getFieldValue('photoKey');
+                }
             } else if ($mediaBlock->getType()->name === 'Quote(s)') {
                 // Quotes are in supertable, but imported quotes are imported as single entries in that supertable (hence [0])
-                if (!empty($mediaBlock->getFieldValue('quotes')[0]->getFieldValue('quoteKey'))) {
-                    $deltekIds[] = $mediaBlock->getFieldValue('quotes')[0]->getFieldValue('quoteKey');
+                $deltekId = $mediaBlock->getFieldValue('quotes')[0]->getFieldValue('quoteKey');
+                if (!empty($deltekId)) {
+                    $deltekIds[] = $deltekId;
                 }
             } else if ($mediaBlock->getType()->name === 'Stat') {
-                $deltekIds[] = $mediaBlock->getFieldValue('statKey');
+                $deltekId = $mediaBlock->getFieldValue('statKey');
+                if (!empty($deltekId)) {
+                    $deltekIds[] = $mediaBlock->getFieldValue('statKey');
+                }
             }
         }
         return $deltekIds;
