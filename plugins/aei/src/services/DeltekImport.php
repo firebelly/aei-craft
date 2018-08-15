@@ -66,13 +66,13 @@ class DeltekImport extends Component
     public function updateAllDeltekIds()
     {
         $return = '';
-        $projects = Entry::find()->section('projects')->limit(5);
+        $projects = Entry::find()->section('projects')->all();
         foreach ($projects as $entry) {
             Craft::$app->getElements()->saveElement($entry);
             $return .= '<p>PROJECT '.$entry->title.' saved</p>';
         }
         $return .= '<hr>';
-        $impact = Entry::find()->section('impact')->limit(5);
+        $impact = Entry::find()->section('impact')->all();
         foreach ($impact as $entry) {
             Craft::$app->getElements()->saveElement($entry);
             $return .= '<p>IMPACT '.$entry->title.' saved</p>';
