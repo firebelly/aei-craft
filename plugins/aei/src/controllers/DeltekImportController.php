@@ -59,9 +59,11 @@ class DeltekImportController extends Controller
         }
     }
 
-    /** Update all deltekId fields for projects/imact */
+    /**
+     * Update all deltekId fields for projects/impact
+     */
     public function actionUpdateAllDeltekIds() {
-        $type = Craft::$app->getRequest()->get('type') ?? 'projects';
+        $type = Craft::$app->getRequest()->get('importType') ?? 'projects';
         return AEI::$plugin->deltekImport->updateAllDeltekIds($type);
     }
 
