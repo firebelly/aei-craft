@@ -40,7 +40,8 @@
     "topshelfcraft/wordsmith": "3.0.2",
     "firebelly/aei": "^1.0",
     "amimpact/command-palette": "3.1.4",
-    "ether/seo": "v3.3.0"
+    "ether/seo": "v3.3.0",
+    "dolphiq/redirect": "v1.0.17"
   },
   "autoload": {
     "psr-4": {
