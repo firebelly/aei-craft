@@ -132,12 +132,12 @@
 }
 
 @mixin font-captions {
-  @include formular-mono;
+  @include formular-regular;
   @include paragraph-style (12, 24, $ls: .075em);
 }
 
 @mixin font-buttons {
-  @include formular-mono;
+  @include formular-regular;
   @include paragraph-style (12, 16, $ls: .075em);
 }
 
