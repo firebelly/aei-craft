@@ -12,3 +12,4 @@ public/.well-known
 *.pyc
 web/uploads/
 php.ini
+.todo
