@@ -12,17 +12,12 @@
     content: '';
     width: 200%; // 100% if they choose half-covering overlay
     height: 200%;
+    opacity: .66;
     background: $red;
     position: absolute;
     transition: transform 0.3s $ease;
     transform: skew(-18deg) translateX(-100%);
 
-  }
-  &::before {
-    mix-blend-mode: color;
-  }
-  &::after {
-    opacity: 0.66;
   }
   &:hover {
     &::after, &::before {

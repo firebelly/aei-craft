@@ -6,7 +6,7 @@
 
 {% set projectColor = (project.colorSwatch.label ?? null) ? project.colorSwatch.label|lower : 'black' %}
 
-<article class="project module project-module bigclicky">
+<article class="project module project-module bigclicky color-{{ projectColor }}">
   <div class="image-wrap -{{ projectAspectRatio }}">
     {% if projectImage %}
       <div class="project-image lazy image" style="background-image: url('');" data-original="{{ projectImage.getUrl('thumb') }}"></div>
