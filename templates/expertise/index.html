@@ -135,7 +135,7 @@ First we determine which. #}
     <div class="masonry-grid">
       <div class="masonry-sizer"></div>
       <ul class="semantic-only-list infinite-scroll-container">
-        <div class="masonry-item intro-block pull-to-top-h1">
+        <div class="masonry-item intro-block">
           {{ introModule }}
         </div>
         {% for project in projectEntries %}
@@ -156,7 +156,7 @@ First we determine which. #}
 
     {# Top row: project text and first project (wrapped so they can visually align) #}
     <div class="row -halves">
-      <div class="row-block intro-block pull-to-top-h1">
+      <div class="row-block intro-block">
         {{ introModule }}
       </div>
       {% set project = projectEntries ? projectEntries[0] : false %}
