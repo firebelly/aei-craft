@@ -28,7 +28,7 @@ var FB = (function($) {
     $document = $(document);
     $header = $('.site-header');
     $body = $('body');
-    $nav = $('.site-nav');
+    $header = $('.site-nav');
     $body.addClass('loaded');
 
     // Set screen size vars
@@ -111,7 +111,7 @@ var FB = (function($) {
     _initTableSort();
     _initContactModal();
     _initSearch();
-    _initStickyNav();
+    _initStickyHeader();
     _fitFigures();
     _hangQuotes();
 
@@ -166,14 +166,14 @@ var FB = (function($) {
     });
   }
 
-  // Code for sticky nav
-  function _initStickyNav() {
+  // Code for sticky header
+  function _initStickyHeader() {
 
-    // Make StickyNav class
-    function StickyNav() {
+    // Make StickyHeader class
+    function StickyHeader() {
 
       // Cached jqueries
-      var $nav = $('#sticky-nav');
+      var $header = $('#sticky-header');
 
       // The reason I did all this...
       var turningPoint = 250;
@@ -186,7 +186,7 @@ var FB = (function($) {
 
       var scrolled, scrollingUp, stuck;
 
-      // Determine whether nav should be sticky and make it so
+      // Determine whether header should be sticky and make it so
       this.refreshState = function () {
         lastScrollTop = scrollTop;
         scrollTop = $(window).scrollTop();
@@ -197,40 +197,40 @@ var FB = (function($) {
           if(scrolled) {
 
             // Mark this as is currently scrolled
-            $nav.addClass('-scrolled');
+            $header.addClass('-scrolled');
 
             if(!stuck) {
               // Mark this as having had scrolled at some point
-              $nav.addClass('-stuck');
+              $header.addClass('-stuck');
               stuck = true;
 
               turningPoint = 128;
 
               // Prevent a transition
-              $nav.css('transition','none');
+              $header.css('transition','none');
               setTimeout(function () {
-                $nav.css('transition','');
+                $header.css('transition','');
               },1);
             }
 
           }
-          if(!scrolled){ $nav.removeClass('-scrolled'); }
+          if(!scrolled){ $header.removeClass('-scrolled'); }
         }
 
         var lastScrollingUp = scrollingUp;
         scrollingUp = lastScrollTop > scrollTop;
         if (scrollingUp !== lastScrollingUp ) {
-          if(scrollingUp && stuck) { $nav.addClass('-scrolling-up'); }
-          if(!scrollingUp){ $nav.removeClass('-scrolling-up'); }
+          if(scrollingUp && stuck) { $header.addClass('-scrolling-up'); }
+          if(!scrollingUp){ $header.removeClass('-scrolling-up'); }
         }
 
         if(scrollTop < 5 && stuck) {
           stuck = false;
-          $nav.removeClass('-stuck');
+          $header.removeClass('-stuck');
         }
       };
 
-      // Init the stickinav and tie behavior to window events
+      // Init the stickiheader and tie behavior to window events
       this.init = function () {
 
         // Start off in correct state
@@ -255,16 +255,16 @@ var FB = (function($) {
           me.refreshState();
         });
 
-        // Tell CSS the nav is ready to reveal
-        $nav.removeClass('-unloaded');
+        // Tell CSS the header is ready to reveal
+        $header.removeClass('-unloaded');
       };
 
       // Fire away
       this.init();
     }
 
-    // Make the nav
-    _stickyNav = new StickyNav();
+    // Make the header
+    _stickyHeader = new StickyHeader();
   }
 
   function _initSearch() {
