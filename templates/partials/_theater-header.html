@@ -9,17 +9,13 @@
 <div class="theater-header theater-wrap -closed">
   <div class="row -halves theater-cover-top">
     <div class="row-block">
-      <div class="module text-module background-white text-black">
+      <div class="module text-module {% if clearheader is defined %}font-smoothing text-white{% else %}background-white text-black{% endif %}">
         <div class="user-content">
           <p class="font-h1">{{ pageHeader.subheader }}</p>
         </div>
         <div class="buttons {{ entry.slug == 'approach' or entry.slug == 'careers' ? '' : 'theater-play-button-only' }}">
           {% if pageHeader.headerVideo %}
-            <button class="button theater-play">
-              <span class="border"></span><span class="extra-corners"></span>
-              Play Video
-              <svg class="icon icon-triangle"><use xlink:href="#icon-triangle" /></svg>
-            </button>
+            <button class="button -solid theater-play text-off-white background-red">Play Video<svg class="icon icon-triangle"><use xlink:href="#icon-triangle" /></svg></button>
           {% endif %}
           {% if entry.slug == 'approach' %}
             <a href="#services" class="button smoothscroll">
@@ -66,6 +62,3 @@
     </div>
   </div>
 </div>
-
-
-

@@ -29,6 +29,9 @@
 .project-title {
   color: $white;
   padding: $padding;
+  &.-nopad {
+    padding: 0;
+  }
 
   h1, h2 {
     @include font-smoothing;

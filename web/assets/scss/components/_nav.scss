@@ -14,7 +14,7 @@
   }
 
   .primary-links {
-    @include font-h2;
+    @include paragraph-style(22, 32, $ls: -.025em);
     @include font-smoothing;
 
     @include media-md {
@@ -29,38 +29,39 @@
         text-decoration: none;
 
         // Hover Arrow
-        &::after {
-          right: 0;
-          opacity: 0;
-          bottom: 3px;
-          content: '';
-          width: 11.1px;
-          height: 15.7px;
-          position: absolute;
-          background-size: 100% 100%;
-          background-repeat: no-repeat;
-          background-image: url('../svgs/icon-right-arrow-white.svg');
-          @include media-lg {
-            display: none;
-          }
-        }
+        // &::after {
+        //   right: 0;
+        //   opacity: 0;
+        //   bottom: 3px;
+        //   content: '';
+        //   width: 11.1px;
+        //   height: 15.7px;
+        //   position: absolute;
+        //   background-size: 100% 100%;
+        //   background-repeat: no-repeat;
+        //   background-image: url('../svgs/icon-right-arrow-white.svg');
+        //   @include media-lg {
+        //     display: none;
+        //   }
+        // }
       }
 
       &.current a, a:hover {
         color: $red;
-        &::after {
-          opacity: 1;
-        }
+        // &::after {
+        //   opacity: 1;
+        // }
       }
 
-      a:hover {
-        &::after {
-          animation: right-arrow-hover $ease 0.3s;
-        }
-      }
+      // a:hover {
+      //   &::after {
+      //     animation: right-arrow-hover $ease 0.3s;
+      //   }
+      // }
 
       @include media-md {
         display: inline-block;
+        padding: $beat $beat*2;
       }
     }
   }

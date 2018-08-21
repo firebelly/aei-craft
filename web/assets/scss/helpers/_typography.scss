@@ -101,8 +101,8 @@
 }
 
 // Mixin to easily declare everything we care about for a paragraph style
-@mixin paragraph-style ($size,$lh, $ls: 0em, $tt: none) {
-  @include font-size($size,$lh);
+@mixin paragraph-style ($size, $lh, $ls: 0em, $tt: none) {
+  @include font-size($size, $lh);
   letter-spacing: $ls;
   text-transform: $tt;
 }
@@ -130,6 +130,9 @@
 @mixin font-h2 {
   @include formular-regular;
   @include paragraph-style (22, 32, $ls: -.025em);
+  @include media-xl {
+    @include paragraph-style (33, 40, $ls: -.025em);
+  }
 }
 
 @mixin font-filter {

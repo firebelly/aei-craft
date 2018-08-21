@@ -2,7 +2,7 @@
 
 .sidebar {
   @include global-padding;
-  
+
   @include media-lg {
     left: 0;
     bottom: 0;
@@ -19,7 +19,6 @@
     @include font-copyright;
 
     li {
-      margin-top: 4*$beat;
       &:first-of-type {
         margin-top: 0;
       }
@@ -32,7 +31,9 @@
     }
 
     a {
+      display: block;
       text-decoration: none;
+      padding: 1*$beat 0;
       &:hover,
       &:focus {
         color: $red;

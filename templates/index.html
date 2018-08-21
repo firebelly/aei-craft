@@ -3,7 +3,7 @@
 {% block content %}
 
   {% for pageHeader in entry.pageHeader.all() %}
-    {% include '/partials/_theater-header' %}
+    {% include '/partials/_theater-header' with { clearheader: 'yes' } %}
   {% endfor %}
 
   {% set rowNumber = 0 %}
@@ -20,7 +20,7 @@
 
           <div class="row -halves {{ cycle(['','-flip-order-md'],rowNumber) }}">
             <div class="row-block">
-              <div class="module image-wrap -landscape -portrait-md">
+              <div class="module image-wrap -square">
                 {% set image = project.projectImage.one() %}
                 {% if image %}
                    <div class="image lazy" style="background-image: url('');" data-original="{{ image.getUrl('header') }}"></div>
@@ -31,11 +31,21 @@
               <div class="module text-module background-{{ projectColor }} text-off-white font-smoothing">
                 <p class="font-h1">{{ project.projectTagline }}</p>
                 <div class="buttons">
-                  <a class="button" href="{{ project.url }}">
-                    <span class="border"></span><span class="extra-corners"></span>
-                    View Project
-                    <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
-                  </a>
+                  <div class="row -halves">
+                    <div class="row-block">
+                      <div class="project-title -nopad">
+                        <h1 class="font-p"><a href="{{ project.url }}">{{ project.projectClientName }}</a></h1>
+                        <h2 class="font-captions">{{ project.projectName }}</h2>
+                      </div>
+                    </div>
+                    <div class="row-block">
+                      <a class="button -right" href="{{ project.url }}">
+                        <span class="border"></span><span class="extra-corners"></span>
+                        View Project
+                        <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -49,7 +59,7 @@
 
         <div class="row -halves {{ cycle(['','-flip-order-md'],rowNumber) }}">
           <div class="row-block">
-            <div class="module image-wrap -landscape -portrait-md">
+            <div class="module image-wrap -square">
               {% set image = block.featureImage.one() %}
               {% if image %}
                  <div class="image lazy" style="background-image: url('');" data-original="{{ image.getUrl('header') }}"></div>
@@ -72,7 +82,6 @@
 
       {% case "impact" %}
 
-
         {% set impactPosts = block.impactPosts.all() %}
         {% if impactPosts|length < 2 %}
           {% set omitId = impactPosts|length == 1 ? impactPosts[0].id : 0 %}
@@ -80,10 +89,9 @@
           {% set impactPosts = impactPosts|merge(extraImpactPosts) %}
         {% endif %}
 
-
         <ul class="row -halves -separators semantic-only-list">
           {% for post in impactPosts %}
-            <li class="row-block   separate">
+            <li class="row-block separate">
               {% include 'impact/_article' %}
             </li>
           {% endfor %}
