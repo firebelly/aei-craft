@@ -72,7 +72,7 @@
 // Post Articles
 .post-module {
   position: relative;
-  padding: $padding $padding ($padding+36px);
+  padding: $padding-sm $padding-sm ($padding-sm+36px);
 
   .category {
     color: $red;
@@ -85,7 +85,20 @@
   }
   .button {
     position: absolute;
-    bottom: $padding;
+    bottom: $padding-sm;
+    @include media-md {
+      bottom: $padding-md;
+    }
+    @include media-lg {
+      bottom: $padding-lg;
+    }
+  }
+
+  @include media-md {
+    padding: $padding-md $padding-md ($padding-md+36px);
+  }
+  @include media-lg {
+    padding: $padding-lg $padding-lg ($padding-lg+36px);
   }
 }
 

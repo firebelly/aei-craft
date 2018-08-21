@@ -12,7 +12,7 @@
   }
 
   @include media-xl {
-    min-height: calc((100vw - #{$nav-max-width}) * .667);
+    min-height: calc((100vw - #{$sidebar-max-width}) * .667);
   }
 
   .row {
@@ -62,7 +62,7 @@
   }
 
   @include media-xl {
-    min-height: calc((100vw - #{$nav-max-width})*9/16);
+    min-height: calc((100vw - #{$sidebar-max-width})*9/16);
   }
 
   .row {

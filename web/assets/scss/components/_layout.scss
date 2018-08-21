@@ -2,14 +2,16 @@
 
 .right-col-wrap {
   width: 100%;
-  padding-left: $padding;
 
   @include media-lg {
-    padding-left: 33.33%;
+    padding-left: 50%;
+    .right-col {
+      border-left: 1px solid $concrete-light;
+    }
   }
 
   @include media-xl {
-    padding-left: $nav-max-width;
+    padding-left: $sidebar-max-width;
   }
 
   .right-col {
@@ -21,6 +23,19 @@
     .site-main {
       flex: 1;
       @include clearfix;
+    }
+  }
+}
+
+// No sidebar on Homepage/Search page
+body.page-home,
+body.page-search {
+  .right-col-wrap {
+    @include media-lg {
+      padding-left: 0;
+    }
+    @include media-xl {
+      padding-left: 0;
     }
   }
 }

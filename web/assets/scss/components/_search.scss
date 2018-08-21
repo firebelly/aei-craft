@@ -23,7 +23,7 @@
   }
 
   @include media-xl {
-    left: $nav-max-width;
+    left: $sidebar-max-width;
   }
 
   &.active {

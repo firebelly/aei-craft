@@ -7,73 +7,21 @@
   <body class="{% if bodyClass is defined %}{{ bodyClass }}{% endif %} page-{{ segment(1) ? segment(1) : 'home' }}" {% if bodyId is defined %}id="{{ bodyId }}"{% endif %}>
     <div id="breakpoint-indicator"></div>
 
-    <nav class="site-nav" role="navigation">
+    {% include '/partials/_header' %}
 
-      <div class="top-nav">
-        <div class="search-open nav-content">
-          Search<svg class="icon-search"><use xlink:href="#icon-search" /></svg>
-        </div>
-        <ul class="secondary-links semantic-only-list">
-          <li class="secondary-links-item {{ active('/careers/', 'url', 'current') }}">
-            <a href="/careers/">Careers</a>
-          </li>
-          <li class="secondary-links-item {{ active('/contact/', 'url', 'current') }}">
-            <a href="/contact/">Contact</a>
-          </li>
-          <li class="secondary-links-item {{ active('', 'url', 'current') }} home-link">
-            <a href="/">Home</a>
-          </li>
-        </ul>
-      </div>
+    {% if segment(1) %}
+    <nav class="sidebar" role="navigation">
 
-      <div class="lockup nav-content">
-        <div class="affiliated-engineers bigclicky">
-          <h1 class="sr-only"><a href="/">{{ siteName }}</a></h1>
-          <svg class="logo"><use xlink:href="#affiliated-engineers-logo" /></svg>
-        </div>
-        <ul class="plan-design-commission">
-          <li>Plan</li>
-          <li>Design</li>
-          <li>Commission</li>
-        </ul>
-      </div>
-
-      <ul class="primary-links semantic-only-list nav-content">
-        {% for navItem in [
-          { slug: 'expertise', urlMatches: 'expertise|projects' },
-          { slug: 'impact', urlMatches: 'impact' },
-          { slug: 'approach', urlMatches: 'approach|services|offices|awards' },
-          { slug: 'people', urlMatches: 'people' },
-        ] %}
-          <li class="primary-links-item {{ active(navItem.urlMatches, 1, 'current') }}">
-            <a href="/{{ navItem.slug }}/">{{ navItem.slug|capitalize }}</a>
-          </li>
-        {% endfor %}
-      </ul>
-
-      <ul class="filters semantic-only-list nav-content">
+      <ul class="filters semantic-only-list">
         {% block filters %}{% endblock %}
       </ul>
 
     </nav>
-    {% if category is defined and segment(1) != 'services' %}
-      <div class="current-filter-label font-details">
-        {{ category }}
-        <a href="/{{ segment(1) }}/" class="close-filter"><svg class="icon-x"><use xlink:href="#icon-x" /></svg></a>
-      </div>
     {% endif %}
-    {% if segment(1) in ['people', 'expertise', 'impact'] %}
-      <div class="open-filters font-details">
-        Filters
-      </div>
-    {% endif %}
-    <div class="nav-open"><svg class="icon-hamburger"><use xlink:href="#icon-hamburger" /></svg></div>
-    <div class="nav-close"><svg class="icon-x"><use xlink:href="#icon-x" /></svg></div>
 
     <div class="right-col-wrap">
       <div class="right-col">
 
-        {% include '/partials/_header' %}
         <main class="site-main" role="main">
 
           {% block content %}{% endblock %}

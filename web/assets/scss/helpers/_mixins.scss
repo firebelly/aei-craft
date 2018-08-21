@@ -77,3 +77,14 @@
     @content;
   }
 }
+
+// Global Padding
+@mixin global-padding {
+  padding: $padding-sm;
+  @include media-md {
+    padding: $padding-md;
+  }
+  @include media-lg {
+    padding: $padding-lg;
+  }
+}

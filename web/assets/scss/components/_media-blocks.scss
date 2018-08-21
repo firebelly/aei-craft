@@ -2,11 +2,16 @@
 .stat-module {
   overflow: hidden;
   background-color: $white;
-  padding: 1.5*$padding $padding;
+  padding: 1.5*$padding-sm $padding-sm;
 
   @include media-md {
     display: flex;
     align-items: center;
+    padding: 1.5*$padding-md $padding-md;
+  }
+
+  @include media-lg {
+    padding: 1.5*$padding-lg $padding-lg;
   }
 
   .centering-wrap {
@@ -74,9 +79,9 @@
 .stat-two-figure-module {
   height: 100%;
   overflow: hidden;
-  padding: $padding;
   background: $white;
   position: relative;
+  @include global-padding;
 
   .slash-wrap {
     height: 100%;
@@ -172,7 +177,7 @@
       }
 
       @include media-xl {
-        height: calc( (100vw - #{$nav-max-width})/2*(2/3) );
+        height: calc( (100vw - #{$sidebar-max-width})/2*(2/3) );
       }
     }
   }
@@ -229,7 +234,7 @@
 
 // Text
 .text-module {
-  padding: $padding;
+  @include global-padding;
 
   .buttons {
     @include clearfix;

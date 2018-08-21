@@ -2,72 +2,23 @@
 
 .site-nav {
   @include hardware-acceleration;
-  top: 0;
-  left: 0;
-  height: 100%;
-  z-index: 100;
-  display: flex;
-  position: fixed;
-  right: $padding;
-  overflow-y: auto;
-  padding: $padding;
-  flex-direction: column;
-  background: $concrete-light;
+  width: 100%;
+  background: $white;
   transition: transform 0.2s $ease;
 
-
-  @include min-screen(900px) {
-    right: auto;
-    width: calc( 50% - #{$padding/2} );
-  }
-
   @include media-lg {
-    width: 33.33%;
+    width: auto;
+    float: right;
     transition: none;
-  }
-
-  @include media-xl {
-    width: $nav-max-width;
-  }
-
-  .top-nav {
-    @include clearfix;
-
-    .search-open {
-      float: left;
-    }
-    .secondary-links {
-      float: right;
-    }
-
-    @include media-lg {
-      display: none;
-    }
-  }
-
-  .lockup {
-    display: none;
-
-    @include media-lg {
-      display: block;
-      margin-top: 4px;
-
-      @include min-screen-height(750px) {
-        margin-top: 12*$beat;
-      }
-    }
+    text-align: right;
   }
 
   .primary-links {
     @include font-h2;
     @include font-smoothing;
 
-    margin: 84px 0 0;
-
-    @include media-lg {
-      @include min-screen-height(810px) {
-        margin-top: 122px;
-      }
+    @include media-md {
+      text-align: right;
     }
 
     .primary-links-item {
@@ -77,6 +28,7 @@
       a {
         text-decoration: none;
 
+        // Hover Arrow
         &::after {
           right: 0;
           opacity: 0;
@@ -88,11 +40,14 @@
           background-size: 100% 100%;
           background-repeat: no-repeat;
           background-image: url('../svgs/icon-right-arrow-white.svg');
+          @include media-lg {
+            display: none;
+          }
         }
       }
 
       &.current a, a:hover {
-        color: $white;
+        color: $red;
         &::after {
           opacity: 1;
         }
@@ -103,44 +58,9 @@
           animation: right-arrow-hover $ease 0.3s;
         }
       }
-    }
-  }
 
-  .filters {
-    @include font-filter;
-    @include font-smoothing;
-    @include semantic-only-list;
-    margin: 85px 0 0;
-
-    @include media-lg {
-      @include min-screen-height(810px) {
-        margin-top: 110px;
-      }
-    }
-
-    .filters-item {
-      display: inline;
-
-      a {
-        color: $black;
-        text-decoration: none;
-
-        &::after {
-          content: '/';
-          color: $black;
-          margin-left: 0.8ch;
-          margin-right: 0.4ch;
-        }
-      }
-
-      &.current a, a:hover {
-        color: $white;
-      }
-
-      &:last-child {
-        a::after {
-          display: none;
-        }
+      @include media-md {
+        display: inline-block;
       }
     }
   }
@@ -175,6 +95,20 @@
       text-decoration: underline;
     }
   }
+
+  .search-open {
+    float: right;
+
+    @include media-lg {
+      float: none;
+    }
+  }
+
+  @include media-lg {
+    li {
+      display: inline-block;
+    }
+  }
 }
 
 .nav-close {
@@ -205,13 +139,16 @@
 
 .nav-open {
   @include hardware-acceleration;
-  top: 0;
-  left: 0;
-  height: 100%;
-  position: fixed;
   width: $padding;
   cursor: pointer;
-  background-color: $concrete-light;
+  top: $padding-sm;
+  right: $padding-sm;
+  position: absolute;
+
+  @include media-md {
+    top: $padding-md;
+    right: $padding-md;
+  }
 
   @include media-lg {
     display: none;
@@ -227,54 +164,10 @@
   }
 }
 
-.current-filter-label, .open-filters {
-  @include hardware-acceleration;
-  top: 132px;
-  z-index: 2;
-  right: 100%;
-  position: fixed;
-  text-align: right;
-  white-space: nowrap;
-  line-height: $padding;
-  transform-origin: 100% 0%;
-  transform: rotate(-90deg);
-  transition: opacity 0.2s $ease;
-
-  @include media-md {
-    top: 172px;
-  }
-
-  a.close-filter {
-    position: absolute;
-    top: 0;
-    left: 100%;
-    padding: 0 2*$beat;
-
-    &:hover {
-      .icon-x {
-        fill: $black;
-      }
-    }
-
-    .icon-x {
-      width: 7px;
-      height: 7px;
-      fill: $white;
-    }
-  }
-  @include media-lg {
-    display: none;
-  }
-}
-
-.open-filters {
-  cursor: pointer;
-}
-
-@include max-screen ($breakpoint-lg - 1px) {
+@include max-screen($breakpoint-lg - 1px) {
    body.site-nav-closed, body:not(.loaded) {
     .site-nav {
-      transform: translateX(-100%);
+      transform: translateX(100%);
     }
     .nav-close {
       opacity: 0;

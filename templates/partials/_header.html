@@ -1,34 +1,43 @@
-<header class="site-header row -halves" role="banner">
-  <div class="lockup-block row-block">
+<header id="sticky-header" class="site-header" role="banner">
+  <div class="lockup-block">
     <div class="lockup bigclicky">
       <div class="affiliated-engineers">
         <h1 class="sr-only"><a href="/">{{ siteName }}</a></h1>
         <svg class="logo"><use xlink:href="#affiliated-engineers-logo" /></svg>
       </div>
-      <ul class="plan-design-commission">
-        <li>Plan</li>
-        <li>Design</li>
-        <li>Commission</li>
-      </ul>
     </div>
   </div>
-</header>
 
-<nav id="sticky-nav" class="row -halves">
-  <div class="search-block row-block">
-    <div class="search-open">
-      Search<svg class="icon-search"><use xlink:href="#icon-search" /></svg>
-    </div>
-  </div>
-  <ul class="secondary-links links-block row-block">
-    {% if entry is defined and entry.isEditable() %}
-      <li class="secondary-links-item edit-link"><a href="{{ entry.cpEditUrl }}">Edit Entry</a></li>
-    {% endif %}
-    <li class="secondary-links-item {{ active('/careers/', 'url', 'current') }}">
-      <a href="/careers/">Careers</a>
-    </li>
-    <li class="secondary-links-item {{ active('/contact/', 'url', 'current') }}">
-      <a href="/contact/">Contact</a>
-    </li>
-  </ul>
-</nav>
+  <nav class="site-nav">
+    <ul class="secondary-links links-block">
+      {% if entry is defined and entry.isEditable() %}
+        <li class="secondary-links-item edit-link"><a href="{{ entry.cpEditUrl }}">Edit Entry</a></li>
+      {% endif %}
+      <li class="secondary-links-item {{ active('/careers/', 'url', 'current') }}">
+        <a href="/careers/">Careers</a>
+      </li>
+      <li class="secondary-links-item {{ active('/contact/', 'url', 'current') }}">
+        <a href="/contact/">Contact</a>
+      </li>
+      <li class="search-open">
+        Search<svg class="icon-search"><use xlink:href="#icon-search" /></svg>
+      </li>
+    </ul>
+
+    <ul class="primary-links semantic-only-list nav-content">
+      {% for navItem in [
+        { slug: 'expertise', urlMatches: 'expertise|projects' },
+        { slug: 'impact', urlMatches: 'impact' },
+        { slug: 'approach', urlMatches: 'approach|services|offices|awards' },
+        { slug: 'people', urlMatches: 'people' },
+      ] %}
+        <li class="primary-links-item {{ active(navItem.urlMatches, 1, 'current') }}">
+          <a href="/{{ navItem.slug }}/">{{ navItem.slug|capitalize }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </nav>
+
+  <div class="nav-open"><svg class="icon-hamburger"><use xlink:href="#icon-hamburger" /></svg></div>
+  <div class="nav-close"><svg class="icon-x"><use xlink:href="#icon-x" /></svg></div>
+</header>

@@ -1,0 +1,87 @@
+// Sidebar
+
+.sidebar {
+  @include global-padding;
+  
+  @include media-lg {
+    left: 0;
+    bottom: 0;
+    position: fixed;
+    top: $header-height-lg;
+    width: $sidebar-max-width;
+    max-height: calc(100vh - $header-height-lg);
+  }
+
+  // Filters
+  .filters {
+    max-height: 100%;
+    overflow-y: auto;
+    @include font-copyright;
+
+    li {
+      margin-top: 4*$beat;
+      &:first-of-type {
+        margin-top: 0;
+      }
+
+      &.current {
+        a {
+          color: $red;
+        }
+      }
+    }
+
+    a {
+      text-decoration: none;
+      &:hover,
+      &:focus {
+        color: $red;
+      }
+    }
+  }
+}
+
+// MS — not sure if this is being used anywhere...
+.current-filter-label, .open-filters {
+  @include hardware-acceleration;
+  top: 132px;
+  z-index: 2;
+  right: 100%;
+  position: fixed;
+  text-align: right;
+  white-space: nowrap;
+  line-height: $padding;
+  transform-origin: 100% 0%;
+  transform: rotate(-90deg);
+  transition: opacity 0.2s $ease;
+
+  @include media-md {
+    top: 172px;
+  }
+
+  a.close-filter {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    padding: 0 2*$beat;
+
+    &:hover {
+      .icon-x {
+        fill: $black;
+      }
+    }
+
+    .icon-x {
+      width: 7px;
+      height: 7px;
+      fill: $white;
+    }
+  }
+  @include media-lg {
+    display: none;
+  }
+}
+
+.open-filters {
+  cursor: pointer;
+}
