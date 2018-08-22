@@ -17,6 +17,7 @@
 var FB = (function($) {
 
   var screen_width = 0,
+      delayed_resize_timer,
       breakpoint_xs = false,
       breakpoint_sm = false,
       breakpoint_md = false,
@@ -131,22 +132,19 @@ var FB = (function($) {
   function _fitFigures() {
     $('.fit-figure').each( function () {
 
-      // Who am i?
       var $figure = $(this);
-
-      // What should I fit?
       var $container = $figure.closest('.fit-figure-container');
 
       // Try 10 sizes, one after the other, til I don't fit no more
       for (i=1; i<10; i++) {
 
         // Set the font size
-        $figure.css('font-size',i+'em');
+        $figure.css('font-size', i + 'em');
         $figure.attr('data-figure-size', i); // We'll use this data-attr for tying figures
 
         // If I'm too big, go with one size smaller
-        if($figure.width()>=$container.width()) {
-          $figure.css('font-size', (i-1)+'em');
+        if($figure.width() >= $container.width()) {
+          $figure.css('font-size', (i-1) + 'em');
           $figure.attr('data-figure-size', i-1);
           break;
         }
@@ -158,10 +156,10 @@ var FB = (function($) {
       var $figures = $(this).find('.fit-figure');
       $figures.each(function () {
         var size = parseInt( $(this).attr('data-figure-size') );
-        smallest = Math.min(smallest,size);
+        smallest = Math.min(smallest, size);
       });
 
-      $figures.css('font-size', smallest+'em');
+      $figures.css('font-size', smallest + 'em');
       $figures.attr('data-figure-size', smallest);
     });
   }
@@ -319,7 +317,6 @@ var FB = (function($) {
         });
 
         $('.search-section-title').each(function () {
-          console.log('making sticky');
           $this = $(this);
           var sticky = new Waypoint.Sticky({
             element: $this[0],
@@ -639,11 +636,16 @@ var FB = (function($) {
     breakpoint_sm = breakpointIndicatorString === 'sm' || breakpoint_md;
     breakpoint_xs = breakpointIndicatorString === 'xs' || breakpoint_sm;
 
-    // Refit stats
-    _fitFigures();
-
     // Refix waypoints
     Waypoint.refreshAll();
+  }
+
+  function _delayed_resize() {
+    clearTimeout(delayed_resize_timer);
+    delayed_resize_timer = setTimeout(function() {
+      // Refit stats
+      _fitFigures();
+    }, 250);
   }
 
   function _initMasonry() {
@@ -664,6 +666,7 @@ var FB = (function($) {
   return {
     init: _init,
     resize: _resize,
+    delayed_resize: _delayed_resize,
     scrollBody: function(section, duration, delay) {
       _scrollBody(section, duration, delay);
     }
@@ -676,3 +679,6 @@ jQuery(document).ready(FB.init);
 
 // Zig-zag the mothership
 jQuery(window).resize(FB.resize);
+
+// Zig-zag the mothership
+jQuery(window).resize(FB.delayed_resize);

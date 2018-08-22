@@ -22,16 +22,14 @@
 
 {% else %}
 
-
-  {% set figureChars = block.statFigure|length %}
-
   <article class="module stat-module">
-    <div class="centering-wrap">
+    <div class="stat-one-figure-wrap">
       <div class="figure fit-figure-container">
-        <span class="slash-wrap fit-figure">
+        <span class="fit-figure">
           {{ block.statFigure|escape|replace(substitutions)|raw }}
         </span>
       </div>
+      <div class="slash"></div>
       <div class="label">
         <div class="text-wrap">{{ block.statLabel }}</div>
       </div>
