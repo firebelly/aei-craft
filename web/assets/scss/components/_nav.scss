@@ -14,7 +14,7 @@
   }
 
   .primary-links {
-    @include paragraph-style(22, 32, $ls: -.025em);
+    @include font-nav;
     @include font-smoothing;
 
     @include media-md {
@@ -71,7 +71,7 @@
   @include font-buttons;
   @include semantic-only-list;
 
-  .secondary-links-item {
+  li {
     display: block;
     text-align: right;
     &:first-of-type {
@@ -91,8 +91,11 @@
         position: static;
       }
     }
-
-    &.current a, a:hover {
+    a {
+      text-decoration: none;
+    }
+    &.current a,
+    a:hover {
       text-decoration: underline;
     }
   }
