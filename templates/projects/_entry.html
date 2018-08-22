@@ -2,15 +2,15 @@
 {% set bodyClass = 'single overlapping-header' %}
 
 {% block filters %}
-  <li class="filters-item">
-    <a href="/expertise/">All</a>
-  </li>
-  {% set entryMarketIds = entry.markets.ids() %}
-  {% for cat in craft.categories.group('markets').all() %}
-    <li class="filters-item {% if cat.id in entryMarketIds %}current{% endif %}">
-      <a href="{{ cat.url }}">{{ cat.title }}</a>
-    </li>
-  {% endfor %}
+  <h2 class="font-nav"><a href="/projects/">Projects</a></h2>
+  <ul class="filters semantic-only-list">
+    {% set entryMarketIds = entry.markets.ids() %}
+    {% for cat in craft.categories.group('markets').all() %}
+      <li class="{% if cat.id in entryMarketIds %}active{% endif %}">
+        <a href="{{ cat.url }}">{{ cat.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
 {% endblock %}
 
 {% block content %}
@@ -36,7 +36,7 @@
           <div class="user-content">{{ entry.body }}</div>
         </div>
       </div>
-      <div class="row-block last-on-sm">
+      <div class="row-block last-on-sm nospace">
         <div class="meta">
           {% if entry.services | length %}
             <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">

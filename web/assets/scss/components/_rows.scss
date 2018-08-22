@@ -5,7 +5,8 @@
 
   // In special cases, particularly the person page, use float instead of flexbox
   &.-use-float {
-    &, &.-halves {
+    &,
+    &.-halves {
       display: block;
       @include clearfix
       .row-block {
@@ -39,13 +40,12 @@
   }
 
   &.-spaced {
-    .row-block {
+    .row-block:not(.top-overlap-h1):not(.top-overlap-p):not(.nospace) {
       @include media-md {
         margin-top: $padding;
       }
     }
   }
-
 
   &.-single {
     .row-block {

@@ -48,14 +48,14 @@
 {% endif %}
 
 {% block filters %}
-  <li class="filters-item {{ (category is not defined) ? 'current' : '' }}">
-    <a href="/expertise/">All</a>
-  </li>
-  {% for cat in craft.categories.group('markets').all() %}
-    <li class="filters-item {{ active(cat.url, 'url', 'current') }}">
-      <a href="{{ cat.url }}">{{ cat.title }}</a>
-    </li>
-  {% endfor %}
+  <h2 class="font-nav {{ (category is not defined) ? 'current' : '' }}"><a href="/projects/">Projects</a></h2>
+  <ul class="filters semantic-only-list">
+    {% for cat in craft.categories.group('markets').all() %}
+      <li class="{{ active(cat.url, 'url', 'current') }}">
+        <a href="{{ cat.url }}">{{ cat.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
 {% endblock %}
 
 {# If the first project is portrait, this page will have an all masonry layout.
