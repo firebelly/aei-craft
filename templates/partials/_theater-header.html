@@ -13,24 +13,12 @@
         <div class="user-content">
           <p class="font-h1">{{ pageHeader.subheader }}</p>
         </div>
-        <div class="buttons {{ entry.slug == 'approach' or entry.slug == 'careers' ? '' : 'theater-play-button-only' }}">
+        <div class="buttons {% if entry is defined %}{{ entry.slug == 'approach' or entry.slug == 'careers' ? '' : 'theater-play-button-only' }}{% endif %}">
           {% if pageHeader.headerVideo %}
             <button class="button -solid theater-play text-off-white background-red">Play Video<svg class="icon icon-triangle"><use xlink:href="#icon-triangle" /></svg></button>
           {% endif %}
-          {% if entry.slug == 'approach' %}
-            <a href="#services" class="button smoothscroll">
-              <span class="border"></span><span class="extra-corners"></span>
-              Services
-              <svg class="icon icon-down-arrow"><use xlink:href="#icon-down-arrow" /></svg>
-            </a>
-            <a href="#locations" class="button smoothscroll">
-              <span class="border"></span><span class="extra-corners"></span>
-              Locations
-              <svg class="icon icon-down-arrow"><use xlink:href="#icon-down-arrow" /></svg>
-            </a>
-          {% endif %}
-          {% if entry.slug == 'careers' %}
-            <a href="https://domestic-aeieng.icims.com/" class="button">
+          {% if entry is defined and entry.slug == 'careers' %}
+            <a rel="noopener" target="_blank" href="https://domestic-aeieng.icims.com/" class="button">
               <span class="border"></span><span class="extra-corners"></span>
               Search Jobs
               <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
