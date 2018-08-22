@@ -4,15 +4,15 @@
   width: 100%;
 
   @include media-lg {
-    padding-left: 50%;
+    padding-left: $sidebar-max-width;
     .right-col {
       border-left: 1px solid $concrete-light;
     }
   }
 
-  @include media-xl {
-    padding-left: $sidebar-max-width;
-  }
+  // @include media-xl {
+  //   padding-left: $sidebar-max-width;
+  // }
 
   .right-col {
     display: flex;
