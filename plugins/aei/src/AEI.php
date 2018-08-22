@@ -109,7 +109,7 @@ class AEI extends Plugin
             }
         });
 
-        // Before saving project or impact, set deltek_ids field for future imports to avoid duplicate mediaBlocks
+        // Before saving Project or Impact, set deltek_ids field for future imports to avoid duplicate mediaBlocks
         Event::on(Elements::class, Elements::EVENT_BEFORE_SAVE_ELEMENT, function(Event $event) {
             if ($event->element instanceof \craft\elements\Entry) {
                 if (!$event->element->propagating) {

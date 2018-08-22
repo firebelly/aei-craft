@@ -57,7 +57,7 @@ class DeltekImport extends Component
     }
 
     /**
-     * Update all deltekId fields for projects and impact
+     * Update all deltekId fields for Projects and Impact (one time update honestly)
      *
      * AEI::$plugin->deltekImport->updateAllDeltekIds()
      *
@@ -86,7 +86,6 @@ class DeltekImport extends Component
             $mediaBlocks = $entry->getFieldValue('mediaBlocks')->all();
             foreach ($mediaBlocks as $mediaBlock) {
                 if ($mediaBlock->getType()->name === 'Image') {
-                    // $deltekId = $mediaBlock->getFieldValue('photoKey');
                     // Force updating all photoKeys
                     $deltekId = '';
 

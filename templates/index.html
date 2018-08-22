@@ -23,14 +23,14 @@
               <div class="module image-wrap -square">
                 {% set image = project.projectImage.one() %}
                 {% if image %}
-                   <div class="image lazy" style="background-image: url('');" data-original="{{ image.getUrl('header') }}"></div>
+                   <a class="image lazy" href="{{ project.url }}" style="background-image: url('');" data-original="{{ image.getUrl('header') }}"></a>
                 {% endif %}
               </div>
             </div>
             <div class="row-block">
-              <div class="module text-module background-{{ projectColor }} text-off-white font-smoothing">
+              <div class="module text-module background-{{ projectColor }} text-off-white font-smoothing featured-project">
                 <p class="font-h1">{{ project.projectTagline }}</p>
-                <div class="buttons">
+                <div class="buttons -bottom">
                   <div class="row -halves">
                     <div class="row-block">
                       <div class="project-title -nopad">
@@ -39,7 +39,7 @@
                       </div>
                     </div>
                     <div class="row-block">
-                      <a class="button -right" href="{{ project.url }}">
+                      <a class="button" href="{{ project.url }}">
                         <span class="border"></span><span class="extra-corners"></span>
                         View Project
                         <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
@@ -62,7 +62,7 @@
             <div class="module image-wrap -square">
               {% set image = block.featureImage.one() %}
               {% if image %}
-                 <div class="image lazy" style="background-image: url('');" data-original="{{ image.getUrl('header') }}"></div>
+                 <a class="image lazy" href="{{ block.featureLink }}" style="background-image: url('');" data-original="{{ image.getUrl('header') }}"></a>
               {% endif %}
             </div>
           </div>
@@ -92,7 +92,7 @@
         <ul class="row -halves -separators semantic-only-list">
           {% for post in impactPosts %}
             <li class="row-block separate">
-              {% include 'impact/_article' %}
+              {% include 'news/_article' %}
             </li>
           {% endfor %}
         </ul>
