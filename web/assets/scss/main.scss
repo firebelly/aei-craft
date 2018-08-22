@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 // Reset
-@import "vendor/normalize";
+@import "helpers/normalize";
 
 // Helpers and Variables
 @import "helpers/variables";
@@ -15,10 +15,9 @@
 @import "helpers/spacing";
 @import "helpers/utilities";
 
-// Vendor
-@import "vendor/slick";
 
 // Components
+@import "components/slick";
 @import "components/base";
 @import "components/layout";
 @import "components/rows";
@@ -42,4 +41,5 @@
 
 // Pages
 @import "pages/pages";
+@import "pages/homepage";
 @import "pages/awards";

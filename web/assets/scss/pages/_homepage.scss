@@ -1,0 +1,32 @@
+// Homepage styles
+
+.page-home {
+  .featured-project {
+    .project-title {
+      margin-bottom: $beat*3;
+    }
+  }
+
+  @include media-md {
+    .featured-project {
+      .project-title {
+        margin: 0;
+      }
+      display: flex;
+      flex-wrap: wrap;
+      p,
+      .buttons {
+        width: 100%;
+        flex-basis: 100%;
+      }
+      .buttons {
+        margin-top: auto;
+        .button {
+          margin-top: $beat;
+          float: right;
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}

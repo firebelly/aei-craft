@@ -38,14 +38,9 @@
 
 // https://css-tricks.com/snippets/css/prevent-long-urls-from-breaking-out-of-container/
 @mixin dont-break-out {
-
-  /* These are technically the same, but use both */
   overflow-wrap: break-word;
   word-wrap: break-word;
-
-  /* Instead use this non-standard one: */
   word-break: break-word;
-
 }
 .dont-break-out {
   @include dont-break-out;

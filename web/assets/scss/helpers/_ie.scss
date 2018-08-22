@@ -1,5 +1,8 @@
 .ie9 {
+	// Sad. Low energy.
 }
 
-// ie form things
-::-ms-clear { display: none; } 
+// Clear out IE form pseudo-elements
+::-ms-clear {
+	display: none;
+}

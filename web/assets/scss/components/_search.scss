@@ -58,7 +58,9 @@
 .search-open {
   @include font-buttons;
   cursor: pointer;
-  text-decoration: underline;
+  &:hover {
+    text-decoration: underline;
+  }
   padding: 0 2*$beat 2*$beat 0;
 
   .icon-search {

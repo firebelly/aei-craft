@@ -135,6 +135,11 @@
   }
 }
 
+@mixin font-nav {
+  @include formular-regular;
+  @include paragraph-style (22, 32, $ls: -.025em);
+}
+
 @mixin font-filter {
   @include formular-regular;
   @include paragraph-style (16.5, 32, $ls: -.025em);
@@ -178,6 +183,7 @@
 .font-p { @include font-p; }
 .font-h1 { @include font-h1; }
 .font-h2 { @include font-h2; }
+.font-nav { @include font-nav; }
 .font-filter { @include font-filter; }
 .font-captions { @include font-captions; }
 .font-buttons { @include font-buttons; }
