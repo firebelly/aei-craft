@@ -7,14 +7,14 @@
 {% set headerSubtitle = entry.personTitle %}
 
 {% block filters %}
-  <li class="filters-item">
-    <a href="/people/">All</a>
-  </li>
-  {% for cat in craft.categories.group('peopleTypes').all() %}
-    <li class="filters-item {% if cat.id == personType.id or cat.id in secondaryPersonTypeIds %}current{% endif %}">
-      <a href="{{ cat.url }}">{{ cat.title }}</a>
-    </li>
-  {% endfor %}
+  <h2 class="font-nav"><a href="/people/">People</a></h2>
+  <ul class="filters semantic-only-list">
+    {% for cat in craft.categories.group('peopleTypes').all() %}
+      <li class="{% if cat.id == personType.id or cat.id in secondaryPersonTypeIds %}active{% endif %}">
+        <a href="{{ cat.url }}">{{ cat.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
 {% endblock %}
 
 {% block content %}

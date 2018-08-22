@@ -35,14 +35,14 @@
 
 
 {% block filters %}
-  <li class="filters-item {{ (category is not defined) ? 'current' : '' }}">
-    <a href="/people/">All</a>
-  </li>
-  {% for cat in craft.categories.group('peopleTypes').all() %}
-    <li class="filters-item {{ active(cat.url, 'url', 'current') }}">
-      <a href="{{ cat.url }}">{{ cat.title }}</a>
-    </li>
-  {% endfor %}
+  <h2 class="font-nav {{ (category is not defined) ? 'current' : '' }}"><a href="/people/">People</a></h2>
+  <ul class="filters semantic-only-list">
+    {% for cat in craft.categories.group('peopleTypes').all() %}
+      <li class="{{ active(cat.url, 'url', 'current') }}">
+        <a href="{{ cat.url }}">{{ cat.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
 {% endblock %}
 
 
@@ -54,7 +54,7 @@
       <div class="module text-module  ">
         <div class="font-h1 user-content">{{ subheader }}</div>
         <div class="buttons">
-          <a class="button" href="/careers/">
+          <a class="button" href="/about/careers/">
             <span class="border"></span><span class="extra-corners"></span>
             Careers
             <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
