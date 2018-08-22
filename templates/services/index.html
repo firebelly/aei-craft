@@ -1,0 +1,46 @@
+{% extends (craft.app.request.isAjax and not craft.app.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
+
+{% block filters %}
+  <h2 class="font-nav {{ (category is not defined) ? 'current' : '' }}"><a href="/services/">Services</a></h2>
+  <ul class="filters semantic-only-list">
+    {% for cat in craft.categories.group('services').all() %}
+      <li class="{{ active(cat.url, 'url', 'current') }}">
+        <a href="{{ cat.url }}">{{ cat.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
+
+{% block content %}
+{% set bodyClass = 'single' %}
+
+  {% for pageHeader in entry.pageHeader.all() %}
+    {% include '/partials/_theater-header' %}
+  {% endfor %}
+
+  <section id="services">
+    <!-- service section header -->
+    <div class="row -halves pad-vertical  ">
+      <div class="row-block">
+        <div class="module text-module">
+          <h2 class="font-h1">Services</h2>
+        </div>
+      </div>
+      <div class="row-block">
+        <div class="module text-module">
+          <div class="user-content">{{ entry.servicesDescription }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- services -quarters -->
+    <ul class="row -quarters photo-row-separators semantic-only-list  big-margin-bottom">
+    {% for service in craft.categories.group('services').orderBy('title asc').all() %}
+      <li class="row-block">
+        {% include 'services/_article' %}
+      </li>
+    {% endfor %}
+    </ul>
+  </section>
+
+{% endblock %}
