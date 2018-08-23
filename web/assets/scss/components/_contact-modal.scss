@@ -17,7 +17,7 @@
 
   .office {
     position: relative;
-    border-top: 1px solid $off-white;
+    border-top: 1px solid $concrete-light;
     padding: $padding 0;
 
     &:first-of-type {
@@ -60,7 +60,7 @@
 
         &:nth-of-type(even) {
           padding-left: $padding;
-          border-left: 1px solid $off-white;
+          border-left: 1px solid $concrete-light;
         }
       }
     }
@@ -68,12 +68,11 @@
 
   .icon-x {
     top: $padding;
-    width: 10.7px;
-    height: 10.7px;
-    fill: $off-white;
+    width: 12px;
+    height: 12px;
+    fill: $concrete-light2;
     position: absolute;
-    pointer-events: none;
-    right: calc(100% + 14.7px);
+    right: $padding-sm;
 
     @include media-lg {
       width: 24px;

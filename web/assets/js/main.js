@@ -365,17 +365,18 @@ var FB = (function($) {
 
       // Add junk to DOM.
       $('<div class="overlay contact-modal-close" id="contact-modal-overlay"></div>')
-      .appendTo('body');
+        .appendTo('body');
       $('<svg class="icon icon-x"><use xlink:href="#icon-x" /></svg>')
-        .prependTo($modal);
+        .prependTo($modal)
+        .on('click', _closeContactModal);
 
       // Sweep it all under the rug.
       $modal.velocity("slideUp", { duration: 0 });
       $('#contact-modal-overlay').velocity("fadeOut", { duration: 0 });
 
       // Init clicking behavior.
-      $(document).on('click', '.contact-modal-close', function () { _closeContactModal() });
-      $(document).on('click', '.contact-modal-open', function () { _openContactModal() });
+      $(document).on('click', '.contact-modal-close', _closeContactModal);
+      $(document).on('click', '.contact-modal-open', _openContactModal);
 
       // CSS will display: none this until the -unloaded class is removed.
       $modal.removeClass('-unloaded');
