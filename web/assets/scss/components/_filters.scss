@@ -1,0 +1,75 @@
+// Filters
+
+.mobile-filter {
+  @include font-captions;
+  padding-top: $padding;
+
+  // Filters in body instead of header, e.g. news
+  &.-padded {
+    padding: $padding;
+    @include media-md {
+      .filter-header {
+        max-width: 50%;
+      }
+    }
+  }
+
+  // Hide mobile-filters once the sidebar shows up
+  @include media-lg {
+    display: none;
+  }
+
+  .filter-header {
+    cursor: pointer;
+    position: relative;
+    padding: 0 0 $beat*2;
+    span {
+      color: $red;
+    }
+    svg {
+      width: 10px;
+      height: 10px;
+      position: absolute;
+      right: 0;
+      top: 4px;
+      transform: rotate(180deg);
+      transition: transform .1s $ease;
+    }
+  }
+
+  .filters {
+    max-height: 0;
+    overflow: hidden;
+    transition: all .2s $ease;
+    a {
+      display: block;
+      padding: $beat 0;
+      text-decoration: none;
+    }
+    li {
+      a:hover,
+      &.current a {
+        color: $red;
+      }
+    }
+
+    @include media-sm {
+      columns: 3 240px;
+    }
+  }
+
+  // Filters open
+  &.active {
+    .filter-header {
+      padding: 0 0 $beat*3;
+      svg {
+        transform: rotate(0);
+      }
+    }
+    .filters {
+      padding: $beat*3 0 0;
+      border-top: 1px solid $concrete-light;
+      max-height: 600px;
+    }
+  }
+}

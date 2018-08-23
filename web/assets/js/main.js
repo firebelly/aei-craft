@@ -113,10 +113,21 @@ var FB = (function($) {
     _initContactModal();
     _initSearch();
     _initStickyHeader();
+    _initFilters();
     _fitFigures();
     _hangQuotes();
 
   } // end init()
+
+  function _initFilters() {
+    $('.mobile-filter').each(function() {
+      $this = $(this);
+      $this.find('.filter-header').on('click', function(e) {
+        e.preventDefault();
+        $this.toggleClass('active');
+      });
+    });
+  }
 
   // Wrap first quotation mark in blockquotes in a span to apply hanging quotes
   function _hangQuotes() {

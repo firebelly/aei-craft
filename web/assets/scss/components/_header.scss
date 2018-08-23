@@ -24,11 +24,11 @@ body {
   @include media-sm {
     height: $header-height-md;
     padding: $padding-md;
+    border-bottom: 1px solid $concrete-light;
   }
   @include media-md {
     z-index: 10;
     padding: $padding-md;
-    border-bottom: 1px solid $concrete-light;
   }
 
   @include media-md {
@@ -47,6 +47,7 @@ body {
 
   &.-stuck {
     position: fixed;
+    border-bottom: 1px solid $concrete-light;
   }
 
   &.-scrolled {

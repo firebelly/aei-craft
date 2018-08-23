@@ -86,6 +86,25 @@ First we determine which. #}
           <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
         </a>
       </div>
+
+      <div class="mobile-filter">
+        <div class="filter-header">
+          Filter:
+          <span>{{ category is defined ? category.title : 'All' }}</span>
+          <svg class="icon icon-up-arrow" aria-hidden="true" role="presentation"><use xlink:href="#icon-up-arrow"/></svg>
+        </div>
+        <ul class="filters semantic-only-list">
+          <li class="{{ category is defined ? '' : 'current' }}">
+            <a href="/projects/">All</a>
+          </li>
+          {% for cat in craft.categories.group('markets').all() %}
+            <li class="{{ active(cat.url, 'url', 'current') }}">
+              <a href="{{ cat.url }}">{{ cat.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
     </div>
 
     {# Any Market Contacts? Show grouped by Office #}

@@ -77,6 +77,24 @@
     {% endif %}
   {% endif %}
 
+  <div class="mobile-filter -padded">
+    <div class="filter-header">
+      Filter:
+      <span>{{ category is defined ? category.title : 'All' }}</span>
+      <svg class="icon icon-up-arrow" aria-hidden="true" role="presentation"><use xlink:href="#icon-up-arrow"/></svg>
+    </div>
+    <ul class="filters semantic-only-list">
+      <li class="{{ category is defined ? '' : 'current' }}">
+        <a href="/news/">All</a>
+      </li>
+      {% for cat in craft.categories.group('impactTypes').all() %}
+        <li class="{{ active(cat.url, 'url', 'current') }}">
+          <a href="{{ cat.url }}">{{ cat.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
   <ul class="row -halves -separators semantic-only-list infinite-scroll-container">
     {% for post in impactEntries %}
       {% if loop.index in ['3','8'] and stats|length %}
