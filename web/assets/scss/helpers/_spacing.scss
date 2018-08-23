@@ -47,23 +47,6 @@
   }
 }
 
-// Pulls text of size h1 to very top of div
-.pull-to-top, .pull-to-top-h1 {
-  @include media-lg {
-
-    .module {
-      &, &.text-module, &.pad, &.pad-vertical { // specificity
-        padding-top: 0;
-      }
-    }
-  }
-}
-.pull-to-top-h1 {
-  @include media-lg {
-    margin-top: -7px;
-  }
-}
-
 // Overlaps the block up either 2 h1 lines or 3 p lines (used in headers)
 .top-overlap {
   &-h1 {

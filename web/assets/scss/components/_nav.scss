@@ -157,7 +157,7 @@
   position: fixed;
   cursor: pointer;
   transition: opacity 0.2s $ease;
-  background-color: rgba($black,0.75);
+  background-color: rgba($black ,0.9);
 
   @include media-md {
     display: none;

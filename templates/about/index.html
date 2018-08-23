@@ -2,10 +2,7 @@
 {% set bodyClass = 'single' %}
 
 {% block filters %}
-  <h2 class="font-nav current"><a href="/about/">About</a></h2>
-  <ul class="filters semantic-only-list">
-    <li><a href="/about/careers/">Careers</a></li>
-  </ul>
+  {% include 'partials/_about-nav' %}
 {% endblock %}
 
 {% block content %}
