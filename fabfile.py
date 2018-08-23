@@ -1,10 +1,10 @@
 from fabric.api import *
 import os
 
-env.hosts = ['aei-craft.firebelly.co']
-env.user = 'firebelly'
+env.hosts = ['aeieng.webfactional.com']
+env.user = 'aeieng'
 env.path = '~/Sites/aei-craft'
-env.remotepath = '/home/firebelly/webapps/aei'
+env.remotepath = '/home/aeieng/webapps/aei_craft_staging'
 env.git_branch = 'master'
 env.warn_only = True
 env.remote_protocol = 'http'

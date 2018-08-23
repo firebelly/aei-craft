@@ -30,24 +30,18 @@ return [
 
     // Dev environment settings
     'dev' => [
-        // Base site URL
         'siteUrl' => 'http://aei-craft.localhost',
-
         'backupCommand' => '/usr/local/bin/mysqldump',
-
-        // Dev Mode (see https://craftcms.com/support/dev-mode)
         'devMode' => true,
     ],
 
     // Staging environment settings
     'staging' => [
-        // Base site URL
-        'siteUrl' => 'http://aei-craft.firebelly.co',
+        'siteUrl' => 'http://aeieng.webfactional.com',
     ],
 
     // Production environment settings
     'production' => [
-        // Base site URL
         'siteUrl' => null,
     ],
 ];
