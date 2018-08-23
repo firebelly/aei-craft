@@ -122,18 +122,25 @@ var FB = (function($) {
   function _initFilters() {
     $('.mobile-filter').each(function() {
       $this = $(this);
+
+      // Click on header to expand filters
       $this.find('.filter-header').on('click', function(e) {
         e.preventDefault();
         $this.toggleClass('active');
+      });
+
+      // Make filter sticky
+      new Waypoint.Sticky({
+        element: $this[0]
       });
     });
   }
 
   // Wrap first quotation mark in blockquotes in a span to apply hanging quotes
   function _hangQuotes() {
-    $('blockquote').each(function () {
+    $('blockquote').each(function() {
       var content = $(this).html().trim();
-      if(content[0]==='“') {
+      if (content[0] === '“') {
         var content = '<span class="hang">“</span>'+content.slice(1);
         $(this).empty().append(content);
       }
@@ -141,7 +148,7 @@ var FB = (function($) {
   }
 
   function _fitFigures() {
-    $('.fit-figure').each( function () {
+    $('.fit-figure').each(function() {
 
       var $figure = $(this);
       var $container = $figure.closest('.fit-figure-container');
@@ -154,7 +161,7 @@ var FB = (function($) {
         $figure.attr('data-figure-size', i); // We'll use this data-attr for tying figures
 
         // If I'm too big, go with one size smaller
-        if($figure.width() >= $container.width()) {
+        if ($figure.width() >= $container.width()) {
           $figure.css('font-size', (i-1) + 'em');
           $figure.attr('data-figure-size', i-1);
           break;
@@ -162,10 +169,10 @@ var FB = (function($) {
       }
     });
 
-    $('.tie-fit-figures').each(function () {
+    $('.tie-fit-figures').each(function() {
       var smallest = 10;
       var $figures = $(this).find('.fit-figure');
-      $figures.each(function () {
+      $figures.each(function() {
         var size = parseInt( $(this).attr('data-figure-size') );
         smallest = Math.min(smallest, size);
       });
@@ -196,19 +203,19 @@ var FB = (function($) {
       var scrolled, scrollingUp, stuck;
 
       // Determine whether header should be sticky and make it so
-      this.refreshState = function () {
+      this.refreshState = function() {
         lastScrollTop = scrollTop;
         scrollTop = $(window).scrollTop();
 
         var lastScrolled = scrolled;
         scrolled = scrollTop > turningPoint;
         if (scrolled !== lastScrolled ) {
-          if(scrolled) {
+          if (scrolled) {
 
             // Mark this as is currently scrolled
             $header.addClass('-scrolled');
 
-            if(!stuck) {
+            if (!stuck) {
               // Mark this as having had scrolled at some point
               $header.addClass('-stuck');
               stuck = true;
@@ -217,30 +224,38 @@ var FB = (function($) {
 
               // Prevent a transition
               $header.css('transition','none');
-              setTimeout(function () {
+              setTimeout(function() {
                 $header.css('transition','');
-              },1);
-            }
+              }, 1);
 
+            }
           }
-          if(!scrolled){ $header.removeClass('-scrolled'); }
+          if (!scrolled) {
+            $header.removeClass('-scrolled');
+          }
         }
 
         var lastScrollingUp = scrollingUp;
         scrollingUp = lastScrollTop > scrollTop;
         if (scrollingUp !== lastScrollingUp ) {
-          if(scrollingUp && stuck) { $header.addClass('-scrolling-up'); }
-          if(!scrollingUp){ $header.removeClass('-scrolling-up'); }
+          if (scrollingUp && stuck) {
+            $header.addClass('-scrolling-up');
+            $body.addClass('nav-stuck');
+          }
+          if (!scrollingUp) {
+            $header.removeClass('-scrolling-up');
+            $body.removeClass('nav-stuck');
+          }
         }
 
-        if(scrollTop < 5 && stuck) {
+        if (scrollTop < 5 && stuck) {
           stuck = false;
           $header.removeClass('-stuck');
         }
       };
 
       // Init the stickiheader and tie behavior to window events
-      this.init = function () {
+      this.init = function() {
 
         // Start off in correct state
         me.refreshState();
@@ -248,18 +263,16 @@ var FB = (function($) {
         // Scroll Handling
         var lastMove = 0;
         var eventThrottle = 40;
-        window.addEventListener("scroll", function() {
-          // if(breakpoint_md) {
-            var now = Date.now();
-            if (now > lastMove + eventThrottle) {
+        window.addEventListener('scroll', function() {
+          var now = Date.now();
+          if (now > lastMove + eventThrottle) {
             lastMove = now;
-              me.refreshState();
-            }
-          // }
+            me.refreshState();
+          }
         });
 
         // Resize Handling
-        // $(window).resize(function () {
+        // $(window).resize(function() {
         //   me.refreshState();
         // });
 
@@ -312,11 +325,11 @@ var FB = (function($) {
         var i = 0;
         var j = 0;
         $content.velocity('fadeIn', {duration: speed, delay: delay*(i++)}).find('.search-form input[type="search"]').focus();
-        $content.find('.search-section').each(function () {
+        $content.find('.search-section').each(function() {
           $(this).velocity('fadeIn', {duration: speed, delay: delay*(j+i++)});
 
-          $(this).find('.search-article').each(function () {
-            if(i<10) {
+          $(this).find('.search-article').each(function() {
+            if (i<10) {
               $(this).velocity('fadeIn', {duration: speed, delay: delay*(j+i++)});
             } else {
               $(this).velocity('fadeIn', {delay: delay*(j+10), duration: 0});
@@ -326,7 +339,7 @@ var FB = (function($) {
           i=0;
         });
 
-        $('.search-section-title').each(function () {
+        $('.search-section-title').each(function() {
           $this = $(this);
           var sticky = new Waypoint.Sticky({
             element: $this[0],
@@ -352,7 +365,7 @@ var FB = (function($) {
     // Fill with content
     $.get('/search/', function(data) {
       $('#search-modal .content').html(data).velocity('fadeIn', {duration: 200});
-      setTimeout(function () {
+      setTimeout(function() {
         $('#search-modal .content').find('.search-form input[name=q]').focus();
       },100);
     });
@@ -372,7 +385,7 @@ var FB = (function($) {
 
     // Does the contact modal exist?
     var $modal = $('#contact-modal');
-    if($modal.length) {
+    if ($modal.length) {
 
       // Add junk to DOM.
       $('<div class="overlay contact-modal-close" id="contact-modal-overlay"></div>')
@@ -398,7 +411,7 @@ var FB = (function($) {
 
     // If it exists, animate the modal open and fade in its overlay.
     var $modal = $('#contact-modal');
-    if($modal.length) {
+    if ($modal.length) {
 
       var $overlay = $('#contact-modal-overlay');
 
@@ -415,7 +428,7 @@ var FB = (function($) {
 
     // If it exists, animate the modal closed and fade out the overlay.
     var $modal = $('#contact-modal');
-    if($modal.length) {
+    if ($modal.length) {
 
       var $overlay = $('#contact-modal-overlay');
 
@@ -493,7 +506,7 @@ var FB = (function($) {
     if ($labels.length) {
 
       function detectLabelWrap() {
-        $('.stat-module .label').each(function () {
+        $('.stat-module .label').each(function() {
 
           $label = $(this);
 
@@ -503,7 +516,7 @@ var FB = (function($) {
           parentOffset = $label.parent().offset().left;
           parentPadding = parseInt($label.parent().css('padding-left'));
 
-          if(labelOffset-parentOffset-parentPadding===0) {
+          if (labelOffset-parentOffset-parentPadding===0) {
             $label.addClass('-wrapped');
           }
         });
@@ -517,16 +530,16 @@ var FB = (function($) {
   function _initNav() {
 
     _closeNav();
-    $(document).on('click','.nav-close', function () {
+    $(document).on('click','.nav-close', function() {
       _closeNav();
     });
-    $(document).on('click','.nav-open', function () {
+    $(document).on('click','.nav-open', function() {
       _openNav();
     });
-    $(document).on('click','.nav-toggle', function () {
+    $(document).on('click','.nav-toggle', function() {
       _toggleNav();
     });
-    $(document).on('click','.open-filters', function () {
+    $(document).on('click','.open-filters', function() {
       _openNav();
       _scrollContainer($('.site-nav'),$('.filters'),250,250);
     });
@@ -545,7 +558,7 @@ var FB = (function($) {
   }
 
   function _toggleNav() {
-    if($body.hasClass('site-nav-open')) {
+    if ($body.hasClass('site-nav-open')) {
       _closeNav();
     } else {
       _openNav();
@@ -553,11 +566,11 @@ var FB = (function($) {
   }
 
   function _initTheater() {
-    if($('.theater-wrap .player').length) {
+    if ($('.theater-wrap .player').length) {
 
-      $.getScript("https://www.youtube.com/iframe_api", function () {
+      $.getScript("https://www.youtube.com/iframe_api", function() {
 
-        $('.theater-wrap').each(function () {
+        $('.theater-wrap').each(function() {
           var theater = new Theater($(this));
         });
       });
@@ -580,13 +593,13 @@ var FB = (function($) {
     me.player = false;
 
     // Open the theater and play
-    me.play = function () {
+    me.play = function() {
       me.$theaterWrap
         .addClass('-open')
         .removeClass('-closed');
 
       // Play if player object is already populated
-      if(me.player) {
+      if (me.player) {
         me.player.playVideo();
 
       // Otherwise populate it with api call
@@ -609,8 +622,8 @@ var FB = (function($) {
     }
 
     // Close the theater and stop
-    me.stop = function () {
-      if(me.player) {
+    me.stop = function() {
+      if (me.player) {
         me.player.stopVideo();
       }
       me.$theaterWrap
@@ -660,7 +673,7 @@ var FB = (function($) {
   }
 
   function _initMasonry() {
-    if($('.masonry-grid').length) {
+    if ($('.masonry-grid').length) {
       $('.masonry-grid').isotope({
         itemSelector: '.masonry-item',
         percentPosition: true,

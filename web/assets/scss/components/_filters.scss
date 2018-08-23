@@ -1,17 +1,42 @@
 // Filters
 
+// Adjust stuck filters when the main nav is stuck
+body.nav-stuck {
+  .mobile-filter {
+    &.stuck {
+      top: $header-height-md;
+      @include media-md {
+        top: $header-height-lg;
+      }
+    }
+  }
+}
+
+// Mobile filters (replacing sidebar functionality for mobile + mid-sizes)
 .mobile-filter {
   @include font-captions;
   padding-top: $padding;
 
   // Filters in body instead of header, e.g. news
   &.-padded {
-    padding: $padding;
+    padding: $padding $padding 0;
     @include media-md {
       .filter-header {
         max-width: 50%;
       }
     }
+  }
+
+  // Sticky filters
+  &.stuck {
+    padding: $beat*2 $padding 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: $white;
+    z-index: 10;
+    border-bottom: 1px solid $concrete-light;
   }
 
   // Hide mobile-filters once the sidebar shows up
@@ -31,7 +56,7 @@
       height: 10px;
       position: absolute;
       right: 0;
-      top: 4px;
+      top: 6px;
       transform: rotate(180deg);
       transition: transform .1s $ease;
     }
@@ -40,7 +65,7 @@
   .filters {
     max-height: 0;
     overflow: hidden;
-    transition: all .2s $ease;
+    transition: all 0.2s $ease;
     a {
       display: block;
       padding: $beat 0;
@@ -67,7 +92,7 @@
       }
     }
     .filters {
-      padding: $beat*3 0 0;
+      padding: $beat*3 0;
       border-top: 1px solid $concrete-light;
       max-height: 600px;
     }

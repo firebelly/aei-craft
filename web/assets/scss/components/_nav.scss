@@ -20,6 +20,7 @@
     width: calc(100% - 60px);
   }
 
+  // Desktop nav styles
   @include media-md {
     position: relative;
     top: auto;
@@ -58,6 +59,7 @@
         text-decoration: none;
       }
 
+      // Style current section
       &.current a,
       a:hover {
         color: $red;
@@ -212,7 +214,6 @@
       opacity: 0;
       pointer-events: none;
     }
-    // .current-filter-label,
     .nav-open .icon-hamburger {
       opacity: 1;
       transition: 0.2s 0.3s $ease;
@@ -224,12 +225,11 @@
   }
 
   body.site-nav-open {
-    overflow: hidden; // prevent scrolling in body when nav is open
-
-    // .current-filter-label,
+    // Prevent body scrolling when nav is open
+    overflow: hidden;
     .nav-open .icon-hamburger {
       opacity: 0;
-      transition: 0.1s $ease;
+      transition: 0.2s $ease;
     }
   }
 }
