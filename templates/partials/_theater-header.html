@@ -15,7 +15,7 @@
         </div>
         <div class="buttons {% if entry is defined %}{{ entry.slug == 'approach' or entry.slug == 'careers' ? '' : 'theater-play-button-only' }}{% endif %}">
           {% if pageHeader.headerVideo %}
-            <button class="button -solid theater-play text-off-white background-red">Play Video<svg class="icon icon-triangle"><use xlink:href="#icon-triangle" /></svg></button>
+            <button class="button -solid theater-play text-white background-red">Play Video<svg class="icon icon-triangle"><use xlink:href="#icon-triangle" /></svg></button>
           {% endif %}
           {% if entry is defined and entry.slug == 'careers' %}
             <a rel="noopener" target="_blank" href="https://domestic-aeieng.icims.com/" class="button">
@@ -32,7 +32,7 @@
     {% set headerImage = pageHeader.headerImage.one() %}
     <div class="image lazy" style="background-image: url();" data-original="{{ headerImage ? headerImage.getUrl('header') : '' }}">
       {% if pageHeader.headerVideo %}
-        <button class="button -solid theater-play text-off-white background-red absolute-center">Play Video<svg class="icon icon-triangle"><use xlink:href="#icon-triangle" /></svg></button>
+        <button class="button -solid theater-play text-white background-red absolute-center">Play Video<svg class="icon icon-triangle"><use xlink:href="#icon-triangle" /></svg></button>
       {% endif %}
     </div>
     {% if pageHeader.headerVideo %}
@@ -44,7 +44,7 @@
   </div>
   <div class="row -halves theater-cover-bottom">
     <div class="row-block -right">
-      <div class="text-module background-black text-off-white font-smoothing">
+      <div class="text-module background-black text-white font-smoothing">
         <div class="user-content">{{ pageHeader.supportingStatement }}</div>
       </div>
     </div>
