@@ -195,8 +195,10 @@
 
   .icon-hamburger {
     width: 24px;
-    height: 16px;
-    fill: $black;
+    height: 18px;
+    stroke: $black;
+    stroke-width: 1px;
+    shape-rendering: crispEdges;
   }
 }
 
