@@ -80,11 +80,12 @@ First we determine which. #}
             <svg class="icon icon-plus"><use xlink:href="#icon-plus" /></svg>
           </button>
         {% endif %}
-        <a class="button" href="/awards/">
+        <a class="button" href="/about/awards/{{ category is defined ? '?market=' ~ category.slug : '' }}">
           <span class="border"></span><span class="extra-corners"></span>
           Awards
           <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
         </a>
+
       </div>
 
       <div class="mobile-filter">
