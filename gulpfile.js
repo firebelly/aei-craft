@@ -25,6 +25,9 @@ gulp.task('styles', function() {
     ])
     .pipe(gulpif(!isProduction, sourcemaps.init()))
     .pipe(sass())
+    .on('error', notify.onError(function(error) {
+       return 'Styles error!' + error;
+    }))
     .pipe(autoprefixer())
     .pipe(gulpif(isProduction, cssnano()))
     .pipe(gulp.dest('web/assets/dist/css'))
@@ -43,7 +46,9 @@ gulp.task('scripts', function() {
     .pipe(include())
     .pipe(concat('site.js'))
     .pipe(gulpif(!isProduction, sourcemaps.init()))
-    .pipe(uglify().on('error', gutil.log))
+    .on('error', notify.onError(function(error) {
+       return 'Script error!' + error;
+    }))
     .pipe(gulp.dest('web/assets/dist/js'))
     .pipe(gulpif(!isProduction, sourcemaps.write('maps')))
     .pipe(gulpif(!isProduction, gulp.dest('web/assets/dist/js')))
