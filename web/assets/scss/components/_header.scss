@@ -2,7 +2,10 @@
 
 // Body padding to accommodate header height
 body {
-  padding-top: $header-height-md;
+  padding-top: $header-height-sm;
+  @include media-sm {
+    padding-top: $header-height-md;
+  }
   @include media-md {
     padding-top: $header-height-lg;
   }
@@ -14,10 +17,14 @@ body {
   width: 100%;
   z-index: 100;
   position: absolute;
-  padding: $padding-sm;
-  height: $header-height-md;
+  padding: $beat*3 $padding-sm $padding-sm $padding-sm;
+  height: $header-height-sm;
   background-color: $white;
 
+  @include media-sm {
+    height: $header-height-md;
+    padding: $padding-md;
+  }
   @include media-md {
     z-index: 10;
     padding: $padding-md;
@@ -64,8 +71,13 @@ body {
     .logo {
       fill: $black;
       display: block;
-      width: 200px;
-      height: 44px;
+      width: 168px;
+      height: 36.6px;
+
+      @include media-md {
+        width: 211px;
+        height: 46px;
+      }
     }
   }
 

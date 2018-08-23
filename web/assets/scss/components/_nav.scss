@@ -180,13 +180,13 @@
   @include hardware-acceleration;
   width: $padding;
   cursor: pointer;
-  top: $padding;
+  top: 48px;
   right: $padding-sm;
   position: absolute;
 
-  @include media-md {
-    top: $padding-md;
-    right: $padding-md;
+  // 320–480px get smaller nav + left gap
+  @include max-screen($breakpoint-sm) {
+    top: 32px;
   }
 
   @include media-md {

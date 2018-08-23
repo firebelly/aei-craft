@@ -248,9 +248,9 @@ var FB = (function($) {
         });
 
         // Resize Handling
-        $(window).resize(function () {
-          me.refreshState();
-        });
+        // $(window).resize(function () {
+        //   me.refreshState();
+        // });
 
         // Tell CSS the header is ready to reveal
         $header.removeClass('-unloaded');
@@ -621,8 +621,6 @@ var FB = (function($) {
 
   // Called in quick succession as window is resized
   function _resize() {
-    screenWidth = document.documentElement.clientWidth;
-
     // Check breakpoint indicator in DOM ( :after { content } is controlled by CSS media queries )
     var breakpointIndicatorString = window.getComputedStyle(
       document.querySelector('#breakpoint-indicator'), ':after'
@@ -634,16 +632,18 @@ var FB = (function($) {
     breakpoint_md = breakpointIndicatorString === 'md' || breakpoint_lg;
     breakpoint_sm = breakpointIndicatorString === 'sm' || breakpoint_md;
     breakpoint_xs = breakpointIndicatorString === 'xs' || breakpoint_sm;
-
-    // Refix waypoints
-    Waypoint.refreshAll();
   }
 
   function _delayed_resize() {
     clearTimeout(delayed_resize_timer);
     delayed_resize_timer = setTimeout(function() {
+
       // Refit stats
       _fitFigures();
+
+      // Refix waypoints
+      Waypoint.refreshAll();
+
     }, 250);
   }
 
