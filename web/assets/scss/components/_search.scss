@@ -5,24 +5,29 @@
   bottom: 0;
   opacity: 0;
   z-index: 10001;
-  left: $padding;
+  left: 80px;
   position: fixed;
   background: #fff;
   background: $white;
   transform: translateX(100%);
   transition: transform .3s $ease, opacity .3s $ease;
 
+  // 320–480px get smaller left gap
+  @include max-screen($breakpoint-sm) {
+    left: 60px;
+  }
+
   .scroll-wrap {
     overflow-y: auto;
     max-height: 100%;
-    padding: 3*$padding 0;
+    padding: $padding 0;
+
+    @include media-md {
+      padding: 3*$padding 0;
+    }
   }
 
   @include media-lg {
-    left: 33.33%;
-  }
-
-  @include media-xl {
     left: $sidebar-max-width;
   }
 
@@ -39,12 +44,17 @@
   .icon-x {
     opacity: 0;
     top: $padding;
-    width: 10.7px;
-    height: 10.7px;
+    width: 18px;
+    height: 18px;
     fill: $off-white;
     position: absolute;
     pointer-events: none;
-    right: calc(100% + 14.7px);
+    right: calc(100% + #{$padding-sm});
+
+    // 320–480px get smaller left gap
+    @include max-screen($breakpoint-sm) {
+      right: calc(100% + 20px);
+    }
 
     @include media-lg {
       width: 24px;
@@ -70,6 +80,14 @@
     height: 10.5px;
     margin-left: $beat*2;
     position: relative;
+  }
+
+  // Slightly larger search icon on 480–960px
+  @include screen($breakpoint-sm, $breakpoint-md) {
+    .icon-search {
+      width: 13px;
+      height: 13px;
+    }
   }
 }
 
@@ -101,7 +119,10 @@
   display: flex;
   flex-wrap: wrap;
   overflow-x: hidden;
-  margin-top: 12*$beat;
+
+  @include media-md {
+    margin-top: 12*$beat;
+  }
 
   h2 {
     @include font-details;

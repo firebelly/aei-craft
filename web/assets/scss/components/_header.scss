@@ -3,7 +3,7 @@
 // Body padding to accommodate header height
 body {
   padding-top: $header-height-md;
-  @include media-lg {
+  @include media-md {
     padding-top: $header-height-lg;
   }
 }
@@ -24,7 +24,7 @@ body {
     border-bottom: 1px solid $concrete-light;
   }
 
-  @include media-lg {
+  @include media-md {
     padding: $padding-lg;
     height: $header-height-lg;
 
@@ -55,6 +55,8 @@ body {
 .lockup {
   @include clearfix;
   position: relative;
+  display: block;
+  width: 50%;
 
   .affiliated-engineers {
     float: left;
@@ -67,19 +69,7 @@ body {
     }
   }
 
-  // Unused for now
-  // .plan-design-commission {
-  //   display: none;
-
-  //   @include min-screen(850px) {
-  //     @include font-details;
-  //     @include semantic-only-list;
-  //     top: -3px;
-  //     margin: 0;
-  //     float: right;
-  //     display: block;
-  //     text-align: right;
-  //     position: relative;
-  //   }
-  // }
+  @include media-md {
+    width: 100%;
+  }
 }

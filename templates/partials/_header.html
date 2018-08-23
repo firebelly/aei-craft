@@ -1,11 +1,11 @@
 <header id="sticky-header" class="site-header" role="banner">
   <div class="lockup-block">
-    <div class="lockup bigclicky">
+    <a class="lockup" href="/">
       <div class="affiliated-engineers">
-        <h1 class="sr-only"><a href="/">{{ siteName }}</a></h1>
+        <h1 class="sr-only">{{ siteName }}</h1>
         <svg class="logo"><use xlink:href="#affiliated-engineers-logo" /></svg>
       </div>
-    </div>
+    </a>
   </div>
 
   <nav class="site-nav">
@@ -34,7 +34,7 @@
         { title: 'Services', slug: 'services', urlMatches: 'services|offices|awards' },
         { title: 'People', slug: 'people', urlMatches: 'people' },
       ] %}
-        <li class="primary-links-item {{ active(navItem.urlMatches, 1, 'current') }}">
+        <li class="{{ active(navItem.urlMatches, 1, 'current') }}">
           <a href="/{{ navItem.slug }}/">{{ navItem.title }}</a>
         </li>
       {% endfor %}

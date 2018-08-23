@@ -238,14 +238,13 @@ var FB = (function($) {
         var lastMove = 0;
         var eventThrottle = 40;
         window.addEventListener("scroll", function() {
-          if(breakpoint_md) {
-
+          // if(breakpoint_md) {
             var now = Date.now();
             if (now > lastMove + eventThrottle) {
             lastMove = now;
               me.refreshState();
             }
-          }
+          // }
         });
 
         // Resize Handling

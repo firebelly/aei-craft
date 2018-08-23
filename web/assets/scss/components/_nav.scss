@@ -2,11 +2,31 @@
 
 .site-nav {
   @include hardware-acceleration;
-  width: 100%;
   background: $white;
   transition: transform 0.2s $ease;
 
-  @include media-lg {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 80px;
+  width: calc(100% - 80px);
+  padding: $beat*4 $padding;
+
+  // 320–480px get smaller left gap
+  @include max-screen($breakpoint-sm) {
+    left: 60px;
+    width: calc(100% - 60px);
+  }
+
+  @include media-md {
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    padding: 0;
     width: auto;
     float: right;
     transition: none;
@@ -21,47 +41,48 @@
       text-align: right;
     }
 
-    .primary-links-item {
+    @include screen($breakpoint-sm, $breakpoint-md) {
+      // Larger font on 480–960px
+      @include paragraph-style (33, 40, $ls: -.025em);
+      li {
+        margin-bottom: $beat;
+      }
+    }
+
+    li {
       color: $black;
       position: relative;
 
       a {
+        display: block;
         text-decoration: none;
-
-        // Hover Arrow
-        // &::after {
-        //   right: 0;
-        //   opacity: 0;
-        //   bottom: 3px;
-        //   content: '';
-        //   width: 11.1px;
-        //   height: 15.7px;
-        //   position: absolute;
-        //   background-size: 100% 100%;
-        //   background-repeat: no-repeat;
-        //   background-image: url('../svgs/icon-right-arrow-white.svg');
-        //   @include media-lg {
-        //     display: none;
-        //   }
-        // }
       }
 
-      &.current a, a:hover {
+      &.current a,
+      a:hover {
         color: $red;
-        // &::after {
-        //   opacity: 1;
-        // }
       }
-
-      // a:hover {
-      //   &::after {
-      //     animation: right-arrow-hover $ease 0.3s;
-      //   }
-      // }
+      &.current a {
+        &::after {
+          right: 0;
+          top: 12px;
+          content: '';
+          width: 27px;
+          height: 24px;
+          position: absolute;
+          background: url('../svgs/icon-right-arrow-red.svg') no-repeat;
+          background-size: contain;
+        }
+      }
 
       @include media-md {
         display: inline-block;
-        padding: $beat $beat*2;
+        a {
+          padding: $beat $beat*2;
+          &::after {
+            display: none;
+          }
+        }
       }
     }
   }
@@ -74,24 +95,8 @@
   li {
     display: block;
     text-align: right;
-    &:first-of-type {
-      margin-bottom: 1.5*$beat;
-    }
-
-    &.home-link {
-      top: $padding+3.5*$beat;
-      left: $padding;
-      position: absolute;
-    }
-
-    @include min-screen(550px) {
-      margin-left: 3ch;
-      display: inline-block;
-      &.home-link {
-        position: static;
-      }
-    }
     a {
+      display: inline-block;
       text-decoration: none;
     }
     &.current a,
@@ -100,17 +105,42 @@
     }
   }
 
-  .search-open {
-    float: right;
-
-    @include media-lg {
-      float: none;
+  // Smaller screens
+  @include max-screen($breakpoint-sm) {
+    width: calc(100% - 60px);
+    li a {
+      padding: $beat 0;
     }
   }
 
-  @include media-lg {
+  @include screen($breakpoint-sm, $breakpoint-md) {
+    // Larger font size on 480–960px
+    li {
+      @include font-filter;
+    }
+  }
+
+  // Mobile-only styles
+  @include max-screen($breakpoint-md) {
+    position: absolute;
+    bottom: $padding;
+    left: $padding;
+    width: calc(100% - 80px);
+    li {
+      text-align: left;
+      &.search-open {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        padding: 0;
+      }
+    }
+  }
+
+  @include media-md {
     li {
       display: inline-block;
+      margin-left: 3ch; // '¯\_(ツ)_/¯'
     }
   }
 }
@@ -127,17 +157,22 @@
   transition: opacity 0.2s $ease;
   background-color: rgba($black,0.75);
 
-  @include media-lg {
+  @include media-md {
     display: none;
   }
 
   .icon-x {
-    top: 38.7px;
-    right: 14.7px;
-    width: 10.7px;
-    height: 10.7px;
+    top: $padding;
+    left: $padding-sm;
+    width: 18px;
+    height: 18px;
     position: absolute;
-    fill: $concrete-light;
+    fill: $white;
+
+    // 320–480px get smaller left gap
+    @include max-screen($breakpoint-sm) {
+      left: 20px;
+    }
   }
 }
 
@@ -145,7 +180,7 @@
   @include hardware-acceleration;
   width: $padding;
   cursor: pointer;
-  top: $padding-sm;
+  top: $padding;
   right: $padding-sm;
   position: absolute;
 
@@ -154,22 +189,20 @@
     right: $padding-md;
   }
 
-  @include media-lg {
+  @include media-md {
     display: none;
   }
 
   .icon-hamburger {
-    top: 41px;
-    left: 14px;
-    width: 12px;
-    height: 6px;
+    width: 24px;
+    height: 16px;
     fill: $black;
-    position: absolute;
   }
 }
 
-@include max-screen($breakpoint-lg - 1px) {
-   body.site-nav-closed, body:not(.loaded) {
+@include max-screen($breakpoint-md - 1px) {
+   body.site-nav-closed,
+   body:not(.loaded) {
     .site-nav {
       transform: translateX(100%);
     }
@@ -177,7 +210,8 @@
       opacity: 0;
       pointer-events: none;
     }
-    .current-filter-label, .nav-open .icon-hamburger {
+    // .current-filter-label,
+    .nav-open .icon-hamburger {
       opacity: 1;
       transition: 0.2s 0.3s $ease;
     }
@@ -185,12 +219,13 @@
       opacity: 0;
       transition: opacity 0.2s $ease;
     }
-
   }
+
   body.site-nav-open {
     overflow: hidden; // prevent scrolling in body when nav is open
 
-    .current-filter-label, .nav-open .icon-hamburger {
+    // .current-filter-label,
+    .nav-open .icon-hamburger {
       opacity: 0;
       transition: 0.1s $ease;
     }
