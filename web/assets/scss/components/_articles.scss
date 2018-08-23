@@ -100,6 +100,11 @@
   }
 }
 
+// Override red category on text-white (mostly for featured news posts)
+.text-white > .post-module .category {
+  color: $white;
+}
+
 // Person Articles
 .person-module {
   .title {
