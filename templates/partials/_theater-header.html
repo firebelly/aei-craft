@@ -9,7 +9,7 @@
 <div class="theater-header theater-wrap -closed">
   <div class="row -halves theater-cover-top">
     <div class="row-block">
-      <div class="module text-module {% if clearheader is defined %}font-smoothing text-white{% else %}background-white text-black{% endif %}">
+      <div class="module text-module {% if clearheader is not defined %}background-white text-black{% endif %}">
         <div class="user-content">
           <p class="font-h1">{{ pageHeader.subheader }}</p>
         </div>

@@ -8,6 +8,12 @@
   }
 
   @include media-md {
+    .theater-header {
+      .text-module {
+        @include font-smoothing;
+        color: $white;
+      }
+    }
     .featured-project {
       .project-title {
         margin: 0;
