@@ -1,5 +1,5 @@
 {% extends (craft.app.request.isAjax and not craft.app.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
-{% set statType = craft.categories.group('statTypes').slug('expertise').one() %}
+{% set statType = craft.categories.group('statTypes').slug('projectsIndex').one() %}
 {% set stats = [] %}
 
 {% if category is defined %}

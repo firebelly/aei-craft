@@ -29,13 +29,6 @@
     .figure {
       max-width: 90%;
     }
-    // .label,
-    // .figure {
-    //   max-width: 40%;
-    //   @include media-md {
-    //     max-width: none;
-    //   }
-    // }
 
     .slash {
       position: relative;
@@ -124,6 +117,7 @@
   }
 
   .label {
+    @include font-details;
     display: block;
     margin: $beat 0 0;
   }
@@ -134,7 +128,8 @@
   }
 }
 
-.stat-module, .stat-two-figure-module {
+.stat-module,
+.stat-two-figure-module {
 
   .percent {
     top: -1.3em;
@@ -163,7 +158,8 @@
 }
 
 // Aspect ratio height
-.masonry-item, .row .row-block {
+.masonry-item,
+.row .row-block {
   .module {
     &.stat-module, &.stat-two-figure-module {
       min-height: initial;

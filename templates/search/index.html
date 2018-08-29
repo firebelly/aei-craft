@@ -14,9 +14,9 @@
 
   {% if query %}
 
-    {% set expertisePosts = [] %}
+    {% set projectPosts = [] %}
     {% set impactPosts = [] %}
-    {% set approachPosts = [] %}
+    {% set servicePosts = [] %}
     {% set peoplePosts = [] %}
 
     {% set entries = craft.entries.search(query).orderBy('score') %}
@@ -24,9 +24,9 @@
       {% for entry in entries.all() %}
         {% switch entry.section %}
           {% case "Projects" %}
-            {% set expertisePosts = expertisePosts|merge([entry]) %}
+            {% set projectPosts = projectPosts|merge([entry]) %}
           {% case "Offices" %}
-            {% set approachPosts = approachPosts|merge([entry]) %}
+            {% set servicePosts = servicePosts|merge([entry]) %}
           {% case "Impact" %}
             {% set impactPosts = impactPosts|merge([entry]) %}
           {% case "People" %}
@@ -41,21 +41,21 @@
       group: 'services',
     }) %}
     {% for service in services.all() %}
-      {% set approachPosts = approachPosts|merge([service]) %}
+      {% set servicePosts = servicePosts|merge([service]) %}
     {% endfor %}
 
     <div class="search-results">
 
-      {% if (expertisePosts|length + approachPosts|length + impactPosts|length + peoplePosts|length) == 0 %}
+      {% if (projectPosts|length + servicePosts|length + impactPosts|length + peoplePosts|length) == 0 %}
 
         <p class="no-results">No results found.</p>
 
       {% else %}
 
         {% set search_sections = {
-          'Expertise': expertisePosts,
-          'Impact': impactPosts,
-          'Approach': approachPosts,
+          'Projects': projectPosts,
+          'News & Insights': impactPosts,
+          'Contact & Services': servicePosts,
           'People': peoplePosts,
           } %}
 
