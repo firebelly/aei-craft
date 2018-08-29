@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2a7a86cb7c802e1f0c863bd2f400dadf",
+    "content-hash": "ee696617bf448971fa66b5ff8126a23f",
     "packages": [
         {
             "name": "amimpact/command-palette",
@@ -489,11 +489,11 @@
         },
         {
             "name": "craftcms/cms",
-            "version": "3.0.19",
+            "version": "3.0.22",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craftcms/cms/zipball/24ce69a3150fcbed51cd71e13db754fe169423c2",
-                "reference": "24ce69a3150fcbed51cd71e13db754fe169423c2",
+                "url": "https://api.github.com/repos/craftcms/cms/zipball/de45c0bef138486f6efc907d15444912205bc11a",
+                "reference": "de45c0bef138486f6efc907d15444912205bc11a",
                 "shasum": ""
             },
             "require": {
@@ -564,7 +564,7 @@
                 "docs": "https://github.com/craftcms/docs",
                 "rss": "https://github.com/craftcms/cms/releases.atom"
             },
-            "time": "2018-08-07T18:08:50+00:00"
+            "time": "2018-08-28T16:31:41+00:00"
         },
         {
             "name": "craftcms/oauth2-craftid",
@@ -697,11 +697,11 @@
         },
         {
             "name": "craftcms/server-check",
-            "version": "1.1.4",
+            "version": "1.1.6",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craftcms/server-check/zipball/5d6a2c6033db666fd775c301b6c92b9a86487ace",
-                "reference": "5d6a2c6033db666fd775c301b6c92b9a86487ace",
+                "url": "https://api.github.com/repos/craftcms/server-check/zipball/309d2952842c7f96b36dea00c0944a606624feaf",
+                "reference": "309d2952842c7f96b36dea00c0944a606624feaf",
                 "shasum": ""
             },
             "type": "library",
@@ -721,7 +721,7 @@
                 "requirements",
                 "yii2"
             ],
-            "time": "2018-07-25T19:16:43+00:00"
+            "time": "2018-08-17T23:47:59+00:00"
         },
         {
             "name": "creocoder/yii2-nested-sets",
@@ -906,11 +906,11 @@
         },
         {
             "name": "dolphiq/redirect",
-            "version": "1.0.17",
+            "version": "1.0.18",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Dolphiq/craft3-plugin-redirect/zipball/4ad0d29585527fb5fed8cb0c24e8397ce2fe8b39",
-                "reference": "4ad0d29585527fb5fed8cb0c24e8397ce2fe8b39",
+                "url": "https://api.github.com/repos/Dolphiq/craft3-plugin-redirect/zipball/816a2a35a971072cf8c1fe6b031e338c6a7887c4",
+                "reference": "816a2a35a971072cf8c1fe6b031e338c6a7887c4",
                 "shasum": ""
             },
             "require": {
@@ -959,15 +959,15 @@
                 "docs": "https://github.com/Dolphiq/craft3-plugin-redirect/blob/master/README.md",
                 "issues": "https://github.com/Dolphiq/craft3-plugin-redirect/issues"
             },
-            "time": "2018-07-04T20:35:01+00:00"
+            "time": "2018-08-17T09:22:41+00:00"
         },
         {
             "name": "egulias/email-validator",
-            "version": "2.1.4",
+            "version": "2.1.5",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/8790f594151ca6a2010c6218e09d96df67173ad3",
-                "reference": "8790f594151ca6a2010c6218e09d96df67173ad3",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/54859fabea8b3beecbb1a282888d5c990036b9e3",
+                "reference": "54859fabea8b3beecbb1a282888d5c990036b9e3",
                 "shasum": ""
             },
             "require": {
@@ -1005,7 +1005,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2018-04-10T10:11:19+00:00"
+            "time": "2018-08-16T20:49:45+00:00"
         },
         {
             "name": "elvanto/litemoji",
@@ -1548,11 +1548,11 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.45",
+            "version": "1.0.46",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/a99f94e63b512d75f851b181afcdf0ee9ebef7e6",
-                "reference": "a99f94e63b512d75f851b181afcdf0ee9ebef7e6",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/f3e0d925c18b92cf3ce84ea5cc58d62a1762a2b2",
+                "reference": "f3e0d925c18b92cf3ce84ea5cc58d62a1762a2b2",
                 "shasum": ""
             },
             "require": {
@@ -1560,11 +1560,6 @@
             },
             "conflict": {
                 "league/flysystem-sftp": "<1.0.6"
-            },
-            "require-dev": {
-                "ext-fileinfo": "*",
-                "phpspec/phpspec": "^3.4",
-                "phpunit/phpunit": "^5.7"
             },
             "suggest": {
                 "ext-fileinfo": "Required for MimeType",
@@ -1593,7 +1588,6 @@
                     "League\\Flysystem\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1623,7 +1617,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2018-05-07T08:44:23+00:00"
+            "time": "2018-08-22T07:45:22+00:00"
         },
         {
             "name": "league/oauth2-client",
@@ -3037,11 +3031,11 @@
         },
         {
             "name": "verbb/super-table",
-            "version": "2.0.7",
+            "version": "2.0.8",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/verbb/super-table/zipball/7dc680810b65c6d60c25c8cc3263ad65cb6c7771",
-                "reference": "7dc680810b65c6d60c25c8cc3263ad65cb6c7771",
+                "url": "https://api.github.com/repos/verbb/super-table/zipball/bbb33a1cd23d6f9323edb755beec09048e0738c7",
+                "reference": "bbb33a1cd23d6f9323edb755beec09048e0738c7",
                 "shasum": ""
             },
             "require": {
@@ -3088,7 +3082,7 @@
                 "docs": "https://github.com/verbb/super-table",
                 "rss": "https://github.com/verbb/super-table/commits/v2.atom"
             },
-            "time": "2018-05-08T08:32:51+00:00"
+            "time": "2018-08-18T07:46:49+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -3571,11 +3565,11 @@
         },
         {
             "name": "zendframework/zend-stdlib",
-            "version": "3.2.0",
+            "version": "3.2.1",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-stdlib/zipball/cd164b4a18b5d1aeb69be2c26db035b5ed6925ae",
-                "reference": "cd164b4a18b5d1aeb69be2c26db035b5ed6925ae",
+                "url": "https://api.github.com/repos/zendframework/zend-stdlib/zipball/66536006722aff9e62d1b331025089b7ec71c065",
+                "reference": "66536006722aff9e62d1b331025089b7ec71c065",
                 "shasum": ""
             },
             "require": {
@@ -3602,7 +3596,7 @@
                 "stdlib",
                 "zf"
             ],
-            "time": "2018-04-30T13:50:40+00:00"
+            "time": "2018-08-28T21:34:05+00:00"
         }
     ],
     "packages-dev": [],
