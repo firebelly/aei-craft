@@ -29,6 +29,11 @@
 .project-title {
   color: $white;
   padding: $padding;
+
+  @include media-lg {
+    padding: $padding-lg;
+  }
+
   &.-nopad {
     padding: 0;
   }
@@ -45,6 +50,7 @@
   }
 
   h2 {
+    padding-top: 3px;
     @include font-details;
   }
 

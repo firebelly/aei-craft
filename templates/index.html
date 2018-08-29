@@ -89,7 +89,7 @@
           {% set impactPosts = impactPosts|merge(extraImpactPosts) %}
         {% endif %}
 
-        <ul class="row -halves -separators semantic-only-list">
+        <ul class="row -halves -separators semantic-only-list featured-news">
           {% for post in impactPosts %}
             <li class="row-block separate">
               {% include 'news/_article' %}

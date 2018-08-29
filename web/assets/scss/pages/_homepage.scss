@@ -14,6 +14,20 @@
         color: $white;
       }
     }
+    // Featured news blocks have double padding on top/bottom
+    .featured-news {
+      .row-block.separate::after {
+        top: $padding-md * 2;
+        bottom: $padding-md * 2;
+      }
+      .post-module {
+        padding-top: $padding-md * 2;
+        padding-bottom: #{$padding-md * 2 + 37px};
+        .button {
+          bottom: #{$padding-md * 2};
+        }
+      }
+    }
     .featured-project {
       .project-title {
         margin: 0;
@@ -31,6 +45,23 @@
           margin-top: $beat;
           float: right;
           margin-right: 0;
+        }
+      }
+    }
+  }
+
+  @include media-lg {
+    // Featured news blocks have double padding on top/bottom
+    .featured-news {
+      .row-block.separate::after {
+        top: $padding-lg * 2;
+        bottom: $padding-lg * 2;
+      }
+      .post-module {
+        padding-top: $padding-lg * 2;
+        padding-bottom: #{$padding-lg * 2 + 37px};
+        .button {
+          bottom: #{$padding-lg * 2};
         }
       }
     }
