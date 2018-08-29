@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "445de94413a8ff6f4d8018ec23440eb2",
+    "content-hash": "2a7a86cb7c802e1f0c863bd2f400dadf",
     "packages": [
         {
             "name": "amimpact/command-palette",
@@ -647,6 +647,53 @@
                 "plugin"
             ],
             "time": "2017-07-25T13:26:24+00:00"
+        },
+        {
+            "name": "craftcms/redactor",
+            "version": "2.1.6",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/craftcms/redactor/zipball/86699fb2e9be6c689b3f5da75145acacf9497938",
+                "reference": "86699fb2e9be6c689b3f5da75145acacf9497938",
+                "shasum": ""
+            },
+            "require": {
+                "craftcms/cms": "^3.0.0-RC15"
+            },
+            "type": "craft-plugin",
+            "extra": {
+                "name": "Redactor",
+                "handle": "redactor"
+            },
+            "autoload": {
+                "psr-4": {
+                    "craft\\redactor\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pixel & Tonic",
+                    "homepage": "https://pixelandtonic.com/"
+                }
+            ],
+            "description": "Edit rich text content in Craft CMS using Redactor by Imperavi.",
+            "keywords": [
+                "cms",
+                "craftcms",
+                "html",
+                "redactor",
+                "yii2"
+            ],
+            "support": {
+                "email": "support@craftcms.com",
+                "issues": "https://github.com/craftcms/redactor/issues?state=open",
+                "source": "https://github.com/craftcms/redactor",
+                "docs": "https://github.com/craftcms/redactor"
+            },
+            "time": "2018-08-21T07:54:14+00:00"
         },
         {
             "name": "craftcms/server-check",
@@ -2933,6 +2980,60 @@
                 "rss": "https://github.com/verbb/expanded-singles/commits/v2.atom"
             },
             "time": "2018-07-04T22:06:04+00:00"
+        },
+        {
+            "name": "verbb/redactor-tweaks",
+            "version": "2.0.2",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/verbb/redactor-tweaks/zipball/a2d668ce76d322e5779fbbff5ca11851ae27d1ca",
+                "reference": "a2d668ce76d322e5779fbbff5ca11851ae27d1ca",
+                "shasum": ""
+            },
+            "require": {
+                "craftcms/cms": "^3.0.0"
+            },
+            "type": "craft-plugin",
+            "extra": {
+                "name": "Redactor Tweaks",
+                "handle": "redactor-tweaks",
+                "description": "A small Craft CMS that provides some tweaks to the default Redactor II Rich Text fieldtype.",
+                "schemaVersion": "1.0.0",
+                "hasCpSettings": false,
+                "hasCpSection": false,
+                "changelogUrl": "https://raw.githubusercontent.com/verbb/redactor-tweaks/craft-3/CHANGELOG.md",
+                "class": "verbb\\redactortweaks\\RedactorTweaks"
+            },
+            "autoload": {
+                "psr-4": {
+                    "verbb\\redactortweaks\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Verbb",
+                    "homepage": "https://verbb.io"
+                }
+            ],
+            "description": "A small Craft CMS that provides some tweaks to the default Redactor II Rich Text fieldtype.",
+            "keywords": [
+                "cms",
+                "craft",
+                "craft-plugin",
+                "craftcms",
+                "redactor"
+            ],
+            "support": {
+                "email": "support@verbb.io",
+                "issues": "https://github.com/verbb/redactor-tweaks/issues?state=open",
+                "source": "https://github.com/verbb/redactor-tweaks",
+                "docs": "https://github.com/verbb/redactor-tweaks",
+                "rss": "https://github.com/verbb/redactor-tweaks/commits/v2.atom"
+            },
+            "time": "2018-07-10T03:53:00+00:00"
         },
         {
             "name": "verbb/super-table",

@@ -41,7 +41,9 @@
     "firebelly/aei": "^1.0",
     "amimpact/command-palette": "3.1.4",
     "ether/seo": "v3.3.0",
-    "dolphiq/redirect": "v1.0.17"
+    "dolphiq/redirect": "v1.0.17",
+    "verbb/redactor-tweaks": "2.0.2",
+    "craftcms/redactor": "2.1.6"
   },
   "autoload": {
     "psr-4": {
