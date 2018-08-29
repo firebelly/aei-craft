@@ -10,6 +10,11 @@
     right: $padding;
     position: absolute;
     background: $color;
+
+    @include media-lg {
+      left: $padding-lg;
+      right: $padding-lg;
+    }
   }
 }
 
@@ -25,6 +30,11 @@
     right: $padding;
     position: absolute;
     background: $color;
+
+    @include media-lg {
+      left: $padding-lg;
+      right: $padding-lg;
+    }
   }
 }
 
@@ -53,6 +63,11 @@
       right: $padding;
       position: absolute;
       background: $concrete-light;
+
+      @include media-lg {
+        left: $padding-lg;
+        right: $padding-lg;
+      }
     }
 
     &::before {
@@ -65,17 +80,26 @@
 
       @include media-md {
         &::after {
+          display: block;
           left: auto;
           width: 1px;
           right: -1px;
           height: auto;
           top: $padding;
-          display: block;
           bottom: $padding;
+
+          @include media-lg {
+            top: $padding-lg;
+            bottom: $padding-lg;
+          }
         }
 
         &::before {
           left: calc(-100% + #{$padding});
+
+          @include media-lg {
+            left: calc(-100% + #{$padding-lg});
+          }
         }
 
         &:nth-of-type(even) {
@@ -89,17 +113,26 @@
 
       @include min-screen($breakpoint-thirds-2col) {
         &::after {
+          display: block;
           left: auto;
           width: 1px;
           right: -1px;
           height: auto;
           top: $padding;
-          display: block;
           bottom: $padding;
+
+          @include media-lg {
+            top: $padding-lg;
+            bottom: $padding-lg;
+          }
         }
 
         &::before {
           left: calc(-200% + #{$padding});
+
+          @include media-lg {
+            left: calc(-200% + #{$padding-lg});
+          }
         }
       }
 
@@ -121,17 +154,26 @@
 
       @include min-screen($breakpoint-quarters-2col) {
         &::after {
+          display: block;
           left: auto;
           width: 1px;
           right: -1px;
           height: auto;
           top: $padding;
-          display: block;
           bottom: $padding;
+
+          @include media-lg {
+            top: $padding-lg;
+            bottom: $padding-lg;
+          }
         }
 
         &::before {
           left: calc(-300% + #{$padding});
+
+          @include media-lg {
+            left: calc(-300% + #{$padding-lg});
+          }
         }
       }
 
@@ -165,13 +207,18 @@
       position: relative;
 
       &::after {
+        position: absolute;
+        background: $concrete-light;
         right: -1px;
         width: 1px;
         content: '';
         top: $padding;
         bottom: $padding;
-        position: absolute;
-        background: $concrete-light;
+
+        @include media-lg {
+          top: $padding-lg;
+          bottom: $padding-lg;
+        }
       }
     }
 
@@ -190,14 +237,19 @@
   position: relative;
 
   &::before, &::after {
+    position: absolute;
+    background: $concrete-light;
     z-index: 1;
     content: '';
     height: 1px;
     top: -1px;
     left: $padding;
     right: $padding;
-    position: absolute;
-    background: $concrete-light;
+
+    @include media-lg {
+      left: $padding-lg;
+      right: $padding-lg;
+    }
   }
 
   &::before {
@@ -207,18 +259,27 @@
   @include min-screen($breakpoint-meta) {
 
     &::after {
+      display: block;
       left: auto;
       width: 1px;
       right: -1px;
       height: auto;
       top: $padding;
-      display: block;
       bottom: $padding;
+
+      @include media-lg {
+        top: $padding-lg;
+        bottom: $padding-lg;
+      }
     }
 
     &.-half {
       &::before {
         right: calc(-100% + #{$padding});
+
+        @include media-lg {
+          right: calc(-100% + #{$padding-lg});
+        }
       }
 
       &:not(.-row-end) {

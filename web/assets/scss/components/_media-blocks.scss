@@ -191,6 +191,10 @@
     position: relative;
     padding: 55px $padding $padding;
 
+    @include media-lg {
+      padding: 55px $padding-lg $padding-lg;
+    }
+
     .icon {
       top: 38px;
       width: 7px;
@@ -198,6 +202,10 @@
       fill: $black;
       left: $padding;
       position: absolute;
+
+      @include media-lg {
+        left: $padding-lg;
+      }
     }
   }
 
@@ -258,7 +266,7 @@
   padding: $padding $padding $padding #{$padding - 10px};
 
   @include media-lg {
-    padding: $padding $padding $padding #{$padding - 9px};
+    padding: $padding-lg $padding-lg $padding-lg #{$padding-lg - 9px};
   }
 
   blockquote {
@@ -346,6 +354,10 @@
     position: relative;
     padding: $padding $padding ($padding+66px);
 
+    @include media-lg {
+      padding: $padding-lg $padding-lg ($padding-lg+66px);
+    }
+
     .category {
       color: $red;
     }
@@ -358,6 +370,10 @@
     .button {
       position: absolute;
       bottom: $padding;
+
+      @include media-lg {
+        bottom: $padding-lg;
+      }
     }
   }
 }

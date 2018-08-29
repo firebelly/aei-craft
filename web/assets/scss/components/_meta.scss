@@ -8,6 +8,10 @@
     flex: 0 0 0;
     padding: 30px $padding $padding;
 
+    @include media-lg {
+      padding: 46px $padding-lg $padding-lg;
+    }
+
     h3 {
       margin: 0 0 7px;
       @include font-p;
@@ -43,7 +47,8 @@
 }
 
 .page-intro {
-  .page-quote, .page-headline {
+  .page-quote,
+  .page-headline {
     margin-bottom: $padding;
     @include media-md {
       margin-bottom: 70px;
