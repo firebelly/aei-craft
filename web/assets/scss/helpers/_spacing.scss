@@ -1,6 +1,9 @@
 //Padding
 .pad {
   padding: $padding;
+  @include media-lg {
+    padding: $padding-lg;
+  }
 }
 
 .pad-vertical {

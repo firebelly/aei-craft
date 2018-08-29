@@ -1,0 +1,8 @@
+// Services styles
+
+#services {
+  margin-top: $padding;
+  @include media-lg {
+    margin-top: $padding-lg;
+  }
+}
