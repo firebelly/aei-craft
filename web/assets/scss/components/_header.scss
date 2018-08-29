@@ -2,11 +2,14 @@
 
 // Body padding to accommodate header height
 body {
-  padding-top: $header-height-sm;
+  padding-top: $header-height;
   @include media-sm {
-    padding-top: $header-height-md;
+    padding-top: $header-height-sm;
   }
   @include media-md {
+    padding-top: $header-height-md;
+  }
+  @include media-lg {
     padding-top: $header-height-lg;
   }
 }
@@ -22,22 +25,21 @@ body {
   background-color: $white;
 
   @include media-sm {
-    height: $header-height-md;
-    padding: $padding-md;
+    height: $header-height-sm;
+    // padding: $padding-md;
     border-bottom: 1px solid $concrete-light;
   }
   @include media-md {
+    height: $header-height-md;
     z-index: 10;
-    padding: $padding-md;
-  }
-
-  @include media-md {
-    padding: $padding-lg;
-    height: $header-height-lg;
-
+    padding: 40px #{$padding-md - 16px} $padding-md $padding-md;
     .lockup-block {
       float: left;
     }
+  }
+  @include media-lg {
+    height: $header-height-lg;
+    padding: 50px #{$padding-lg - 16px} $padding-lg $padding-lg;
   }
 }
 
@@ -66,6 +68,10 @@ body {
   display: block;
   width: 50%;
 
+  @include media-sm {
+    padding: $beat*2 0;
+  }
+
   .affiliated-engineers {
     float: left;
 
@@ -78,6 +84,8 @@ body {
       @include media-md {
         width: 211px;
         height: 46px;
+      }
+      @include media-lg {
       }
     }
   }

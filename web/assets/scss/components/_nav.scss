@@ -80,7 +80,7 @@
       @include media-md {
         display: inline-block;
         a {
-          padding: $beat $beat*2;
+          padding: 10px $beat*2;
           &::after {
             display: none;
           }
@@ -100,6 +100,7 @@
     a {
       display: inline-block;
       text-decoration: none;
+      padding: 4px;
     }
     &.current a,
     a:hover {
@@ -180,7 +181,7 @@
 
 .nav-open {
   @include hardware-acceleration;
-  width: $padding;
+  width: 24px;
   cursor: pointer;
   top: 48px;
   right: $padding-sm;
