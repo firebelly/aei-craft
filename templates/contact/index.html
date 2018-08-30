@@ -24,7 +24,7 @@
   <div class="row-block">
     <div class="module text-module">
       <div class="buttons">
-        <a href="#general" class="button   smoothscroll">
+        <a href="#general" class="button smoothscroll">
           <span class="border"></span><span class="extra-corners"></span>
           General Contacts
           <svg class="icon icon-down-arrow"><use xlink:href="#icon-down-arrow" /></svg>
@@ -35,7 +35,7 @@
 </div>
 
   <section  id="offices" class="margin-vertical">
-    <div class="row -halves   hr-top-black">
+    <div class="row -halves hr-top-black">
       <div class="row-block">
         <div class="module text-module">
           <h2 class="font-h1">Offices</h2>
@@ -45,13 +45,10 @@
 
     <ul class="row -quarters -separators semantic-only-list">
       {% for entry in officeEntries %}
-        <li class="row-block   separate">
-
+        <li class="row-block separate">
           <article class="module contact-module pad vcard image-wrap location-contact">
-
             {% set image = entry.officeImage.one() %}
             <div class="image" {% if image %}style="background-image: url('{{ image.getUrl('thumb') }}');"{% endif %}></div>
-
             <div class="content">
               <h1 class="font-p"><a href="{{ entry.url }}" class="fn org url"><span class="organization-name sr-only">AEI</span><span class="organization-unit">{{ entry.title }}</span></a></h1>
               <div class="font-details">
@@ -70,14 +67,13 @@
               </div>
             </div>
           </article>
-
         </li>
       {% endfor %}
     </ul>
   </section>
 
   <section  id="general" class="margin-vertical">
-    <div class="row -halves   hr-top-black"">
+    <div class="row -halves hr-top-black">
       <div class="row-block">
         <div class="module text-module">
           <h2 class="font-h1">General</h2>
@@ -88,10 +84,8 @@
 
     <ul class="row -quarters -separators semantic-only-list margin-bottom">
       {% for block in entry.contactBlocks.all() %}
-        <li class="row-block   separate">
-
+        <li class="row-block separate">
           <article class="module contact-module pad vcard general-contact">
-
             <div class="content">
               <h1 class="font-p"><span class="fn org url"><span class="organization-name sr-only">AEI</span><span class="organization-unit">{{ block.contactTitle }}</span></spam></h1>
               <div class="font-details">
@@ -110,7 +104,6 @@
               </div>
             </div>
           </article>
-
         </li>
       {% endfor %}
     </ul>

@@ -1,0 +1,13 @@
+// About page
+
+.page-about {
+  .site-footer {
+    margin-top: $padding*2;
+  }
+
+  @include media-lg {
+    .site-footer {
+      margin-top: $padding-lg*2;
+    }
+  }
+}

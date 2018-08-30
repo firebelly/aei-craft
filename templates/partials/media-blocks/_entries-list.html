@@ -1,0 +1,17 @@
+<div class="module text-module entries-list-module">
+  <h3 class="font-p">{{ block.headline }}</h3>
+  {% if block.entries %}
+    <ul class="semantic-only-list font-captions">
+      {% for entry in block.entries %}
+        {% set title = entry.title %}
+        {% if entry.section == 'People' and entry.personCertifications %}
+          {% set title = title ~ ', ' ~ entry.personCertifications %}
+        {% endif %}
+        {% if entry.section == 'Projects' and entry.personCertifications %}
+          {% set title = entry.projectClientName ~ ' – ' ~ entry.projectName %}
+        {% endif %}
+        <li><a href="{{ entry.getUrl() }}">{{ title }}</a></li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</div>
