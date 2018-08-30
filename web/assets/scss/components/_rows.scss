@@ -44,6 +44,9 @@
       @include media-md {
         margin-top: $padding;
       }
+      @include media-lg {
+        margin-top: $padding-lg;
+      }
     }
   }
 

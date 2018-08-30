@@ -36,7 +36,15 @@
       @include min-screen($breakpoint-meta) {
         max-width: 50%;
         flex-basis: 50%;
-        padding-right: 30px;
+        // I'm not sure what this is here for tbh -nate
+        &:not(.-row-end) {
+          padding-right: 30px;
+        }
+      }
+      @include media-lg {
+        &:not(.-row-end) {
+          padding-right: 46px;
+        }
       }
     }
 

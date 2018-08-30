@@ -25,6 +25,9 @@
     @include media-md {
       padding: 3*$padding 0;
     }
+    // @include media-lg {
+    //   padding: 3*$padding-lg 0;
+    // }
   }
 
   @include media-lg {
@@ -93,7 +96,6 @@
 
 .search-form {
   padding: 0 $padding;
-
   input[type="search"] {
     @include font-h1;
     border: 0;
@@ -106,6 +108,13 @@
   }
   .button {
     margin-top: $padding;
+  }
+
+  @include media-lg {
+    padding: 0 $padding-lg;
+    .button {
+      margin-top: $padding-lg;
+    }
   }
 }
 
@@ -120,9 +129,9 @@
   flex-wrap: wrap;
   overflow-x: hidden;
 
-  @include media-md {
-    margin-top: 12*$beat;
-  }
+  // @include media-md {
+  //   margin-top: 12*$beat;
+  // }
 
   h2 {
     @include font-details;
@@ -156,6 +165,10 @@
       padding-top: 0;
       max-width: 25%;
       flex-basis: 25%;
+    }
+    @include media-lg {
+      padding: 0 $padding-lg;
+      margin-top: $padding-lg*2;
     }
 
     &::after {
@@ -191,11 +204,19 @@
     margin: 0;
     color: red;
     padding: 0 $padding;
+
+    @include media-lg {
+      padding: 0 $padding-lg;
+    }
   }
 
   .search-article {
     padding: 35px 0 $padding;
     border-bottom: 1px solid $off-white;
+
+    @include media-lg {
+      padding: 51px 0 $padding-lg;
+    }
 
     h3 {
       @include font-p;

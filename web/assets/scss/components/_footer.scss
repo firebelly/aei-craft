@@ -16,6 +16,9 @@
       width: 50%;
       float: right;
     }
+    @include media-lg {
+      padding: $padding-lg $padding-lg ($padding-lg - $beat);
+    }
   }
 
   .copyright {

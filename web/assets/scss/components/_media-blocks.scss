@@ -245,7 +245,7 @@
     margin-top: $padding;
 
     @include media-lg {
-      margin-top: 7*$beat;
+      margin-top: $padding-lg;
     }
 
     .button {
