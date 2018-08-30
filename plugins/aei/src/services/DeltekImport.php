@@ -114,7 +114,7 @@ class DeltekImport extends Component
                 } else if ($mediaBlock->getType()->name === 'Stat') {
                     $deltekId = $mediaBlock->getFieldValue('statKey');
 
-                    Deltek ID not set? Try to find it in Deltek db
+                    // Deltek ID not set? Try to find it in Deltek db
                     if (empty($deltekId)) {
                         $deltekLookupId = $entry->getFieldValue($deltekLookupCraftField);
                         $statFigure = $mediaBlock->getFieldValue('statFigure');
