@@ -1,7 +1,7 @@
 <div class="module quotes-module">
   <div class="quote-carousel -unslicked">
     {% for row in block.quotes.all() %}
-      <blockquote class="no-margin">
+      <blockquote>
         <span class="hang">&ldquo;</span>{{ row.quote }}&rdquo;
         {% set person = row.aeiPerson.one() %}
         {% if person %}

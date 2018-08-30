@@ -449,18 +449,23 @@ var FB = (function($) {
   }
 
   function _initSlick() {
-    $('.quote-carousel').slick({
-      // arrows: false,
-      nextArrow: '<div class="next"><svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></div>',
-      prevArrow: '<div class="prev"><svg class="icon icon-left-arrow"><use xlink:href="#icon-left-arrow" /></svg></div>',
-      autoplay: true,
-      autoplaySpeed: 5000,
-      fade: true,
-      swipe: false,
-      touchMove: false,
-      draggable: false,
-      pauseOnHover: false,
-    }).removeClass('-unslicked');
+
+    $('.quote-carousel').each(function() {
+      var $this = $(this);
+      if ($this.find('blockquote').length > 1) {
+          $this.slick({
+            // arrows: false,
+            nextArrow: '<div class="next"><svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></div>',
+            prevArrow: '<div class="prev"><svg class="icon icon-left-arrow"><use xlink:href="#icon-left-arrow" /></svg></div>',
+            autoplay: true,
+            autoplaySpeed: 5000,
+            fade: true,
+            swipe: false,
+            touchMove: false,
+            draggable: false,
+            pauseOnHover: false,
+          }).removeClass('-unslicked');
+      }
   }
 
   function _scrollBody(element, duration, delay) {
