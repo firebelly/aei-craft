@@ -74,6 +74,12 @@
               <div class="content">{{ entry.projectLeedStatus }}</div>
             </div>
           {% endif %}
+          {% if entry.projectBuildingSize %}
+            <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
+              <h3>Building Size</h3>
+              <div class="content">{{ entry.projectBuildingSize }}</div>
+            </div>
+          {% endif %}
           {% if entry.projectAwards|length %}
             <div class="meta-item -full">
               <h3>Awards</h3>

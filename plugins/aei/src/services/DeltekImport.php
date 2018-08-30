@@ -114,13 +114,12 @@ class DeltekImport extends Component
                 } else if ($mediaBlock->getType()->name === 'Stat') {
                     $deltekId = $mediaBlock->getFieldValue('statKey');
 
-                    // Deltek ID not set? Try to find it in Deltek db
-                    // if (empty($deltekId)) {
+                    Deltek ID not set? Try to find it in Deltek db
+                    if (empty($deltekId)) {
                         $deltekLookupId = $entry->getFieldValue($deltekLookupCraftField);
                         $statFigure = $mediaBlock->getFieldValue('statFigure');
                         $statLabel = $mediaBlock->getFieldValue('statLabel');
-                        $sql = "SELECT stat_key FROM `{$singleTypeName}_stats` WHERE {$deltekLookupColumn} ='{$deltekLookupId}' AND text=".$this->deltekDb->quote($statFigure)." AND subtext=".$this->deltekDb->quote($statLabel);
-                        $q = $this->deltekDb->query($sql);
+                        $q = $this->deltekDb->query("SELECT stat_key FROM `{$singleTypeName}_stats` WHERE {$deltekLookupColumn} ='{$deltekLookupId}' AND text=".$this->deltekDb->quote($statFigure)." AND subtext=".$this->deltekDb->quote($statLabel));
                         $deltekId = $q->fetchColumn();
                         // Did we find anything?
                         if (!empty($deltekId)) {
@@ -128,9 +127,9 @@ class DeltekImport extends Component
                             Craft::$app->elements->saveElement($mediaBlock);
                             $deltekIds[] = $deltekId;
                         }
-                    // } else {
-                    //     $deltekIds[] = $deltekId;
-                    // }
+                    } else {
+                        $deltekIds[] = $deltekId;
+                    }
                 }
             }
             Craft::$app->getElements()->saveElement($entry);
@@ -857,18 +856,19 @@ class DeltekImport extends Component
             }
 
             $fields = array_merge($fields, [
-                'projectNumber'     => $row['project_num'],
-                'projectName'       => $row['name'],
-                'projectClientName' => $row['client'],
-                'projectTagline'    => $row['tagline'],
-                'projectLocation'   => $row['location'],
-                'projectLeedStatus' => $row['leed_status'],
-                'services'          => $serviceIds,
-                'markets'           => $marketIds,
-                'projectAwards'     => $awardIds,
-                'projectLeaders'    => $projectLeaders,
-                'projectPartners'   => $projectPartners,
-                'featured'          => (!empty($row['is_featured']) ? 1 : 0),
+                'projectNumber'       => $row['project_num'],
+                'projectName'         => $row['name'],
+                'projectClientName'   => $row['client'],
+                'projectTagline'      => $row['tagline'],
+                'projectLocation'     => $row['location'],
+                'projectLeedStatus'   => $row['leed_status'],
+                'projectBuildingSize' => (!empty($row['building_size']) ? $row['building_size'] : ''),
+                'services'            => $serviceIds,
+                'markets'             => $marketIds,
+                'projectAwards'       => $awardIds,
+                'projectLeaders'      => $projectLeaders,
+                'projectPartners'     => $projectPartners,
+                'featured'            => (!empty($row['is_featured']) ? 1 : 0),
             ]);
 
             $entry->setFieldValues($fields);
