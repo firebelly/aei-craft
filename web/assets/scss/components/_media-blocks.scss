@@ -112,8 +112,10 @@
   }
 
   .figure-2 .fit-figure-container {
-    position: relative;
-    left: -30%;
+    @include media-md {
+      position: relative;
+      left: -30%;
+    }
   }
 
   .label {
