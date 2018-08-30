@@ -274,6 +274,11 @@
   }
 }
 
+// Remove padding on quotes-module inside text-module (e.g. quote at top of office entry)
+.text-module .quotes-module {
+  padding: 0;
+}
+
 .quote-carousel {
   position: relative;
   padding-bottom: $padding*2;

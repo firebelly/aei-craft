@@ -9,20 +9,24 @@
     {% include '/partials/_theater-header' %}
   {% endfor %}
 
-  {% include '/partials/_media-blocks' %}
+  <article class="single-page">
+    <div class="row -halves content-blocks -spaced">
+      {% include '/partials/_media-blocks' %}
+    </div>
 
-    <div class="row -single big-margin-vertical">
-    <div class="row-block">
-      <div class="module text-module  ">
-        <h3 class="font-h1">Interested?</h3>
-        <div class="buttons">
-          <a rel="noopener" target="_blank" href="https://careers-aeieng.icims.com/" class="button">
-            <span class="border"></span><span class="extra-corners"></span>
-            Search Jobs
-            <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
-          </a>
+    <div class="row -single big-margin-vertical -spaced">
+      <div class="row-block">
+        <div class="module text-module  ">
+          <h3 class="font-h1">Interested?</h3>
+          <div class="buttons">
+            <a rel="noopener" target="_blank" href="https://careers-aeieng.icims.com/" class="button">
+              <span class="border"></span><span class="extra-corners"></span>
+              Search Jobs
+              <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
+            </a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </article>
 {% endblock %}
