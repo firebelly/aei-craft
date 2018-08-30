@@ -26345,13 +26345,17 @@ var FB = (function($) {
           i=0;
         });
 
-        $('.search-section-title').each(function() {
+        // Make header titles sticky
+        $('.sticky-header').each(function() {
           $this = $(this);
           var sticky = new Waypoint.Sticky({
             element: $this[0],
             context: $scrollContext[0],
           });
         });
+
+        // Required to maintain width on sticky headers
+        _fixStickyHeaderWidths();
 
       });
     });
@@ -26681,7 +26685,17 @@ var FB = (function($) {
       // Refix waypoints
       Waypoint.refreshAll();
 
+      // Resize fixed headers
+      _fixStickyHeaderWidths();
+
     }, 250);
+  }
+
+  function _fixStickyHeaderWidths() {
+    $('.sticky-header').each(function() {
+      var parentWidth = $(this).parent().width();
+      $(this).width(parentWidth);
+    });
   }
 
   function _initMasonry() {

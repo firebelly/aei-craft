@@ -55,13 +55,15 @@
         {% set search_sections = {
           'Projects': projectPosts,
           'News & Insights': impactPosts,
-          'Contact & Services': servicePosts,
+          'Locations & Services': servicePosts,
           'People': peoplePosts,
           } %}
 
           {% for title,entries in search_sections %}
             <section class="search-section">
-              <div class="search-section-title"><h2>{{ title }}</h2></div>
+              <div class="search-section-title sticky-header">
+                <h2>{{ title }}</h2>
+              </div>
               {% for entry in entries %}
                 {% include 'search/_article' %}
               {% endfor %}

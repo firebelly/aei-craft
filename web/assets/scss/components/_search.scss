@@ -191,9 +191,6 @@
       &.stuck {
         position: fixed;
       }
-      h2 {
-        display: inline-block;
-      }
     }
   }
 
@@ -228,15 +225,11 @@
     }
 
     .read-more {
-      display: block;
-      margin: 2*$beat 0 0;
-    }
-
-    .arrow-wrap {
+      display: inline-block;
       position: relative;
-      text-decoration: underline;
-      &:after {
-        content: "\00a0\00a0"; // extend the underline
+      margin: 2*$beat 0 0;
+      &::after {
+        content: "\00a0\00a0\00a0"; // extend the underline
       }
     }
 
