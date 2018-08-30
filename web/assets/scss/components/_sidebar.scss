@@ -38,7 +38,6 @@
     position: fixed;
     top: $header-height-lg;
     width: $sidebar-max-width;
-    max-height: calc(100vh - #{$header-height-lg});
   }
 
   // Filters
@@ -75,48 +74,34 @@
   }
 }
 
-// MS — not sure if this is being used anywhere...
-.current-filter-label,
-.open-filters {
-  @include hardware-acceleration;
-  top: 132px;
-  z-index: 2;
-  right: 100%;
-  position: fixed;
-  text-align: right;
-  white-space: nowrap;
-  line-height: $padding;
-  transform-origin: 100% 0%;
-  transform: rotate(-90deg);
-  transition: opacity 0.2s $ease;
+// Sticky sidebar behaviors on desktop screens
+@include media-lg {
 
-  @include media-md {
-    top: 172px;
+  // Make sticky wrapper sidebar width and floated left so it doesn't affect main layout
+  .sidebar-sticky-wrapper {
+    width: $sidebar-max-width;
+    float: left;
   }
-
-  a.close-filter {
-    position: absolute;
-    top: 0;
-    left: 100%;
-    padding: 0 2*$beat;
-
-    &:hover {
-      .icon-x {
-        fill: $black;
+  // Stick that sidebar
+  .sidebar {
+    max-height: calc(100vh - #{$header-height-lg});
+    &.stuck {
+      top: 0;
+      position: fixed;
+    }
+  }
+  // If body has scrolled down and nav isn't stuck, make max-height of sidebar to full viewport height
+  body.-scrolled:not(.nav-stuck) {
+    .sidebar {
+      max-height: calc(100vh);
+    }
+  }
+  // Push down stuck sidebar if main nav is also stuck
+  body.nav-stuck {
+    .sidebar {
+      &.stuck {
+        top: $header-height-lg;
       }
     }
-
-    .icon-x {
-      width: 7px;
-      height: 7px;
-      fill: $white;
-    }
   }
-  @include media-lg {
-    display: none;
-  }
-}
-
-.open-filters {
-  cursor: pointer;
 }

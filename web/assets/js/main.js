@@ -185,24 +185,23 @@ var FB = (function($) {
   // Code for sticky header
   function _initStickyHeader() {
 
+    // Make sidebar sticky
+    new Waypoint.Sticky({
+      element: $('.sidebar')[0],
+      wrapper: '<div class="sidebar-sticky-wrapper" />'
+    });
+
     // Make StickyHeader class
     function StickyHeader() {
 
-      // Cached jqueries
       var $header = $('#sticky-header');
-
-      // The reason I did all this...
       var turningPoint = 250;
-
-      // Alias this
       var me = this;
-
       var scrollTop = $(window).scrollTop();
       var lastScrollTop = scrollTop;
+      var scrolled, scrollingUp, stuck, lastScrollingUp;
 
-      var scrolled, scrollingUp, stuck;
-
-      // Determine whether header should be sticky and make it so
+      // Determine whether header should be sticky
       this.refreshState = function() {
         lastScrollTop = scrollTop;
         scrollTop = $(window).scrollTop();
@@ -214,12 +213,12 @@ var FB = (function($) {
 
             // Mark this as is currently scrolled
             $header.addClass('-scrolled');
+            $body.addClass('-scrolled');
 
             if (!stuck) {
               // Mark this as having had scrolled at some point
               $header.addClass('-stuck');
               stuck = true;
-
               turningPoint = 128;
 
               // Prevent a transition
@@ -232,10 +231,11 @@ var FB = (function($) {
           }
           if (!scrolled) {
             $header.removeClass('-scrolled');
+            $body.removeClass('-scrolled');
           }
         }
 
-        var lastScrollingUp = scrollingUp;
+        lastScrollingUp = scrollingUp;
         scrollingUp = lastScrollTop > scrollTop;
         if (scrollingUp !== lastScrollingUp ) {
           if (scrollingUp && stuck) {
@@ -528,7 +528,7 @@ var FB = (function($) {
   }
 
   function _initNav() {
-
+    // Initial state
     _closeNav();
     $(document).on('click','.nav-close', function() {
       _closeNav();

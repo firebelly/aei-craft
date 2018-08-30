@@ -4,9 +4,12 @@
 body.nav-stuck {
   .mobile-filter {
     &.stuck {
-      top: $header-height-md;
+      top: $header-height;
+      @include media-sm {
+        top: $header-height-sm;
+      }
       @include media-md {
-        top: $header-height-lg;
+        top: $header-height-md;
       }
     }
   }
