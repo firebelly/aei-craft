@@ -10,7 +10,7 @@
   background: #fff;
   background: $white;
   transform: translateX(100%);
-  transition: transform .3s $ease, opacity .3s $ease;
+  transition: transform 0.3s $ease, opacity 0.3s $ease;
 
   // 320–480px get smaller left gap
   @include max-screen($breakpoint-sm) {

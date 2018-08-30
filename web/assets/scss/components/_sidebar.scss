@@ -3,6 +3,7 @@
 .sidebar {
   @include global-padding;
   display: none;
+  transition: top 0.2s $ease;
   h2 {
     margin-top: 0;
     position: relative;
@@ -32,6 +33,10 @@
 
   @include media-lg {
     display: block;
+    left: 0;
+    bottom: 0;
+    position: fixed;
+    top: $header-height-lg;
     width: $sidebar-max-width;
   }
 
