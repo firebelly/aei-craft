@@ -26324,7 +26324,7 @@ var FB = (function($) {
         var $scrollContext = $('#search-modal .scroll-wrap')
 
         $content.html(data).velocity('fadeOut', {duration: 0});
-        $content.find('.search-section,.search-article').velocity('fadeOut', {duration: 0});
+        $content.find('.search-section, .search-article').velocity('fadeOut', {duration: 0});
 
         var speed = 200;
         var delay = 40;
