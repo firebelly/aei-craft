@@ -1,27 +1,30 @@
 // Project Article
-.project-module {
-  @include hardware-acceleration;
-  overflow: hidden;
-  position: relative;
-
-  &::after, &::before {
+.no-touch {
+  // On non-touch devices, show hover state on project thumbs
+  .project-module {
     @include hardware-acceleration;
-    left: 0;
-    z-index: 1;
-    top: -100%;
-    content: '';
-    width: 200%; // 100% if they choose half-covering overlay
-    height: 200%;
-    opacity: .66;
-    background: $red;
-    position: absolute;
-    transition: transform 0.3s $ease;
-    transform: skew(-18deg) translateX(-100%);
+    overflow: hidden;
+    position: relative;
 
-  }
-  &:hover {
     &::after, &::before {
-      transform: skew(-18deg) translateX(0);
+      @include hardware-acceleration;
+      left: 0;
+      z-index: 1;
+      top: -100%;
+      content: '';
+      width: 200%; // change to 100% for half-cover overlay
+      height: 200%;
+      opacity: .66;
+      background: $red;
+      position: absolute;
+      transition: transform 0.3s $ease;
+      transform: skew(-18deg) translateX(-100%);
+
+    }
+    &:hover {
+      &::after, &::before {
+        transform: skew(-18deg) translateX(0);
+      }
     }
   }
 }
