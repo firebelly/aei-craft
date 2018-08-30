@@ -20,7 +20,6 @@
     // Hover Arrow
     &::after {
       right: 0;
-      // opacity: 0;
       top: 2*$beat;
       content: '';
       width: 11.1px;
@@ -33,10 +32,6 @@
 
   @include media-lg {
     display: block;
-    left: 0;
-    bottom: 0;
-    position: fixed;
-    top: $header-height-lg;
     width: $sidebar-max-width;
   }
 
@@ -87,17 +82,25 @@
   }
   // Stick that sidebar
   .sidebar {
-    max-height: calc(100vh - #{$header-height-lg});
     &.stuck {
       top: 0;
+      left: 0;
+      bottom: 0;
       position: fixed;
     }
   }
   // If body has scrolled down and nav isn't stuck, make max-height of sidebar to full viewport height
-  body.-scrolled:not(.nav-stuck) {
+  body.-scrolled {
     .sidebar {
       max-height: calc(100vh);
     }
+    &.nav-stuck {
+      .sidebar {
+        max-height: calc(100vh - #{$header-height-lg});
+      }
+    }
+  }
+  body.-scrolled:not(.nav-stuck) {
   }
   // Push down stuck sidebar if main nav is also stuck
   body.nav-stuck {
