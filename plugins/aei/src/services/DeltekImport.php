@@ -115,9 +115,12 @@ class DeltekImport extends Component
                     $deltekId = $mediaBlock->getFieldValue('statKey');
 
                     // Deltek ID not set? Try to find it in Deltek db
-                    if (empty($deltekId)) {
+                    // if (empty($deltekId)) {
                         $deltekLookupId = $entry->getFieldValue($deltekLookupCraftField);
-                        $q = $this->deltekDb->query("SELECT stat_key FROM `{$singleTypeName}_stats` WHERE {$deltekLookupColumn} ='{$deltekLookupId}'");
+                        $statFigure = $mediaBlock->getFieldValue('statFigure');
+                        $statLabel = $mediaBlock->getFieldValue('statLabel');
+                        $sql = "SELECT stat_key FROM `{$singleTypeName}_stats` WHERE {$deltekLookupColumn} ='{$deltekLookupId}' AND text=".$this->deltekDb->quote($statFigure)." AND subtext=".$this->deltekDb->quote($statLabel);
+                        $q = $this->deltekDb->query($sql);
                         $deltekId = $q->fetchColumn();
                         // Did we find anything?
                         if (!empty($deltekId)) {
@@ -125,9 +128,9 @@ class DeltekImport extends Component
                             Craft::$app->elements->saveElement($mediaBlock);
                             $deltekIds[] = $deltekId;
                         }
-                    } else {
-                        $deltekIds[] = $deltekId;
-                    }
+                    // } else {
+                    //     $deltekIds[] = $deltekId;
+                    // }
                 }
             }
             Craft::$app->getElements()->saveElement($entry);
@@ -753,12 +756,11 @@ class DeltekImport extends Component
                     $projectStats['new'.$mediaBlockNew] = [
                         'type' => 'stat',
                         'fields' => [
-                            'statFigure' => $this->fixStatFigure($relRow['text']),
+                            'statFigure' => $relRow['text'],
                             'statLabel'  => $relRow['subtext'],
                             'statKey'    => $relRow['stat_key'],
                         ]
                     ];
-                    $deltekIdsImported[] = $relRow['stat_key'];
                 }
                 $mediaBlocks = array_merge($mediaBlocks, $projectStats);
 
@@ -1185,15 +1187,6 @@ class DeltekImport extends Component
             $text = '<p>' . implode('</p><p>', array_filter(explode("\n", $text))) . '</p>';
         }
         return $text;
-    }
-
-    /**
-     * Fix stat figures for db save
-     */
-    private function fixStatFigure($figure) {
-        // Stats with just 0 don't save in db, get nulled out
-        $figure = preg_replace('/^0$/', 'zero', $figure);
-        return $figure;
     }
 
     /**
