@@ -24,7 +24,7 @@ $colors: (
     color: $color;
   }
 
-  .project-module.color-#{$color-key} {
+  .no-touch .project-module.color-#{$color-key} {
     &::before,
     &::after {
       background: $color;
