@@ -449,7 +449,7 @@ var FB = (function($) {
   }
 
   function _initSlick() {
-
+    // Make quote-carousels with more than one quote a slick carousel
     $('.quote-carousel').each(function() {
       var $this = $(this);
       if ($this.find('blockquote').length > 1) {
@@ -466,6 +466,7 @@ var FB = (function($) {
             pauseOnHover: false,
           }).removeClass('-unslicked');
       }
+    });
   }
 
   function _scrollBody(element, duration, delay) {
