@@ -75,10 +75,13 @@
 }
 
 // Sticky sidebar behaviors on desktop screens
+.sidebar-sticky-wrapper {
+  display: none;
+}
 @include media-lg {
-
   // Make sticky wrapper sidebar width and floated left so it doesn't affect main layout
   .sidebar-sticky-wrapper {
+    display: block;
     width: $sidebar-max-width;
     float: left;
   }
