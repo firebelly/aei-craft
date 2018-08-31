@@ -6,7 +6,7 @@
 
 {% set projectColor = (project.colorSwatch.label ?? null) ? project.colorSwatch.label|lower : 'black' %}
 
-<article class="project module project-module bigclicky color-{{ projectColor }}">
+<article class="project module project-module bigclicky color-{{ projectColor }} zoom-hover">
   <div class="view-project">View Project <svg class="icon icon-right-arrow" aria-hidden="true" role="presentation"><use xlink:href="#icon-right-arrow"/></svg></div>
   <div class="image-wrap -{{ projectAspectRatio }}">
     {% if projectImage %}
