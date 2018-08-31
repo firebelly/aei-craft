@@ -6,7 +6,8 @@
     overflow: hidden;
     position: relative;
 
-    &::after, &::before {
+    &::after,
+    &::before {
       @include hardware-acceleration;
       left: 0;
       z-index: 1;
