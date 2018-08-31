@@ -91,7 +91,7 @@
   }
 
   // Slightly larger search icon on 480–960px
-  @include screen($breakpoint-sm, $breakpoint-md) {
+  @include screen($breakpoint-sm, $breakpoint-md - 1px) {
     .icon-search {
       width: 13px;
       height: 13px;

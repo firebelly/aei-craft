@@ -42,7 +42,7 @@
       text-align: right;
     }
 
-    @include screen($breakpoint-sm, $breakpoint-md) {
+    @include screen($breakpoint-sm, $breakpoint-md - 1px) {
       // Larger font on 480–960px
       @include paragraph-style (33, 40, $ls: -.025em);
       li {
@@ -116,7 +116,7 @@
     }
   }
 
-  @include screen($breakpoint-sm, $breakpoint-md) {
+  @include screen($breakpoint-sm, $breakpoint-md -1px) {
     // Larger font size on 480–960px
     li {
       @include font-filter;
@@ -124,7 +124,7 @@
   }
 
   // Mobile-only styles
-  @include max-screen($breakpoint-md) {
+  @include max-screen($breakpoint-md - 1px) {
     position: absolute;
     bottom: $padding;
     left: $padding;

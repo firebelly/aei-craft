@@ -1,11 +1,44 @@
 // Project Article
+.project-module .view-project {
+  display: none;
+}
 .no-touch {
   // On non-touch devices, show hover state on project thumbs
   .project-module {
     @include hardware-acceleration;
     overflow: hidden;
     position: relative;
+    .view-project {
+      @include font-h1;
+      @include font-smoothing;
+      padding: $padding;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 10;
+      color: $white;
+      transition: transform .2s $ease;
+      transform: translateX(-100%);
+      svg {
+        width: 30px;
+        height: 22px;
+        position: absolute;
+        fill: $white;
+        position: absolute;
+        top: $padding + 4px;
+        right: $padding;
+      }
 
+      @include media-lg {
+        padding: $padding-lg;
+        svg {
+          top: $padding-lg + 15px;
+          right: $padding-lg;
+        }
+      }
+    }
     &::after,
     &::before {
       @include hardware-acceleration;
@@ -23,7 +56,11 @@
 
     }
     &:hover {
-      &::after, &::before {
+      .view-project {
+        transform: translateX(0);
+      }
+      &::after,
+      &::before {
         transform: skew(-18deg) translateX(0);
       }
     }
