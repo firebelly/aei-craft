@@ -26053,6 +26053,18 @@ var FB = (function($) {
       }
     });
 
+    // Back/fwd support
+    $(window).on('popstate',function() {
+      // Page affected by search modal history, reload it
+      if ((history.state && history.state.ajax)) {
+        location.reload();
+      }
+      // Hide modals on popstate
+      // _closeNav();
+      // _closeContactModal();
+      // _closeSearch();
+    });
+
     // Smoothscroll links
     $('a.smoothscroll').click(function(e) {
       e.preventDefault();
@@ -26191,10 +26203,12 @@ var FB = (function($) {
   // Code for sticky header
   function _initStickyHeader() {
 
-    // Make sidebar sticky
-    new Waypoint.Sticky({
-      element: $('.sidebar')[0],
-      wrapper: '<div class="sidebar-sticky-wrapper" />'
+    // Make sidebar sticky if present
+    $('.sidebar').each(function() {
+      new Waypoint.Sticky({
+        element: this,
+        wrapper: '<div class="sidebar-sticky-wrapper" />'
+      });
     });
 
     // Make StickyHeader class
@@ -26330,6 +26344,9 @@ var FB = (function($) {
         e.preventDefault();
         var $this = $(this);
         $.get($this.attr('action'), $this.serialize(), function(data) {
+          var title = $(data).filter('title').text();
+          history.replaceState({'ajax': true} , document.title, location.href);
+          history.pushState({'ajax': true} , title, $this.attr('action')+'?'+$this.serialize());
           var $content = $('#search-modal .content');
           var $scrollContext = $('#search-modal .scroll-wrap')
 
@@ -26340,7 +26357,7 @@ var FB = (function($) {
           var delay = 40;
           var i = 0;
           var j = 0;
-          $content.velocity('fadeIn', {duration: speed, delay: delay*(i++)}).find('.search-form input[type="search"]').focus();
+          $content.velocity('fadeIn', {duration: speed, delay: delay*(i++)}).find('.search-form input[name=q]').focus();
           $content.find('.search-section').each(function() {
             $(this).velocity('fadeIn', {duration: speed, delay: delay*(j+i++)});
 
@@ -26393,12 +26410,16 @@ var FB = (function($) {
   }
 
   function _closeSearch() {
-    // Animate it away
+    // Search modal has changed URL, go back to close modal and change URL
+    if (location.href.match('/search?')) {
+      history.back();
+    }
+    // Otherwise just close modal
     $('#search-modal').removeClass('active');
     $('#search-modal .content').velocity("fadeOut", { duration: 100, easing: 'easeOut' });
     $('#search-overlay').velocity("fadeOut", { delay: 300, duration: 300, easing: 'easeOut' });
 
-    // Enable scroll
+    // Enable body scrolling
     $('body').removeClass('no-scroll');
   }
 

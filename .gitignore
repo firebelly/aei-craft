@@ -2,14 +2,34 @@
 /.idea
 /vendor
 .DS_Store
-/web/assets/bower_components/*
-.scss-cache/*
-.gulp-scss-cache/*
-node_modules/*
-logs/*
-*.map
-public/.well-known
-*.pyc
-web/uploads/
-php.ini
 .todo
+
+# Build
+node_modules
+*.js.map
+*.css.map
+
+# Letsencrypt
+.well-known
+
+# Fabfile
+*.pyc
+
+# Bower
+bower_components
+
+# Licensed fonts
+web/assets/fonts
+
+# Treated images
+web/imager
+
+# Uploads
+web/uploads/
+
+# Ignore unrevisioned assets
+web/assets/dist/css/main.css
+web/assets/dist/js/main.js
+
+# Server files
+php.ini
