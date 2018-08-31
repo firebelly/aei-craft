@@ -26345,8 +26345,13 @@ var FB = (function($) {
         var $this = $(this);
         $.get($this.attr('action'), $this.serialize(), function(data) {
           var title = $(data).filter('title').text();
-          history.replaceState({'ajax': true} , document.title, location.href);
-          history.pushState({'ajax': true} , title, $this.attr('action')+'?'+$this.serialize());
+          // Already on search? Just replace it so back & closeSearch goes to previous non-search page
+          if (location.href.match('/search?')) {
+            history.replaceState({'ajax': true} , title, $this.attr('action')+'?'+$this.serialize());
+          } else {
+            history.replaceState({'ajax': true} , document.title, location.href);
+            history.pushState({'ajax': true} , title, $this.attr('action')+'?'+$this.serialize());
+          }
           var $content = $('#search-modal .content');
           var $scrollContext = $('#search-modal .scroll-wrap')
 
