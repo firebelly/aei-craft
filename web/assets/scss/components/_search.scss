@@ -1,3 +1,13 @@
+// Search
+
+// Search page
+.page-search {
+  .search-form {
+    margin-top: $padding*2;
+  }
+}
+
+// Search modal
 #search-modal {
   @include hardware-acceleration;
   top: 0;

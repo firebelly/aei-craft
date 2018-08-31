@@ -6,26 +6,19 @@
 
   <body class="{% if bodyClass is defined %}{{ bodyClass }}{% endif %} page-{{ segment(1) ? segment(1) : 'home' }}" {% if bodyId is defined %}id="{{ bodyId }}"{% endif %}>
     <div id="breakpoint-indicator"></div>
-
     {% include '/partials/_header' %}
 
-    {% if segment(1) %}
-    <nav class="sidebar" role="navigation">
-
-      {% block filters %}{% endblock %}
-
-    </nav>
+    {% if segment(1) and segment(1) != 'search' %}
+      <nav class="sidebar" role="navigation">
+        {% block filters %}{% endblock %}
+      </nav>
     {% endif %}
 
     <div class="right-col-wrap">
       <div class="right-col">
-
         <main class="site-main" role="main">
-
           {% block content %}{% endblock %}
-
         </main>
-
         {% include '/partials/_footer' %}
       </div>
     </div>

@@ -26295,70 +26295,81 @@ var FB = (function($) {
   }
 
   function _initSearch() {
-    // Open on click
-    $(document).on('click', '.search-open', function(e) {
-      e.preventDefault();
-      _openSearch();
-    });
+    // Are we on /search page?
+    if ($('.page-search').length) {
 
-    $(document).on('click', '.search-close', function(e) {
-      e.preventDefault();
-      _closeSearch();
-    });
-
-    // Clutter up the DOM (add search modal and overlay)
-    $('<div id="search-modal"><div class="scroll-wrap"><div class="content"></div></div><svg class="icon icon-x"><use xlink:href="#icon-x" /></svg></div>')
-      .appendTo('body');
-    $('<div class="overlay search-close" id="search-overlay"></div>')
-      .appendTo('body');
-
-    // Hide the overlay
-    $('#search-overlay').velocity('fadeOut', { duration: 0 });
-
-    // Pipe in search results on submit
-    $(document).on('submit', '.search-form', function(e) {
-      e.preventDefault();
-      var $this = $(this);
-      $.get($this.attr('action'), $this.serialize(), function(data) {
-        var $content = $('#search-modal .content');
-        var $scrollContext = $('#search-modal .scroll-wrap')
-
-        $content.html(data).velocity('fadeOut', {duration: 0});
-        $content.find('.search-section, .search-article').velocity('fadeOut', {duration: 0});
-
-        var speed = 200;
-        var delay = 40;
-        var i = 0;
-        var j = 0;
-        $content.velocity('fadeIn', {duration: speed, delay: delay*(i++)}).find('.search-form input[type="search"]').focus();
-        $content.find('.search-section').each(function() {
-          $(this).velocity('fadeIn', {duration: speed, delay: delay*(j+i++)});
-
-          $(this).find('.search-article').each(function() {
-            if (i<10) {
-              $(this).velocity('fadeIn', {duration: speed, delay: delay*(j+i++)});
-            } else {
-              $(this).velocity('fadeIn', {delay: delay*(j+10), duration: 0});
-            }
-          });
-          j+=5;
-          i=0;
-        });
-
-        // Make header titles sticky
-        $('.sticky-header').each(function() {
-          $this = $(this);
-          var sticky = new Waypoint.Sticky({
-            element: $this[0],
-            context: $scrollContext[0],
-          });
-        });
-
-        // Required to maintain width on sticky headers
-        _fixStickyHeaderWidths();
-
+      // Clicking on search focuses form
+      $(document).on('click', '.search-open', function(e) {
+        e.preventDefault();
+        $('.site-main .search-form input[name=q]').focus();
       });
-    });
+
+    } else {
+      // Open on click
+      $(document).on('click', '.search-open', function(e) {
+        e.preventDefault();
+        _openSearch();
+      });
+
+      $(document).on('click', '.search-close', function(e) {
+        e.preventDefault();
+        _closeSearch();
+      });
+
+      // Clutter up the DOM (add search modal and overlay)
+      $('<div id="search-modal"><div class="scroll-wrap"><div class="content"></div></div><svg class="icon icon-x"><use xlink:href="#icon-x" /></svg></div>')
+        .appendTo('body');
+      $('<div class="overlay search-close" id="search-overlay"></div>')
+        .appendTo('body');
+
+      // Hide the overlay
+      $('#search-overlay').velocity('fadeOut', { duration: 0 });
+
+      // Pipe in search results on submit
+      $(document).on('submit', '.search-form', function(e) {
+        e.preventDefault();
+        var $this = $(this);
+        $.get($this.attr('action'), $this.serialize(), function(data) {
+          var $content = $('#search-modal .content');
+          var $scrollContext = $('#search-modal .scroll-wrap')
+
+          $content.html(data).velocity('fadeOut', {duration: 0});
+          $content.find('.search-section, .search-article').velocity('fadeOut', {duration: 0});
+
+          var speed = 200;
+          var delay = 40;
+          var i = 0;
+          var j = 0;
+          $content.velocity('fadeIn', {duration: speed, delay: delay*(i++)}).find('.search-form input[type="search"]').focus();
+          $content.find('.search-section').each(function() {
+            $(this).velocity('fadeIn', {duration: speed, delay: delay*(j+i++)});
+
+            $(this).find('.search-article').each(function() {
+              if (i<10) {
+                $(this).velocity('fadeIn', {duration: speed, delay: delay*(j+i++)});
+              } else {
+                $(this).velocity('fadeIn', {delay: delay*(j+10), duration: 0});
+              }
+            });
+            j+=5;
+            i=0;
+          });
+
+          // Make header titles sticky
+          $('.sticky-header').each(function() {
+            $this = $(this);
+            var sticky = new Waypoint.Sticky({
+              element: $this[0],
+              context: $scrollContext[0],
+            });
+          });
+
+          // Required to maintain width on sticky headers
+          _fixStickyHeaderWidths();
+
+        });
+      });
+    }
   }
 
   function _openSearch() {

@@ -10,10 +10,6 @@
     }
   }
 
-  // @include media-xl {
-  //   padding-left: $sidebar-max-width;
-  // }
-
   .right-col {
     display: flex;
     min-height: 100vh;
@@ -33,6 +29,9 @@ body.page-search {
   .right-col-wrap {
     @include media-lg {
       padding-left: 0;
+      .right-col {
+        border: none;
+      }
     }
     @include media-xl {
       padding-left: 0;
