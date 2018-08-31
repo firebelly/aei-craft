@@ -30,6 +30,7 @@ web/uploads/
 # Ignore unrevisioned assets
 web/assets/dist/css/main.css
 web/assets/dist/js/main.js
+web/assets/dist/svgs-defs.svg
 
 # Server files
 php.ini

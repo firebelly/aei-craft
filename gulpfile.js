@@ -58,7 +58,7 @@ gulp.task('scripts', function() {
 
 // revision files for production assets
 gulp.task('rev', function() {
-  return gulp.src(['web/assets/dist/**/*.css', 'web/assets/dist/**/*.js'])
+  return gulp.src(['web/assets/dist/**/*.css', 'web/assets/dist/**/*.js', 'web/assets/dist/svgs-defs.svg'])
     .pipe(rev())
     .pipe(gulp.dest('web/assets/dist'))
     .pipe(rev.manifest())
@@ -117,8 +117,8 @@ gulp.task('svgs', function() {
     }))
     .pipe(gulp.dest('web/assets/dist/svgs/'))
     .pipe(svgstore({ inlineSvg: true }))
-    .pipe(rename({suffix: '-defs'}))
-    .pipe(gulp.dest('web/assets/dist/svgs/defs/'));
+    .pipe(rename({ suffix: '-defs' }))
+    .pipe(gulp.dest('web/assets/dist/'));
 });
 
 

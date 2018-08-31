@@ -37,7 +37,7 @@
   <!-- Inject SVGs Defs for SVG icon use -->
   <script>
     var ajax = new XMLHttpRequest();
-    ajax.open("GET", "{{ rev('svgs/defs/svgs-defs.svg') }}", true);
+    ajax.open("GET", "{{ rev('svgs-defs.svg') }}", true);
     ajax.send();
     ajax.onload = function(e) {
       var div = document.createElement("div");
