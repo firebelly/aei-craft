@@ -44,7 +44,7 @@ gulp.task('scripts', function() {
       'web/assets/js/main.js'
     ])
     .pipe(include())
-    .pipe(concat('site.js'))
+    .pipe(concat('main.js'))
     .pipe(gulpif(!isProduction, sourcemaps.init()))
     .on('error', notify.onError(function(error) {
        return 'Script error!' + error;

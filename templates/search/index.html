@@ -1,4 +1,5 @@
 {% extends (craft.app.request.isAjax and not craft.app.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
+
 {% set query = craft.app.request.getParam('q') %}
 
 {% block content %}
@@ -48,7 +49,7 @@
 
       {% if (projectPosts|length + servicePosts|length + impactPosts|length + peoplePosts|length) == 0 %}
 
-        <p class="no-results">No results found.</p>
+        <section class="search-section"><p class="no-results">No results found.</p></section>
 
       {% else %}
 

@@ -1,2 +1,7 @@
+{# Don't html cache ajax requests #}
+{% set expiry = now|date_modify('-30 days') %}
+{% header "Cache-Control: no-store, no-cache, must-revalidate" %}
+{% header "Pragma: no-cache" %}
+{% header "Expires: " ~ expiry|date('D, d M Y H:i:s', 'GMT') ~ " GMT" %}
 {% block content %}
 {% endblock %}
