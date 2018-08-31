@@ -207,6 +207,7 @@
   .no-results {
     @include font-p;
     color: red;
+    padding-bottom: $padding*2;
   }
 
   .search-article {

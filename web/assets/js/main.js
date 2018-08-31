@@ -343,6 +343,7 @@ var FB = (function($) {
           if (location.href.match('/search?')) {
             history.replaceState({'ajax': true} , title, $this.attr('action')+'?'+$this.serialize());
           } else {
+            // Otherwise push search request to history, replace current with state object to track need to refresh
             history.replaceState({'ajax': true} , document.title, location.href);
             history.pushState({'ajax': true} , title, $this.attr('action')+'?'+$this.serialize());
           }
