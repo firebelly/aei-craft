@@ -10454,7 +10454,7 @@ return jQuery;
 // Works with either jQuery or Zepto
 })( window.jQuery || window.Zepto );
 
-/*! VelocityJS.org (1.5.0). (C) 2014 Julian Shapiro. MIT @license: en.wikipedia.org/wiki/MIT_License */
+/*! VelocityJS.org (1.5.2). (C) 2014 Julian Shapiro. MIT @license: en.wikipedia.org/wiki/MIT_License */
 
 /*************************
  Velocity jQuery Shim
@@ -11233,7 +11233,7 @@ return jQuery;
 			hook: null, /* Defined below. */
 			/* Velocity-wide animation time remapping for testing purposes. */
 			mock: false,
-			version: {major: 1, minor: 5, patch: 1},
+			version: {major: 1, minor: 5, patch: 2},
 			/* Set to 1 or 2 (most verbose) to output debug info to console. */
 			debug: false,
 			/* Use rAF high resolution timestamp when available */
@@ -13291,10 +13291,10 @@ return jQuery;
 										if (propertiesMap === "stop") {
 											/* Since "reverse" uses cached start values (the previous call's endValues), these values must be
 											 changed to reflect the final value that the elements were actually tweened to. */
-											/* Note: If only queue:false animations are currently running on an element, it won't have a tweensContainer
-											 object. Also, queue:false animations can't be reversed. */
+											/* Note: If only queue:false/queue:"custom" animations are currently running on an element, it won't have a tweensContainer
+											 object. Also, queue:false/queue:"custom" animations can't be reversed. */
 											var data = Data(element);
-											if (data && data.tweensContainer && queueName !== false) {
+											if (data && data.tweensContainer && (queueName === true || queueName === "")) {
 												$.each(data.tweensContainer, function(m, activeTween) {
 													activeTween.endValue = activeTween.currentValue;
 												});
@@ -19762,7 +19762,7 @@ var trim = String.prototype.trim ?
 
 
 /*!
- * Infinite Scroll PACKAGED v3.0.4
+ * Infinite Scroll PACKAGED v3.0.5
  * Automatically add next page
  *
  * Licensed GPLv3 for open source use
@@ -20659,6 +20659,10 @@ proto.destroy = function() {
 
   delete this.element.infiniteScrollGUID;
   delete instances[ this.guid ];
+  // remove jQuery data. #807
+  if ( jQuery && this.$element ) {
+    jQuery.removeData( this.element, 'infiniteScroll' );
+  }
 };
 
 // -------------------------- utilities -------------------------- //
@@ -20699,6 +20703,9 @@ InfiniteScroll.setJQuery = function( $ ) {
 // -------------------------- setup -------------------------- //
 
 utils.htmlInit( InfiniteScroll, 'infinite-scroll' );
+
+// add noop _init method for jQuery Bridget. #768
+proto._init = function() {};
 
 if ( jQuery && jQuery.bridget ) {
   jQuery.bridget( 'infiniteScroll', InfiniteScroll );
@@ -21541,7 +21548,7 @@ return InfiniteScroll;
 }));
 
 /*!
- * Infinite Scroll v3.0.4
+ * Infinite Scroll v3.0.5
  * Automatically add next page
  *
  * Licensed GPLv3 for open source use
@@ -26214,63 +26221,55 @@ var FB = (function($) {
     // Make StickyHeader class
     function StickyHeader() {
 
-      var $header = $('#sticky-header');
-      var turningPoint = 250;
       var me = this;
+      var $header = $('#sticky-header');
+      var scrollDownThreshold = $header.outerHeight();
       var scrollTop = $(window).scrollTop();
       var lastScrollTop = scrollTop;
-      var scrolled, scrollingUp, stuck, lastScrollingUp;
+      var scrolled, scrollingUp, stuck, lastScrolled, lastScrollingUp;
+      var upThreshold = scrollDownThreshold * 2, turningPoint = 0;
 
       // Determine whether header should be sticky
       this.refreshState = function() {
         lastScrollTop = scrollTop;
         scrollTop = $(window).scrollTop();
 
-        var lastScrolled = scrolled;
-        scrolled = scrollTop > turningPoint;
-        if (scrolled !== lastScrolled ) {
+        // Are we scrolling down?
+        lastScrolled = scrolled;
+        scrolled = scrollTop > scrollDownThreshold && lastScrollTop < scrollTop;
+        if (scrolled !== lastScrolled) {
           if (scrolled) {
-
-            // Mark this as is currently scrolled
             $header.addClass('-scrolled');
             $body.addClass('-scrolled');
-
-            if (!stuck) {
-              // Mark this as having had scrolled at some point
-              $header.addClass('-stuck');
-              stuck = true;
-              turningPoint = 128;
-
-              // Prevent a transition
-              $header.css('transition','none');
-              setTimeout(function() {
-                $header.css('transition','');
-              }, 1);
-
-            }
-          }
-          if (!scrolled) {
-            $header.removeClass('-scrolled');
-            $body.removeClass('-scrolled');
           }
         }
 
+        // Are we scrolling up?
         lastScrollingUp = scrollingUp;
         scrollingUp = lastScrollTop > scrollTop;
         if (scrollingUp !== lastScrollingUp ) {
-          if (scrollingUp && stuck) {
-            $header.addClass('-scrolling-up');
-            $body.addClass('nav-stuck');
-          }
+          turningPoint = scrollTop;
           if (!scrollingUp) {
-            $header.removeClass('-scrolling-up');
+            $header.removeClass('-stuck -scrolling-up');
             $body.removeClass('nav-stuck');
+            stuck = false;
+          }
+        } else {
+          if (scrollingUp && turningPoint - scrollTop > upThreshold) {
+            $header.addClass('-scrolling-up').removeClass('-scrolled');
+            $body.addClass('nav-stuck').removeClass('-scrolled');
+
+            if (!stuck) {
+              $header.addClass('-stuck');
+              stuck = true;
+            }
           }
         }
 
         if (scrollTop < 5 && stuck) {
           stuck = false;
-          $header.removeClass('-stuck');
+          $header.removeClass('-stuck -scrolling-up');
+          $body.removeClass('nav-stuck');
         }
       };
 
@@ -26290,11 +26289,6 @@ var FB = (function($) {
             me.refreshState();
           }
         });
-
-        // Resize Handling
-        // $(window).resize(function() {
-        //   me.refreshState();
-        // });
 
         // Tell CSS the header is ready to reveal
         $header.removeClass('-unloaded');
@@ -26768,5 +26762,5 @@ jQuery(document).ready(FB.init);
 // Zig-zag the mothership
 jQuery(window).resize(FB.resize);
 
-// Zig-zag the mothership
+// Slo-mo zig-zag the mothership
 jQuery(window).resize(FB.delayed_resize);

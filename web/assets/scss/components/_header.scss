@@ -46,12 +46,10 @@ body {
 #sticky-header {
   @include hardware-acceleration;
   transition: opacity 0.2s;
-
   &.-stuck {
     position: fixed;
     border-bottom: 1px solid $concrete-light;
   }
-
   &.-scrolled {
     opacity: 0;
     pointer-events: none;

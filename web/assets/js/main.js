@@ -208,63 +208,55 @@ var FB = (function($) {
     // Make StickyHeader class
     function StickyHeader() {
 
-      var $header = $('#sticky-header');
-      var turningPoint = 250;
       var me = this;
+      var $header = $('#sticky-header');
+      var scrollDownThreshold = $header.outerHeight();
       var scrollTop = $(window).scrollTop();
       var lastScrollTop = scrollTop;
-      var scrolled, scrollingUp, stuck, lastScrollingUp;
+      var scrolled, scrollingUp, stuck, lastScrolled, lastScrollingUp;
+      var upThreshold = scrollDownThreshold * 2, turningPoint = 0;
 
       // Determine whether header should be sticky
       this.refreshState = function() {
         lastScrollTop = scrollTop;
         scrollTop = $(window).scrollTop();
 
-        var lastScrolled = scrolled;
-        scrolled = scrollTop > turningPoint;
-        if (scrolled !== lastScrolled ) {
+        // Are we scrolling down?
+        lastScrolled = scrolled;
+        scrolled = scrollTop > scrollDownThreshold && lastScrollTop < scrollTop;
+        if (scrolled !== lastScrolled) {
           if (scrolled) {
-
-            // Mark this as is currently scrolled
             $header.addClass('-scrolled');
             $body.addClass('-scrolled');
-
-            if (!stuck) {
-              // Mark this as having had scrolled at some point
-              $header.addClass('-stuck');
-              stuck = true;
-              turningPoint = 128;
-
-              // Prevent a transition
-              $header.css('transition','none');
-              setTimeout(function() {
-                $header.css('transition','');
-              }, 1);
-
-            }
-          }
-          if (!scrolled) {
-            $header.removeClass('-scrolled');
-            $body.removeClass('-scrolled');
           }
         }
 
+        // Are we scrolling up?
         lastScrollingUp = scrollingUp;
         scrollingUp = lastScrollTop > scrollTop;
         if (scrollingUp !== lastScrollingUp ) {
-          if (scrollingUp && stuck) {
-            $header.addClass('-scrolling-up');
-            $body.addClass('nav-stuck');
-          }
+          turningPoint = scrollTop;
           if (!scrollingUp) {
-            $header.removeClass('-scrolling-up');
+            $header.removeClass('-stuck -scrolling-up');
             $body.removeClass('nav-stuck');
+            stuck = false;
+          }
+        } else {
+          if (scrollingUp && turningPoint - scrollTop > upThreshold) {
+            $header.addClass('-scrolling-up').removeClass('-scrolled');
+            $body.addClass('nav-stuck').removeClass('-scrolled');
+
+            if (!stuck) {
+              $header.addClass('-stuck');
+              stuck = true;
+            }
           }
         }
 
         if (scrollTop < 5 && stuck) {
           stuck = false;
-          $header.removeClass('-stuck');
+          $header.removeClass('-stuck -scrolling-up');
+          $body.removeClass('nav-stuck');
         }
       };
 
@@ -284,11 +276,6 @@ var FB = (function($) {
             me.refreshState();
           }
         });
-
-        // Resize Handling
-        // $(window).resize(function() {
-        //   me.refreshState();
-        // });
 
         // Tell CSS the header is ready to reveal
         $header.removeClass('-unloaded');
@@ -762,5 +749,5 @@ jQuery(document).ready(FB.init);
 // Zig-zag the mothership
 jQuery(window).resize(FB.resize);
 
-// Zig-zag the mothership
+// Slo-mo zig-zag the mothership
 jQuery(window).resize(FB.delayed_resize);
