@@ -46,7 +46,7 @@
     <ul class="row -quarters -separators semantic-only-list">
       {% for entry in officeEntries %}
         <li class="row-block separate">
-          <article class="module contact-module pad vcard image-wrap location-contact">
+          <article class="module contact-module pad vcard image-wrap location-contact bigclicky">
             {% set image = entry.officeImage.one() %}
             <div class="image" {% if image %}style="background-image: url('{{ image.getUrl('thumb') }}');"{% endif %}></div>
             <div class="content">
