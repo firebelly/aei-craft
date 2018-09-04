@@ -4,6 +4,8 @@
   {% set ytregexTrailingVariables = '/(&+.*)/' %}
   {% set youtubeid = pageHeader.headerVideo | replace(ytregex1, '') | replace(ytregexTrailingSlash, '') | replace(ytregexTrailingVariables, '') %}
 {% endif %}
+{% set headerImage = pageHeader.headerImage.one() %}
+{% set videoButton = pageHeader.headerVideo ? '<button class="button -solid theater-play text-white background-red absolute-center">Play Video<svg class="icon icon-triangle"><use xlink:href="#icon-triangle" /></svg></button>' : '' %}
 
 <!-- checkerboard header w/ optional theater -->
 <div class="theater-header theater-wrap -closed">
@@ -29,12 +31,18 @@
     </div>
   </div>
   <div class="theater-hero theater image-wrap">
-    {% set headerImage = pageHeader.headerImage.one() %}
-    <div class="image lazy" style="background-image: url();" data-original="{{ headerImage ? headerImage.getUrl('header') : '' }}">
-      {% if pageHeader.headerVideo %}
-        <button class="button -solid theater-play text-white background-red absolute-center">Play Video<svg class="icon icon-triangle"><use xlink:href="#icon-triangle" /></svg></button>
+    {% if headerImage %}
+      {% if 'video' in headerImage.getMimeType() %}
+        <video class="background-video" playsinline autoplay muted loop>
+          {{ videoButton }}
+          <source src="{{ headerImage.url }}" type="{{ headerImage.getMimeType() }}">
+        </video>
+      {% else %}
+        <div class="image lazy" style="background-image: url();" data-original="{{ headerImage ? headerImage.getUrl('header') : '' }}">
+          {{ videoButton }}
+        </div>
       {% endif %}
-    </div>
+    {% endif %}
     {% if pageHeader.headerVideo %}
       <div class="player-wrap fluid-width-video-wrapper fill">
         <div class="player" data-youtube-id="{{ youtubeid }}"></div>

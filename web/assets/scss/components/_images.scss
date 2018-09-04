@@ -3,6 +3,17 @@
   position: relative;
   background-color: $concrete-med;
 
+  // Background videos
+  video {
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+  }
+
+  // Background images
   .image {
     top: -0.5px;
     left: -0.5px;
