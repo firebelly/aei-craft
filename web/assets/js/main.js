@@ -225,10 +225,8 @@ var FB = (function($) {
         lastScrolled = scrolled;
         scrolled = scrollTop > scrollDownThreshold && lastScrollTop < scrollTop;
         if (scrolled !== lastScrolled) {
-          if (scrolled) {
-            $header.addClass('-scrolled');
-            $body.addClass('-scrolled');
-          }
+          $header.addClass('-scrolled');
+          $body.addClass('-scrolled');
         }
 
         // Are we scrolling up?
@@ -237,12 +235,12 @@ var FB = (function($) {
         if (scrollingUp !== lastScrollingUp ) {
           turningPoint = scrollTop;
           if (!scrollingUp) {
-            $header.removeClass('-stuck -scrolling-up');
+            $header.removeClass('-stuck -scrolling-up -scrolled');
             $body.removeClass('nav-stuck');
             stuck = false;
           }
         } else {
-          if (scrollingUp && turningPoint - scrollTop > upThreshold) {
+          if (scrollingUp && (turningPoint - scrollTop > upThreshold)) {
             $header.addClass('-scrolling-up').removeClass('-scrolled');
             $body.addClass('nav-stuck').removeClass('-scrolled');
 
@@ -252,11 +250,10 @@ var FB = (function($) {
             }
           }
         }
-
-        if (scrollTop < 5 && stuck) {
+        if (scrollTop < scrollDownThreshold && !stuck) {
           stuck = false;
-          $header.removeClass('-stuck -scrolling-up');
-          $body.removeClass('nav-stuck');
+          $header.removeClass('-scrolled -stuck -scrolling-up');
+          $body.removeClass('-scrolled nav-stuck');
         }
       };
 

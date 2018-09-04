@@ -39,7 +39,7 @@ body {
   }
   @include media-lg {
     height: $header-height-lg;
-    padding: 50px #{$padding-lg - 16px} $padding-lg $padding-lg;
+    padding: 40px #{$padding-lg - 16px} 50px $padding-lg;
   }
 }
 
