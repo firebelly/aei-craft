@@ -26,6 +26,9 @@ return [
         // The secure key Craft will use for hashing and encrypting data
         'securityKey' => getenv('SECURITY_KEY'),
 
+        // 100M upload max
+        'maxUploadFileSize' => '104857600',
+
     ],
 
     // Dev environment settings
