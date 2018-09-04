@@ -34,12 +34,12 @@
     {% if headerImage %}
       {% if 'video' in headerImage.getMimeType() %}
         <video class="background-video" playsinline autoplay muted loop>
-          {{ videoButton }}
+          {{ videoButton|raw }}
           <source src="{{ headerImage.url }}" type="{{ headerImage.getMimeType() }}">
         </video>
       {% else %}
         <div class="image lazy" style="background-image: url();" data-original="{{ headerImage ? headerImage.getUrl('header') : '' }}">
-          {{ videoButton }}
+          {{ videoButton|raw }}
         </div>
       {% endif %}
     {% endif %}
