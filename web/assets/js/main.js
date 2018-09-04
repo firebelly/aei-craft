@@ -128,8 +128,26 @@ var FB = (function($) {
     _initFilters();
     _fitFigures();
     _hangQuotes();
+    _truncateLists();
 
   } // end init()
+
+  // Truncate longer lists with View More link
+  function _truncateLists() {
+    $('ul.truncate-list').each(function() {
+      var $longBlock = $(this);
+      var $lis = $longBlock.find('li');
+      if ($lis.length > 5) {
+        $longBlock.find('li:gt(5)').hide();
+        var $moreLink = $('<a class="show-more" href="#">View More</a>').after($longBlock);
+        $moreLink.on('click', function(e) {
+          e.preventDefault();
+          $longBlock.find('li').slideDown();
+          $moreLink.remove();
+        });
+      }
+    });
+  }
 
   function _initFilters() {
     $('.mobile-filter').each(function() {
