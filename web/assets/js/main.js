@@ -138,11 +138,11 @@ var FB = (function($) {
       var $longBlock = $(this);
       var $lis = $longBlock.find('li');
       if ($lis.length > 5) {
-        $longBlock.find('li:gt(5)').hide();
-        var $moreLink = $('<a class="show-more" href="#">View More</a>').after($longBlock);
+        $longBlock.find('li:gt(4)').hide();
+        var $moreLink = $('<p><a class="expand-list" href="#">View More ('+($lis.length - 5)+')</a></p>').insertAfter($longBlock);
         $moreLink.on('click', function(e) {
           e.preventDefault();
-          $longBlock.find('li').slideDown();
+          $longBlock.find('li').slideDown(200);
           $moreLink.remove();
         });
       }
