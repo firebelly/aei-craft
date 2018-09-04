@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ee696617bf448971fa66b5ff8126a23f",
+    "content-hash": "0cbd993ac381df383583821feab73ded",
     "packages": [
         {
             "name": "amimpact/command-palette",
@@ -1144,11 +1144,11 @@
         },
         {
             "name": "ether/seo",
-            "version": "3.3.0",
+            "version": "3.3.1",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ethercreative/seo/zipball/0c16162f94f2859168641f6e4f5a6906978f5d3b",
-                "reference": "0c16162f94f2859168641f6e4f5a6906978f5d3b",
+                "url": "https://api.github.com/repos/ethercreative/seo/zipball/b917148fc1976999806528d9da710723affe4bf5",
+                "reference": "b917148fc1976999806528d9da710723affe4bf5",
                 "shasum": ""
             },
             "require": {
@@ -1176,7 +1176,7 @@
                 "issues": "https://github.com/ethercreative/seo",
                 "docs": "https://github.com/ethercreative/seo/blob/v3/README.md"
             },
-            "time": "2018-06-25T15:22:34+00:00"
+            "time": "2018-09-03T21:43:28+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",

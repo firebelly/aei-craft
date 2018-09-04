@@ -2,7 +2,7 @@
   <h3 class="font-p">{{ block.headline }}</h3>
   {% if block.entries %}
     <ul class="semantic-only-list font-captions">
-      {% for entry in block.entries %}
+      {% for entry in block.entries.all() %}
         {% set title = entry.title %}
         {% if entry.section == 'People' and entry.personCertifications %}
           {% set title = title ~ ', ' ~ entry.personCertifications %}
