@@ -61,7 +61,7 @@
      {# header (w/ featured post) #}
     {% if featuredImpact %}
       {% set post = featuredImpact %}
-      <div class="row -halves">
+      <div class="row -halves featured-article" data-id="{{ featuredImpact.id }}">
           <li class="row-block">
             <div class="image-wrap -square">
               {% set impactImage = post.impactImage[0] ?? null %}

@@ -26080,7 +26080,7 @@ var FB = (function($) {
           // Replace /p2 with this.loadCount + 1 from infinite scroll
           var nextUrl = $('.pagination .next a').attr('href').replace(/(p[\d]+)$/, 'p' + (this.loadCount + 2));
           // Omit the featured post if there is one
-          nextUrl += '?omitId=' + ($('.hero-wrap article').attr('data-id') || '');
+          nextUrl += '?omitId=' + ($('.featured-article').attr('data-id') || '');
           return nextUrl;
         } else {
           return false;
