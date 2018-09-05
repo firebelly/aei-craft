@@ -5,7 +5,7 @@
   	{% if personImage %}
   	  {% set treatedImage = craft.imager.transformImage(personImage, { width: 800 }) %}
   	  {% if treatedImage %}
-	  	  <div class="project-image lazy image" style="background-image: url('');" data-original="{{ treatedImage.getUrl() }}"></div>
+	  	  <div class="project-image lazy image" style="background-image: url(''); background-position: center {{ personImage.getFocalPoint()['y'] * 100 }}%" data-original="{{ treatedImage.getUrl() }}"></div>
   	  {% endif %}
   	{% endif %}
   </div>
