@@ -3,7 +3,7 @@
 .sidebar {
   @include global-padding;
   display: none;
-  transition: top 0.2s $ease;
+  // transition: top 0.2s $ease;
   h2 {
     margin-top: 0;
     position: relative;
@@ -34,8 +34,7 @@
   @include media-lg {
     display: block;
     left: 0;
-    bottom: 0;
-    position: fixed;
+    position: absolute;
     top: $header-height-lg;
     width: $sidebar-max-width;
   }
@@ -89,7 +88,6 @@
   .sidebar {
     &.stuck {
       top: 0;
-      left: 0;
       bottom: 0;
       position: fixed;
     }
@@ -110,9 +108,9 @@
   // Push down stuck sidebar if main nav is also stuck
   body.nav-stuck {
     .sidebar {
-      &.stuck {
-        top: $header-height-lg;
-      }
+      top: $header-height-lg;
+      bottom: 0;
+      position: fixed;
     }
   }
 }
