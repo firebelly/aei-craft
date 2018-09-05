@@ -1,5 +1,13 @@
 {% extends (craft.app.request.isAjax and not craft.app.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
 {% set bodyClass = 'single overlapping-header' %}
+{% set headerImage = entry.projectImage.one() %}
+  {% if headerImage %}
+    {% set treatedImage = craft.imager.transformImage(headerImage, { width: 1600 }) %}
+    {% if treatedImage %}
+      {% set seo_image = craft.app.request.getHostInfo() ~ treatedImage.getUrl() %}
+    {% endif %}
+  {% endif %}
+{% set seo_description = entry.body | striptags | chop(limit=155, unit='c', append='…') %}
 
 {% block filters %}
   <h2 class="font-nav"><a href="/projects/">Projects</a></h2>
@@ -19,7 +27,7 @@
 
     {% include 'partials/_secondary-header'
       with {
-        'headerImage': entry.projectImage.one(),
+        'headerImage': headerImage,
         'headerTitle': entry.projectClientName,
         'headerSubtitle': entry.projectName,
         'headerColor': entry.colorSwatch.label,

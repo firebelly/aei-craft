@@ -1,6 +1,14 @@
 {% extends (craft.app.request.isAjax and not craft.app.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
 {% set bodyClass = 'overlapping-header' %}
 {% set officeEntries = craft.entries.section('offices').all() %}
+{% set headerImage = entry.officeImage.one() %}
+{% if headerImage %}
+  {% set treatedImage = craft.imager.transformImage(headerImage, { width: 1600 }) %}
+  {% if treatedImage %}
+    {% set seo_image = craft.app.request.getHostInfo() ~ treatedImage.getUrl() %}
+  {% endif %}
+{% endif %}
+{% set seo_description = entry.body | striptags | chop(limit=155, unit='c', append='…') %}
 
 {% block filters %}
   <h2 class="font-nav"><a href="/contact/">Contact</a></h2>
@@ -17,7 +25,7 @@
 
   {% include 'partials/_secondary-header'
     with {
-      'headerImage': entry.officeImage.one(),
+      'headerImage': headerImage,
       'headerTitle': entry.title,
     }
   %}

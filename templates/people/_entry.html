@@ -5,6 +5,13 @@
 {% set headerImage = entry.personImage.one() %}
 {% set headerTitle = entry.title %}
 {% set headerSubtitle = entry.personTitle %}
+{% if headerImage %}
+  {% set treatedImage = craft.imager.transformImage(headerImage, { width: 1600 }) %}
+  {% if treatedImage %}
+    {% set seo_image = craft.app.request.getHostInfo() ~ treatedImage.getUrl() %}
+  {% endif %}
+{% endif %}
+{% set seo_description = entry.body | striptags | chop(limit=155, unit='c', append='…') %}
 
 {% block filters %}
   <h2 class="font-nav"><a href="/people/">People</a></h2>
@@ -22,11 +29,8 @@
     <!-- header -->
     <div class="hero-wrap">
       <div class="hero-image image-wrap">
-        {% if headerImage %}
-          {% set treatedImage = craft.imager.transformImage(headerImage, { width: 1600 }) %}
-          {% if treatedImage %}
-            <div class="lazy image" style="background-image: url(''); background-position: center {{ headerImage.getFocalPoint()['y'] * 100 }}%" data-original="{{ treatedImage.getUrl() }}"></div>
-          {% endif %}
+        {% if treatedImage %}
+          <div class="lazy image" style="background-image: url(''); background-position: center {{ headerImage.getFocalPoint()['y'] * 100 }}%" data-original="{{ treatedImage.getUrl() }}"></div>
         {% endif %}
       </div>
     </div>

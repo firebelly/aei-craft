@@ -2,6 +2,14 @@
 {% set bodyClass = 'overlapping-header' %}
 {% set impactType = entry.impactType.one() %}
 {% set impactPeople = entry.impactPeople.all() %}
+{% set headerImage = entry.impactImage.one() %}
+{% if headerImage %}
+  {% set treatedImage = craft.imager.transformImage(headerImage, { width: 1600 }) %}
+  {% if treatedImage %}
+    {% set seo_image = craft.app.request.getHostInfo() ~ treatedImage.getUrl() %}
+  {% endif %}
+{% endif %}
+{% set seo_description = entry.body | striptags | chop(limit=155, unit='c', append='…') %}
 
 {% block filters %}
   <h2 class="font-nav"><a href="/news/">News &<br>Insights</a></h2>
@@ -19,7 +27,7 @@
 
     {% include 'partials/_secondary-header'
       with {
-        'headerImage': entry.impactImage.one(),
+        'headerImage': headerImage,
         'headerTitle': entry.title,
       }
     %}

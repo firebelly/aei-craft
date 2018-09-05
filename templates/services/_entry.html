@@ -1,6 +1,15 @@
 {% extends (craft.app.request.isAjax and not craft.app.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
 {% set title = category.title %}
 {% set bodyClass = 'overlapping-header' %}
+{% set headerImage = category.serviceImage.one() %}
+{% if headerImage %}
+  {% set treatedImage = craft.imager.transformImage(headerImage, { width: 1600 }) %}
+  {% if treatedImage %}
+    {% set seo_image = craft.app.request.getHostInfo() ~ treatedImage.getUrl() %}
+  {% endif %}
+{% endif %}
+{% set seo_description = category.body | striptags | chop(limit=155, unit='c', append='…') %}
+
 
 {% block filters %}
   <h2 class="font-nav"><a href="/services/">Services</a></h2>
@@ -18,7 +27,7 @@
   <article class="single-service" data-id="{{ category.id }}">
     {% include 'partials/_secondary-header'
       with {
-        'headerImage': category.serviceImage.one(),
+        'headerImage': headerImage,
         'headerTitle': category.title,
       }
     %}
