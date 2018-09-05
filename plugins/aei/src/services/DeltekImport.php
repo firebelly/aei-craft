@@ -280,6 +280,7 @@ class DeltekImport extends Component
             $relRows = $relResult->fetchAll();
             foreach($relRows as $relRow) {
                 $i++;
+                $officeQuote = trim(str_replace('&nbsp;', ' ', $relRow['quote']), ' "”“');
                 if (!empty($relRow['employee_num'])) {
                     $person = Entry::find()->section('people')->where([
                         'content.field_personEmployeeNumber' => $relRow['employee_num']
@@ -291,7 +292,7 @@ class DeltekImport extends Component
                 $officeQuotes['new'.$i] = [
                     'type' => $blockType->id,
                     'fields' => [
-                        'quote'         => $relRow['quote'],
+                        'quote'         => $officeQuote,
                         'personName'    => '', // no override field in office_quotes table for this
                         'personCompany' => $relRow['employee_title'],
                         'quoteKey'      => $relRow['quote_key'],
