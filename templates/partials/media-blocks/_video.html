@@ -14,7 +14,7 @@
     {% if image %}
       {% set treatedImage = craft.imager.transformImage(image, { width: 1600 }) %}
       {% if treatedImage %}
-        <div class="image lazy" style="background-image: url();" data-original="{{ treatedImage.getUrl() }}">
+        <div class="image lazy" style="background-image: url(); background-position: center {{ image.getFocalPoint()['y'] * 100 }}%" data-original="{{ treatedImage.getUrl() }}">
       {% endif %}
     {% endif %}
       {% if block.youtubeUrl %}

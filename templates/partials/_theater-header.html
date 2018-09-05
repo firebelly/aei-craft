@@ -40,7 +40,7 @@
       {% else %}
         {% set treatedImage = craft.imager.transformImage(headerImage, { width: 1600 }) %}
         {% if treatedImage %}
-          <div class="image lazy" style="background-image: url();" data-original="{{ treatedImage.getUrl() }}">
+          <div class="image lazy" style="background-image: url(); background-position: center {{ headerImage.getFocalPoint()['y'] * 100 }}%" data-original="{{ treatedImage.getUrl() }}">
             {{ videoButton|raw }}
           </div>
         {% endif %}
