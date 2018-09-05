@@ -2,8 +2,9 @@
 .project-module .view-project {
   display: none;
 }
-.no-touch {
-  // On non-touch devices, show hover state on project thumbs
+
+// Project article hover states
+@include media-md {
   .project-module {
     @include hardware-acceleration;
     overflow: hidden;
@@ -30,14 +31,6 @@
         top: $padding + 4px;
         right: $padding;
       }
-
-      @include media-lg {
-        padding: $padding-lg;
-        svg {
-          top: $padding-lg + 15px;
-          right: $padding-lg;
-        }
-      }
     }
     &::after,
     &::before {
@@ -62,6 +55,17 @@
       &::after,
       &::before {
         transform: skew(-18deg) translateX(0);
+      }
+    }
+  }
+}
+@include media-lg {
+  .project-module {
+    .view-project {
+      padding: $padding-lg;
+      svg {
+        top: $padding-lg + 15px;
+        right: $padding-lg;
       }
     }
   }
