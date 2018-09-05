@@ -267,6 +267,11 @@
 .quotes-module {
   padding: $padding $padding $padding #{$padding - 10px};
 
+  // Show overhanging quotes, since carousel is fade in/out this works
+  .slick-list {
+    overflow: visible;
+  }
+
   @include media-lg {
     padding: $padding-lg $padding-lg $padding-lg #{$padding-lg - 9px};
   }
