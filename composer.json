@@ -43,7 +43,8 @@
     "ether/seo": "3.3.1",
     "dolphiq/redirect": "1.0.18",
     "verbb/redactor-tweaks": "2.0.2",
-    "craftcms/redactor": "2.1.6"
+    "craftcms/redactor": "2.1.6",
+    "aelvan/imager": "v2.1.0"
   },
   "autoload": {
     "psr-4": {

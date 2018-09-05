@@ -2,29 +2,29 @@
 	{% set entryType = entry.type.name ?? 'Services' %}
 	{% switch entryType %}
 		{% case "Services" %}
-			<h3><a href="{{ entry.url }}">{{ entry.title }}</a></h3>
+			<h3><a href="{{ entry.getUrl() }}">{{ entry.title }}</a></h3>
 			<p class="excerpt" class="dont-break-out">{{ entry.body | chop(limit=20, unit='w', append='…') }}</p>
-			<a href="{{ entry.url }}" class="read-more">View Service <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></a>
+			<a href="{{ entry.getUrl() }}" class="read-more">View Service <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></a>
 
 		{% case "Projects" %}
-			<h3><a href="{{ entry.url }}">{{ entry.projectClientName }}</a></h3>
+			<h3><a href="{{ entry.getUrl() }}">{{ entry.projectClientName }}</a></h3>
 			<p class="dont-break-out">{{ entry.projectName }}</p>
-			<a href="{{ entry.url }}" class="read-more">View Project <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></a>
+			<a href="{{ entry.getUrl() }}" class="read-more">View Project <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></a>
 
 		{% case "Impact" %}
-			<h3><a href="{{ entry.url }}">{{ entry.title }}</a></h3>
+			<h3><a href="{{ entry.getUrl() }}">{{ entry.title }}</a></h3>
 			<p class="excerpt" class="dont-break-out">{{ entry.excerpt ? entry.excerpt : entry.body | chop(limit=20, unit='w', append='…') }}</p>
-			<a href="{{ entry.url }}" class="read-more">Read More <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></a>
+			<a href="{{ entry.getUrl() }}" class="read-more">Read More <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></a>
 
 		{% case "Offices" %}
-			<h3><a href="{{ entry.url }}">{{ entry.title }}</a></h3>
+			<h3><a href="{{ entry.getUrl() }}">{{ entry.title }}</a></h3>
 			<p class="dont-break-out">{{ entry.phoneNumber }}<br>{{ entry.email }}</p>
-			<a href="{{ entry.url }}" class="read-more">View  Office <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></a>
+			<a href="{{ entry.getUrl() }}" class="read-more">View  Office <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></a>
 
 		{% case "Person" %}
-			<h3><a href="{{ entry.url }}">{{ entry.title }}</a></h3>
+			<h3><a href="{{ entry.getUrl() }}">{{ entry.title }}</a></h3>
 			<p>{{ entry.personTitle }}</p>
-			<a href="{{ entry.url }}" class="read-more">View Bio <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></a>
+			<a href="{{ entry.getUrl() }}" class="read-more">View Bio <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></a>
 
 	{% endswitch %}
 </article>

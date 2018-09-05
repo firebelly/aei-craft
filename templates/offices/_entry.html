@@ -6,8 +6,8 @@
   <h2 class="font-nav"><a href="/contact/">Contact</a></h2>
   <ul class="filters semantic-only-list">
     {% for office in officeEntries %}
-      <li class="{{ active(office.url, 'url', 'current') }}">
-        <a href="{{ office.url }}">{{ office.title }}</a>
+      <li class="{{ active(office.getUrl(), 'url', 'current') }}">
+        <a href="{{ office.getUrl() }}">{{ office.title }}</a>
       </li>
     {% endfor %}
   </ul>
@@ -70,7 +70,7 @@
                 <ul class="semantic-only-list">
                   {% for leader in entry.officeLeaders.all() %}
                     {% set person = leader.aeiPerson.one() %}
-                    <li><a href="{{ person.url }}">{{ person.title }}</a> — {{ leader.personTitle }}</li>
+                    <li><a href="{{ person.getUrl() }}">{{ person.title }}</a> — {{ leader.personTitle }}</li>
                   {% endfor %}
                 </ul>
               </div>

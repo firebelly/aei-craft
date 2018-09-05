@@ -2,12 +2,15 @@
 
 <article class="module person-module   zoom-hover bigclicky">
   <div class="image-wrap -square">
-    {% if personImage %}
-      <div class="project-image lazy image" style="background-image: url('');" data-original="{{ personImage.getUrl('thumb') }}"></div>
-    {% endif %}
+  	{% if personImage %}
+  	  {% set treatedImage = craft.imager.transformImage(personImage, { width: 800 }) %}
+  	  {% if treatedImage %}
+	  	  <div class="project-image lazy image" style="background-image: url('');" data-original="{{ treatedImage.getUrl() }}"></div>
+  	  {% endif %}
+  	{% endif %}
   </div>
   <div class="text pad">
-    <h1 class="name font-p no-margin"><a href="{{ person.url }}" class="no-underline">{{ person.title }}</a></h1>
+    <h1 class="name font-p no-margin"><a href="{{ person.getUrl() }}" class="no-underline">{{ person.title }}</a></h1>
     <h2 class="title font-details">{{ (personTitleOverride ?? null) ? personTitleOverride : person.personTitle }}</h2>
   </div>
 </article>

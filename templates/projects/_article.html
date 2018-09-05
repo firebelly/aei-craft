@@ -10,11 +10,14 @@
   <div class="view-project">View Project <svg class="icon icon-right-arrow" aria-hidden="true" role="presentation"><use xlink:href="#icon-right-arrow"/></svg></div>
   <div class="image-wrap -{{ projectAspectRatio }}">
     {% if projectImage %}
-      <div class="project-image lazy image" style="background-image: url('');" data-original="{{ projectImage.getUrl('thumb') }}"></div>
+      {% set treatedImage = craft.imager.transformImage(projectImage, { width: 800 }) %}
+      {% if treatedImage %}
+        <div class="project-image lazy image" style="background-image: url('');" data-original="{{ treatedImage.getUrl() }}"></div>
+      {% endif %}
     {% endif %}
   </div>
   <div class="project-title background-{{ projectColor }}">
-    <h1 class="font-p"><a href="{{ project.url }}">{{ project.projectClientName }}</a></h1>
+    <h1 class="font-p"><a href="{{ project.getUrl }}">{{ project.projectClientName }}</a></h1>
     <h2 class="font-captions">{{ project.projectName }}</h2>
   </div>
 </article>

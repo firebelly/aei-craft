@@ -11,7 +11,12 @@
 <!-- checkerboard header w/ optional theater -->
 <div class="video-module theater-wrap -closed -full">
   <div class="theater image-wrap -hd-ratio">
-    <div class="image lazy" style="background-image: url();" data-original="{{ image ? image.getUrl('header') : '' }}">
+    {% if image %}
+      {% set treatedImage = craft.imager.transformImage(image, { width: 1600 }) %}
+      {% if treatedImage %}
+        <div class="image lazy" style="background-image: url();" data-original="{{ treatedImage.getUrl() }}">
+      {% endif %}
+    {% endif %}
       {% if block.youtubeUrl %}
         <button class="button -solid theater-play text-white background-red absolute-center">Play Video<svg class="icon icon-triangle"><use xlink:href="#icon-triangle" /></svg></button>
       {% endif %}

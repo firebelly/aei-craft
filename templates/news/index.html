@@ -48,8 +48,8 @@
   <h2 class="font-nav {{ (category is not defined) ? 'current' : '' }}"><a href="/news/">News &<br>Insights</a></h2>
   <ul class="filters semantic-only-list">
     {% for cat in craft.categories.group('impactTypes').all() %}
-      <li class="{{ active(cat.url, 'url', 'current') }}">
-        <a href="{{ cat.url }}">{{ cat.title }}</a>
+      <li class="{{ active(cat.getUrl(), 'url', 'current') }}">
+        <a href="{{ cat.getUrl() }}">{{ cat.title }}</a>
       </li>
     {% endfor %}
   </ul>
@@ -66,7 +66,10 @@
             <div class="image-wrap -square">
               {% set impactImage = post.impactImage[0] ?? null %}
               {% if impactImage %}
-                <a class="lazy image" href="{{ post.getUrl() }}" style="background-image: url('');" data-original="{{ impactImage.getUrl('thumb') }}"></a>
+                {% set treatedImage = craft.imager.transformImage(impactImage, { width: 800 }) %}
+                {% if treatedImage %}
+                  <a class="lazy image" href="{{ post.getUrl() }}" style="background-image: url('');" data-original="{{ treatedImage.getUrl() }}"></a>
+                {% endif %}
               {% endif %}
             </div>
           </li>
@@ -88,8 +91,8 @@
         <a href="/news/">All</a>
       </li>
       {% for cat in craft.categories.group('impactTypes').all() %}
-        <li class="{{ active(cat.url, 'url', 'current') }}">
-          <a href="{{ cat.url }}">{{ cat.title }}</a>
+        <li class="{{ active(cat.getUrl(), 'url', 'current') }}">
+          <a href="{{ cat.getUrl() }}">{{ cat.title }}</a>
         </li>
       {% endfor %}
     </ul>

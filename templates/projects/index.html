@@ -51,8 +51,8 @@
   <h2 class="font-nav {{ (category is not defined) ? 'current' : '' }}"><a href="/projects/">Projects</a></h2>
   <ul class="filters semantic-only-list">
     {% for cat in craft.categories.group('markets').all() %}
-      <li class="{{ active(cat.url, 'url', 'current') }}">
-        <a href="{{ cat.url }}">{{ cat.title }}</a>
+      <li class="{{ active(cat.getUrl(), 'url', 'current') }}">
+        <a href="{{ cat.getUrl() }}">{{ cat.title }}</a>
       </li>
     {% endfor %}
   </ul>
@@ -99,8 +99,8 @@ First we determine which. #}
             <a href="/projects/">All</a>
           </li>
           {% for cat in craft.categories.group('markets').all() %}
-            <li class="{{ active(cat.url, 'url', 'current') }}">
-              <a href="{{ cat.url }}">{{ cat.title }}</a>
+            <li class="{{ active(cat.getUrl(), 'url', 'current') }}">
+              <a href="{{ cat.getUrl() }}">{{ cat.title }}</a>
             </li>
           {% endfor %}
         </ul>
@@ -123,7 +123,7 @@ First we determine which. #}
                 {% set personOffice = person.office[0] ?? null %}
                 {% if personOffice and personOffice.id == office.id %}
                   <li class="contact">
-                    <a href="{{ person.url }}">{{ person.title }}</a><br/>
+                    <a href="{{ person.getUrl() }}">{{ person.title }}</a><br/>
                     {% if person.phoneNumber %}
                       {{ person.phoneNumber }}<br/>
                     {% endif %}

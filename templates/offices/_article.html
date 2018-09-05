@@ -2,10 +2,13 @@
   <div class="image-wrap -square">
     {% set image = office.officeImage.one() %}
     {% if image %}
-      <div class="lazy image" style="background-image: url('');" data-original="{{ image.getUrl('thumb') }}"></div>
+      {% set treatedImage = craft.imager.transformImage(image, { width: 800 }) %}
+      {% if treatedImage %}
+        <div class="lazy image" style="background-image: url('');" data-original="{{ treatedImage.getUrl() }}"></div>
+      {% endif %}
     {% endif %}
   </div>
   <div class="text pad">
-    <h1 class="name font-p no-margin"><a href="{{ office.url }}">{{ office.title }}</a></h1>
+    <h1 class="name font-p no-margin"><a href="{{ office.getUrl() }}">{{ office.title }}</a></h1>
   </div>
 </article>

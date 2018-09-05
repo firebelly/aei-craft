@@ -5,7 +5,7 @@
         <span class="hang">&ldquo;</span>{{ row.quote }}&rdquo;
         {% set person = row.aeiPerson.one() %}
         {% if person %}
-          <footer>— <cite><a href="{{ person.url }}">{{ person.title }}</a>{% if row.personCompany %}, {{ row.personCompany }}{% endif %}</cite></footer>
+          <footer>— <cite><a href="{{ person.getUrl() }}">{{ person.title }}</a>{% if row.personCompany %}, {{ row.personCompany }}{% endif %}</cite></footer>
         {% elseif row.personName or row.personCompany %}
           <footer>— <cite>{{ row.personName }}{{ row.personName and row.personCompany ? ', ' : '' }}{{ row.personCompany }}</cite></footer>
         {% endif %}

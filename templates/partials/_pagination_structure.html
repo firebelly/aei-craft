@@ -26,14 +26,14 @@
       <li class="row-block bigclicky">
         <article class="module pad prev-post">
           <div class="text-red font-details no-margin">Previous {{ postName }}</div>
-          <h1 class="font-h2 post-title"><a href="{{ prevEntry.url }}" class="no-underline">{{ prevEntry.title }}</a></h1>
+          <h1 class="font-h2 post-title"><a href="{{ prevEntry.getUrl() }}" class="no-underline">{{ prevEntry.title }}</a></h1>
           <svg class="icon icon-left-arrow"><use xlink:href="#icon-left-arrow" /></svg>
         </article>
       </li>
       <li class="row-block bigclicky">
         <article class="module pad next-post">
           <div class="text-red font-details  no-margin">Next {{ postName }}</div>
-          <h1 class="font-h2 post-title"><a href="{{ nextEntry.url }}" class="no-underline">{{ nextEntry.title }}</a></h1>
+          <h1 class="font-h2 post-title"><a href="{{ nextEntry.getUrl() }}" class="no-underline">{{ nextEntry.title }}</a></h1>
           <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
         </article>
       </li>

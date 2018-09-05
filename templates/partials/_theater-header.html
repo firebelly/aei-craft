@@ -35,12 +35,15 @@
       {% if 'video' in headerImage.getMimeType() %}
         <video class="background-video" playsinline autoplay muted loop>
           {{ videoButton|raw }}
-          <source src="{{ headerImage.url }}" type="{{ headerImage.getMimeType() }}">
+          <source src="{{ headerImage.getUrl() }}" type="{{ headerImage.getMimeType() }}">
         </video>
       {% else %}
-        <div class="image lazy" style="background-image: url();" data-original="{{ headerImage ? headerImage.getUrl('header') : '' }}">
-          {{ videoButton|raw }}
-        </div>
+        {% set treatedImage = craft.imager.transformImage(headerImage, { width: 1600 }) %}
+        {% if treatedImage %}
+          <div class="image lazy" style="background-image: url();" data-original="{{ treatedImage.getUrl() }}">
+            {{ videoButton|raw }}
+          </div>
+        {% endif %}
       {% endif %}
     {% endif %}
     {% if pageHeader.headerVideo %}

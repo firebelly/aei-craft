@@ -23,7 +23,10 @@
               <div class="module image-wrap -square">
                 {% set image = project.projectImage.one() %}
                 {% if image %}
-                   <a class="image lazy" href="{{ project.url }}" style="background-image: url('');" data-original="{{ image.getUrl('header') }}"></a>
+                  {% set treatedImage = craft.imager.transformImage(image, { width: 1600 }) %}
+                  {% if treatedImage %}
+                    <a class="image lazy" href="{{ project.getUrl() }}" style="background-image: url('');" data-original="{{ treatedImage.getUrl() }}"></a>
+                  {% endif %}
                 {% endif %}
               </div>
             </div>
@@ -34,12 +37,12 @@
                   <div class="row -halves">
                     <div class="row-block">
                       <div class="project-title -nopad">
-                        <h1 class="font-p"><a href="{{ project.url }}">{{ project.projectClientName }}</a></h1>
+                        <h1 class="font-p"><a href="{{ project.getUrl() }}">{{ project.projectClientName }}</a></h1>
                         <h2 class="font-captions">{{ project.projectName }}</h2>
                       </div>
                     </div>
                     <div class="row-block">
-                      <a class="button" href="{{ project.url }}">
+                      <a class="button" href="{{ project.getUrl() }}">
                         <span class="border"></span><span class="extra-corners"></span>
                         View Project
                         <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
@@ -62,7 +65,10 @@
             <div class="module image-wrap -square">
               {% set image = block.featureImage.one() %}
               {% if image %}
-                 <a class="image lazy" href="{{ block.featureLink }}" style="background-image: url('');" data-original="{{ image.getUrl('header') }}"></a>
+                {% set treatedImage = craft.imager.transformImage(image, { width: 1600 }) %}
+                {% if treatedImage %}
+                  <a class="image lazy" href="{{ block.featureLink }}" style="background-image: url('');" data-original="{{ treatedImage.getUrl() }}"></a>
+                {% endif %}
               {% endif %}
             </div>
           </div>

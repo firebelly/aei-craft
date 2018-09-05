@@ -8,7 +8,7 @@
   <ul class="filters semantic-only-list">
     {% for cat in craft.categories.group('impactTypes').all() %}
       <li class="{% if cat.id == impactType.id %}active{% endif %}">
-        <a href="{{ cat.url }}">{{ cat.title }}</a>
+        <a href="{{ cat.getUrl() }}">{{ cat.title }}</a>
       </li>
     {% endfor %}
   </ul>
@@ -79,7 +79,7 @@
               <div class="content">
                 {% set aeiPerson = person.aeiPerson.one() %}
                 {% if aeiPerson %}
-                  <a href="{{ aeiPerson.url }}">{{ aeiPerson.title }}</a>
+                  <a href="{{ aeiPerson.getUrl() }}">{{ aeiPerson.title }}</a>
                 {% else %}
                   {{ person.personName }}
                   {% if person.personCompany %}

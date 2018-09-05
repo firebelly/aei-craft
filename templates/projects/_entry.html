@@ -7,7 +7,7 @@
     {% set entryMarketIds = entry.markets.ids() %}
     {% for cat in craft.categories.group('markets').all() %}
       <li class="{% if cat.id in entryMarketIds %}active{% endif %}">
-        <a href="{{ cat.url }}">{{ cat.title }}</a>
+        <a href="{{ cat.getUrl() }}">{{ cat.title }}</a>
       </li>
     {% endfor %}
   </ul>
@@ -44,7 +44,7 @@
               <div class="content -spaced">
                 <ul class="semantic-only-list">
                   {% for service in entry.services.all() %}
-                    <li><a href="{{ service.url }}">{{ service.title }}</a></li>
+                    <li><a href="{{ service.getUrl() }}">{{ service.title }}</a></li>
                   {% endfor %}
                 </ul>
               </div>
