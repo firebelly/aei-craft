@@ -99,7 +99,7 @@
   {% include 'partials/_related-projects'
     with {
       'relatedProjects': relatedProjects,
-      'relatedProjectsTitle': "#{ entry.title }’s Recent Projects"
+      'relatedProjectsTitle': "Project Examples"
     }
   %}
 
@@ -108,12 +108,8 @@
      targetElement: entry,
      field: 'impactPeople.aeiPerson',
   }).all() %}
-  {% include 'partials/_related-impact'
-    with {
-      'relatedPosts': relatedPosts,
-      'relatedPostsTitle': "#{ entry.title }’s Recent Impact"
-    }
-  %}
+
+  {% include 'partials/_related-impact' with { 'relatedPosts': relatedPosts } %}
 
   {% if personType %}
     {% include "partials/_pagination_structure" with {'paginationSection': 'people', 'postName': 'in ' ~ personType.title, 'category': personType } %}
