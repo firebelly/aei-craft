@@ -21,7 +21,7 @@
   <section id="services">
     <!-- services -quarters -->
     <ul class="row -quarters photo-row-separators semantic-only-list  big-margin-bottom">
-    {% for service in craft.categories.group('services').orderBy('title asc').all() %}
+    {% for service in craft.categories.group('services').all() %}
       <li class="row-block">
         {% include 'services/_article' %}
       </li>
