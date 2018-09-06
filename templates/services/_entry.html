@@ -49,7 +49,7 @@
       with: [
         'projectImage'
       ]
-    }).all() %}
+    }).orderBy('featured DESC, postDate DESC').limit(4) %}
     {% include 'partials/_related-projects'
       with {
         'relatedProjects': relatedProjects,
@@ -60,7 +60,7 @@
     {% set relatedPosts = craft.entries({
       section: 'impact',
       relatedTo: category,
-    }).all() %}
+    }).orderBy('featured DESC, postDate DESC').limit(2) %}
     {% include 'partials/_related-impact'
       with {
         'relatedPosts': relatedPosts,
