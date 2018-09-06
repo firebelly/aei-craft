@@ -268,7 +268,9 @@ var FB = (function($) {
             }
           }
         }
-        if (scrollTop < scrollDownThreshold && !stuck) {
+
+        // Have we hit the top?
+        if (scrollTop < 5) {
           stuck = false;
           $header.removeClass('-scrolled -stuck -scrolling-up');
           $body.removeClass('-scrolled nav-stuck');
@@ -283,7 +285,7 @@ var FB = (function($) {
 
         // Scroll Handling
         var lastMove = 0;
-        var eventThrottle = 40;
+        var eventThrottle = 10;
         window.addEventListener('scroll', function() {
           var now = Date.now();
           if (now > lastMove + eventThrottle) {
