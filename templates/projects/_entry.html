@@ -128,10 +128,12 @@
       </ul>
     {% endif %}
 
+    {% set categoryIds = entry.services.ids()|merge(entry.markets.ids()) %}
+
     {% set relatedPosts = craft.entries.section('impact').relatedTo({ element: entry }).limit(2) %}
     {% if relatedPosts|length < 2 %}
+      {# Find similar news posts based on category IDs #}
       {% set omitId = relatedPosts|length == 1 ? relatedPosts[0].id : 0 %}
-      {% set categoryIds = entry.services.ids()|merge(entry.markets.ids()) %}
       {% set limitCriteria = craft.entries.section('impact').id('not ' ~ omitId).limit(2 - relatedPosts|length) %}
       {% set extraRelatedPosts = craft.similar.find({ element: entry, context: categoryIds, criteria: limitCriteria }) %}
       {% set relatedPosts = relatedPosts|merge(extraRelatedPosts) %}
@@ -142,11 +144,16 @@
       }
     %}
 
-    {% set relatedProjects = craft.entries.section('projects').relatedTo({ element: entry }).limit(2) %}
-    {% if relatedProjects|length < 2 %}
-      {% set omitId = relatedProjects|length == 1 ? relatedProjects[0].id : 0 %}
-      {% set categoryIds = entry.services.ids()|merge(entry.markets.ids()) %}
-      {% set limitCriteria = craft.entries.section('projects').id('not ' ~ omitId).limit(2 - relatedProjects|length) %}
+    {% set relatedProjects = craft.entries.section('projects').relatedTo({ element: entry }).limit(4) %}
+    {% if relatedProjects|length < 4 %}
+      {# Find similar project posts based on category IDs #}
+      {% if relatedProjects|length > 0 %}
+        {% set relatedPostsIds = relatedProjects.ids() %}
+        {% set relatedPostsIdsString = relatedPostsIds | join(', not ') %}
+        {% set limitCriteria = craft.entries.section('projects').id('and, not '~relatedPostsIdsString).limit(4 - relatedProjects|length) %}
+      {% else %}
+        {% set limitCriteria = craft.entries.section('projects').limit(4) %}
+      {% endif %}
       {% set extraRelatedProjects = craft.similar.find({ element: entry, context: categoryIds, criteria: limitCriteria }) %}
       {% set relatedProjects = relatedProjects|merge(extraRelatedProjects) %}
     {% endif %}
