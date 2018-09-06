@@ -7,7 +7,6 @@
   {% paginate craft.entries({
     section: 'people',
     relatedTo: category,
-    orderBy: 'personLastName',
     featured: 1,
     with: [
       'personImage'
@@ -22,7 +21,6 @@
 
   {% paginate craft.entries({
     section: 'people',
-    orderBy: 'personLastName',
     featured: 1,
     with: [
       'personImage'
