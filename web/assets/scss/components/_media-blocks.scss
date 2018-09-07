@@ -266,8 +266,9 @@
 // Blockquotes currently use a negative-margin with compensatory padding to create hanging quotes.  In the carousel that will effect sizing, so we remove the negative margin and instead adjust the module padding
 .quotes-module {
   padding: $padding $padding $padding #{$padding - 10px};
+  overflow: hidden;
 
-  // Show overhanging quotes, since carousel is fade in/out this works
+  // Show overhanging quotes on slick carousel
   .slick-list {
     overflow: visible;
   }
