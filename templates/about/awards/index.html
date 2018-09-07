@@ -23,17 +23,16 @@
       </thead>
       <tbody>
         {% for award in craft.entries.section('awards').orderBy('title asc').all() %}
+          {% set project = craft.entries.section('projects').relatedTo({ element: award }).status(null).one() %}
+          {% if not project or project.enabled %}
           <tr>
             <td>{{ award.title }}{{ award.title and award.awardIssuer ? ' - ' : ''}}{{ award.awardIssuer }}</td>
             <td>{{ award.awardDate|date('Y') }}</td>
-
-            {% set project = craft.entries.section('projects').relatedTo({ element: award }).one() %}
-
-              {% if project %}
-                <td><a href="{{ project.getUrl() }}">{{ project.title }}</a></td>
-              {% endif %}
-
+            <td>{% if project %}
+              <a href="{{ project.getUrl() }}">{{ project.title }}</a>
+            {% endif %}</td>
           </tr>
+          {% endif %}
         {% endfor %}
       </tbody>
     </table>
