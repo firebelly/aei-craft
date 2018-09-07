@@ -22,7 +22,7 @@
         <th>Project <svg class="icon icon-down-arrow"><use xlink:href="#icon-down-arrow" /></svg></th>
       </thead>
       <tbody>
-        {% for award in craft.entries.section('awards').orderBy('title asc').all() %}
+        {% for award in craft.entries.section('awards').orderBy('awardDate desc').all() %}
           {% set project = craft.entries.section('projects').relatedTo({ element: award }).status(null).one() %}
           {% if not project or project.enabled %}
           <tr>
