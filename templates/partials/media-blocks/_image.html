@@ -1,15 +1,13 @@
 {% set image = block.image[0] ?? null %}
+{% set aspectRatio = 'landscape' %}
 {% if image %}
-  {% set aspectRatio =
-    block.width=='full' ? 'landscape' :
-    (block.image[0].getWidth() > block.image[0].getHeight() ? 'landscape' : 'portrait')
-  %}
+  {% set aspectRatio = block.image[0].getWidth() > block.image[0].getHeight() ? 'landscape' : 'portrait' %}
   {% set imageWidth = block.width == 'full' ? 1600 : 800 %}
   {% set treatedImage = craft.imager.transformImage(image, { width: imageWidth }) %}
 {% endif %}
 
 <div class="module image-module -{{ block.width }}">
-  <div class="image-wrap -{{ aspectRatio ?? 'landscape' }}">
+  <div class="image-wrap -{{ aspectRatio }}">
     {% if image and treatedImage %}
       <div class="image lazy" style="background-image: url('');" data-original="{{ treatedImage.getUrl() }}"></div>
     {% endif %}

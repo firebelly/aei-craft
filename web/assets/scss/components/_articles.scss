@@ -104,7 +104,7 @@
   }
 }
 
-// Some changes for when not in masonty
+// Some changes for when not in masonry
 .row-block {
   .project-module {
     display: flex;
@@ -113,6 +113,11 @@
       flex-grow: 1;
     }
   }
+}
+
+// Related posts lists (e.g. related projects)
+.related-posts {
+  // Always use landscape size for consistent grid
   .image-wrap.-portrait {
     padding-bottom: $landscape-padding;
   }

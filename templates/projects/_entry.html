@@ -115,7 +115,7 @@
           </div>
         </div>
       </div>
-      <ul class="row -quarters photo-row-separators semantic-only-list margin-bottom">
+      <ul class="row -quarters photo-row-separators semantic-only-list">
         {% for leader in entry.projectLeaders.all() %}
           {% set person = leader.aeiPerson[0] ?? null %}
           {% if person %}

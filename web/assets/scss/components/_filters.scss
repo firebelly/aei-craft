@@ -127,3 +127,12 @@ body.nav-stuck {
     }
   }
 }
+
+// People page filters don't need multiple columns
+.page-people {
+  .mobile-filter {
+    .filters {
+      columns: unset;
+    }
+  }
+}
