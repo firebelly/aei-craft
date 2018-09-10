@@ -71,6 +71,11 @@
     fill: $white;
     color: $white;
     @include font-smoothing;
+    svg {
+      animation-duration: 0.3s;
+      animation-timing-function: $ease;
+      animation-name: right-arrow-hover;
+    }
   }
 
 

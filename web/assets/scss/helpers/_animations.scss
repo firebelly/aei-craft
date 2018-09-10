@@ -19,7 +19,7 @@
 @keyframes right-arrow-hover {
   0% {
     opacity: 0;
-    transform: translateX(-150px);
+    transform: translateX(-300%);
   }
   70% {
     opacity: 1;
@@ -33,7 +33,7 @@
 @keyframes left-arrow-hover {
   0% {
     opacity: 0;
-    transform: translateX(150px);
+    transform: translateX(300%);
   }
   70% {
     opacity: 1;
