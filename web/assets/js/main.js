@@ -157,11 +157,15 @@ var FB = (function($) {
       $this.find('.filter-header').on('click', function(e) {
         e.preventDefault();
         $this.toggleClass('active');
+        $('body').toggleClass('no-scroll', !breakpoint_sm && $('.mobile-filter.active.stuck').length>0);
       });
 
       // Make filter sticky
       new Waypoint.Sticky({
-        element: $this[0]
+        element: $this[0],
+        handler: function(direction) {
+          $('body').toggleClass('no-scroll', !breakpoint_sm && $('.mobile-filter.active.stuck').length>0);
+        }
       });
     });
   }

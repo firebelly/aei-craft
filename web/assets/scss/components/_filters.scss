@@ -32,7 +32,7 @@ body.nav-stuck {
 
   // Sticky filters
   &.stuck {
-    padding: $beat*2 $padding 0;
+    padding: $beat*2 $padding-sm 0;
     position: fixed;
     top: 0;
     left: 0;
@@ -41,8 +41,15 @@ body.nav-stuck {
     z-index: 10;
     border-bottom: 1px solid $concrete-light;
     &.active {
-      max-height: 100%;
+      bottom: 0;
       overflow-y: auto;
+    }
+
+    @include media-sm {
+      padding: $beat*2 $padding 0;
+      &.active {
+        bottom: auto;
+      }
     }
   }
 
