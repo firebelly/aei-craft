@@ -40,7 +40,6 @@ gulp.task('styles', function() {
 // smash javascript!
 gulp.task('scripts', function() {
   return gulp.src([
-      'web/assets/js/libs/*.js',
       'web/assets/js/main.js'
     ])
     .pipe(include())

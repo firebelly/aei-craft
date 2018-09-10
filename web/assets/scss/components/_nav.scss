@@ -228,8 +228,6 @@
   }
 
   body.site-nav-open {
-    // Prevent body scrolling when nav is open
-    overflow: hidden;
     .nav-open .icon-hamburger {
       opacity: 0;
       transition: 0.2s $ease;

@@ -26018,11 +26018,16 @@ return ImagesLoaded;
     });
 })(jQuery);
 
+!function(o,e){if("function"==typeof define&&define.amd)define(["exports"],e);else if("undefined"!=typeof exports)e(exports);else{var t={};e(t),o.bodyScrollLock=t}}(this,function(exports){"use strict";Object.defineProperty(exports,"__esModule",{value:!0});var n="undefined"!=typeof window&&window.navigator&&window.navigator.platform&&/iPad|iPhone|iPod|(iPad Simulator)|(iPhone Simulator)|(iPod Simulator)/.test(window.navigator.platform),i=null,l=[],d=!1,u=-1,c=void 0,a=void 0,s=function(o){var e=o||window.event;return e.preventDefault&&e.preventDefault(),!1},o=function(){setTimeout(function(){void 0!==a&&(document.body.style.paddingRight=a,a=void 0),void 0!==c&&(document.body.style.overflow=c,c=void 0)})};exports.disableBodyScroll=function(r,o){var t;n?r&&!l.includes(r)&&(l=[].concat(function(o){if(Array.isArray(o)){for(var e=0,t=Array(o.length);e<o.length;e++)t[e]=o[e];return t}return Array.from(o)}(l),[r]),r.ontouchstart=function(o){1===o.targetTouches.length&&(u=o.targetTouches[0].clientY)},r.ontouchmove=function(o){var e,t,n,i;1===o.targetTouches.length&&(t=r,i=(e=o).targetTouches[0].clientY-u,t&&0===t.scrollTop&&0<i?s(e):(n=t)&&n.scrollHeight-n.scrollTop<=n.clientHeight&&i<0?s(e):e.stopPropagation())},d||(document.addEventListener("touchmove",s,{passive:!1}),d=!0)):(t=o,setTimeout(function(){if(void 0===a){var o=!!t&&!0===t.reserveScrollBarGap,e=window.innerWidth-document.documentElement.clientWidth;o&&0<e&&(a=document.body.style.paddingRight,document.body.style.paddingRight=e+"px")}void 0===c&&(c=document.body.style.overflow,document.body.style.overflow="hidden")}),i||(i=r))},exports.clearAllBodyScrollLocks=function(){n?(l.forEach(function(o){o.ontouchstart=null,o.ontouchmove=null}),d&&(document.removeEventListener("touchmove",s,{passive:!1}),d=!1),l=[],u=-1):(o(),i=null)},exports.enableBodyScroll=function(e){n?(e.ontouchstart=null,e.ontouchmove=null,l=l.filter(function(o){return o!==e}),d&&0===l.length&&(document.removeEventListener("touchmove",s,{passive:!1}),d=!1)):i===e&&(o(),i=null)}});
+
 
 // Good Design for Good Reason for Good Namespace
 var FB = (function($) {
 
   var screen_width = 0,
+      $document,
+      $siteNav,
+      $body,
       delayed_resize_timer,
       breakpoint_xs = false,
       breakpoint_sm = false,
@@ -26035,7 +26040,7 @@ var FB = (function($) {
     $document = $(document);
     $header = $('.site-header');
     $body = $('body');
-    $header = $('.site-nav');
+    $siteNav = $('.site-nav');
     $body.addClass('loaded');
 
     // Set screen size vars
@@ -26045,7 +26050,7 @@ var FB = (function($) {
     $('main').fitVids();
 
     // Esc handlers
-    $(document).keyup(function(e) {
+    $document.keyup(function(e) {
       if (e.keyCode === 27) {
         _closeNav();
         _closeContactModal();
@@ -26099,7 +26104,7 @@ var FB = (function($) {
     });
 
     // Bigclicky™
-    $(document).on('click', '.bigclicky', function(e) {
+    $document.on('click', '.bigclicky', function(e) {
       if (!$(e.target).is('a')) {
         e.preventDefault();
         var link = $(this).find('a:first');
@@ -26163,14 +26168,26 @@ var FB = (function($) {
       $this.find('.filter-header').on('click', function(e) {
         e.preventDefault();
         $this.toggleClass('active');
-        $('body').toggleClass('no-scroll', !breakpoint_sm && $('.mobile-filter.active.stuck').length>0);
+        if (!breakpoint_sm && $('.mobile-filter.active.stuck').length>0) {
+          bodyScrollLock.disableBodyScroll($this[0]);
+          $body.addClass('no-scroll');
+        } else {
+          bodyScrollLock.enableBodyScroll($this[0]);
+          $body.removeClass('no-scroll');
+        }
       });
 
       // Make filter sticky
       new Waypoint.Sticky({
         element: $this[0],
         handler: function(direction) {
-          $('body').toggleClass('no-scroll', !breakpoint_sm && $('.mobile-filter.active.stuck').length>0);
+          if (!breakpoint_sm && $('.mobile-filter.active.stuck').length>0) {
+            bodyScrollLock.disableBodyScroll($this[0]);
+            $body.addClass('no-scroll');
+          } else {
+            bodyScrollLock.enableBodyScroll($this[0]);
+            $body.removeClass('no-scroll');
+          }
         }
       });
     });
@@ -26321,19 +26338,19 @@ var FB = (function($) {
     if ($('.page-search').length) {
 
       // Clicking on search focuses form
-      $(document).on('click', '.search-open', function(e) {
+      $document.on('click', '.search-open', function(e) {
         e.preventDefault();
         $('.site-main .search-form input[name=q]').focus();
       });
 
     } else {
       // Open on click
-      $(document).on('click', '.search-open', function(e) {
+      $document.on('click', '.search-open', function(e) {
         e.preventDefault();
         _openSearch();
       });
 
-      $(document).on('click', '.search-close', function(e) {
+      $document.on('click', '.search-close', function(e) {
         e.preventDefault();
         _closeSearch();
       });
@@ -26342,7 +26359,7 @@ var FB = (function($) {
       $('#search-overlay').show().velocity('fadeOut', { duration: 0 });
 
       // Pipe in search results on submit
-      $(document).on('submit', '.search-form', function(e) {
+      $document.on('submit', '.search-form', function(e) {
         e.preventDefault();
         var $this = $(this);
         $.get($this.attr('action'), $this.serialize(), function(data) {
@@ -26406,7 +26423,8 @@ var FB = (function($) {
     $('#search-overlay').velocity('fadeIn', { duration: 100, easing: 'easeOut' });
 
     // Prevent body scroll
-    $('body').addClass('no-scroll');
+    bodyScrollLock.disableBodyScroll($('#search-overlay')[0]);
+    $body.addClass('no-scroll');
 
     // Empty results and fade in, focus on input
     $('#search-modal .results').empty();
@@ -26429,7 +26447,8 @@ var FB = (function($) {
     $('#search-overlay').velocity('fadeOut', { delay: 300, duration: 300, easing: 'easeOut' });
 
     // Enable body scrolling
-    $('body').removeClass('no-scroll');
+    bodyScrollLock.enableBodyScroll($('#search-overlay')[0]);
+    $body.removeClass('no-scroll');
   }
 
   function _initContactModal() {
@@ -26450,8 +26469,8 @@ var FB = (function($) {
       $('#contact-modal-overlay').velocity('fadeOut', { duration: 0 });
 
       // Init clicking behavior.
-      $(document).on('click', '.contact-modal-close', _closeContactModal);
-      $(document).on('click', '.contact-modal-open', _openContactModal);
+      $document.on('click', '.contact-modal-close', _closeContactModal);
+      $document.on('click', '.contact-modal-open', _openContactModal);
 
       // CSS will display: none this until the -unloaded class is removed.
       $modal.removeClass('-unloaded');
@@ -26585,33 +26604,36 @@ var FB = (function($) {
   }
 
   function _initNav() {
+    console.log('baz');
     // Initial state
     _closeNav();
-    $(document).on('click','.nav-close', function() {
+    $document.on('click', '.nav-close', function() {
       _closeNav();
     });
-    $(document).on('click','.nav-open', function() {
+    $document.on('click', '.nav-open', function() {
       _openNav();
     });
-    $(document).on('click','.nav-toggle', function() {
+    $document.on('click', '.nav-toggle', function() {
       _toggleNav();
     });
-    $(document).on('click','.open-filters', function() {
+    $document.on('click', '.open-filters', function() {
       _openNav();
-      _scrollContainer($('.site-nav'),$('.filters'),250,250);
+      _scrollContainer($siteNav, $('.filters'), 250, 250);
     });
   }
 
   function _openNav() {
     $body
-      .addClass('site-nav-open')
+      .addClass('site-nav-open no-scroll')
       .removeClass('site-nav-closed');
+    bodyScrollLock.disableBodyScroll($siteNav[0]);
   }
 
   function _closeNav() {
     $body
-      .removeClass('site-nav-open')
+      .removeClass('site-nav-open no-scroll')
       .addClass('site-nav-closed');
+    bodyScrollLock.enableBodyScroll($siteNav[0]);
   }
 
   function _toggleNav() {
@@ -26693,7 +26715,7 @@ var FB = (function($) {
     $theaterWrap.find('.theater-stop').click(me.stop);
 
     // Close theater on ESC key press
-    $(document).keyup(function(e) {
+    $document.keyup(function(e) {
       if (e.keyCode === 27) {
         me.stop();
       }
