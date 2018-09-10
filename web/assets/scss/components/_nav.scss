@@ -105,6 +105,9 @@
     &.current a,
     a:hover {
       text-decoration: underline;
+      svg {
+        fill: $red;
+      }
     }
   }
 
