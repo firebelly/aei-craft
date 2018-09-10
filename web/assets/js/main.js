@@ -176,11 +176,9 @@ var FB = (function($) {
 
   function _checkFilterBodyScroll(el) {
     if (!breakpoint_sm && $('.mobile-filter.active.stuck').length>0) {
-      bodyScrollLock.disableBodyScroll($('.mobile-filter')[0]);
-      $body.addClass('no-scroll');
+      _disableBodyScroll($('.mobile-filter.active.stuck')[0]);
     } else {
-      bodyScrollLock.enableBodyScroll($('.mobile-filter.stuck')[0]);
-      $body.removeClass('no-scroll');
+      _enableBodyScroll();
     }
   }
 
@@ -405,6 +403,16 @@ var FB = (function($) {
     }
   }
 
+  function _disableBodyScroll(el) {
+    $body.addClass('no-scroll');
+    bodyScrollLock.disableBodyScroll($('#search-overlay .scroll-wrap')[0]);
+  }
+
+  function _enableBodyScroll() {
+    bodyScrollLock.clearAllBodyScrollLocks();
+    $body.removeClass('no-scroll');
+  }
+
   function _openSearch() {
     // Hide mobile nav
     _closeNav();
@@ -414,8 +422,7 @@ var FB = (function($) {
     $('#search-overlay').velocity('fadeIn', { duration: 100, easing: 'easeOut' });
 
     // Prevent body scroll
-    bodyScrollLock.disableBodyScroll($('#search-overlay .scroll-wrap')[0]);
-    $body.addClass('no-scroll');
+    _disableBodyScroll($('#search-overlay .scroll-wrap')[0]);
 
     // Empty results and fade in, focus on input
     $('#search-modal .results').empty();
@@ -438,8 +445,7 @@ var FB = (function($) {
     $('#search-overlay').velocity('fadeOut', { delay: 300, duration: 300, easing: 'easeOut' });
 
     // Enable body scrolling
-    bodyScrollLock.enableBodyScroll($('#search-overlay .scroll-wrap')[0]);
-    $body.removeClass('no-scroll');
+    _enableBodyScroll();
   }
 
   function _initContactModal() {
@@ -616,14 +622,14 @@ var FB = (function($) {
     $body
       .addClass('site-nav-open no-scroll')
       .removeClass('site-nav-closed');
-    bodyScrollLock.disableBodyScroll($siteNav[0]);
+    _disableBodyScroll($siteNav[0]);
   }
 
   function _closeNav() {
     $body
       .removeClass('site-nav-open no-scroll')
       .addClass('site-nav-closed');
-    bodyScrollLock.enableBodyScroll($siteNav[0]);
+    _enableBodyScroll();
   }
 
   function _toggleNav() {
