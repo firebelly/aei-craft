@@ -21,6 +21,9 @@ body {
 
 a {
   color: inherit;
+  &:hover {
+    color: $red;
+  }
 }
 
 blockquote {

@@ -206,7 +206,7 @@
 
   .no-results {
     @include font-p;
-    color: red;
+    color: $red;
     padding-bottom: $padding*2;
   }
 
@@ -221,20 +221,30 @@
     h3 {
       @include font-p;
       @include no-underline;
-      color: $red;
       margin: 0 0 2*$beat;
+      a {
+        color: $red;
+        &:hover {
+          color: $black;
+        }
+      }
     }
 
     p {
       margin: 0;
     }
 
-    .read-more {
+    a.read-more {
       display: inline-block;
       position: relative;
       margin: 2*$beat 0 0;
       &::after {
         content: "\00a0\00a0\00a0"; // extend the underline
+      }
+      &:hover {
+        .icon-right-arrow {
+          fill: $red;
+        }
       }
     }
 
