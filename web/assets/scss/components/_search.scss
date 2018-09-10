@@ -35,6 +35,7 @@
     overflow-y: auto;
     max-height: 100%;
     padding: $padding 0;
+    -webkit-overflow-scrolling: touch;
 
     @include media-md {
       padding: 3*$padding 0;
