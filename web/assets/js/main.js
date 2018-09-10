@@ -161,29 +161,27 @@ var FB = (function($) {
       $this.find('.filter-header').on('click', function(e) {
         e.preventDefault();
         $this.toggleClass('active');
-        if (!breakpoint_sm && $('.mobile-filter.active.stuck').length>0) {
-          bodyScrollLock.disableBodyScroll($this[0]);
-          $body.addClass('no-scroll');
-        } else {
-          bodyScrollLock.enableBodyScroll($this[0]);
-          $body.removeClass('no-scroll');
-        }
+        _checkFilterBodyScroll();
       });
 
       // Make filter sticky
       new Waypoint.Sticky({
         element: $this[0],
         handler: function(direction) {
-          if (!breakpoint_sm && $('.mobile-filter.active.stuck').length>0) {
-            bodyScrollLock.disableBodyScroll($this[0]);
-            $body.addClass('no-scroll');
-          } else {
-            bodyScrollLock.enableBodyScroll($this[0]);
-            $body.removeClass('no-scroll');
-          }
+          _checkFilterBodyScroll();
         }
       });
     });
+  }
+
+  function _checkFilterBodyScroll(el) {
+    if (!breakpoint_sm && $('.mobile-filter.active.stuck').length>0) {
+      bodyScrollLock.disableBodyScroll($('.mobile-filter')[0]);
+      $body.addClass('no-scroll');
+    } else {
+      bodyScrollLock.enableBodyScroll($('.mobile-filter')[0]);
+      $body.removeClass('no-scroll');
+    }
   }
 
   // Wrap first quotation mark in blockquotes in a span to apply hanging quotes
@@ -597,7 +595,6 @@ var FB = (function($) {
   }
 
   function _initNav() {
-    console.log('baz');
     // Initial state
     _closeNav();
     $document.on('click', '.nav-close', function() {
