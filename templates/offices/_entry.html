@@ -78,7 +78,7 @@
                 <ul class="semantic-only-list">
                   {% for leader in entry.officeLeaders.all() %}
                     {% set person = leader.aeiPerson.one() %}
-                    <li><a href="{{ person.getUrl() }}">{{ person.title }}</a> — {{ leader.personTitle }}</li>
+                    <li><a href="{{ person.getUrl() }}">{{ person.title }}</a> — {{ person.personTitle }}</li>
                   {% endfor %}
                 </ul>
               </div>
