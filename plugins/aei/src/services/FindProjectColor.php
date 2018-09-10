@@ -31,13 +31,14 @@ use craft\base\Component;
 class FindProjectColor extends Component
 {
     public $colorSwatches = [
+        'Black'  => '#282826',
         'Copper' => '#664747',
-        'Brass' => '#725e4f',
-        'Green' => '#545b44',
-        'Blue' => '#3d4460',
-        'Teal' => '#475b66',
+        'Brass'  => '#725e4f',
+        'Green'  => '#545b44',
+        'Blue'   => '#3d4460',
+        'Teal'   => '#475b66',
         'Violet' => '#56425b',
-        'Gray' => '#595954',
+        'Gray'   => '#595954',
     ];
 
     // Public Methods
