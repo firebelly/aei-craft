@@ -4,6 +4,7 @@
 
 {% block content %}
 
+  {% if not craft.app.request.isAjax %}
   <form action="{{ url('search') }}" class="search-form">
       <input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="search" value="{{ query ? query : '' }}" name="q" class="search-field form-control" placeholder="Search" required="">
       <button type="submit" class="button">
@@ -12,6 +13,7 @@
         <svg class="icon icon-search"><use xlink:href="#icon-search" /></svg>
       </button>
   </form>
+  {% endif %}
 
   {% if query %}
 

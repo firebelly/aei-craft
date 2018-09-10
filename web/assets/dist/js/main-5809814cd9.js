@@ -26334,14 +26334,8 @@ var FB = (function($) {
         _closeSearch();
       });
 
-      // Clutter up the DOM (add search modal and overlay)
-      $('<div id="search-modal"><div class="scroll-wrap"><div class="content"></div></div><svg class="icon icon-x"><use xlink:href="#icon-x" /></svg></div>')
-        .appendTo('body');
-      $('<div class="overlay search-close" id="search-overlay"></div>')
-        .appendTo('body');
-
-      // Hide the overlay
-      $('#search-overlay').velocity('fadeOut', { duration: 0 });
+      // Init the overlay
+      $('#search-overlay').show().velocity('fadeOut', { duration: 0 });
 
       // Pipe in search results on submit
       $(document).on('submit', '.search-form', function(e) {
@@ -26357,8 +26351,8 @@ var FB = (function($) {
             history.replaceState({'ajax': true} , document.title, location.href);
             history.pushState({'ajax': true} , title, $this.attr('action')+'?'+$this.serialize());
           }
-          var $content = $('#search-modal .content');
-          var $scrollContext = $('#search-modal .scroll-wrap')
+          var $content = $('#search-modal .results');
+          var $scrollContext = $('#search-modal .scroll-wrap');
 
           $content.html(data).velocity('fadeOut', {duration: 0});
           $content.find('.search-section, .search-article').velocity('fadeOut', {duration: 0});
@@ -26410,12 +26404,13 @@ var FB = (function($) {
     // Prevent body scroll
     $('body').addClass('no-scroll');
 
-    // Fill with content
-    $.get('/search/', function(data) {
-      $('#search-modal .content').html(data).velocity('fadeIn', {duration: 200});
-      setTimeout(function() {
-        $('#search-modal .content').find('.search-form input[name=q]').focus();
-      },100);
+    // Empty results and fade in, focus on input
+    $('#search-modal .results').empty();
+    $('#search-modal .content').velocity('fadeIn', {
+      duration: 200,
+      complete: function() {
+        $('#search-modal input[name=q]').focus();
+      }
     });
   }
 
@@ -26426,8 +26421,8 @@ var FB = (function($) {
     }
     // Otherwise just close modal
     $('#search-modal').removeClass('active');
-    $('#search-modal .content').velocity("fadeOut", { duration: 100, easing: 'easeOut' });
-    $('#search-overlay').velocity("fadeOut", { delay: 300, duration: 300, easing: 'easeOut' });
+    $('#search-modal .content').velocity('fadeOut', { duration: 100, easing: 'easeOut' });
+    $('#search-overlay').velocity('fadeOut', { delay: 300, duration: 300, easing: 'easeOut' });
 
     // Enable body scrolling
     $('body').removeClass('no-scroll');
@@ -26447,8 +26442,8 @@ var FB = (function($) {
         .on('click', _closeContactModal);
 
       // Sweep it all under the rug.
-      $modal.velocity("slideUp", { duration: 0 });
-      $('#contact-modal-overlay').velocity("fadeOut", { duration: 0 });
+      $modal.velocity('slideUp', { duration: 0 });
+      $('#contact-modal-overlay').velocity('fadeOut', { duration: 0 });
 
       // Init clicking behavior.
       $(document).on('click', '.contact-modal-close', _closeContactModal);
@@ -26468,11 +26463,11 @@ var FB = (function($) {
       var $overlay = $('#contact-modal-overlay');
 
       $modal
-        .velocity("fadeIn", { duration: 300, easing: 'easeOut', queue: false })
-        .velocity("slideDown", { duration: 300, easing: 'easeOut' });
+        .velocity('fadeIn', { duration: 300, easing: 'easeOut', queue: false })
+        .velocity('slideDown', { duration: 300, easing: 'easeOut' });
 
       $overlay
-        .velocity("fadeIn", { duration: 200, easing: 'easeOut' });
+        .velocity('fadeIn', { duration: 200, easing: 'easeOut' });
     }
   }
 
@@ -26485,11 +26480,11 @@ var FB = (function($) {
       var $overlay = $('#contact-modal-overlay');
 
       $modal
-        .velocity("fadeOut", { duration: 300, easing: 'easeOut', queue: false })
-        .velocity("slideUp", { duration: 300, easing: 'easeOut' });
+        .velocity('fadeOut', { duration: 300, easing: 'easeOut', queue: false })
+        .velocity('slideUp', { duration: 300, easing: 'easeOut' });
 
       $overlay
-        .velocity("fadeOut", { delay: 300, duration: 300, easing: 'easeOut' });
+        .velocity('fadeOut', { delay: 300, duration: 300, easing: 'easeOut' });
     }
   }
 
@@ -26523,7 +26518,7 @@ var FB = (function($) {
 
   function _scrollBody(element, duration, delay) {
     isAnimating = true;
-    element.velocity("scroll", {
+    element.velocity('scroll', {
       duration: duration,
       delay: delay,
       offset: 0,
@@ -26535,7 +26530,7 @@ var FB = (function($) {
 
   function _scrollContainer(container, element, duration, delay) {
     isAnimating = true;
-    element.velocity("scroll", {
+    element.velocity('scroll', {
       container: container,
       duration: duration,
       delay: delay,

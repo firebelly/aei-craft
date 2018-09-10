@@ -7,6 +7,10 @@
   }
 }
 
+#search-overlay {
+  display: none;
+}
+
 // Search modal
 #search-modal {
   @include hardware-acceleration;
