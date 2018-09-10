@@ -21,6 +21,7 @@ var FB = (function($) {
       $document,
       $siteNav,
       $body,
+      initialHref,
       delayed_resize_timer,
       breakpoint_xs = false,
       breakpoint_sm = false,
@@ -38,6 +39,9 @@ var FB = (function($) {
 
     // Set screen size vars
     _resize();
+
+    // Initial page href
+    initialHref = location.href;
 
     // Fit them vids!
     $('main').fitVids();
@@ -323,84 +327,73 @@ var FB = (function($) {
   }
 
   function _initSearch() {
-    // Are we on /search page?
-    if ($('.page-search').length) {
+    // Open on click
+    $document.on('click', '.search-open', function(e) {
+      e.preventDefault();
+      _openSearch();
+    });
 
-      // Clicking on search focuses form
-      $document.on('click', '.search-open', function(e) {
-        e.preventDefault();
-        $('.site-main .search-form input[name=q]').focus();
-      });
+    $document.on('click', '.search-close', function(e) {
+      e.preventDefault();
+      _closeSearch();
+    });
 
-    } else {
-      // Open on click
-      $document.on('click', '.search-open', function(e) {
-        e.preventDefault();
-        _openSearch();
-      });
+    // Init the overlay
+    $('#search-overlay').show().velocity('fadeOut', { duration: 0 });
 
-      $document.on('click', '.search-close', function(e) {
-        e.preventDefault();
-        _closeSearch();
-      });
+    // Pipe in search results on submit
+    $document.on('submit', '.search-form', function(e) {
+      e.preventDefault();
+      var $this = $(this);
+      $.get($this.attr('action'), $this.serialize(), function(data) {
+        var title = $(data).filter('title').text();
+        // Already on search? Just replace it so back & closeSearch goes to previous non-search page
+        if (!initialHref.match('/search?') && location.href.match('/search?')) {
+          history.replaceState({'ajax': true} , title, $this.attr('action')+'?'+$this.serialize());
+        } else {
+          // Otherwise push search request to history, replace current with state object to track need to refresh
+          history.replaceState({'ajax': true} , document.title, location.href);
+          history.pushState({'ajax': true} , title, $this.attr('action')+'?'+$this.serialize());
+        }
+        var $content = $('#search-modal .results');
+        var $scrollContext = $('#search-modal .scroll-wrap');
 
-      // Init the overlay
-      $('#search-overlay').show().velocity('fadeOut', { duration: 0 });
+        $content.html(data).velocity('fadeOut', {duration: 0});
+        $content.find('.search-section, .search-article').velocity('fadeOut', {duration: 0});
 
-      // Pipe in search results on submit
-      $document.on('submit', '.search-form', function(e) {
-        e.preventDefault();
-        var $this = $(this);
-        $.get($this.attr('action'), $this.serialize(), function(data) {
-          var title = $(data).filter('title').text();
-          // Already on search? Just replace it so back & closeSearch goes to previous non-search page
-          if (location.href.match('/search?')) {
-            history.replaceState({'ajax': true} , title, $this.attr('action')+'?'+$this.serialize());
-          } else {
-            // Otherwise push search request to history, replace current with state object to track need to refresh
-            history.replaceState({'ajax': true} , document.title, location.href);
-            history.pushState({'ajax': true} , title, $this.attr('action')+'?'+$this.serialize());
-          }
-          var $content = $('#search-modal .results');
-          var $scrollContext = $('#search-modal .scroll-wrap');
+        var speed = 200;
+        var delay = 40;
+        var i = 0;
+        var j = 0;
+        $content.velocity('fadeIn', {duration: speed, delay: delay*(i++)}).find('.search-form input[name=q]').focus();
+        $content.find('.search-section').each(function() {
+          $(this).velocity('fadeIn', {duration: speed, delay: delay*(j+i++)});
 
-          $content.html(data).velocity('fadeOut', {duration: 0});
-          $content.find('.search-section, .search-article').velocity('fadeOut', {duration: 0});
-
-          var speed = 200;
-          var delay = 40;
-          var i = 0;
-          var j = 0;
-          $content.velocity('fadeIn', {duration: speed, delay: delay*(i++)}).find('.search-form input[name=q]').focus();
-          $content.find('.search-section').each(function() {
-            $(this).velocity('fadeIn', {duration: speed, delay: delay*(j+i++)});
-
-            $(this).find('.search-article').each(function() {
-              if (i<10) {
-                $(this).velocity('fadeIn', {duration: speed, delay: delay*(j+i++)});
-              } else {
-                $(this).velocity('fadeIn', {delay: delay*(j+10), duration: 0});
-              }
-            });
-            j+=5;
-            i=0;
+          $(this).find('.search-article').each(function() {
+            if (i<10) {
+              $(this).velocity('fadeIn', {duration: speed, delay: delay*(j+i++)});
+            } else {
+              $(this).velocity('fadeIn', {delay: delay*(j+10), duration: 0});
+            }
           });
-
-          // Make header titles sticky
-          $('.sticky-header').each(function() {
-            $this = $(this);
-            var sticky = new Waypoint.Sticky({
-              element: $this[0],
-              context: $scrollContext[0],
-            });
-          });
-
-          // Required to maintain width on sticky headers
-          _fixStickyHeaderWidths();
-
+          j+=5;
+          i=0;
         });
+
+        // Make header titles sticky
+        $('.sticky-header').each(function() {
+          $this = $(this);
+          var sticky = new Waypoint.Sticky({
+            element: $this[0],
+            context: $scrollContext[0],
+          });
+        });
+
+        // Required to maintain width on sticky headers
+        _fixStickyHeaderWidths();
+
       });
-    }
+    });
   }
 
   function _disableBodyScroll(el) {
@@ -435,8 +428,8 @@ var FB = (function($) {
   }
 
   function _closeSearch() {
-    // Search modal has changed URL, go back to close modal and change URL
-    if (location.href.match('/search?')) {
+    // Search modal has changed URL (if not originally on a /search page), go back to close modal and change URL
+    if (!initialHref.match('/search?') && location.href.match('/search?')) {
       history.back();
     }
     // Otherwise just close modal
