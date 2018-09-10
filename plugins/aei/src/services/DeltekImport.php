@@ -517,11 +517,6 @@ class DeltekImport extends Component
                 $entry->enabled = 0;
                 $deltekIdsImported = [];
                 $mediaBlocks = [];
-
-                // Only populate body on new entry
-                $fields = array_merge($fields, [
-                    'body' => $this->formatText($row['body']),
-                ]);
             } else {
                 // Existing entry
                 $actionVerb = 'updated';
@@ -544,6 +539,11 @@ class DeltekImport extends Component
                     $existingMatrixQuery = $entry->getFieldValue('mediaBlocks');
                     $mediaBlocks = $mediaBlocksField->serializeValue($existingMatrixQuery, $entry);
                 }
+
+                // Only populate body on new entry or refresh from deltek
+                $fields = array_merge($fields, [
+                    'body' => $this->formatText($row['body']),
+                ]);
 
                 // Var to keep track of new media blocks
                 $mediaBlockNew = 0;
@@ -1079,14 +1079,6 @@ class DeltekImport extends Component
                 $aeiPerson = [];
             }
 
-            $personName = '';
-            // There are different field names for author in impact_quotes and related_quotes (gak)
-            if (!empty($relRow['author'])) {
-                $personName = $relRow['author'];
-            } else if (!empty($relRow['quote_author'])) {
-                $personName = $relRow['quote_author'];
-            }
-
             // Make comma-delimited string of company + title
             $companyTitle = implode(',', array_filter([$relRow['author_company'], $relRow['author_title']]));
 
@@ -1097,7 +1089,7 @@ class DeltekImport extends Component
                 'type' => $blockType->id,
                 'fields' => [
                     'quote'         => $quote,
-                    'personName'    => $personName,
+                    'personName'    => $relRow['author'],
                     'personCompany' => $companyTitle,
                     'quoteKey'      => $relRow['quote_key'],
                     'aeiPerson'     => $aeiPerson,
