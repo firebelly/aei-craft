@@ -26186,7 +26186,7 @@ var FB = (function($) {
       bodyScrollLock.disableBodyScroll($('.mobile-filter')[0]);
       $body.addClass('no-scroll');
     } else {
-      bodyScrollLock.enableBodyScroll($('.mobile-filter')[0]);
+      bodyScrollLock.enableBodyScroll($('.mobile-filter.stuck')[0]);
       $body.removeClass('no-scroll');
     }
   }
@@ -26421,7 +26421,7 @@ var FB = (function($) {
     $('#search-overlay').velocity('fadeIn', { duration: 100, easing: 'easeOut' });
 
     // Prevent body scroll
-    bodyScrollLock.disableBodyScroll($('#search-overlay')[0]);
+    bodyScrollLock.disableBodyScroll($('#search-overlay .scroll-wrap')[0]);
     $body.addClass('no-scroll');
 
     // Empty results and fade in, focus on input
@@ -26445,7 +26445,7 @@ var FB = (function($) {
     $('#search-overlay').velocity('fadeOut', { delay: 300, duration: 300, easing: 'easeOut' });
 
     // Enable body scrolling
-    bodyScrollLock.enableBodyScroll($('#search-overlay')[0]);
+    bodyScrollLock.enableBodyScroll($('#search-overlay .scroll-wrap')[0]);
     $body.removeClass('no-scroll');
   }
 
