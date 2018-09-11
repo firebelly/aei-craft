@@ -568,11 +568,6 @@ class DeltekImport extends Component
                     $mediaBlocks = $mediaBlocksField->serializeValue($existingMatrixQuery, $entry);
                 }
 
-                // Only populate body on new entry or refresh from deltek
-                $fields = array_merge($fields, [
-                    'body' => $this->formatText($row['body']),
-                ]);
-
                 // Var to keep track of new media blocks
                 $mediaBlockNew = 0;
 
@@ -593,9 +588,10 @@ class DeltekImport extends Component
                 // Merge in any images found to matrix
                 $mediaBlocks = array_merge($mediaBlocks, $relatedImages);
 
-                if (!$entry->enabled) {
-                    // Add fields to be saved for disabled entries
+                // Add fields to be saved for new or disabled entries
+                if ($actionVerb == 'added' || !$entry->enabled) {
                     $fields = array_merge($fields, [
+                        'body' => $this->formatText($row['body']),
                         'impactImage' => $heroImage,
                         'mediaBlocks'  => $mediaBlocks,
                     ]);
@@ -678,6 +674,7 @@ class DeltekImport extends Component
                     if ($this->importMode == 'refresh') {
                         // Add fields to be saved to drafts (if not already added above when !$entry->enabled)
                         $fields = array_merge($fields, [
+                            'body' => $this->formatText($row['body']),
                             'impactImage' => $heroImage,
                             'mediaBlocks' => $mediaBlocks,
                         ]);
