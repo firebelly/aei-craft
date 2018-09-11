@@ -58,15 +58,6 @@
   </ul>
 {% endblock %}
 
-{# If the first project is portrait, this page will have an all masonry layout.
-If landscape, the first post will be pulled out into a different grid.
-First we determine which. #}
-{% set firstProjectImage = projectEntries[0].projectImage[0] ?? null %}
-{% set firstProjectAspectRatio = firstProjectImage ?
-  (firstProjectImage.getWidth() > firstProjectImage.getHeight() ? 'landscape' : 'portrait') :
-  'landscape' %}
-{% set allMasonry = (craft.app.request.isAjax or firstProjectAspectRatio == 'portrait') %}
-
 {# For clarity/DRY sake, save the intro module to a variable. #}
 {% set introModule %}
   {% if not craft.app.request.isAjax %}
@@ -147,18 +138,27 @@ First we determine which. #}
 {% endset %}
 
 
-{# Now, finally, build the content and apologize to TWIG gods. This is all for you, Ross. ;) #}
 {% block content %}
-  {% if allMasonry %}
 
-    {# All projects and intro text in masonry #}
-    <div class="masonry-grid">
-      <div class="masonry-sizer"></div>
-      <ul class="semantic-only-list infinite-scroll-container">
-        <div class="masonry-item intro-block">
-          {{ introModule }}
-        </div>
-        {% for project in projectEntries %}
+  {# Top row: project text and first project (wrapped so they can visually align) #}
+  <div class="row -halves">
+    <div class="row-block intro-block">
+      {{ introModule }}
+    </div>
+    {% set project = projectEntries ? projectEntries[0] : false %}
+    {% if project %}
+      <div class="row-block">
+        {% include 'projects/_article' with { 'forceLandscape': 1 } %}
+      </div>
+    {% endif %}
+  </div>
+
+  {# All of the rest of the projects in masonry #}
+  <div class="masonry-grid">
+    <div class="masonry-sizer"></div>
+    <ul class="semantic-only-list infinite-scroll-container">
+      {% for project in projectEntries %}
+        {% if loop.index > 1 %}
           {% if loop.index in ['3','7'] and stats|length %}
             <li class="masonry-item">
               {% include 'partials/media-blocks/_stat' with { 'block': stats|last } %}
@@ -168,46 +168,10 @@ First we determine which. #}
           <li class="masonry-item infinite-scroll-object">
             {% include 'projects/_article' %}
           </li>
-        {% endfor %}
-      </ul>
-    </div>
-
-  {% else %}
-
-    {# Top row: project text and first project (wrapped so they can visually align) #}
-    <div class="row -halves">
-      <div class="row-block intro-block">
-        {{ introModule }}
-      </div>
-      {% set project = projectEntries ? projectEntries[0] : false %}
-      {% if project %}
-        <div class="row-block">
-          {% include 'projects/_article' %}
-        </div>
-      {% endif %}
-    </div>
-
-    {# All of the rest of the projects in masonry #}
-    <div class="masonry-grid">
-      <div class="masonry-sizer"></div>
-      <ul class="semantic-only-list infinite-scroll-container">
-        {% for project in projectEntries %}
-          {% if loop.index > 1 %}
-            {% if loop.index in ['3','7'] and stats|length %}
-              <li class="masonry-item">
-                {% include 'partials/media-blocks/_stat' with { 'block': stats|last } %}
-                {% set stats = stats|slice(0,-1) %}
-              </li>
-            {% endif %}
-            <li class="masonry-item infinite-scroll-object">
-              {% include 'projects/_article' %}
-            </li>
-          {% endif %}
-        {% endfor %}
-      </ul>
-    </div>
-
-  {% endif %}
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
 
   <nav class="pagination" data-total-pages="{{ paginationInfo.totalPages }}">
     <ul>

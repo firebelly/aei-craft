@@ -41,7 +41,6 @@ body.nav-stuck {
     z-index: 10;
     border-bottom: 1px solid $concrete-light;
     &.active {
-      -webkit-overflow-scrolling: touch;
       bottom: 0;
       overflow-y: auto;
     }

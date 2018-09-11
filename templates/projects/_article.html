@@ -1,6 +1,6 @@
 {% set projectImage = project.projectImage[0] ?? null %}
 
-{% set projectAspectRatio = projectImage ?
+{% set projectAspectRatio = forceLandscape is not defined and projectImage ?
   (projectImage.getWidth() > projectImage.getHeight() ? 'landscape' : 'portrait') :
   'landscape' %}
 

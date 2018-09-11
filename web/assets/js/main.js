@@ -165,24 +165,25 @@ var FB = (function($) {
       $this.find('.filter-header').on('click', function(e) {
         e.preventDefault();
         $this.toggleClass('active');
-        _checkFilterBodyScroll();
+        setTimeout(_checkFilterBodyScroll, 250);
       });
 
       // Make filter sticky
       new Waypoint.Sticky({
         element: $this[0],
         handler: function(direction) {
-          _checkFilterBodyScroll();
+          setTimeout(_checkFilterBodyScroll, 250);
         }
       });
     });
   }
 
-  function _checkFilterBodyScroll(el) {
-    if (!breakpoint_sm && $('.mobile-filter.active.stuck').length>0) {
-      _disableBodyScroll($('.mobile-filter.active.stuck')[0]);
+  function _checkFilterBodyScroll() {
+    var $el = $('.mobile-filter');
+    if (!breakpoint_sm && $el.is('.active.stuck')) {
+      _disableBodyScroll($el[0]);
     } else {
-      _enableBodyScroll();
+      _enableBodyScroll($el[0]);
     }
   }
 
@@ -397,12 +398,17 @@ var FB = (function($) {
   }
 
   function _disableBodyScroll(el) {
+    bodyScrollLock.clearAllBodyScrollLocks();
     $body.addClass('no-scroll');
     bodyScrollLock.disableBodyScroll(el);
   }
 
-  function _enableBodyScroll() {
-    bodyScrollLock.clearAllBodyScrollLocks();
+  function _enableBodyScroll(el) {
+    if (typeof el === 'undefined') {
+      bodyScrollLock.clearAllBodyScrollLocks();
+    } else {
+      bodyScrollLock.enableBodyScroll(el);
+    }
     $body.removeClass('no-scroll');
   }
 
@@ -415,7 +421,7 @@ var FB = (function($) {
     $('#search-overlay').velocity('fadeIn', { duration: 100, easing: 'easeOut' });
 
     // Prevent body scroll
-    _disableBodyScroll($('#search-overlay .scroll-wrap')[0]);
+    _disableBodyScroll($('#search-modal .scroll-wrap')[0]);
 
     // Empty results and fade in, focus on input
     $('#search-modal .results').empty();
@@ -438,7 +444,7 @@ var FB = (function($) {
     $('#search-overlay').velocity('fadeOut', { delay: 300, duration: 300, easing: 'easeOut' });
 
     // Enable body scrolling
-    _enableBodyScroll();
+    _enableBodyScroll($('#search-modal .scroll-wrap')[0]);
   }
 
   function _initContactModal() {
@@ -622,7 +628,7 @@ var FB = (function($) {
     $body
       .removeClass('site-nav-open no-scroll')
       .addClass('site-nav-closed');
-    _enableBodyScroll();
+    _enableBodyScroll($siteNav[0]);
   }
 
   function _toggleNav() {
