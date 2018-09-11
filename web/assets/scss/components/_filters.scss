@@ -79,7 +79,7 @@ body.nav-stuck {
   .filters {
     max-height: 0;
     overflow: hidden;
-    transition: all 0.2s $ease;
+    transition: max-height 0.2s $ease;
     a {
       position: relative;
       display: block;
@@ -122,7 +122,7 @@ body.nav-stuck {
     .filters {
       padding: $beat*3 0;
       border-top: 1px solid $concrete-light;
-      max-height: 600px;
+      max-height: 1000px;
     }
   }
 }

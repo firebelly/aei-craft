@@ -56,10 +56,13 @@
   .label {
     @include font-details;
     margin: $beat 0;
-    max-width: 200px;
+    max-width: 100px;
     text-align: right;
     align-self: flex-end;
 
+    @include media-sm {
+      max-width: 200px;
+    }
     @include media-md {
       max-width: 18*$beat;
       &.-wrapped {
