@@ -37,6 +37,9 @@
     <form method="post" id="deltek-import-form" action="/admin/actions/aei/deltek-import/import-records">
         {{ csrfInput() }}
         <div class="field">
+          <div class="heading">
+            <label>Check which sections you want to import:</label>
+          </div>
           <ul>
               {% for section in craft.app.getModule('aei').getDeltekSections() %}
                   <li>
