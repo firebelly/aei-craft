@@ -114,7 +114,7 @@ body.nav-stuck {
   // Filters open
   &.active {
     .filter-header {
-      padding: 0 0 $beat*3;
+      padding: 0 0 $beat*2;
       svg {
         transform: rotate(0);
       }
