@@ -58,7 +58,7 @@ class DeltekImportController extends Controller
             if ($active) {
                 try {
                     echo "Running Deltek importer for: {$section}\n";
-                    $importResult = AEI::$plugin->deltekImport->importRecords([strtolower($section)]);
+                    $importResult = AEI::$plugin->deltekImport->importRecords([strtolower($section)], '', 'basic via console');
                     echo $importResult->summary . ' (' . $importResult->exec_time . " seconds)\n";
                 } catch (\Exception $e) {
                     echo 'Error: '.$e->getMessage() . "\n";

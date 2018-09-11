@@ -113,7 +113,7 @@ class DeltekImport extends Component
     }
 
     /**
-     * Get Deltek IDs for entry
+     * Get Deltek IDs for entry (used by BEFORE_SAVE_ELEMENT event in base AEI.php plugin file)
      *
      * AEI::$plugin->deltekImport->getDeltekIds()
      *
@@ -154,6 +154,8 @@ class DeltekImport extends Component
      */
     public function importRecords($sectionsToImport, $deltekIds='', $importMode='basic')
     {
+        $this->log = '';
+        $this->summary = [];
         $timeStart = microtime(true);
         if (empty($sectionsToImport)) {
             return (object) [
