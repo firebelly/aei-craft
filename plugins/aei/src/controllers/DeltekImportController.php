@@ -67,4 +67,12 @@ class DeltekImportController extends Controller
         return AEI::$plugin->deltekImport->updateAllDeltekIds($type);
     }
 
+    /**
+     * Index new images from text file (this is also available as a console command)
+     */
+    public function actionIndexNewImagesFromFile() {
+        $file = Craft::$app->getRequest()->get('file') ?? 'newImages.txt';
+        return AEI::$plugin->deltekImport->indexNewImagesFromFile($file);
+    }
+
 }

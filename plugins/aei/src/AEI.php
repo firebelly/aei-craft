@@ -100,11 +100,30 @@ class AEI extends Plugin
             // @var EntryModel $entry
             $entry = $context['entry'];
 
-            if (in_array($entry->type, ['projects', 'impact'])) {
+            if (in_array($entry->type, ['projects', 'impact', 'offices', 'person'])) {
                 if (!$entry->enabled || !empty($entry->draftId)) {
-                    $deltek_id = ($entry->type == 'projects') ? $entry->projectNumber : $entry->impactKey;
-                    $url = UrlHelper::actionUrl('aei/deltek-import/import-records?sections-to-import[]='.$entry->type.'&deltek-ids='.$deltek_id.'&import-mode=refresh&referrer='.urlencode(Craft::$app->getRequest()->getUrl()));
-                    return '<div class="meta"><a href="'.$url.'" class="btn">Refresh from Deltek</a></div>';
+                    $entryType = $entry->type;
+                    switch ($entry->type) {
+                        case 'projects':
+                            $deltek_id = $entry->projectNumber;
+                            break;
+                        case 'impact':
+                            $deltek_id = $entry->impactKey;
+                            break;
+                        case 'offices':
+                            $deltek_id = $entry->title;
+                            break;
+                        case 'person':
+                            $deltek_id = $entry->personEmployeeNumber;
+                            $entryType = 'people'; // override for proper term in importer
+                            break;
+                        default:
+                            break;
+                    }
+                    if (!empty($deltek_id)) {
+                        $url = UrlHelper::actionUrl('aei/deltek-import/import-records?sections-to-import[]='.$entryType.'&deltek-ids='.$deltek_id.'&import-mode=refresh&referrer='.urlencode(Craft::$app->getRequest()->getUrl()));
+                        return '<div class="meta"><a href="'.$url.'" class="btn">Refresh from Deltek</a></div>';
+                    }
                 }
             }
         });

@@ -22,6 +22,7 @@ use craft\records\EntryType;
 use craft\mail\Message;
 use verbb\supertable\SuperTable;
 use yii\db\Expression;
+use craft\web\UploadedFile;
 
 /**
  * DeltekImport Service
@@ -57,85 +58,58 @@ class DeltekImport extends Component
     }
 
     /**
-     * Update all deltekId fields for Projects and Impact (one time update honestly)
+     * Index new images from text file
      *
-     * AEI::$plugin->deltekImport->updateAllDeltekIds()
+     * AEI::$plugin->deltekImport->indexNewImagesFromFile()
      *
      * @return string
      */
-    public function updateAllDeltekIds($type='projects')
+    public function indexNewImagesFromFile($newFilesList = 'newImages.txt')
     {
-        if (!in_array($type, ['projects', 'impact'])) {
-            return 'Bad request';
-        }
-
-        // Connect to Deltek db
-        try {
-            $this->deltekDb = new \PDO('mysql:host='.getenv('DELTEK_DB_SERVER').';dbname='.getenv('DELTEK_DB_DATABASE').';charset=utf8', getenv('DELTEK_DB_USER'), getenv('DELTEK_DB_PASSWORD'));
-            $this->deltekDb->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-        } catch(\PDOException $e) {
-            $this->bomb('PDO Error: ' . $e->getMessage());
-        }
-        $singleTypeName = $type=='projects' ? 'project' : 'impact';
-        $deltekLookupColumn = $type=='projects' ? 'project_num' : 'impact_key';
-        $deltekLookupCraftField = $type=='projects' ? 'projectNumber' : 'impactKey';
-
-        $return = '';
-        $entries = Entry::find()->section($type)->all();
-        foreach ($entries as $entry) {
-            $mediaBlocks = $entry->getFieldValue('mediaBlocks')->all();
-            foreach ($mediaBlocks as $mediaBlock) {
-                if ($mediaBlock->getType()->name === 'Image') {
-                    // Force updating all photoKeys
-                    $deltekId = '';
-
-                    // Deltek ID not set? Try to find it in Deltek db
-                    if (empty($deltekId)) {
-                        $image = $mediaBlock->getFieldValue('image')->one();
-                        $filename = basename(trim($image->filename));
-                        $filename = preg_replace('/jpg$/i','', $filename);
-                        $q = $this->deltekDb->query("SELECT photo_key FROM `{$singleTypeName}_photos` WHERE photo_url LIKE '%{$filename}%'");
-                        $deltekId = $q->fetchColumn();
-                        // Did we find anything?
-                        if (!empty($deltekId)) {
-                            $mediaBlock->setFieldValue('photoKey', $deltekId);
-                            Craft::$app->elements->saveElement($mediaBlock);
-                            $deltekIds[] = $deltekId;
-                        }
+        $relNewFilesList = CRAFT_BASE_PATH.'/'.$newFilesList;
+        if (file_exists($relNewFilesList)) {
+            $newAssets = [];
+            $outFilesList = '';
+            $newAssetLog = '';
+            // Parse text file output by rsync of openAssets photos of new images
+            $newFiles = file($relNewFilesList);
+            foreach ($newFiles as $newFile) {
+                $newFile = trim($newFile);
+                // Check if file exists
+                if (file_exists($newFile)) {
+                    $fileArr = array_reverse(explode('/', $newFile));
+                    // Try to index new asset
+                    $relativeFile = $fileArr[1] . '/' . $fileArr[0];
+                    $asset = $this->indexNewImage($relativeFile, ucfirst($fileArr[2]));
+                    if ($asset) {
+                        $newAssets[] = $asset;
+                        $newAssetLog .= $relativeFile . " added to index\n";
                     } else {
-                        $deltekIds[] = $deltekId;
+                        $outFilesList .= $newFile . "\n";
                     }
-                } else if ($mediaBlock->getType()->name === 'Quote(s)') {
-                    // Quotes are in supertable, but imported quotes are imported as single entries in that supertable (hence [0])
-                    $deltekId = $mediaBlock->getFieldValue('quotes')[0]->getFieldValue('quoteKey');
-                    if (!empty($deltekId)) {
-                        $deltekIds[] = $deltekId;
-                    }
-                } else if ($mediaBlock->getType()->name === 'Stat') {
-                    $deltekId = $mediaBlock->getFieldValue('statKey');
-
-                    // Deltek ID not set? Try to find it in Deltek db
-                    if (empty($deltekId)) {
-                        $deltekLookupId = $entry->getFieldValue($deltekLookupCraftField);
-                        $statFigure = $mediaBlock->getFieldValue('statFigure');
-                        $statLabel = $mediaBlock->getFieldValue('statLabel');
-                        $q = $this->deltekDb->query("SELECT stat_key FROM `{$singleTypeName}_stats` WHERE {$deltekLookupColumn} ='{$deltekLookupId}' AND text=".$this->deltekDb->quote($statFigure)." AND subtext=".$this->deltekDb->quote($statLabel));
-                        $deltekId = $q->fetchColumn();
-                        // Did we find anything?
-                        if (!empty($deltekId)) {
-                            $mediaBlock->setFieldValue('statKey', $deltekId);
-                            Craft::$app->elements->saveElement($mediaBlock);
-                            $deltekIds[] = $deltekId;
-                        }
-                    } else {
-                        $deltekIds[] = $deltekId;
-                    }
+                } else {
+                    $newAssetLog .= $newFile . " not found\n";
+                    $outFilesList .= $newFile . "\n";
                 }
             }
-            Craft::$app->getElements()->saveElement($entry);
-            $return .= '<p>'.$type.' : '.$entry->title.' saved</p>';
+
+            // Overwrite file list after processing files
+            file_put_contents($relNewFilesList, $outFilesList);
+
+            // Any new assets? Store in log and return summary
+            if (count($newAssets) > 0) {
+                $summary = count($newAssets) . ' images added to Asset Index';
+                $deltekLog = new DeltekLog();
+                $deltekLog->log = nl2br($newAssetLog . (!empty($outFile) ? "\n\nOutfile after processing:\n" . $outFile : ''));
+                $deltekLog->summary = $summary;
+                $deltekLog->save();
+                return nl2br($summary . "\n" . $newAssetLog);
+            } else {
+                return nl2br("No images added to index.\n" . $newAssetLog);
+            }
+        } else {
+            return "File not found: " . $relNewFilesList . "\n";
         }
-        return $return;
     }
 
     /**
@@ -249,21 +223,34 @@ class DeltekImport extends Component
      */
     private function importOffices() {
         $officesImport = new SectionImport('Offices');
-
+        $officesImport->setImportMode($this->importMode);
         $result = $this->deltekDb->query("SELECT * FROM offices");
         foreach($result as $row) {
             // Filter by deltek_ids passed in?
             if (!empty($this->deltekIds) && !in_array($row['office_name'], $this->deltekIds)) continue;
 
-            $actionVerb = 'updated';
-            $entry = Entry::find()->section('offices')->where([
+            $entry = Entry::find()->section('offices')->status(null)->where([
                 'title' => $row['office_name']
             ])->one();
 
+            $fields = [];
             if (!$entry) {
                 $entry = $this->makeNewEntry('offices');
                 $entry->title = $row['office_name'];
                 $actionVerb = 'added';
+            } else {
+                // Existing entry
+                $actionVerb = 'updated';
+
+                // Find any drafts for entry
+                $drafts = Craft::$app->getEntryRevisions()->getDraftsByEntryId($entry->id);
+            }
+
+            // Special actions if adding new entry, or we're doing a refresh from Deltek (and entry is disabled)
+            if ($actionVerb == 'added' || ($this->importMode == 'refresh' && !$entry->enabled)) {
+                $fields = array_merge($fields, [
+                    'body' => $this->formatText($row['overview']),
+                ]);
             }
 
             // Get our Super Table field
@@ -324,8 +311,7 @@ class DeltekImport extends Component
                 }
             }
 
-
-            $entry->setFieldValues([
+            $fields = array_merge($fields, [
                 'officeAddress1'   => $row['address1'],
                 'officeAddress2'   => $row['address2'],
                 'officeCity'       => $row['city'],
@@ -333,7 +319,6 @@ class DeltekImport extends Component
                 'officePostalCode' => $row['postal_code'],
                 'officeCountry'    => $row['country'],
                 'phoneNumber'      => $row['phone'],
-                'body'             => $row['overview'],
                 'careersUrl'       => (!empty($row['careers_url']) ? $this->validUrl($row['careers_url']) : ''),
                 'officeMapUrl'     => $this->validUrl($row['map_url']),
                 'officeLeaders'    => $officeLeaders,
@@ -341,8 +326,22 @@ class DeltekImport extends Component
                 'officeImage'      => $this->getPhoto($row['photo_url']),
             ]);
 
+            $entry->setFieldValues($fields);
             if(Craft::$app->getElements()->saveElement($entry)) {
-                $officesImport->saved($entry, $actionVerb);
+                if (!empty($drafts)) {
+                    // Also update any drafts for post
+                    if ($this->importMode == 'refresh') {
+                        // Add fields to be saved to drafts
+                        $fields = array_merge($fields, [
+                            'body' => $this->formatText($row['overview']),
+                        ]);
+                    }
+                    foreach ($drafts as $draft) {
+                        $draft->setFieldValues($fields);
+                        Craft::$app->getEntryRevisions()->saveDraft($draft);
+                    }
+                }
+                $officesImport->saved($entry, $actionVerb, (!empty($drafts) ? count($drafts) : 0));
             } else {
                 $this->bomb('<li>Save error: '.print_r($entry->getErrors(), true).'</li>');
             }
@@ -357,20 +356,33 @@ class DeltekImport extends Component
      */
     private function importPeople() {
         $peopleImport = new SectionImport('People');
-
+        $peopleImport->setImportMode($this->importMode);
         $result = $this->deltekDb->query("SELECT * FROM employees");
         foreach($result as $row) {
             // Filter by deltek_ids passed in?
             if (!empty($this->deltekIds) && !in_array($row['employee_num'], $this->deltekIds)) continue;
 
-            $actionVerb = 'updated';
-            $entry = Entry::find()->section('people')->where([
+            $entry = Entry::find()->section('people')->status(null)->where([
                 'content.field_personEmployeeNumber' => $row['employee_num']
             ])->one();
 
+            $fields = [];
             if (!$entry) {
                 $entry = $this->makeNewEntry('person');
                 $actionVerb = 'added';
+            } else {
+                // Existing entry
+                $actionVerb = 'updated';
+
+                // Find any drafts for entry
+                $drafts = Craft::$app->getEntryRevisions()->getDraftsByEntryId($entry->id);
+            }
+
+            // Special actions if adding new entry, or we're doing a refresh from Deltek (and entry is disabled)
+            if ($actionVerb == 'added' || ($this->importMode == 'refresh' && !$entry->enabled)) {
+                $fields = array_merge($fields, [
+                    'body' => $this->formatText($row['bio']),
+                ]);
             }
 
             // Find Office
@@ -419,14 +431,13 @@ class DeltekImport extends Component
                 ];
             }
 
-            $entry->setFieldValues([
+            $fields = array_merge($fields, [
                 'email'                => $row['email'],
                 'personFirstName'      => $row['firstname'],
                 'personLastName'       => $row['lastname'],
                 'personCertifications' => $row['certifications'],
                 'phoneNumber'          => $row['phone'],
                 'personTitle'          => $row['title'],
-                'body'                 => $row['bio'],
                 'personEmployeeNumber' => $row['employee_num'],
                 'featured'             => $row['is_featured'],
                 'office'               => $officeIds,
@@ -437,8 +448,23 @@ class DeltekImport extends Component
                 'personImage'          => $this->getPhoto($row['photo_url']),
             ]);
 
+            $entry->setFieldValues($fields);
             if(Craft::$app->getElements()->saveElement($entry)) {
-                $peopleImport->saved($entry, $actionVerb);
+                // Also update any drafts for post
+                if (!empty($drafts)) {
+                    if ($this->importMode == 'refresh') {
+                        // Add fields to be saved to drafts
+                        $fields = array_merge($fields, [
+                            'body' => $this->formatText($row['bio']),
+                        ]);
+                    }
+                    // Also update any drafts for post
+                    foreach ($drafts as $draft) {
+                        $draft->setFieldValues($fields);
+                        Craft::$app->getEntryRevisions()->saveDraft($draft);
+                    }
+                }
+                $peopleImport->saved($entry, $actionVerb, (!empty($drafts) ? count($drafts) : 0));
             } else {
                 $this->bomb('<li>Save error: '.print_r($entry->getErrors(), true).'</li>');
             }
@@ -639,13 +665,15 @@ class DeltekImport extends Component
             $entry->postDate = new \DateTime($row['date']);
 
             if(Craft::$app->getElements()->saveElement($entry)) {
-                $impactImport->saved($entry, $actionVerb);
                 // Set postDate after save if new post (can't set on first save)
                 if ($actionVerb == 'added') {
+
                     $entry->postDate = new \DateTime($row['date']);
                     Craft::$app->getElements()->saveElement($entry);
-                } elseif (count($drafts) > 0) {
-                    if ($entry->enabled && $this->importMode == 'refresh') {
+
+                } elseif (!empty($drafts)) {
+
+                    if ($this->importMode == 'refresh') {
                         // Add fields to be saved to drafts (if not already added above when !$entry->enabled)
                         $fields = array_merge($fields, [
                             'impactImage' => $heroImage,
@@ -659,6 +687,7 @@ class DeltekImport extends Component
                         Craft::$app->getEntryRevisions()->saveDraft($draft);
                     }
                 }
+                $impactImport->saved($entry, $actionVerb, (!empty($drafts) ? count($drafts) : 0));
             } else {
                 $this->bomb('<li>Save error: '.print_r($entry->getErrors(), true).'</li>');
             }
@@ -874,8 +903,8 @@ class DeltekImport extends Component
 
             $entry->setFieldValues($fields);
             if(Craft::$app->getElements()->saveElement($entry)) {
-                if ($actionVerb != 'added' && count($drafts) > 0) {
-                    if ($entry->enabled && $this->importMode == 'refresh') {
+                if ($actionVerb != 'added' && !empty($drafts)) {
+                    if ($this->importMode == 'refresh') {
                         // Add fields to be saved to drafts (if not already added above when !$entry->enabled)
                         $fields = array_merge($fields, [
                             'projectImage' => $heroImage,
@@ -968,7 +997,7 @@ class DeltekImport extends Component
             return [];
         }
         $filename = basename(trim($filename));
-        $filename = preg_replace('/(png|tif|jpg|psd)$/i','jpg', $filename);
+        $filename = preg_replace('/(tif|jpg|psd)$/i','jpg', $filename);
         $image = Asset::find()->where([
             'filename' => $filename,
         ])->one();
@@ -999,7 +1028,7 @@ class DeltekImport extends Component
         $relRows = $relResult->fetchAll();
         foreach($relRows as $relRow) {
             $filename = basename(trim($relRow['photo_url']));
-            $filename = preg_replace('/(png|tif|jpg|psd)$/i','jpg', $filename);
+            $filename = preg_replace('/(tif|jpg|psd)$/i','jpg', $filename);
             $image = Asset::find()->where([
                 'filename' => $filename,
             ])->one();
@@ -1175,6 +1204,7 @@ class DeltekImport extends Component
      */
     private function formatText($text)
     {
+        // If no HTML tags are present, convert linebreaks to paragraph tags
         if (strip_tags($text) == $text) {
             $text = preg_replace('#(\r\n?|\n){2,}#', "\n", $text);
             $text = '<p>' . implode('</p><p>', array_filter(explode("\n", $text))) . '</p>';
@@ -1190,55 +1220,99 @@ class DeltekImport extends Component
     }
 
     /**
-     * @param UploadedFile $uploadedFile
-     * @param int $folderId
+     * Index new image on filesystem
+     * @param string $filepath
+     * @param string $volumeHandle
      * @return Asset
-     * @throws BadRequestHttpException
-     * @throws UploadFailedException
      */
-    protected static function uploadNewAsset(UploadedFile $uploadedFile, $folderId) {
-        if (empty($folderId)) {
-            throw new BadRequestHttpException('No target destination provided for uploading');
-        }
-
-        if ($uploadedFile === null) {
-            throw new BadRequestHttpException('No file was uploaded');
-        }
-
-        $assets = Craft::$app->getAssets();
-
-        if ($uploadedFile->getHasError()) {
-            throw new UploadFailedException($uploadedFile->error);
-        }
-
-        // Move the uploaded file to the temp folder
-        if (($tempPath = $uploadedFile->saveAsTempFile()) === false) {
-            throw new UploadFailedException(UPLOAD_ERR_CANT_WRITE);
-        }
-
-        if (empty($folderId)) {
-            throw new BadRequestHttpException('The target destination provided for uploading is not valid');
-        }
-
-        $folder = $assets->findFolder(['id' => $folderId]);
-
-        if (!$folder) {
-            throw new BadRequestHttpException('The target folder provided for uploading is not valid');
-        }
-
-        // Check the permissions to upload in the resolved folder.
-        $filename = Assets::prepareAssetName($uploadedFile->name);
-
-        $asset = new Asset();
-        $asset->tempFilePath = $tempPath;
-        $asset->filename = $filename;
-        $asset->newFolderId = $folder->id;
-        $asset->volumeId = $folder->volumeId;
-        $asset->avoidFilenameConflicts = true;
-        $asset->setScenario(Asset::SCENARIO_CREATE);
-
-        $result = Craft::$app->getElements()->saveElement($asset);
-
+    private function indexNewImage($filepath, $volumeHandle = 'Projects') {
+        $volume = Craft::$app->volumes->getVolumeByHandle($volumeHandle);
+        $indexer = Craft::$app->getAssetIndexer();
+        $sessionId = $indexer->getIndexingSessionid();
+        $asset = $indexer->indexFile($volume, $filepath, $sessionId);
         return $asset;
     }
+
+    /**
+     * Update all deltekId fields for Projects and Impact (todo: remove this, was one time update for staging site after changes to deltek import)
+     *
+     * AEI::$plugin->deltekImport->updateAllDeltekIds()
+     *
+     * @return string
+     */
+    public function updateAllDeltekIds($type = 'projects')
+    {
+        if (!in_array($type, ['projects', 'impact'])) {
+            return 'Bad request';
+        }
+
+        // Connect to Deltek db
+        try {
+            $this->deltekDb = new \PDO('mysql:host='.getenv('DELTEK_DB_SERVER').';dbname='.getenv('DELTEK_DB_DATABASE').';charset=utf8', getenv('DELTEK_DB_USER'), getenv('DELTEK_DB_PASSWORD'));
+            $this->deltekDb->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        } catch(\PDOException $e) {
+            $this->bomb('PDO Error: ' . $e->getMessage());
+        }
+        $singleTypeName = $type=='projects' ? 'project' : 'impact';
+        $deltekLookupColumn = $type=='projects' ? 'project_num' : 'impact_key';
+        $deltekLookupCraftField = $type=='projects' ? 'projectNumber' : 'impactKey';
+
+        $return = '';
+        $entries = Entry::find()->section($type)->all();
+        foreach ($entries as $entry) {
+            $mediaBlocks = $entry->getFieldValue('mediaBlocks')->all();
+            foreach ($mediaBlocks as $mediaBlock) {
+                if ($mediaBlock->getType()->name === 'Image') {
+                    // Force updating all photoKeys
+                    $deltekId = '';
+
+                    // Deltek ID not set? Try to find it in Deltek db
+                    if (empty($deltekId)) {
+                        $image = $mediaBlock->getFieldValue('image')->one();
+                        $filename = basename(trim($image->filename));
+                        $filename = preg_replace('/jpg$/i','', $filename);
+                        $q = $this->deltekDb->query("SELECT photo_key FROM `{$singleTypeName}_photos` WHERE photo_url LIKE '%{$filename}%'");
+                        $deltekId = $q->fetchColumn();
+                        // Did we find anything?
+                        if (!empty($deltekId)) {
+                            $mediaBlock->setFieldValue('photoKey', $deltekId);
+                            Craft::$app->elements->saveElement($mediaBlock);
+                            $deltekIds[] = $deltekId;
+                        }
+                    } else {
+                        $deltekIds[] = $deltekId;
+                    }
+                } else if ($mediaBlock->getType()->name === 'Quote(s)') {
+                    // Quotes are in supertable, but imported quotes are imported as single entries in that supertable (hence [0])
+                    $deltekId = $mediaBlock->getFieldValue('quotes')[0]->getFieldValue('quoteKey');
+                    if (!empty($deltekId)) {
+                        $deltekIds[] = $deltekId;
+                    }
+                } else if ($mediaBlock->getType()->name === 'Stat') {
+                    $deltekId = $mediaBlock->getFieldValue('statKey');
+
+                    // Deltek ID not set? Try to find it in Deltek db
+                    if (empty($deltekId)) {
+                        $deltekLookupId = $entry->getFieldValue($deltekLookupCraftField);
+                        $statFigure = $mediaBlock->getFieldValue('statFigure');
+                        $statLabel = $mediaBlock->getFieldValue('statLabel');
+                        $q = $this->deltekDb->query("SELECT stat_key FROM `{$singleTypeName}_stats` WHERE {$deltekLookupColumn} ='{$deltekLookupId}' AND text=".$this->deltekDb->quote($statFigure)." AND subtext=".$this->deltekDb->quote($statLabel));
+                        $deltekId = $q->fetchColumn();
+                        // Did we find anything?
+                        if (!empty($deltekId)) {
+                            $mediaBlock->setFieldValue('statKey', $deltekId);
+                            Craft::$app->elements->saveElement($mediaBlock);
+                            $deltekIds[] = $deltekId;
+                        }
+                    } else {
+                        $deltekIds[] = $deltekId;
+                    }
+                }
+            }
+            Craft::$app->getElements()->saveElement($entry);
+            $return .= '<p>'.$type.' : '.$entry->title.' saved</p>';
+        }
+        return $return;
+    }
+
 }

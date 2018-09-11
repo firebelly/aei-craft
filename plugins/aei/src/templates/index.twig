@@ -26,14 +26,14 @@
     <div class="buttons">
         <a href="{{ url('aei/logs') }}" class="btn submit">{{ "View Logs"|t('aei') }}</a>
         <a href="/admin/settings/plugins/aei" class="btn submit">{{ "Settings"|t('aei') }}</a>
-        <a href="/admin/utilities/asset-indexes" class="btn submit">{{ "Asset Indexes"|t('aei') }}</a>
+        {# <a href="/admin/utilities/asset-indexes" class="btn submit">{{ "Asset Indexes"|t('aei') }}</a> #}
     </div>
 {% endblock %}
 
 {# The content of the CP Section#}
 {% block content %}
     <h2>{{ "Deltek Import"|t('aei') }}</h2>
-    <p class="textline">This runs every night as an automated cronjob, but you can also run it manually here.</p>
+    <p class="textline">This runs frequently as an automated cronjob, but you can also run it manually here.</p>
     <form method="post" id="deltek-import-form" action="/admin/actions/aei/deltek-import/import-records">
         {{ csrfInput() }}
         <div class="field">

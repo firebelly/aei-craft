@@ -47,10 +47,7 @@ class DeltekImportController extends Controller
     // =========================================================================
 
     /**
-     * Handle aei/deltek-import console commands
-     *
-     * The first line of this method docblock is displayed as the description
-     * of the Console Command in ./craft help
+     * Run Deltek Importer for all sections (basic mode)
      *
      * @return mixed
      */
@@ -68,6 +65,25 @@ class DeltekImportController extends Controller
                 }
             }
         }
-        return 'Done!';
+        return "Done!\n";
+    }
+
+    /**
+     * Index newly synced images from text file of absolute image paths, one per line
+     *
+     * @return mixed
+     */
+    public function actionIndexNewImages()
+    {
+        $params = Craft::$app->getRequest()->getParams();
+        $file = !empty($params[1]) ? $params[1] : 'newImages.txt';
+        try {
+            echo "Running Deltek image indexer on {$file}...\n";
+            $result = AEI::$plugin->deltekImport->indexNewImagesFromFile($file);
+            echo strip_tags($result);
+        } catch (\Exception $e) {
+            echo 'Error: '.$e->getMessage() . "\n";
+        }
+        return "Done!\n";
     }
 }
