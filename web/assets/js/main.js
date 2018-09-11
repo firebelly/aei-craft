@@ -165,14 +165,14 @@ var FB = (function($) {
       $this.find('.filter-header').on('click', function(e) {
         e.preventDefault();
         $this.toggleClass('active');
-        setTimeout(_checkFilterBodyScroll, 250);
+        setTimeout(_checkFilterBodyScroll, 200);
       });
 
       // Make filter sticky
       new Waypoint.Sticky({
         element: $this[0],
         handler: function(direction) {
-          setTimeout(_checkFilterBodyScroll, 250);
+          setTimeout(_checkFilterBodyScroll, 200);
         }
       });
     });
