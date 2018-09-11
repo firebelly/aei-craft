@@ -34,3 +34,6 @@ web/assets/dist/svgs-defs.svg
 
 # Server files
 php.ini
+
+# Text file from image sync that's used for adding images to craft index
+newImages.txt
