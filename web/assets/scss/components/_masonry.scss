@@ -2,8 +2,13 @@
 	background: $black;
   @include clearfix;
   margin: 0;
-
-  .masonry-item, .masonry-sizer {
+	.masonry-item:last-of-type {
+		.project-module {
+			border: none;
+		}
+	}
+  .masonry-item,
+  .masonry-sizer {
     width: 100%;
     @include media-md {
       width: 50%;

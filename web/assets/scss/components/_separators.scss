@@ -205,6 +205,12 @@
     .text {
       flex-grow: 1;
       position: relative;
+      &.pad {
+        padding-bottom: $padding + $beat*4;
+        @include media-lg {
+          padding-bottom: $padding-lg + $beat*4;
+        }
+      }
 
       &::after {
         position: absolute;
@@ -213,11 +219,11 @@
         width: 1px;
         content: '';
         top: $padding;
-        bottom: $padding;
+        bottom: $padding + $beat*4;
 
         @include media-lg {
           top: $padding-lg;
-          bottom: $padding-lg;
+          bottom: $padding-lg + $beat*4;
         }
       }
     }

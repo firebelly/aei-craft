@@ -1,11 +1,16 @@
 // Project Article
-.project-module .view-project {
-  display: none;
+.project-module {
+  // Give some visual separation on mobile
+  border-bottom: $beat*2 solid $white;
+  .view-project {
+    display: none;
+  }
 }
 
 // Project article hover states
 @include media-md {
   .project-module {
+    border-bottom: none;
     @include hardware-acceleration;
     overflow: hidden;
     position: relative;
@@ -101,6 +106,9 @@
 
   a {
     text-decoration: none;
+    &:hover {
+      color: $white;
+    }
   }
 }
 

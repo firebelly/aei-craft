@@ -116,13 +116,6 @@ var FB = (function($) {
       }
     });
 
-    // Scroll down to hash after page load
-    $(window).on('load',function() {
-      if (window.location.hash) {
-        _scrollBody($(window.location.hash), 250, 0, true);
-      }
-    });
-
     _initSlick();
     _initLazyload();
     _initNav();
@@ -137,6 +130,16 @@ var FB = (function($) {
     _fitFigures();
     _hangQuotes();
     _truncateLists();
+
+    // After page loads
+    $(window).on('load',function() {
+      // Trigger delayed resize functions after load (fitFigures, layout isotope, etc)
+      _delayed_resize();
+      // Scroll down to hash after page load
+      if (window.location.hash) {
+        _scrollBody($(window.location.hash), 250, 0, true);
+      }
+    });
 
   } // end init()
 
@@ -745,6 +748,11 @@ var FB = (function($) {
 
       // Resize fixed headers
       _fixStickyHeaderWidths();
+
+      // Refresh masonry after delay
+      if ($('.masonry-grid').length) {
+        $('.masonry-grid').isotope();
+      }
 
     }, 250);
   }
