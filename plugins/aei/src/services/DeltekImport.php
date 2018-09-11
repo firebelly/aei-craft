@@ -589,7 +589,7 @@ class DeltekImport extends Component
                 $mediaBlocks = array_merge($mediaBlocks, $relatedImages);
 
                 // Add fields to be saved for new or disabled entries
-                if ($actionVerb == 'added' || !$entry->enabled) {
+                if (!$entry->enabled) {
                     $fields = array_merge($fields, [
                         'body' => $this->formatText($row['body']),
                         'impactImage' => $heroImage,
