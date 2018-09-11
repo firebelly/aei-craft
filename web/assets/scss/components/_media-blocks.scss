@@ -261,6 +261,10 @@
     }
   }
 }
+// Give text-modules inside a masonry area white bg
+.masonry-item .text-module {
+  background: $white;
+}
 
 // Quote Carousel
 // Blockquotes currently use a negative-margin with compensatory padding to create hanging quotes.  In the carousel that will effect sizing, so we remove the negative margin and instead adjust the module padding

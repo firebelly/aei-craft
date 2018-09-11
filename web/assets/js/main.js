@@ -398,7 +398,7 @@ var FB = (function($) {
 
   function _disableBodyScroll(el) {
     $body.addClass('no-scroll');
-    bodyScrollLock.disableBodyScroll($('#search-overlay .scroll-wrap')[0]);
+    bodyScrollLock.disableBodyScroll(el);
   }
 
   function _enableBodyScroll() {
