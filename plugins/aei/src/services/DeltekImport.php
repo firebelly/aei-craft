@@ -1034,7 +1034,6 @@ class DeltekImport extends Component
                 'filename' => $filename,
             ])->one();
             if ($image) {
-                $caption = trim(str_replace('&nbsp;', ' ', $relRow['caption']), ' "”“');
                 // Is this the hero image? If so, set for return
                 if ($relRow['is_hero']==1) {
                     $heroImage = [$image->id];
@@ -1044,7 +1043,7 @@ class DeltekImport extends Component
                     $relatedImages['new'.$mediaBlockNew] = [
                         'type' => 'image',
                         'fields' => [
-                            'caption'  => $caption,
+                            'caption'  => $relRow['caption'],
                             'width'    => (!empty($relRow['full_width']) ? 'full' : 'half'),
                             'image'    => [$image->id],
                             'photoKey' => $relRow['photo_key'],
