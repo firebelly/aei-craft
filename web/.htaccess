@@ -5,9 +5,8 @@ RewriteCond %{HTTP_HOST} !^aeieng\.webfactional\.com [NC]
 RewriteCond %{HTTP_HOST} !^aei-craft\.localhost [NC]
 RewriteRule ^(.*)$ http://aeieng\.webfactional\.com%{REQUEST_URI} [R=301,L]
 
-
-# Redirect old site /index.php/foo URLs to something we can match on (Craft uses /index.php?p=)
-RewriteRule ^index.php/(.*)$ /oldsite/$1 [R=301,L,QSA]
+# Redirect old site /index.php/foo URLs to something we can match on to redirect (Craft uses /index.php?p= so we can't match on requests to ^index.php)
+RewriteRule ^index.php/(.*)$ /oldsite/$1 [R=302,L,QSA]
 </IfModule>
 
 <IfModule mod_rewrite.c>

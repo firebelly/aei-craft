@@ -346,7 +346,7 @@ var FB = (function($) {
     $('#search-overlay').show().velocity('fadeOut', { duration: 0 });
 
     // Pipe in search results on submit
-    $document.on('submit', '.search-form', function(e) {
+    $document.on('submit', '#search-modal .search-form', function(e) {
       e.preventDefault();
       var $this = $(this);
       $.get($this.attr('action'), $this.serialize(), function(data) {

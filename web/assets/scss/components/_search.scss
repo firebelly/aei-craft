@@ -3,7 +3,10 @@
 // Search page
 .page-search {
   .search-form {
-    margin-top: $padding*2;
+    margin-top: $padding;
+    @include media-md {
+      margin-top: $padding * 2;
+    }
   }
 }
 
@@ -108,7 +111,7 @@
 }
 
 .search-form {
-  padding: 0 $padding;
+  padding: 0 $padding-sm;
   input[type="search"] {
     @include font-h1;
     border: 0;
@@ -123,6 +126,9 @@
     margin-top: $padding;
   }
 
+  @include media-md {
+    padding: 0 $padding-md;
+  }
   @include media-lg {
     padding: 0 $padding-lg;
     .button {
