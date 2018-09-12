@@ -40,10 +40,10 @@ class Settings extends Model
      * @var string
      */
     public $deltekImportSections = [
+        'Offices' => true,
+        'People' => true,
         'Awards' => true,
         'Projects' => true,
-        'People' => true,
-        'Offices' => true,
         'Impact' => true,
     ];
 
@@ -64,10 +64,10 @@ class Settings extends Model
     {
         return [
             ['deltekImportSections', 'default', 'value' => [
+                'Offices' => true,
+                'People' => true,
                 'Awards' => true,
                 'Projects' => true,
-                'People' => true,
-                'Offices' => true,
                 'Impact' => true,
             ]],
         ];
