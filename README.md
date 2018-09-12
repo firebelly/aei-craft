@@ -2,7 +2,7 @@
 
 To get local development up and running:
 
-- install fabric (brew install fabric if on Mac) and run `fab devsetup`
+- install fabric (`brew install fabric` if on Mac) and run `fab devsetup`
 - edit `.env` and update with mysql settings
 - point webserver to `aei-craft/web` directory as root for local domain, e.g. aei-craft.localhost
 - `npx gulp watch` will fire up scss/js watching and browser-sync
@@ -11,3 +11,5 @@ To get local development up and running:
 To deploy: `fab deploy` will push up changes to staging server, and `fab production deploy` pushes to production.
 
 Currently only uses master branch but can easily change this in `fabfile.py` to specify branches for staging/production.
+
+Expects composer to be available in `~/bin/composer.phar` on server, and uses WebFaction `php72` command to utilize PHP7.2. Also easily editable in `fabfile.py` if moving servers.
