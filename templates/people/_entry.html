@@ -111,7 +111,7 @@
   {% include 'partials/_related-impact' with { 'relatedPosts': relatedPosts } %}
 
   {% if personType %}
-    {% include "partials/_pagination_structure" with {'paginationSection': 'people', 'postName': 'in ' ~ personType.title, 'category': personType } %}
+    {% include "partials/_pagination-structure" with {'paginationSection': 'people', 'postName': 'in ' ~ personType.title, 'category': personType } %}
   {% endif %}
 
 {% endblock %}
