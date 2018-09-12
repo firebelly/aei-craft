@@ -142,10 +142,6 @@
   flex-wrap: wrap;
   overflow-x: hidden;
 
-  @include media-md {
-    margin-top: 12*$beat;
-  }
-
   h2 {
     @include font-details;
     margin: 0;
