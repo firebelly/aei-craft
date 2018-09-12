@@ -53,9 +53,24 @@ class DeltekImportController extends Controller
      */
     public function actionIndex()
     {
-        $deltek_import_sections = AEI::$plugin->getSettings()->deltekImportSections;
-        foreach ($deltek_import_sections as $section => $active) {
-            if ($active) {
+        $sectionsToImport = [];
+        $params = Craft::$app->getRequest()->getParams();
+        // Specifying sections via param? e.g. `./craft aei/deltek-import awards people`
+        if (count($params) > 1) {
+            for ($i=1; $i < count($params); $i++) {
+                $sectionsToImport[] = $params[$i];
+            }
+        } else {
+            // Otherwise pull sections from settings
+            $deltek_import_sections = AEI::$plugin->getSettings()->deltekActiveImportSections;
+            foreach ($deltek_import_sections as $section => $active) {
+                if ($active) {
+                    $sectionsToImport[] = $section;
+                }
+            }
+        }
+        foreach ($sectionsToImport as $section) {
+            if (in_array(ucfirst($section), AEI::$plugin->getDeltekSections())) {
                 try {
                     echo "Running Deltek importer for: {$section}\n";
                     $importResult = AEI::$plugin->deltekImport->importRecords([strtolower($section)], '', 'basic via console');

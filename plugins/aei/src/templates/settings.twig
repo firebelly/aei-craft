@@ -19,12 +19,12 @@
 <p>Select which sections get imported regularly:</p>
 
 <ul>
-{% for section in ['Awards', 'Projects', 'People', 'Offices', 'Impact'] %}
+{% for section in craft.app.getModule('aei').getDeltekSections() %}
     <li>
         {% include "_includes/forms/checkbox" with {
-            name:      'deltekImportSections['~section~']',
+            name:      'deltekActiveImportSections['~section~']',
             value:     1,
-            checked:   settings['deltekImportSections'][section],
+            checked:   settings['deltekActiveImportSections'][section],
             label:     section,
         } %}
     </li>

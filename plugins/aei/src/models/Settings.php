@@ -39,7 +39,7 @@ class Settings extends Model
      *
      * @var string
      */
-    public $deltekImportSections = [
+    public $deltekActiveImportSections = [
         'Offices' => true,
         'People' => true,
         'Awards' => true,
@@ -63,7 +63,7 @@ class Settings extends Model
     public function rules()
     {
         return [
-            ['deltekImportSections', 'default', 'value' => [
+            ['deltekActiveImportSections', 'default', 'value' => [
                 'Offices' => true,
                 'People' => true,
                 'Awards' => true,
