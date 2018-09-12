@@ -1,14 +1,7 @@
     <div id="search-modal">
       <div class="scroll-wrap">
         <div class="content">
-          <form action="{{ url('search') }}" class="search-form">
-            <input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="search" value="" name="q" class="search-field form-control" placeholder="Search" required="">
-            <button type="submit" class="button">
-              <span class="border"></span><span class="extra-corners"></span>
-              Search
-              <svg class="icon icon-search"><use xlink:href="#icon-search" /></svg>
-            </button>
-          </form>
+          {% include 'partials/_search-form' %}
           <div class="results"></div>
         </div>
       </div>
