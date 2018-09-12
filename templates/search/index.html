@@ -55,8 +55,8 @@
           'People': peoplePosts,
           } %}
 
-          {% for title,entries in search_sections %}
-            <section class="search-section">
+          {% for title, entries in search_sections %}
+            <section class="search-section {{ entries|length == 0 ? 'no-section-results' : '' }}">
               <div class="search-section-title sticky-header">
                 <h2>{{ title }}</h2>
               </div>

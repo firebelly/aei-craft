@@ -163,6 +163,13 @@
     padding: 0 $padding;
     margin-top: $padding*2;
 
+    &.no-section-results {
+      display: none;
+      @include media-md {
+        display: block;
+      }
+    }
+
     &:first-of-type {
       padding-top: 0;
     }
