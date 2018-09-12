@@ -82,7 +82,7 @@
               <div class="content">{{ entry.projectLeedStatus }}</div>
             </div>
           {% endif %}
-          {% if entry.projectBuildingSize %}
+          {% if entry.projectBuildingSize and entry.projectBuildingSize != '0 sq. ft.' %}
             <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
               <h3>Building Size</h3>
               <div class="content">{{ entry.projectBuildingSize }}</div>
