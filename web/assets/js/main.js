@@ -361,27 +361,32 @@ var FB = (function($) {
         var $content = $('#search-modal .results');
         var $scrollContext = $('#search-modal .scroll-wrap');
 
-        $content.html(data).velocity('fadeOut', {duration: 0});
-        $content.find('.search-section, .search-article').velocity('fadeOut', {duration: 0});
+        // Populate search results
+        $content.html(data);
 
-        var speed = 200;
-        var delay = 40;
-        var i = 0;
-        var j = 0;
-        $content.velocity('fadeIn', {duration: speed, delay: delay*(i++)}).find('.search-form input[name=q]').focus();
-        $content.find('.search-section').each(function() {
-          $(this).velocity('fadeIn', {duration: speed, delay: delay*(j+i++)});
+        // Fancy fade in effect on desktop
+        if (breakpoint_md) {
+          $content.velocity('fadeOut', {duration: 0});
+          $content.find('.search-section, .search-article').velocity('fadeOut', {duration: 0});
 
-          $(this).find('.search-article').each(function() {
-            if (i<10) {
-              $(this).velocity('fadeIn', {duration: speed, delay: delay*(j+i++)});
-            } else {
-              $(this).velocity('fadeIn', {delay: delay*(j+10), duration: 0});
-            }
+          var speed = 200;
+          var delay = 40;
+          var i = 0;
+          var j = 0;
+          $content.velocity('fadeIn', {duration: speed, delay: delay*(i++)}).find('.search-form input[name=q]').focus();
+          $content.find('.search-section').each(function() {
+            $(this).velocity('fadeIn', {duration: speed, delay: delay*(j+i++)});
+            $(this).find('.search-article').each(function() {
+              if (i<10) {
+                $(this).velocity('fadeIn', {duration: speed, delay: delay*(j+i++)});
+              } else {
+                $(this).velocity('fadeIn', {delay: delay*(j+10), duration: 0});
+              }
+            });
+            j+=5;
+            i=0;
           });
-          j+=5;
-          i=0;
-        });
+        }
 
         // Make header titles sticky
         $('.sticky-header').each(function() {
