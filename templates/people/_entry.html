@@ -95,7 +95,7 @@
   {% set relatedProjects = craft.entries.section('projects').relatedTo({
      targetElement: entry,
      field: 'projectLeaders.aeiPerson',
-  }).orderBy('featured DESC, postDate DESC').limit(4) %}
+  }).orderBy('featured DESC, postDate DESC').limit(4).all() %}
   {% include 'partials/_related-projects'
     with {
       'relatedProjects': relatedProjects,
@@ -106,7 +106,7 @@
   {% set relatedPosts = craft.entries.section('impact').relatedTo({
      targetElement: entry,
      field: 'impactPeople.aeiPerson',
-  }).orderBy('featured DESC, postDate DESC').limit(2) %}
+  }).orderBy('featured DESC, postDate DESC').limit(2).all() %}
 
   {% include 'partials/_related-impact' with { 'relatedPosts': relatedPosts } %}
 

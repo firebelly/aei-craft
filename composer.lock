@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "cf1ba4395a64a63c71266811a5a7a7b7",
+    "content-hash": "b2ec0fcc92407c3dac39f37e10bfa0ef",
     "packages": [
         {
             "name": "aelvan/imager",
@@ -341,11 +341,11 @@
         },
         {
             "name": "composer/ca-bundle",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/d2c0a83b7533d6912e8d516756ebd34f893e9169",
-                "reference": "d2c0a83b7533d6912e8d516756ebd34f893e9169",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/46afded9720f40b9dc63542af4e3e43a1177acb0",
+                "reference": "46afded9720f40b9dc63542af4e3e43a1177acb0",
                 "shasum": ""
             },
             "require": {
@@ -382,7 +382,7 @@
                 "ssl",
                 "tls"
             ],
-            "time": "2018-03-29T19:57:20+00:00"
+            "time": "2018-08-08T08:57:40+00:00"
         },
         {
             "name": "composer/composer",
@@ -616,11 +616,11 @@
         },
         {
             "name": "craftcms/cms",
-            "version": "3.0.22",
+            "version": "3.0.24",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craftcms/cms/zipball/de45c0bef138486f6efc907d15444912205bc11a",
-                "reference": "de45c0bef138486f6efc907d15444912205bc11a",
+                "url": "https://api.github.com/repos/craftcms/cms/zipball/c107ad908a987faba50f72831df4bdc9df775f2e",
+                "reference": "c107ad908a987faba50f72831df4bdc9df775f2e",
                 "shasum": ""
             },
             "require": {
@@ -691,7 +691,7 @@
                 "docs": "https://github.com/craftcms/docs",
                 "rss": "https://github.com/craftcms/cms/releases.atom"
             },
-            "time": "2018-08-28T16:31:41+00:00"
+            "time": "2018-09-11T17:17:27+00:00"
         },
         {
             "name": "craftcms/oauth2-craftid",
@@ -1271,11 +1271,11 @@
         },
         {
             "name": "ether/seo",
-            "version": "3.3.1",
+            "version": "3.4.4",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ethercreative/seo/zipball/b917148fc1976999806528d9da710723affe4bf5",
-                "reference": "b917148fc1976999806528d9da710723affe4bf5",
+                "url": "https://api.github.com/repos/ethercreative/seo/zipball/148c726dd925936788ba38f4513d36e84622fe6a",
+                "reference": "148c726dd925936788ba38f4513d36e84622fe6a",
                 "shasum": ""
             },
             "require": {
@@ -1287,8 +1287,7 @@
                 "name": "SEO",
                 "developer": "Ether Creative",
                 "developerUrl": "https://ethercreative.co.uk",
-                "class": "ether\\seo\\Seo",
-                "schemaVersion": "3.0.0"
+                "class": "ether\\seo\\Seo"
             },
             "autoload": {
                 "psr-4": {
@@ -1303,7 +1302,7 @@
                 "issues": "https://github.com/ethercreative/seo",
                 "docs": "https://github.com/ethercreative/seo/blob/v3/README.md"
             },
-            "time": "2018-09-03T21:43:28+00:00"
+            "time": "2018-09-10T09:41:14+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -3262,11 +3261,11 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v6.1.2",
+            "version": "v6.1.3",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/7d760881d266d63c5e7a1155cbcf2ac656a31ca8",
-                "reference": "7d760881d266d63c5e7a1155cbcf2ac656a31ca8",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/8ddcb66ac10c392d3beb54829eef8ac1438595f4",
+                "reference": "8ddcb66ac10c392d3beb54829eef8ac1438595f4",
                 "shasum": ""
             },
             "require": {
@@ -3307,7 +3306,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2018-07-13T07:04:35+00:00"
+            "time": "2018-09-11T07:12:52+00:00"
         },
         {
             "name": "symfony/console",
@@ -4021,15 +4020,15 @@
         },
         {
             "name": "verbb/super-table",
-            "version": "2.0.8",
+            "version": "2.0.9",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/verbb/super-table/zipball/bbb33a1cd23d6f9323edb755beec09048e0738c7",
-                "reference": "bbb33a1cd23d6f9323edb755beec09048e0738c7",
+                "url": "https://api.github.com/repos/verbb/super-table/zipball/b947ff8b83a478aed57c4b0107c5058596f71fa6",
+                "reference": "b947ff8b83a478aed57c4b0107c5058596f71fa6",
                 "shasum": ""
             },
             "require": {
-                "craftcms/cms": "^3.0.0"
+                "craftcms/cms": "^3.0.17"
             },
             "type": "craft-plugin",
             "extra": {
@@ -4072,7 +4071,7 @@
                 "docs": "https://github.com/verbb/super-table",
                 "rss": "https://github.com/verbb/super-table/commits/v2.atom"
             },
-            "time": "2018-08-18T07:46:49+00:00"
+            "time": "2018-09-09T05:23:53+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
