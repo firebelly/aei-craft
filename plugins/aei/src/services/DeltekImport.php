@@ -75,21 +75,23 @@ class DeltekImport extends Component
             $newFiles = file($relNewFilesList);
             foreach ($newFiles as $newFile) {
                 $newFile = trim($newFile);
-                // Check if file exists
-                if (file_exists($newFile)) {
-                    $fileArr = array_reverse(explode('/', $newFile));
-                    // Try to index new asset
-                    $relativeFile = $fileArr[1] . '/' . $fileArr[0];
-                    $asset = $this->indexNewImage($relativeFile, ucfirst($fileArr[2]));
-                    if ($asset) {
-                        $newAssets[] = $asset;
-                        $newAssetLog .= $relativeFile . " added to index\n";
+                if (!empty($newFile)) {
+                    // Check if file exists
+                    if (file_exists($newFile)) {
+                        $fileArr = array_reverse(explode('/', $newFile));
+                        // Try to index new asset
+                        $relativeFile = $fileArr[1] . '/' . $fileArr[0];
+                        $asset = $this->indexNewImage($relativeFile, ucfirst($fileArr[2]));
+                        if ($asset) {
+                            $newAssets[] = $asset;
+                            $newAssetLog .= $relativeFile . " added to index\n";
+                        } else {
+                            $outFilesList .= $newFile . "\n";
+                        }
                     } else {
+                        $newAssetLog .= $newFile . " not found\n";
                         $outFilesList .= $newFile . "\n";
                     }
-                } else {
-                    $newAssetLog .= $newFile . " not found\n";
-                    $outFilesList .= $newFile . "\n";
                 }
             }
 
@@ -1233,7 +1235,9 @@ class DeltekImport extends Component
     }
 
     /**
-     * Update all deltekId fields for Projects and Impact (todo: remove this, was one time update for staging site after changes to deltek import)
+     * Update all deltekId fields for Projects and Impact
+     *
+     * TODO: remove this? was one time update for staging site after changes to deltek import
      *
      * AEI::$plugin->deltekImport->updateAllDeltekIds()
      *

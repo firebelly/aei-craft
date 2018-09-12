@@ -95,9 +95,26 @@ class AEI extends Plugin
             $this->controllerNamespace = 'firebelly\aei\console\controllers';
         }
 
+        // Support for ?redirect=/foo coming from frontend Edit Entry links (from https://craftcms.stackexchange.com/a/20085/6275)
+        Craft::$app->getView()->hook('cp.entries.edit', function(array &$context) {
+            $redirect = Craft::$app->getRequest()->getParam('redirect');
+            if (!empty($redirect)) {
+                // Couldn't get this working, wants to redirect to /admin{$redirect}
+                // $hashed_redirect = Craft::$app->getSecurity()->hashData(preg_replace('#^/#','',$redirect));
+                // // Set the "Save" button redirect
+                // Craft::$app->getView()->registerJs("
+                //     $(function () {
+                //         $('input[name=redirect]').val('{$hashed_redirect}');
+                //     });
+                // ");
+
+                // Set the `cmd + s` shortcut redirect
+                $context['saveShortcutRedirect'] = $redirect;
+            }
+        });
+
         // Add Refresh from Deltek button on admin sidebar if entry is project/impact and is disabled/draft
         Craft::$app->getView()->hook('cp.entries.edit.details', function(array &$context) {
-            // @var EntryModel $entry
             $entry = $context['entry'];
 
             if (in_array($entry->type, ['projects', 'impact', 'offices', 'person'])) {
