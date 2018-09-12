@@ -327,16 +327,15 @@ var FB = (function($) {
     }
 
     // Make the header
-    _stickyHeader = new StickyHeader();
+    StickyHeader();
   }
 
   function _initSearch() {
-    // Open on click
+    // Open/close behavior for search modal
     $document.on('click', '.search-open', function(e) {
       e.preventDefault();
       _openSearch();
     });
-
     $document.on('click', '.search-close', function(e) {
       e.preventDefault();
       _closeSearch();
