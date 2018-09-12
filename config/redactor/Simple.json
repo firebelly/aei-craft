@@ -1,4 +1,6 @@
 {
-  "buttons": ["bold", "italic"],
-  "toolbarFixed": true
+	"formatting": ["p", "h2", "h3"],
+  "buttons": ["formatting", "bold", "italic", "link", "lists", "html"],
+  "toolbarFixed": true,
+  "linkNewTab": true
 }

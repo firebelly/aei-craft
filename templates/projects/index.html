@@ -12,7 +12,7 @@
       'markets',
       'projectImage'
     ]
-  }).orderBy('featured DESC, postDate DESC').limit(8) as paginationInfo, projectEntries %}
+  }).orderBy('featured DESC, postDate DESC').limit(20) as paginationInfo, projectEntries %}
 
   {% set title = category.title %}
   {% set subheader = category.body %}
@@ -40,7 +40,7 @@
       'markets',
       'projectImage'
     ]
-  }).orderBy('featured DESC, postDate DESC').limit(8) as paginationInfo, projectEntries %}
+  }).orderBy('featured DESC, postDate DESC').limit(20) as paginationInfo, projectEntries %}
 
   {% set subheader = entry.body %}
   {% set stats = craft.entries.section('stats').relatedTo(statType).orderBy('RAND()').limit(2).all() %}
@@ -139,7 +139,6 @@
 
 
 {% block content %}
-
   {# Top row: project text and first project (wrapped so they can visually align) #}
   <div class="row -halves">
     <div class="row-block intro-block">
@@ -187,5 +186,4 @@
       {% endif %}
     </ul>
   </nav>
-
 {% endblock %}
