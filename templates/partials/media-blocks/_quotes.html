@@ -1,4 +1,4 @@
-<div class="module quotes-module">
+<div class="module quotes-module{{ block.quotes|length > 1 ? ' -multiple' : '' }}">
   <div class="quote-carousel -unslicked">
     {% for row in block.quotes.all() %}
       <blockquote>

@@ -270,14 +270,19 @@
 }
 
 // Quote Carousel
-// Blockquotes currently use a negative-margin with compensatory padding to create hanging quotes.  In the carousel that will effect sizing, so we remove the negative margin and instead adjust the module padding
+// Blockquotes currently use a negative-margin with compensatory padding
+// to create hanging quotes.  In the carousel that will effect sizing,
+// so we remove the negative margin and instead adjust the module padding
 .quotes-module {
   padding: $padding $padding $padding #{$padding - 10px};
-  overflow: hidden;
 
-  // Show overhanging quotes on slick carousel
-  .slick-list {
-    overflow: visible;
+  // Hide overflow for multi-quote slick-sliders
+  &.-multiple {
+    overflow: hidden;
+    // Show overhanging quotes on slick carousel
+    .slick-list {
+      overflow: visible;
+    }
   }
 
   @include media-lg {
