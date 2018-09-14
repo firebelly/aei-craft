@@ -7,8 +7,7 @@
   {% set youtubeid = block.youtubeUrl | replace(ytregex1, '') | replace(ytregexTrailingSlash, '') | replace(ytregexTrailingVariables, '') %}
 {% endif %}
 
-
-<!-- checkerboard header w/ optional theater -->
+{# checkerboard header w/ optional theater #}
 <div class="video-module theater-wrap -closed -full">
   <div class="theater image-wrap -hd-ratio">
     {% if image %}
