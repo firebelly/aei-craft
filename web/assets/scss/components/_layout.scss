@@ -16,8 +16,9 @@
     position: relative;
     flex-direction: column;
 
+    .site-footer,
     .site-main {
-      flex: 1;
+      flex: 1 1 auto;
       @include clearfix;
     }
   }
