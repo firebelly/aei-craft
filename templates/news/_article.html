@@ -3,7 +3,7 @@
   {% if impactType %}
     <div class="category font-details">{{ impactType }}</div>
   {% endif %}
-  <h1 class="title font-h2"><a href="{{ post.getUrl() }}">{{ post.title }}</a></h1>
+  <h2 class="title"><a href="{{ post.getUrl() }}">{{ post.title }}</a></h2>
   <p class="excerpt">{{ post.excerpt ? post.excerpt : post.body | chop(limit=20, unit='w', append='…') }}</p>
   <a class="button" href="{{ post.getUrl() }}">
     <span class="border"></span><span class="extra-corners"></span>

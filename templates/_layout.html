@@ -9,14 +9,14 @@
     {% include '/partials/_header' %}
 
     {% if segment(1) and segment(1) != 'search' %}
-      <nav class="sidebar" role="navigation">
+      <nav class="sidebar">
         {% block filters %}{% endblock %}
       </nav>
     {% endif %}
 
     <div class="right-col-wrap">
       <div class="right-col">
-        <main class="site-main" role="main">
+        <main class="site-main">
           {% block content %}{% endblock %}
         </main>
         {% include '/partials/_footer' %}

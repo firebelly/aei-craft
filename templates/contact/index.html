@@ -57,7 +57,7 @@
               <div class="image"></div>
             {% endif %}
             <div class="content">
-              <h1 class="font-p"><a href="{{ entry.getUrl() }}" class="fn org url"><span class="organization-name sr-only">AEI</span><span class="organization-unit">{{ entry.title }}</span></a></h1>
+              <h2 class="font-p"><a href="{{ entry.getUrl() }}" class="fn org url"><span class="organization-name sr-only">AEI</span><span class="organization-unit">{{ entry.title }}</span></a></h2>
               <div class="font-details">
                 {% if entry.phoneNumber %}
                   <div class="tel">{{ entry.phoneNumber }}</div>
@@ -94,7 +94,7 @@
         <li class="row-block separate">
           <article class="module contact-module pad vcard general-contact">
             <div class="content">
-              <h1 class="font-p"><span class="fn org url"><span class="organization-name sr-only">AEI</span><span class="organization-unit">{{ block.contactTitle }}</span></spam></h1>
+              <h3 class="font-p"><span class="fn org url"><span class="organization-name sr-only">AEI</span><span class="organization-unit">{{ block.contactTitle }}</span></spam></h3>
               <div class="font-details">
                 {% if block.phoneNumber %}
                   <div class="tel"><a href="tel:{{ block.phoneNumber }}">{{ block.phoneNumber }}</a></div>
