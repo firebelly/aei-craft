@@ -30,9 +30,9 @@
     <ul class="primary-links semantic-only-list nav-content">
       {% for navItem in [
         { title: 'Projects', slug: 'projects', urlMatches: 'projects' },
-        { title: 'News & Insights', slug: 'news', urlMatches: 'news' },
         { title: 'Services', slug: 'services', urlMatches: 'services|offices|awards' },
         { title: 'People', slug: 'people', urlMatches: 'people' },
+        { title: 'News & Insights', slug: 'news', urlMatches: 'news' },
       ] %}
         <li class="{{ active(navItem.urlMatches, 1, 'current') }}">
           <a href="/{{ navItem.slug }}/">{{ navItem.title }}</a>

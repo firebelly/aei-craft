@@ -130,7 +130,7 @@
 
     {% set categoryIds = entry.services.ids()|merge(entry.markets.ids()) %}
 
-    {% set relatedPosts = craft.entries.section('impact').relatedTo({ element: entry }).limit(2) %}
+    {% set relatedPosts = craft.entries.section('impact').relatedTo({ element: entry }).limit(2).all() %}
     {% if relatedPosts|length < 2 %}
       {# Find similar news posts based on category IDs #}
       {% set omitId = relatedPosts|length == 1 ? relatedPosts[0].id : 0 %}
@@ -144,7 +144,7 @@
       }
     %}
 
-    {% set relatedProjects = craft.entries.section('projects').relatedTo({ element: entry }).limit(4) %}
+    {% set relatedProjects = craft.entries.section('projects').relatedTo({ element: entry }).limit(4).all() %}
     {% if relatedProjects|length < 4 %}
       {# Find similar project posts based on category IDs #}
       {% if relatedProjects|length > 0 %}
