@@ -91,7 +91,6 @@
   h2,
   h3 {
     @include font-smoothing;
-    margin: 0;
     z-index: 2;
     position: relative;
   }
@@ -101,7 +100,6 @@
   }
 
   h3 {
-    padding-top: 3px;
     @include font-details;
   }
 
@@ -172,13 +170,6 @@
 // Override red category on text-white (mostly for featured news posts)
 .text-white > .post-module .category {
   color: $white;
-}
-
-// Articles with subtitles (e.g. people, offices)
-.module {
-  .subtitle {
-    margin: 6px 0 0;
-  }
 }
 
 .no-posts-found {

@@ -57,27 +57,32 @@
 
 {% block content %}
 
-  {% if not craft.app.request.isAjax %}
-     {# header (w/ featured post) #}
-    {% if featuredImpact %}
-      {% set post = featuredImpact %}
-      <div class="row -halves featured-article" data-id="{{ featuredImpact.id }}">
-          <li class="row-block">
-            <div class="image-wrap -square">
-              {% set impactImage = post.impactImage[0] ?? null %}
-              {% if impactImage %}
-                {% set treatedImage = craft.imager.transformImage(impactImage, { width: 800 }) %}
-                {% if treatedImage %}
-                  <a class="lazy image" href="{{ post.getUrl() }}" style="background-image: url('');" data-original="{{ treatedImage.getUrl() }}"></a>
-                {% endif %}
-              {% endif %}
-            </div>
-          </li>
-          <li class="row-block background-black text-white font-smoothing featured-post-block">
-            {% include 'news/_article' %}
-          </li>
+  {# header (w/ featured post) #}
+  {% if not craft.app.request.isAjax and featuredImpact %}
+    {% set post = featuredImpact %}
+    {% include 'partials/_secondary-header'
+      with {
+        'categoryTitle': post.impactType[0] ?? null,
+        'headerImage': post.impactImage.one(),
+        'headerTitle': post.title,
+      }
+    %}
+    <div class="row -halves secondary-page-intro">
+      <div class="row-block top-overlap-p">
+        <div class="page-intro module text-module background-white text-black">
+          <div class="user-content">
+            <p class="excerpt">{{ post.excerpt ? post.excerpt : post.body | chop(limit=20, unit='w', append='…') }}</p>
+            <p>
+              <a class="button" href="{{ post.getUrl() }}">
+                <span class="border"></span><span class="extra-corners"></span>
+                Read More
+                <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
+              </a>
+            </p>
+          </div>
+        </div>
       </div>
-    {% endif %}
+    </div>
   {% endif %}
 
   <div class="mobile-filter -padded">
