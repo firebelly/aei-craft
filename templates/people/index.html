@@ -51,14 +51,6 @@
     <div class="row-block">
       <div class="module text-module  ">
         <div class="font-h1 user-content">{{ subheader }}</div>
-        <div class="buttons">
-          <a class="button" href="/about/careers/">
-            <span class="border"></span><span class="extra-corners"></span>
-            Careers
-            <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
-          </a>
-        </div>
-
         <div class="mobile-filter">
           <div class="filter-header">
             Filter:
@@ -79,12 +71,12 @@
 
       </div>
     </div>
-    <div class="row-block">
+    <div class="row-block -snugstats">
       {% set block = {
         statFigure: entry.numberOfPeople,
         statLabel: 'People',
-        statFigure2: entry.numberOfOffices,
-        statLabel2: 'Offices',
+        statFigure2: '',
+        statLabel2: '',
       } %}
       {% include 'partials/media-blocks/_stat' %}
     </div>

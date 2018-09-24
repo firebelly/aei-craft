@@ -166,7 +166,8 @@
 .masonry-item,
 .row .row-block {
   .module {
-    &.stat-module, &.stat-two-figure-module {
+    &.stat-module,
+    &.stat-two-figure-module {
       min-height: initial;
 
       @include media-md {
@@ -180,6 +181,13 @@
       @include media-xl {
         height: calc( (100vw - #{$sidebar-max-width})/2*(2/3) );
       }
+    }
+  }
+  // Reduce tall stat modules in headers
+  &.-snugstats .module {
+    &.stat-module,
+    &.stat-two-figure-module {
+      height: 100% !important;
     }
   }
 }
