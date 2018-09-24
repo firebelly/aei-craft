@@ -70,7 +70,7 @@
     z-index: 1;
   }
 
-  .buttons .theater-play, .buttons.theater-play-button-only {
+  .buttons .theater-play {
     display: none;
     @include media-md {
       display: block;
