@@ -88,18 +88,19 @@
     padding: 0;
   }
 
-  h1, h2 {
+  h2,
+  h3 {
     @include font-smoothing;
     margin: 0;
     z-index: 2;
     position: relative;
   }
 
-  h1 {
+  h2 {
     @include font-p;
   }
 
-  h2 {
+  h3 {
     padding-top: 3px;
     @include font-details;
   }
