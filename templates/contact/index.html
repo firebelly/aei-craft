@@ -43,37 +43,10 @@
       </div>
     </div>
 
-    <ul class="row -quarters -separators semantic-only-list">
+    <ul class="row -quarters photo-row-separators semantic-only-list">
       {% for entry in officeEntries %}
         <li class="row-block separate">
-          <article class="module contact-module pad vcard image-wrap location-contact bigclicky">
-            {% set image = entry.officeImage.one() %}
-            {% if image %}
-              {% set treatedImage = craft.imager.transformImage(image, { width: 800 }) %}
-              {% if treatedImage %}
-                <div class="image" style="background-image: url('{{ treatedImage.getUrl() }}');"></div>
-              {% endif %}
-            {% else %}
-              <div class="image"></div>
-            {% endif %}
-            <div class="content">
-              <h2 class="font-p"><a href="{{ entry.getUrl() }}" class="fn org url"><span class="organization-name sr-only">AEI</span><span class="organization-unit">{{ entry.title }}</span></a></h2>
-              <div class="font-details">
-                {% if entry.phoneNumber %}
-                  <div class="tel">{{ entry.phoneNumber }}</div>
-                 {% endif %}
-                {% if entry.email %}
-                  <div class="email">
-                    <a href="mailto: {{ entry.email }}">
-                      {% for part in entry.email|split('@') %}
-                        <span class="email-part">{{ part }}{{ loop.index0==0 ? '@' : '' }}</span>
-                      {% endfor %}
-                    </a>
-                  </div>
-                {% endif %}
-              </div>
-            </div>
-          </article>
+          {% include 'offices/_article' %}
         </li>
       {% endfor %}
     </ul>
