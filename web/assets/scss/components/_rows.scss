@@ -34,7 +34,7 @@
 
     .module {
       @include media-md {
-        height: 100%;
+        min-height: 100%;
       }
     }
   }
