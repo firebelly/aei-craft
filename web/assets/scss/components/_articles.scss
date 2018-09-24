@@ -118,8 +118,11 @@
   .project-module {
     display: flex;
     flex-direction: column;
+    .image-wrap {
+      flex: 0 1 auto;
+    }
     .project-title {
-      flex-grow: 1;
+      flex: 1 1 auto;
     }
   }
 }
