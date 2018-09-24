@@ -15,11 +15,11 @@
         <div class="user-content">
           <p class="font-h1">{{ pageHeader.subheader }}</p>
         </div>
+        {% if pageHeader.headerVideo %}
         <div class="buttons {% if entry is defined %}{{ entry.slug == 'approach' or entry.slug == 'careers' ? '' : 'theater-play-button-only' }}{% endif %}">
-          {% if pageHeader.headerVideo %}
             <button class="button -solid theater-play text-white background-red">Play Video<svg class="icon icon-triangle"><use xlink:href="#icon-triangle" /></svg></button>
-          {% endif %}
         </div>
+        {% endif %}
       </div>
     </div>
   </div>
