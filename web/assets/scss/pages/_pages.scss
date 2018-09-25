@@ -50,8 +50,13 @@
   }
 }
 
+// Hide pagination (infinite scroll is used)
 .pagination {
   display: none;
+}
+// Make sure infinite scroll container is full height
+.infinite-scroll-container {
+  height: 100%;
 }
 
 .page-home, .page-expertise, .page-approach, .page-careers, .page-people.white-header {

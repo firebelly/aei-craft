@@ -4,11 +4,10 @@
 //=include "../bower_components/jquery/dist/jquery.js"
 //=include "../bower_components/jquery.fitvids/jquery.fitvids.js"
 //=include "../bower_components/velocity/velocity.js"
-//=include "../bower_components/imagesloaded/imagesloaded.pkgd.min.js"
 //=include "../bower_components/jquery_lazyload/jquery.lazyload.js"
 //=include "../bower_components/waypoints/lib/jquery.waypoints.js"
 //=include "../bower_components/waypoints/lib/shortcuts/sticky.js"
-//=include "../bower_components/isotope-layout/dist/isotope.pkgd.js"
+//=include "../bower_components/masonry-layout/dist/masonry.pkgd.js"
 //=include "../bower_components/infinite-scroll/dist/infinite-scroll.pkgd.js"
 //=include "../bower_components/slick-carousel/slick/slick.js"
 //=include "../bower_components/tablesorter/jquery.tablesorter.js"
@@ -21,6 +20,7 @@ var FB = (function($) {
       $document,
       $siteNav,
       $body,
+      $masonryGrid,
       initialHref,
       delayed_resize_timer,
       breakpoint_xs = false,
@@ -35,6 +35,7 @@ var FB = (function($) {
     $header = $('.site-header');
     $body = $('body');
     $siteNav = $('.site-nav');
+    $masonryGrid = $('.masonry-grid');
     $body.addClass('loaded');
 
     // Set screen size vars
@@ -74,32 +75,6 @@ var FB = (function($) {
       _scrollBody($(href), 500, 0, true);
     });
 
-    // Infinite scroll
-    $('.infinite-scroll-container').infiniteScroll({
-      path: function() {
-        // Are there more pages?
-        if (this.pageIndex < parseInt($('.pagination').attr('data-total-pages'))) {
-          // Replace /p2 with this.loadCount + 1 from infinite scroll
-          var nextUrl = $('.pagination .next a').attr('href').replace(/(p[\d]+)$/, 'p' + (this.loadCount + 2));
-          // Omit the featured post if there is one
-          nextUrl += '?omitId=' + ($('.featured-article').attr('data-id') || '');
-          return nextUrl;
-        } else {
-          return false;
-        }
-      },
-      append: false,
-      history: false,
-    });
-    $('.infinite-scroll-container').on( 'load.infiniteScroll', function( event, response ) {
-      var $items = $(response).find('.infinite-scroll-object');
-      $(this).append($items);
-      if ($('.masonry-grid').length) {
-        $('.masonry-grid').isotope('appended', $items);
-      }
-      _initLazyload();
-    });
-
     // Bigclicky™
     $document.on('click', '.bigclicky', function(e) {
       if (!$(e.target).is('a')) {
@@ -130,6 +105,7 @@ var FB = (function($) {
     _fitFigures();
     _hangQuotes();
     _truncateLists();
+    _initInfiniteScroll();
 
     // After page loads
     $(window).on('load',function() {
@@ -143,6 +119,38 @@ var FB = (function($) {
 
   } // end init()
 
+  // Forever scrolling... scrolling...
+  function _initInfiniteScroll() {
+    var $infScrollContainer = $('.infinite-scroll-container');
+    if ($infScrollContainer.length) {
+      // Infinite scroll
+      $infScrollContainer.infiniteScroll({
+        path: function() {
+          // Are there more pages?
+          if (this.pageIndex < parseInt($('.pagination').attr('data-total-pages'))) {
+            // Replace /p2 with this.loadCount + 1 from infinite scroll
+            var nextUrl = $('.pagination .next a').attr('href').replace(/(p[\d]+)$/, 'p' + (this.loadCount + 2));
+            // Omit the featured post if there is one
+            nextUrl += '?omitId=' + ($('.featured-article').attr('data-id') || '');
+            return nextUrl;
+          } else {
+            return false;
+          }
+        },
+        append: false,
+        history: false
+      });
+      $infScrollContainer.on('load.infiniteScroll', function(event, response) {
+        var $items = $(response).find('.infinite-scroll-object');
+        $(this).append($items);
+        if ($masonryGrid.length) {
+          $masonryGrid.masonry('appended', $items);
+        }
+        _initLazyload();
+      });
+    }
+  }
+
   // Truncate longer lists with View More link
   function _truncateLists() {
     $('ul.truncate-list').each(function() {
@@ -150,7 +158,7 @@ var FB = (function($) {
       var $lis = $longBlock.find('li');
       if ($lis.length > 5) {
         $longBlock.find('li:gt(4)').hide();
-        var $moreLink = $('<p><a class="expand-list" href="#">View More ('+($lis.length - 5)+')</a></p>').insertAfter($longBlock);
+        var $moreLink = $('<p><a class="expand-list" href="#">View More (' + ($lis.length - 5) + ')</a></p>').insertAfter($longBlock);
         $moreLink.on('click', function(e) {
           e.preventDefault();
           $longBlock.find('li').slideDown(200);
@@ -404,12 +412,7 @@ var FB = (function($) {
     });
   }
 
-  function _disableBodyScroll(el) {
-    bodyScrollLock.clearAllBodyScrollLocks();
-    $body.addClass('no-scroll');
-    bodyScrollLock.disableBodyScroll(el);
-  }
-
+  // Lock/unlock body from scrolling when modal is open (using https://github.com/willmcpo/body-scroll-lock)
   function _enableBodyScroll(el) {
     if (typeof el === 'undefined') {
       bodyScrollLock.clearAllBodyScrollLocks();
@@ -417,6 +420,11 @@ var FB = (function($) {
       bodyScrollLock.enableBodyScroll(el);
     }
     $body.removeClass('no-scroll');
+  }
+  function _disableBodyScroll(el) {
+    bodyScrollLock.clearAllBodyScrollLocks();
+    $body.addClass('no-scroll');
+    bodyScrollLock.disableBodyScroll(el);
   }
 
   function _openSearch() {
@@ -754,8 +762,8 @@ var FB = (function($) {
       _fixStickyHeaderWidths();
 
       // Refresh masonry after delay
-      if ($('.masonry-grid').length) {
-        $('.masonry-grid').isotope();
+      if ($masonryGrid.length) {
+        $masonryGrid.masonry();
       }
 
     }, 250);
@@ -769,15 +777,12 @@ var FB = (function($) {
   }
 
   function _initMasonry() {
-    if ($('.masonry-grid').length) {
-      $('.masonry-grid').isotope({
-        itemSelector: '.masonry-item',
+    if ($masonryGrid.length) {
+      $masonryGrid.masonry({
         percentPosition: true,
         transitionDuration: 0,
-        masonry: {
-          // use outer width of grid-sizer for columnWidth
-          columnWidth: '.masonry-sizer',
-        }
+        itemSelector: '.masonry-item',
+        columnWidth: '.masonry-sizer'
       });
     }
   }
