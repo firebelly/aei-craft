@@ -1,8 +1,8 @@
 {% set substitutions = {
   '%': '<span class="percent">%</span>'
 } %}
-{% set statFigure = block.statFigure|escape|replace(substitutions)|raw %}
-{% set statFigure2 = block.statFigure2|escape|replace(substitutions)|raw %}
+{% set statFigure = block.statFigure|escape|replace(substitutions) %}
+{% set statFigure2 = block.statFigure2|escape|replace(substitutions) %}
 
 {% if block.statFigure2 %}
 
@@ -10,11 +10,11 @@
   <div class="module stat-module stat-two-figure">
     <div class="stat-wrap">
       <dl class="figure">
-        <dt{{ statFigure|length > 8 ? ' class="-verbose"' : '' }}>{{ statFigure }}</dt>
+        <dt{{ statFigure|length > 8 ? ' class="-verbose"' : '' }}>{{ statFigure|raw }}</dt>
         <dd>{{ block.statLabel }}</dd>
       </dl>
       <dl class="figure">
-        <dt{{ statFigure2|length > 8 ? ' class="-verbose"' : '' }}>{{ statFigure2 }}</dt>
+        <dt{{ statFigure2|length > 8 ? ' class="-verbose"' : '' }}>{{ statFigure2|raw }}</dt>
         <dd>{{ block.statLabel2 }}</dd>
       </dl>
     </div>
@@ -25,7 +25,7 @@
   <div class="module stat-module stat-one-figure">
     <div class="stat-wrap">
       <dl class="figure">
-        <dt{{ statFigure|length > 8 ? ' class="-verbose"' : '' }}>{{ statFigure }}</dt>
+        <dt{{ statFigure|length > 8 ? ' class="-verbose"' : '' }}>{{ statFigure|raw }}</dt>
         <dd>{{ block.statLabel }}</dd>
       </dl>
     </div>
