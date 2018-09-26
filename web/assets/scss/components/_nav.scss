@@ -118,7 +118,7 @@
     }
   }
 
-  @include screen($breakpoint-sm, $breakpoint-md -1px) {
+  @include screen($breakpoint-sm, $breakpoint-md - 1px) {
     // Larger font size on 480–960px
     li {
       @include font-filter;

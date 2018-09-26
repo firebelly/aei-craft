@@ -39,16 +39,16 @@
     }
   }
 
-  &.-spaced {
-    .row-block:not(.top-overlap-h1):not(.top-overlap-p):not(.nospace) {
-      @include media-md {
-        margin-top: $padding;
-      }
-      @include media-lg {
-        margin-top: $padding-lg;
-      }
-    }
-  }
+  // &.-spaced {
+  //   .row-block:not(.top-overlap-h1):not(.top-overlap-p):not(.nospace) {
+  //     @include media-md {
+  //       margin-top: $padding;
+  //     }
+  //     @include media-lg {
+  //       margin-top: $padding-lg;
+  //     }
+  //   }
+  // }
 
   &.-single {
     .row-block {

@@ -1,140 +1,59 @@
-// 1 Number Stat
+// Stats
 .stat-module {
   overflow: hidden;
   background-color: $white;
-  padding: 1.5*$padding-sm $padding-sm;
+  padding: $padding-sm;
 
   @include media-md {
     display: flex;
     align-items: center;
-    padding: 1.5*$padding-md $padding-md;
+    justify-content: center;
+    padding: $padding-md;
   }
 
   @include media-lg {
-    padding: 1.5*$padding-lg $padding-lg;
+    padding: $padding-lg;
   }
 
-  .stat-one-figure-wrap {
-    position: relative;
-    width: 100%;
-    display: flex;
-    flex-wrap: no-wrap;
-    justify-content: space-between;
-    .slash,
-    .label,
-    .figure {
-      flex-grow: 1;
-      flex-basis: content;
+  // Stat figures
+  .figure {
+    text-align: center;
+    dl,
+    dt,
+    dd {
+      margin: 0;
+      padding: 0;
     }
-    .figure {
-      max-width: 90%;
-    }
+    dt {
+      @include font-stat-medium;
 
-    .slash {
-      position: relative;
-      flex-grow: 2;
-      padding: 0 3*$beat;
-      &::after {
-        position: absolute;
-        right: 50%;
-        width: 2px;
-        content: '';
-        top: .1em;
-        bottom: .1em;
-        position: absolute;
-        transform: skew(-18deg);
-        background-color: $concrete-light;
+      @include media-sm {
+        @include font-stat-large;
+      }
 
-        @include media-lg {
-          top: $beat;
-          bottom: $beat;
+      // Verbose stat figures (> 8 chars)
+      &.-verbose {
+        @include max-screen($breakpoint-sm) {
+          @include font-stat-small;
+        }
+        @include screen($breakpoint-md, $breakpoint-xl - 1px) {
+          @include font-stat-medium;
         }
       }
     }
-  }
-
-  .label {
-    @include font-details;
-    margin: $beat 0;
-    max-width: 100px;
-    text-align: right;
-    align-self: flex-end;
-
-    @include media-sm {
-      max-width: 200px;
-    }
-    @include media-md {
-      max-width: 18*$beat;
-      &.-wrapped {
-        text-align: left;
-      }
-    }
-  }
-}
-
-// 2 Number Stat
-.stat-two-figure-module {
-  height: 100%;
-  overflow: hidden;
-  background: $white;
-  position: relative;
-  @include global-padding;
-
-  .slash-wrap {
-    height: 100%;
-    display: flex;
-    position: relative;
-    justify-content: space-between;
-
-    &::after {
-      top: 0;
-      bottom: 0;
-      right: 50%;
-      width: 2px;
-      content: '';
-      position: absolute;
-      transform: skew(-18deg);
-      background-color: $concrete-light;
+    dd {
+      @include font-p;
+      margin: $beat 0;
     }
   }
 
-  @include media-md {
-    min-height: 320px;
-  }
-
-  .figure {
-    margin: 0;
-    max-width: 33.33%;
-    flex-basis: 33.33%;
-  }
-
-  .fit-figure-container {
-    @include media-md {
-      width: 130%;
+  // Two figure stats
+  &.stat-two-figure {
+    .figure:nth-child(1) {
+      padding-bottom: $beat*2;
+      border-bottom: 1px solid $concrete-light;
     }
   }
-
-  .figure-2 .fit-figure-container {
-    @include media-md {
-      position: relative;
-      left: -30%;
-    }
-  }
-
-  .label {
-    @include font-details;
-    display: block;
-    margin: $beat 0 0;
-  }
-
-  .figure-2 {
-    text-align: right;
-    align-self: flex-end;
-  }
-}
-
-.stat-module,
-.stat-two-figure-module {
 
   .percent {
     top: -1.3em;
@@ -142,23 +61,6 @@
     font-size: .33em;
     position: relative;
     margin-left: 0.2ch;
-  }
-
-  .fit-figure-container {
-    // JS will take .fit-figure (child) and test 1-10em based on this 11px
-    // It will take biggest that fits.
-    @include formular-medium;
-    @include paragraph-style (11, 11, $ls: -.025em);
-  }
-
-  .fit-figure {
-    &[data-figure-size="1"],
-    &[data-figure-size="2"],
-    &[data-figure-size="3"],
-    &[data-figure-size="4"],
-    &[data-figure-size="5"] {
-      @include formular-bold;
-    }
   }
 }
 
@@ -310,7 +212,7 @@
 
 .quote-carousel {
   position: relative;
-  padding-bottom: $padding*2;
+  // padding-bottom: $padding*2;
 
   .next, .prev {
       bottom: 0;

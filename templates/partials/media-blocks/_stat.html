@@ -1,38 +1,33 @@
 {% set substitutions = {
-  '%': '<span class="percent">%</span>',
-  'zero': '0'
+  '%': '<span class="percent">%</span>'
 } %}
+{% set statFigure = block.statFigure|escape|replace(substitutions)|raw %}
+{% set statFigure2 = block.statFigure2|escape|replace(substitutions)|raw %}
 
 {% if block.statFigure2 %}
 
-  <div class="module stat-two-figure-module tie-fit-figures">
-    <div class="slash-wrap">
-      <div class="figure figure-1">
-        <div class="fit-figure-container">
-          <span class="fit-figure">{{ block.statFigure|escape|replace(substitutions)|raw }}</span><span class="label">{{ block.statLabel }}</span>
-        </div>
-      </div>
-      <div class="figure figure-2">
-        <div class="fit-figure-container">
-          <span class="fit-figure">{{ block.statFigure2|escape|replace(substitutions)|raw }}</span><span class="label">{{ block.statLabel2 }}</span>
-        </div>
-      </div>
+
+  <div class="module stat-module stat-two-figure">
+    <div class="stat-wrap">
+      <dl class="figure">
+        <dt{{ statFigure|length > 8 ? ' class="-verbose"' : '' }}>{{ statFigure }}</dt>
+        <dd>{{ block.statLabel }}</dd>
+      </dl>
+      <dl class="figure">
+        <dt{{ statFigure2|length > 8 ? ' class="-verbose"' : '' }}>{{ statFigure2 }}</dt>
+        <dd>{{ block.statLabel2 }}</dd>
+      </dl>
     </div>
   </div>
 
 {% else %}
 
-  <div class="module stat-module">
-    <div class="stat-one-figure-wrap">
-      <div class="figure fit-figure-container">
-        <span class="fit-figure">
-          {{ block.statFigure|escape|replace(substitutions)|raw }}
-        </span>
-      </div>
-      <div class="slash"></div>
-      <div class="label">
-        <div class="text-wrap">{{ block.statLabel }}</div>
-      </div>
+  <div class="module stat-module stat-one-figure">
+    <div class="stat-wrap">
+      <dl class="figure">
+        <dt{{ statFigure|length > 8 ? ' class="-verbose"' : '' }}>{{ statFigure }}</dt>
+        <dd>{{ block.statLabel }}</dd>
+      </dl>
     </div>
   </div>
 

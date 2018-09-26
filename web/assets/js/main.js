@@ -102,14 +102,13 @@ var FB = (function($) {
     _initSearch();
     _initStickyHeader();
     _initFilters();
-    _fitFigures();
     _hangQuotes();
     _truncateLists();
     _initInfiniteScroll();
 
     // After page loads
     $(window).on('load',function() {
-      // Trigger delayed resize functions after load (fitFigures, layout isotope, etc)
+      // Trigger delayed resize functions after load (layout isotope, etc)
       _delayed_resize();
       // Scroll down to hash after page load
       if (window.location.hash) {
@@ -206,41 +205,6 @@ var FB = (function($) {
         var content = '<span class="hang">“</span>'+content.slice(1);
         $(this).empty().append(content);
       }
-    });
-  }
-
-  function _fitFigures() {
-    $('.fit-figure').each(function() {
-
-      var $figure = $(this);
-      var $container = $figure.closest('.fit-figure-container');
-
-      // Try 10 sizes, one after the other, til I don't fit no more
-      for (i=1; i<10; i++) {
-
-        // Set the font size
-        $figure.css('font-size', i + 'em');
-        $figure.attr('data-figure-size', i); // We'll use this data-attr for tying figures
-
-        // If I'm too big, go with one size smaller
-        if ($figure.width() >= $container.width()) {
-          $figure.css('font-size', (i-1) + 'em');
-          $figure.attr('data-figure-size', i-1);
-          break;
-        }
-      }
-    });
-
-    $('.tie-fit-figures').each(function() {
-      var smallest = 10;
-      var $figures = $(this).find('.fit-figure');
-      $figures.each(function() {
-        var size = parseInt( $(this).attr('data-figure-size') );
-        smallest = Math.min(smallest, size);
-      });
-
-      $figures.css('font-size', smallest + 'em');
-      $figures.attr('data-figure-size', smallest);
     });
   }
 
@@ -751,9 +715,6 @@ var FB = (function($) {
   function _delayed_resize() {
     clearTimeout(delayed_resize_timer);
     delayed_resize_timer = setTimeout(function() {
-
-      // Refit stats
-      _fitFigures();
 
       // Refix waypoints
       Waypoint.refreshAll();
