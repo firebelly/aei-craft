@@ -212,7 +212,9 @@
 
 .quote-carousel {
   position: relative;
-  // padding-bottom: $padding*2;
+  &.slick-initialized {
+    padding-bottom: $padding*2;
+  }
 
   .next, .prev {
       bottom: 0;
