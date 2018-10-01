@@ -55,7 +55,7 @@
       <div class="row-block intro-block">
         <div class="module text-module">
           <div class="font-h1 user-content">{{ subheader }}</div>
-          <div class="mobile-filter -padded">
+          <div class="mobile-filter">
             <div class="filter-header">
               Filter:
               <span>{{ category is defined ? category.title : 'All' }}</span>
@@ -92,7 +92,7 @@
       {% for post in impactEntries %}
         {% if loop.index > 1 %}
           {% if loop.index in ['3','7'] and stats|length %}
-            <li class="masonry-item">
+            <li class="masonry-item -force-aspect">
               {% include 'partials/media-blocks/_stat' with { 'block': stats|last } %}
               {% set stats = stats|slice(0,-1) %}
             </li>

@@ -159,7 +159,7 @@
       {% for project in projectEntries %}
         {% if loop.index > 1 %}
           {% if loop.index in ['3','7'] and stats|length %}
-            <li class="masonry-item">
+            <li class="masonry-item -force-aspect">
               {% include 'partials/media-blocks/_stat' with { 'block': stats|last } %}
               {% set stats = stats|slice(0,-1) %}
             </li>

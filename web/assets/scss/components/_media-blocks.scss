@@ -65,37 +65,21 @@
 }
 
 // Aspect ratio height
-.masonry-item,
-.row .row-block {
-  .module {
-    &.stat-module,
-    &.stat-two-figure-module {
-      min-height: initial;
+.-force-aspect .module {
+  min-height: initial;
 
-      @include media-md {
-        height: calc( (100vw - #{$padding})/2*(2/3) );
-      }
-
-      @include media-lg {
-        height: calc( 100vw/3*(2/3) );
-      }
-
-      @include media-xl {
-        height: calc( (100vw - #{$sidebar-max-width})/2*(2/3) );
-      }
-    }
+  @include media-md {
+    height: calc( 100vw/2*(2/3) );
   }
-  // Reduce tall stat modules in headers
-  &.-snugstats .module {
-    &.stat-module,
-    &.stat-two-figure-module {
-      height: 100% !important;
-    }
+
+  @include media-lg {
+    height: calc( (100vw - #{$sidebar-max-width})/2*(2/3) );
   }
 }
 
 // Image / Video
-.image-module, .video-module {
+.image-module,
+.video-module {
   @include clearfix;
   @include max-screen($breakpoint-md - 1px) {
     margin-top: $padding;
@@ -179,6 +163,8 @@
   background: $white;
 }
 
+
+
 // Quote Carousel
 // Blockquotes currently use a negative-margin with compensatory padding
 // to create hanging quotes.  In the carousel that will effect sizing,
@@ -214,7 +200,8 @@
   position: relative;
   padding-bottom: $padding*2;
 
-  .next, .prev {
+  .next,
+  .prev {
       bottom: 0;
       left: 10px;
       cursor: pointer;
