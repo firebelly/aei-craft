@@ -127,6 +127,13 @@ body.nav-stuck {
   }
 }
 
+// Hide sticky-wrapper on desktop+ also so layout doesn't jump mid-scroll
+@include media-lg {
+  .sticky-wrapper {
+    display: none;
+  }
+}
+
 // People page filters don't need multiple columns
 .page-people {
   .mobile-filter {

@@ -26,17 +26,14 @@
 
 {% block content %}
 
-    {# header #}
-    <div class="hero-wrap">
-      <div class="hero-image image-wrap">
-        {% if treatedImage %}
-          <div class="lazy image" style="background-image: url(''); background-position: center {{ headerImage.getFocalPoint()['y'] * 100 }}%" data-original="{{ treatedImage.getUrl() }}"></div>
-        {% endif %}
-      </div>
-    </div>
-
     <div class="row -use-float -halves">
       <div class="row-block -right">
+        <div class="image-wrap -landscape">
+          {% if treatedImage %}
+            <div class="lazy image" style="background-image: url(''); background-position: center {{ headerImage.getFocalPoint()['y'] * 100 }}%" data-original="{{ treatedImage.getUrl() }}"></div>
+          {% endif %}
+        </div>
+
         <div class="text-module background-{{ (headerColor ?? null) ? headerColor|lower : 'black' }} text-white font-smoothing">
           <h1 class="font-h2 no-margin">{{ headerTitle }}</h1>
           {% if headerSubtitle ?? false %}<h2 class="font-details subtitle">{{ headerSubtitle }}</h2>{% endif %}
