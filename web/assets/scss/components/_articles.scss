@@ -137,8 +137,6 @@
 // Post Articles
 .post-module {
   position: relative;
-  padding: $padding-sm $padding-sm ($padding-sm+36px);
-
   .category {
     color: $red;
   }
@@ -158,12 +156,14 @@
       bottom: $padding-lg;
     }
   }
-
-  @include media-md {
-    padding: $padding-md $padding-md ($padding-md+36px);
-  }
-  @include media-lg {
-    padding: $padding-lg $padding-lg ($padding-lg+36px);
+  .news-title {
+    padding: $padding-sm $padding-sm ($padding-sm+36px);
+    @include media-md {
+      padding: $padding-md $padding-md ($padding-md+36px);
+    }
+    @include media-lg {
+      padding: $padding-lg $padding-lg ($padding-lg+36px);
+    }
   }
 }
 

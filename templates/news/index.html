@@ -7,40 +7,32 @@
 {% if category is defined %}
 
   {% set title = category.title %}
+  {% set subheader = category.body %}
   {% set entry = craft.entries.section('newsIndex').one() %}
-  {% if craft.app.request.isAjax %}
-    {# AJAX call for infinite scroll #}
-    {% set omitId = craft.app.request.getQueryParam('omitId') %}
-  {% else %}
-    {% set featuredImpact = craft.entries.section('impact').relatedTo(category).featured(1).orderBy('RAND()').one() ?? craft.entries.section('impact').relatedTo(category).one() %}
-    {% set omitId = featuredImpact ? featuredImpact.id : 0 %}
-    {% set stats = craft.entries.section('stats').relatedTo(category).orderBy('RAND()').limit(2).all() %}
-  {% endif %}
+  {% set featuredImpact = craft.entries.section('impact').relatedTo(category).featured(1).orderBy('RAND()').one() ?? craft.entries.section('impact').relatedTo(category).one() %}
+  {% set omitId = featuredImpact ? featuredImpact.id : 0 %}
+  {% set stats = craft.entries.section('stats').relatedTo(category).orderBy('RAND()').limit(2).all() %}
+
   {% paginate craft.entries({
     section: 'impact',
     relatedTo: category,
     with: [
       'impactImage'
     ]
-  }).id('not ' ~ omitId).orderBy('featured DESC, postDate DESC').limit(12) as paginationInfo, impactEntries %}
+  }).orderBy('featured DESC, postDate DESC').limit(12) as paginationInfo, impactEntries %}
 
 {% else %}
 
-  {% if craft.app.request.isAjax %}
-    {# AJAX call for infinite scroll #}
-    {% set omitId = craft.app.request.getQueryParam('omitId') %}
-  {% else %}
-    {% set featuredImpact = craft.entries.section('impact').featured(1).orderBy('RAND()').one() ?? craft.entries.section('impact').one() %}
-    {% set omitId = featuredImpact ? featuredImpact.id : 0 %}
-    {% set stats = craft.entries.section('stats').relatedTo(statType).orderBy('RAND()').limit(2).all() %}
-  {% endif %}
+  {% set subheader = entry.body %}
+  {% set featuredImpact = craft.entries.section('impact').featured(1).orderBy('RAND()').one() ?? craft.entries.section('impact').one() %}
+  {% set stats = craft.entries.section('stats').relatedTo(statType).orderBy('RAND()').limit(2).all() %}
 
   {% paginate craft.entries({
     section: 'impact',
     with: [
       'impactImage'
     ]
-  }).id('not ' ~ omitId).orderBy('featured DESC, postDate DESC').limit(12) as paginationInfo, impactEntries %}
+  }).orderBy('featured DESC, postDate DESC').limit(12) as paginationInfo, impactEntries %}
 
 {% endif %}
 
@@ -57,83 +49,62 @@
 
 {% block content %}
 
-  {# header (w/ featured post) #}
-  {% if not craft.app.request.isAjax and featuredImpact %}
-    {% set post = featuredImpact %}
-    {% include 'partials/_secondary-header'
-      with {
-        'categoryTitle': post.impactType[0] ?? null,
-        'headerImage': post.impactImage.one(),
-        'headerTitle': post.title,
-      }
-    %}
-    <div class="row -halves secondary-page-intro">
-      <div class="row-block top-overlap-p">
-        <div class="page-intro module text-module background-white text-black">
-          <div class="user-content">
-            <p class="excerpt">{{ post.excerpt ? post.excerpt : post.body | chop(limit=20, unit='w', append='…') }}</p>
-            <p>
-              <a class="button" href="{{ post.getUrl() }}">
-                <span class="border"></span><span class="extra-corners"></span>
-                Read More
-                <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
-              </a>
-            </p>
+  {% if not craft.app.request.isAjax %}
+    {# Top row: intro and first post (wrapped so they can visually align) #}
+    <div class="row -halves">
+      <div class="row-block intro-block">
+        <div class="module text-module">
+          <div class="font-h1 user-content">{{ subheader }}</div>
+          <div class="mobile-filter -padded">
+            <div class="filter-header">
+              Filter:
+              <span>{{ category is defined ? category.title : 'All' }}</span>
+              <svg class="icon icon-up-arrow" aria-hidden="true" role="presentation"><use xlink:href="#icon-up-arrow"/></svg>
+            </div>
+            <ul class="filters semantic-only-list">
+              <li class="{{ category is defined ? '' : 'current' }}">
+                <a href="/news/">All</a>
+              </li>
+              {% for cat in craft.categories.group('impactTypes').all() %}
+                <li class="{{ active(cat.getUrl(), 'url', 'current') }}">
+                  <a href="{{ cat.getUrl() }}">{{ cat.title }}</a>
+                </li>
+              {% endfor %}
+            </ul>
           </div>
         </div>
       </div>
+      {% set post = impactEntries ? impactEntries[0] : false %}
+      {% if post %}
+        <div class="row-block">
+          {% include 'news/_article' %}
+        </div>
+      {% else %}
+        <p class="no-posts-found">No posts found.</p>
+      {% endif %}
     </div>
   {% endif %}
 
-  <div class="mobile-filter -padded">
-    <div class="filter-header">
-      Filter:
-      <span>{{ category is defined ? category.title : 'All' }}</span>
-      <svg class="icon icon-up-arrow" aria-hidden="true" role="presentation"><use xlink:href="#icon-up-arrow"/></svg>
-    </div>
-    <ul class="filters semantic-only-list">
-      <li class="{{ category is defined ? '' : 'current' }}">
-        <a href="/news/">All</a>
-      </li>
-      {% for cat in craft.categories.group('impactTypes').all() %}
-        <li class="{{ active(cat.getUrl(), 'url', 'current') }}">
-          <a href="{{ cat.getUrl() }}">{{ cat.title }}</a>
-        </li>
+  {# All of the rest of the posts in masonry #}
+  <div class="masonry-grid">
+    <div class="masonry-sizer"></div>
+    <ul class="semantic-only-list infinite-scroll-container">
+      {% for post in impactEntries %}
+        {% if loop.index > 1 %}
+          {% if loop.index in ['3','7'] and stats|length %}
+            <li class="masonry-item">
+              {% include 'partials/media-blocks/_stat' with { 'block': stats|last } %}
+              {% set stats = stats|slice(0,-1) %}
+            </li>
+          {% endif %}
+          <li class="masonry-item infinite-scroll-object">
+            {% include 'news/_article' %}
+          </li>
+        {% endif %}
       {% endfor %}
     </ul>
   </div>
 
-  <ul class="row -halves -separators semantic-only-list infinite-scroll-container">
-    {% for post in impactEntries %}
-      {% if loop.index in ['3','8'] and stats|length %}
-        <li class="row-block separate">
-          {% include 'partials/media-blocks/_stat' with { 'block': stats|last } %}
-          {% set stats = stats|slice(0,-1) %}
-        </li>
-      {% endif %}
-      <li class="row-block separate infinite-scroll-object">
-        {% include 'news/_article' %}
-      </li>
-    {% else %}
-      {% if not featuredImpact %}
-        <li class="no-posts-found">No posts found.</li>
-      {% endif %}
-    {% endfor %}
-  </ul>
-
-  <nav class="pagination" data-total-pages="{{ paginationInfo.totalPages }}">
-    <ul>
-      {% if paginationInfo.prevUrl %}
-      <li class="prev">
-        <a rel="prev" href="{{ paginationInfo.prevUrl }}">Previous Page</a>
-      </li>
-      {% endif %}
-      {% if paginationInfo.nextUrl %}
-      <li class="next">
-        <a rel="next" href="{{ paginationInfo.nextUrl }}">Next Page</a>
-      </li>
-      {% endif %}
-    </ul>
-  </nav>
+  {% include 'partials/_pagination-lists' %}
 
 {% endblock %}

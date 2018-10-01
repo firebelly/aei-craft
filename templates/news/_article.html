@@ -1,13 +1,27 @@
-<article class="module post-module no-underline" data-id="{{ post.id }}">
-  {% set impactType = post.impactType[0] ?? null %}
-  {% if impactType %}
-    <div class="category font-details">{{ impactType }}</div>
-  {% endif %}
-  <h2 class="title"><a href="{{ post.getUrl() }}">{{ post.title }}</a></h2>
-  <p class="excerpt">{{ post.excerpt ? post.excerpt : post.body | chop(limit=20, unit='w', append='…') }}</p>
-  <a class="button" href="{{ post.getUrl() }}">
-    <span class="border"></span><span class="extra-corners"></span>
-    Read More
-    <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
-  </a>
+{% set impactImage = post.impactImage[0] ?? null %}
+
+<article class="module post-module no-underline bigclicky" data-id="{{ post.id }}">
+  {# <div class="view-project">View Project <svg class="icon icon-right-arrow" aria-hidden="true" role="presentation"><use xlink:href="#icon-right-arrow"/></svg></div> #}
+  <div class="image-wrap -landscape">
+    {% if impactImage %}
+      {% set treatedImage = craft.imager.transformImage(impactImage, { width: 800 }) %}
+      {% if treatedImage %}
+        <div class="news-image lazy image" style="background-image: url('');" data-original="{{ treatedImage.getUrl() }}"></div>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="news-title">
+    {% set impactType = post.impactType[0] ?? null %}
+    {% if impactType %}
+      <div class="category font-details">{{ impactType }}</div>
+    {% endif %}
+    <h2 class="title"><a href="{{ post.getUrl() }}">{{ post.title }}</a></h2>
+    <p class="excerpt">{{ post.excerpt ? post.excerpt : post.body | chop(limit=20, unit='w', append='…') }}</p>
+    <a class="button" href="{{ post.getUrl() }}">
+      <span class="border"></span><span class="extra-corners"></span>
+      Read More
+      <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
+    </a>
+  </div>
 </article>

@@ -172,18 +172,6 @@
     </ul>
   </div>
 
-  <nav class="pagination" data-total-pages="{{ paginationInfo.totalPages }}">
-    <ul>
-      {% if paginationInfo.prevUrl %}
-      <li class="prev">
-        <a rel="prev" href="{{ paginationInfo.prevUrl }}">Previous Page</a>
-      </li>
-      {% endif %}
-      {% if paginationInfo.nextUrl %}
-      <li class="next">
-        <a rel="next" href="{{ paginationInfo.nextUrl }}">Next Page</a>
-      </li>
-      {% endif %}
-    </ul>
-  </nav>
+  {% include 'partials/_pagination-lists' %}
+
 {% endblock %}
