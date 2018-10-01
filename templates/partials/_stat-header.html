@@ -1,0 +1,20 @@
+{# stat header #}
+<div class="row -halves">
+  <div class="row-block">
+    <div class="module text-module  ">
+      <div class="font-h1 user-content">{{ entry.statHeader.subheader }}</div>
+      {% if filterNav is defined %}
+        {{ filterNav }}
+      {% endif %}
+    </div>
+  </div>
+  <div class="row-block -snugstats">
+    {% set block = {
+      statFigure: entry.statHeader.statFigure,
+      statLabel: entry.statHeader.statLabel,
+      statFigure2: '',
+      statLabel2: '',
+    } %}
+    {% include 'partials/media-blocks/_stat' %}
+  </div>
+</div>

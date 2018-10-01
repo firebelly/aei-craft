@@ -14,9 +14,7 @@
 {% block content %}
 {% set bodyClass = 'single' %}
 
-  {% for pageHeader in entry.pageHeader.all() %}
-    {% include '/partials/_theater-header' %}
-  {% endfor %}
+  {% include 'partials/_stat-header' %}
 
   <section id="services">
     {# services -quarters #}

@@ -46,41 +46,26 @@
 
 {% block content %}
 
-  {# header w/ stat #}
-  <div class="row -halves">
-    <div class="row-block">
-      <div class="module text-module  ">
-        <div class="font-h1 user-content">{{ subheader }}</div>
-        <div class="mobile-filter">
-          <div class="filter-header">
-            Filter:
-            <span>{{ category is defined ? category.title : 'All' }}</span>
-            <svg class="icon icon-up-arrow" aria-hidden="true" role="presentation"><use xlink:href="#icon-up-arrow"/></svg>
-          </div>
-          <ul class="filters semantic-only-list">
-            <li class="{{ category is defined ? '' : 'current' }}">
-              <a href="/people/">All</a>
-            </li>
-            {% for cat in craft.categories.group('peopleTypes').all() %}
-              <li class="{{ active(cat.getUrl(), 'url', 'current') }}">
-                <a href="{{ cat.getUrl() }}">{{ cat.title }}</a>
-              </li>
-            {% endfor %}
-          </ul>
-        </div>
-
+  {% set filterNav %}
+    <div class="mobile-filter">
+      <div class="filter-header">
+        Filter:
+        <span>{{ category is defined ? category.title : 'All' }}</span>
+        <svg class="icon icon-up-arrow" aria-hidden="true" role="presentation"><use xlink:href="#icon-up-arrow"/></svg>
       </div>
+      <ul class="filters semantic-only-list">
+        <li class="{{ category is defined ? '' : 'current' }}">
+          <a href="/people/">All</a>
+        </li>
+        {% for cat in craft.categories.group('peopleTypes').all() %}
+          <li class="{{ active(cat.getUrl(), 'url', 'current') }}">
+            <a href="{{ cat.getUrl() }}">{{ cat.title }}</a>
+          </li>
+        {% endfor %}
+      </ul>
     </div>
-    <div class="row-block -snugstats">
-      {% set block = {
-        statFigure: entry.numberOfPeople,
-        statLabel: 'People',
-        statFigure2: '',
-        statLabel2: '',
-      } %}
-      {% include 'partials/media-blocks/_stat' %}
-    </div>
-  </div>
+  {% endset %}
+  {% include 'partials/_stat-header' with { filterNav: filterNav } %}
 
   {# people -quarters #}
   <section id="people">
