@@ -56,6 +56,12 @@ var FB = (function($) {
       }
     });
 
+    // Add .button class to a elements in p.button-block (Redactor button-blocks)
+    $('.user-content p.button-block').each(function() {
+      $this = $(this).removeClass('button-block');
+      $this.find('a').prepend('<span class="border"></span><span class="extra-corners"></span>').addClass('button').append('<svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>');
+    });
+
     // Back/fwd support
     $(window).on('popstate',function() {
       // Page affected by search modal history, reload it

@@ -56,7 +56,18 @@
   clip-path: polygon(#{$corner-width} 0%, calc(100% - #{$corner-width}) 0%, 100% #{$corner-width}, 100% calc(100% - #{$corner-width}), calc(100% - #{$corner-width}) 100%, #{$corner-width} 100%, 0% calc(100% - #{$corner-width}), 0% #{$corner-width});
 }
 
+// Redactor-added .button-block, temporarily style like a button until js converts it to the button below
+.button-block {
+  a {
+    @include font-buttons;
+    padding: 11px 7*$beat 11px 20px;
+    border: 1px solid #282826;
+    border-radius: 3px;
+    text-decoration: none;
+  }
+}
 
+// Site-wide buttons with angled edges
 .button {
   @include font-buttons;
   text-align: left;
