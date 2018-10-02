@@ -4,16 +4,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=Edge">
   {% hook "seo" %}
   <link rel="canonical" href="{{ siteUrl }}">
-
-  <meta property="og:title" content="{% if seoTitle is defined %}{{ seoTitle }}{% elseif title is defined %}{{ title }} | {{ siteName }}{% else %}{{ siteName }}{% endif %}" />
-  {% if mainImage is defined %}
-    <meta property="og:image" content="{{ mainImage.getUrl() }}"/>
-  {% else %}
-    <meta property="og:image" content=""/>
-  {% endif %}
-
   <link rel="stylesheet" href="{{ rev('css/main.css') }}">
-
   <link rel="shortcut icon" type="image/ico" href="{{ '/assets/images/favicon.png' }}">
 
   <!--[if lt IE 9]>
