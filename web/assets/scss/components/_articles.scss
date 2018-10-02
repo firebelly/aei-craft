@@ -137,6 +137,14 @@
 // Post Articles
 .post-module {
   position: relative;
+  padding: 0 $padding-sm ($padding-sm+36px);
+  .news-title {
+    padding-top: $beat*2;
+    @include media-md {
+      padding-top: $beat*3.5;
+    }
+  }
+
   .category {
     color: $red;
   }
@@ -144,7 +152,7 @@
     margin: 5px 0;
   }
   .excerpt {
-    margin: 4.5*$beat 0 5.5*$beat;
+    margin: 2.5*$beat 0 3.5*$beat;
   }
   .button {
     position: absolute;
@@ -156,16 +164,46 @@
       bottom: $padding-lg;
     }
   }
-  .news-title {
-    padding: $padding-sm $padding-sm ($padding-sm+36px);
+}
+
+// These are for related news posts, so pull images out to edges
+.row-block.separate {
+  .post-module {
     @include media-md {
-      padding: $padding-md $padding-md ($padding-md+36px);
+      padding: 0 0 $padding-md+36px;
+      .news-title {
+        padding: $padding-md;
+      }
     }
     @include media-lg {
-      padding: $padding-lg $padding-lg ($padding-lg+36px);
+      padding: 0 0 $padding-lg+36px;
+      .news-title {
+        padding: $padding-lg;
+      }
     }
   }
 }
+
+// odd/even masonry grid styles to give center column of one $padding
+.masonry-item {
+  @include media-md {
+    &:nth-child(odd) .post-module {
+      padding: 0 $padding-md/2 ($padding-md+36px) $padding-md;
+    }
+    &:nth-child(even) .post-module {
+      padding: 0 $padding-md ($padding-md+36px) $padding-md/2;
+    }
+  }
+  @include media-lg {
+    &:nth-child(odd) .post-module {
+      padding: 0 $padding-lg/2 ($padding-lg+36px) $padding-lg;
+    }
+    &:nth-child(even) .post-module {
+      padding: 0 $padding-lg ($padding-lg+36px) $padding-lg/2;
+    }
+  }
+}
+
 
 // Override red category on text-white (mostly for featured news posts)
 .text-white > .post-module .category {

@@ -55,7 +55,8 @@ body.nav-stuck {
 
   // Hide mobile-filters once the sidebar shows up
   @include media-lg {
-    display: none;
+    height: 1px;
+    overflow: hidden;
   }
 
   .filter-header {
@@ -130,7 +131,8 @@ body.nav-stuck {
 // Hide sticky-wrapper on desktop+ also so layout doesn't jump mid-scroll
 @include media-lg {
   .sticky-wrapper {
-    display: none;
+    height: 1px;
+    overflow: hidden;
   }
 }
 

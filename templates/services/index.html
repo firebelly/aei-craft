@@ -14,7 +14,11 @@
 {% block content %}
 {% set bodyClass = 'single' %}
 
-  {% include 'partials/_stat-header' %}
+  {% include 'partials/_stat-header' with {
+    subheader: entry.statHeader.subheader,
+    statFigure: entry.statHeader.statFigure,
+    statLabel: entry.statHeader.statLabel
+  } %}
 
   <section id="services">
     {# services -quarters #}

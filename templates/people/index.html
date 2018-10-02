@@ -65,7 +65,12 @@
       </ul>
     </div>
   {% endset %}
-  {% include 'partials/_stat-header' with { filterNav: filterNav } %}
+  {% include 'partials/_stat-header' with {
+    filterNav: filterNav,
+    subheader: entry.statHeader.subheader,
+    statFigure: entry.statHeader.statFigure,
+    statLabel: entry.statHeader.statLabel
+  } %}
 
   {# people -quarters #}
   <section id="people">

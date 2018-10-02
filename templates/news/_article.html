@@ -1,12 +1,12 @@
 {% set impactImage = post.impactImage[0] ?? null %}
 
-<article class="module post-module no-underline bigclicky zoom-hover" data-id="{{ post.id }}">
+<article class="module post-module no-underline" data-id="{{ post.id }}">
   {# <div class="view-project">View Project <svg class="icon icon-right-arrow" aria-hidden="true" role="presentation"><use xlink:href="#icon-right-arrow"/></svg></div> #}
-  <div class="image-wrap -landscape">
+  <div class="image-wrap zoom-hover -landscape">
     {% if impactImage %}
       {% set treatedImage = craft.imager.transformImage(impactImage, { width: 800 }) %}
       {% if treatedImage %}
-        <div class="news-image lazy image" style="background-image: url('');" data-original="{{ treatedImage.getUrl() }}"></div>
+        <a href="{{ post.getUrl() }}" class="news-image lazy image" style="background-image: url('');" data-original="{{ treatedImage.getUrl() }}"></a>
       {% endif %}
     {% endif %}
   </div>

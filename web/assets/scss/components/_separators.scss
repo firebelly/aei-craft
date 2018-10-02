@@ -193,11 +193,13 @@
 }
 
 .photo-row-separators {
-  overflow: hidden; // hide the final separator on each row
+  // Hide the final separator on each row
+  overflow: hidden;
 
   .row-block {
 
-    .module { // All the flexbox here is for when the .separate's within a row have different heights, we still want a uniform separator height
+    // All the flexbox here is for when the .separate's within a row have different heights, we still want a uniform separator height
+    .module {
       display: flex;
       flex-direction: column;
     }

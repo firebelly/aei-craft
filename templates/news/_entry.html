@@ -15,7 +15,7 @@
   <h2 class="font-nav"><a href="/news/">News &<br>Insights</a></h2>
   <ul class="filters semantic-only-list">
     {% for cat in craft.categories.group('impactTypes').all() %}
-      <li class="{% if cat.id == impactType.id %}active{% endif %}">
+      <li class="{% if impactType and cat.id == impactType.id %}active{% endif %}">
         <a href="{{ cat.getUrl() }}">{{ cat.title }}</a>
       </li>
     {% endfor %}
@@ -42,7 +42,7 @@
       </div>
       <div class="row-block last-on-sm">
         <div class="meta">
-          {% if impactType.slug == 'presentations' %}
+          {% if impactType and impactType.slug == 'presentations' %}
             <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
               <h3>Session</h3>
               <div class="content">
@@ -99,12 +99,12 @@
             </div>
           {% endfor %}
 
-          {% if impactType.slug == 'articles' %}
+          {% if impactType and impactType.slug == 'articles' %}
             <div class="meta-item -full">
               <h3>Publication Date</h3>
               <div class="content">{{ entry.impactPublicationDate|date('m/d/y') }}</div>
             </div>
-          {% elseif impactType.slug != 'presentations' %}
+          {% elseif impactType and impactType.slug != 'presentations' %}
             <div class="meta-item -full">
               <h3>Post Date</h3>
               <div class="content">{{ entry.postDate|date('m/d/y') }}</div>

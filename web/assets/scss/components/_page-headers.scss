@@ -109,3 +109,25 @@
     }
   }
 }
+
+.stat-header {
+  // An .-empty class is added if there's no subheader text, and/or no stats
+  @include max-screen($breakpoint-lg) {
+    &.-empty {
+      .mobile-filter {
+        padding-top: 0;
+      }
+    }
+    .-snugstats.-empty {
+      display: none;
+    }
+  }
+  @include media-lg {
+    &.-empty {
+      .row {
+        display: none;
+      }
+      padding: 0 0 $padding-lg 0;
+    }
+  }
+}

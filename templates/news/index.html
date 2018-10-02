@@ -50,39 +50,31 @@
 {% block content %}
 
   {% if not craft.app.request.isAjax %}
-    {# Top row: intro and first post (wrapped so they can visually align) #}
-    <div class="row -halves">
-      <div class="row-block intro-block">
-        <div class="module text-module">
-          <div class="font-h1 user-content">{{ subheader }}</div>
-          <div class="mobile-filter">
-            <div class="filter-header">
-              Filter:
-              <span>{{ category is defined ? category.title : 'All' }}</span>
-              <svg class="icon icon-up-arrow" aria-hidden="true" role="presentation"><use xlink:href="#icon-up-arrow"/></svg>
-            </div>
-            <ul class="filters semantic-only-list">
-              <li class="{{ category is defined ? '' : 'current' }}">
-                <a href="/news/">All</a>
-              </li>
-              {% for cat in craft.categories.group('impactTypes').all() %}
-                <li class="{{ active(cat.getUrl(), 'url', 'current') }}">
-                  <a href="{{ cat.getUrl() }}">{{ cat.title }}</a>
-                </li>
-              {% endfor %}
-            </ul>
-          </div>
+    {% set filterNav %}
+      <div class="mobile-filter">
+        <div class="filter-header">
+          Filter:
+          <span>{{ category is defined ? category.title : 'All' }}</span>
+          <svg class="icon icon-up-arrow" aria-hidden="true" role="presentation"><use xlink:href="#icon-up-arrow"/></svg>
         </div>
+        <ul class="filters semantic-only-list">
+          <li class="{{ category is defined ? '' : 'current' }}">
+            <a href="/news/">All</a>
+          </li>
+          {% for cat in craft.categories.group('impactTypes').all() %}
+            <li class="{{ active(cat.getUrl(), 'url', 'current') }}">
+              <a href="{{ cat.getUrl() }}">{{ cat.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
       </div>
-      {% set post = impactEntries ? impactEntries[0] : false %}
-      {% if post %}
-        <div class="row-block">
-          {% include 'news/_article' %}
-        </div>
-      {% else %}
-        <p class="no-posts-found">No posts found.</p>
-      {% endif %}
-    </div>
+    {% endset %}
+    {% include 'partials/_stat-header' with {
+      filterNav: filterNav,
+      subheader: subheader,
+      statFigure: '',
+      statLabel: ''
+    } %}
   {% endif %}
 
   {# All of the rest of the posts in masonry #}
@@ -90,17 +82,17 @@
     <div class="masonry-sizer"></div>
     <ul class="semantic-only-list infinite-scroll-container">
       {% for post in impactEntries %}
-        {% if loop.index > 1 %}
-          {% if loop.index in ['3','7'] and stats|length %}
-            <li class="masonry-item -force-aspect">
-              {% include 'partials/media-blocks/_stat' with { 'block': stats|last } %}
-              {% set stats = stats|slice(0,-1) %}
-            </li>
-          {% endif %}
-          <li class="masonry-item infinite-scroll-object">
-            {% include 'news/_article' %}
+        {% if 0 and loop.index in ['3','7'] and stats|length %}
+          <li class="masonry-item -force-aspect">
+            {% include 'partials/media-blocks/_stat' with { 'block': stats|last } %}
+            {% set stats = stats|slice(0,-1) %}
           </li>
         {% endif %}
+        <li class="masonry-item infinite-scroll-object">
+          {% include 'news/_article' %}
+        </li>
+      {% else %}
+        <li class="no-posts-found">No posts found.</li>
       {% endfor %}
     </ul>
   </div>
