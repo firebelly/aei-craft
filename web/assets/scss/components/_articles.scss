@@ -137,11 +137,12 @@
 // Post Articles
 .post-module {
   position: relative;
-  padding: 0 $padding-sm ($padding-sm+36px);
+  padding: 0 $padding-sm ($padding+36px);
+
   .news-title {
     padding-top: $beat*2;
     @include media-md {
-      padding-top: $beat*3.5;
+      padding-top: $beat*2.5;
     }
   }
 
@@ -152,11 +153,14 @@
     margin: 5px 0;
   }
   .excerpt {
-    margin: 2.5*$beat 0 3.5*$beat;
+    margin: 1.5*$beat 0;
+    @include media-md {
+      margin: 2.5*$beat 0 3.5*$beat;
+    }
   }
   .button {
     position: absolute;
-    bottom: $padding-sm;
+    bottom: 4.5*$beat;
     @include media-md {
       bottom: $padding-md;
     }
@@ -184,7 +188,7 @@
   }
 }
 
-// odd/even masonry grid styles to give center column of one $padding
+// Odd/even masonry grid styles to give center column of one $padding
 .masonry-item {
   @include media-md {
     &:nth-child(odd) .post-module {

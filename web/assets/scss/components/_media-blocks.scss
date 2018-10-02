@@ -88,14 +88,14 @@
   .caption {
     background: $white;
     position: relative;
-    padding: 55px $padding $padding;
+    padding: 45px $padding $padding/2;
 
     @include media-lg {
-      padding: 55px $padding-lg $padding-lg;
+      padding: 45px $padding-lg $padding-lg/2;
     }
 
     .icon {
-      top: 38px;
+      top: 28px;
       width: 7px;
       height: 10px;
       fill: $black;
@@ -198,7 +198,9 @@
 
 .quote-carousel {
   position: relative;
-  padding-bottom: $padding*2;
+  &.slick-initialized {
+    padding-bottom: $padding;
+  }
 
   .next,
   .prev {
