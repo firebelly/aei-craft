@@ -14,12 +14,11 @@
 }
 
 .page-expertise {
-
   .intro-block {
     position: relative;
   }
-
   .masonry-grid {
+    background: $black;
     .intro-block {
       @include media-md {
         min-height: calc( (100vw - #{$padding})/2*(2/3) );
@@ -54,6 +53,7 @@
 .pagination {
   display: none;
 }
+
 // Make sure infinite scroll container is full height
 .infinite-scroll-container {
   height: 100%;

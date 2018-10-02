@@ -23,15 +23,19 @@
 
 {% block content %}
 
-  {% include 'partials/_secondary-header'
-    with {
-      'headerImage': headerImage,
-      'headerTitle': entry.title,
-    }
-  %}
+    <div class="row -use-float -halves">
+      <div class="row-block -right">
+        <div class="image-wrap -landscape">
+          {% if treatedImage %}
+            <div class="lazy image" style="background-image: url(''); background-position: center {{ headerImage.getFocalPoint()['y'] * 100 }}%" data-original="{{ treatedImage.getUrl() }}"></div>
+          {% endif %}
+        </div>
 
-    <div class="row -halves secondary-page-intro">
-      <div class="row-block {{ entry.quotes|length ? 'top-overlap-h1' : 'top-overlap-p' }}">
+        <div class="text-module background-{{ (headerColor ?? null) ? headerColor|lower : 'black' }} text-white font-smoothing">
+          <h1 class="font-h2 no-margin">{{ entry.title }}</h1>
+        </div>
+      </div>
+      <div class="row-block">
         <div class="page-intro module text-module background-white text-black">
           {% if entry.quotes|length %}
             {% set block = { 'quotes': entry.quotes } %}
