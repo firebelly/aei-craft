@@ -47,14 +47,10 @@ var FB = (function($) {
     // Fit them vids!
     $('main').fitVids();
 
-    // Addthis fallbacks for ad blockers
-    setTimeout(function() {
-      $('.share').each(function() {
-        if ($(this).find('a').length == 1) {
-          $('.addthis-fallback').removeClass('hidden');
-        }
-      })
-    }, 1000);
+    // Only show share block if addthis initializes
+    addthis.user.ready(function(d) {
+      $('.share').removeClass('hidden');
+    });
 
     // Esc handlers
     $document.keyup(function(e) {
