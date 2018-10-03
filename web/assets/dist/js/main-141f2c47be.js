@@ -24990,9 +24990,11 @@ var FB = (function($) {
     $('main').fitVids();
 
     // Only show share block if addthis initializes
-    addthis.user.ready(function(d) {
-      $('.share').removeClass('hidden');
-    });
+    if (typeof addthis !== 'undefined' && addthis.user) {
+      addthis.user.ready(function(d) {
+        $('.share').removeClass('hidden');
+      });
+    }
 
     // Esc handlers
     $document.keyup(function(e) {
