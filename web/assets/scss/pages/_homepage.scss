@@ -11,18 +11,18 @@
     .stamp {
       display: block;
       position: absolute;
-      bottom: $padding-sm;
+      top: $padding-sm;
       right: $padding-sm;
       width: 25%;
       height: auto;
       @include media-md {
-        bottom: $padding-md;
-        left: $padding-md;
+        top: $padding-md;
+        right: $padding-md;
         width: 15%;
       }
       @include media-lg {
-        bottom: $padding-lg;
-        left: $padding-lg;
+        top: $padding-lg;
+        right: $padding-lg;
       }
     }
   }
