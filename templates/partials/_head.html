@@ -21,7 +21,7 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
 
-    gtag('config', 'UA-123910148-1');
+    gtag('config', '{{ getenv('GA_PROPERTY') }}';
   </script>
   {% endif %}
 

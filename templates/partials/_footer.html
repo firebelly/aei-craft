@@ -15,13 +15,13 @@
 
 <script type="text/javascript">
   var addthis_config = {
-    'pubid': 'ra-5bb39b6cf9cc24bb',
+    'pubid': '{{ getenv('ADDTHIS_PUBID') }}',
     "services_compact": 'twitter,facebook,linkedin,pinterest,email',
     "ui_cobrand": 'AEI',
     "ui_508_compliant": true,
-    "data_ga_property": 'UA-123910148-1',
+    "data_ga_property": '{{ getenv('GA_PROPERTY') }}',
     "data_ga_social": true
   };
 </script>
-<script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5bb39b6cf9cc24bb"></script>
+<script src="//s7.addthis.com/js/300/addthis_widget.js#pubid={{ getenv('ADDTHIS_PUBID') }}"></script>
 <script src="{{ rev('js/main.js') }}"></script>

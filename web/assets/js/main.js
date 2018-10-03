@@ -47,6 +47,15 @@ var FB = (function($) {
     // Fit them vids!
     $('main').fitVids();
 
+    // Addthis fallbacks for ad blockers
+    setTimeout(function() {
+      $('.share').each(function() {
+        if ($(this).find('a').length == 1) {
+          $('.addthis-fallback').removeClass('hidden');
+        }
+      })
+    }, 1000);
+
     // Esc handlers
     $document.keyup(function(e) {
       if (e.keyCode === 27) {

@@ -1,4 +1,15 @@
+{% set seo = getSeoField() %}
+{% if seo is null or seo.title == '' %}
+  {% set seo = craft.seo.custom(siteName, '', false) %}
+{% endif -%}
+{% if title is defined %}
+	{% set share_title = title ~ ' | ' ~ siteName %}
+{% else %}
+	{% set share_title = seo.title %}
+{% endif %}
 <div class="share">
   <h3>Share</h3>
-  <div class="addthis_inline_share_toolbox"></div>
+  <div class="addthis_inline_share_toolbox">
+	  <a class="hidden addthis-fallback" href="https://www.addthis.com/bookmark.php?v=300&amp;pubid={{ getenv('ADDTHIS_PUBID') }}&amp;url={{ craft.app.request.getAbsoluteUrl()|url_encode }}&amp;title={{ share_title|url_encode }}" rel="nofollow">Share Post</a>
+  </div>
 </div>
