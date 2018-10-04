@@ -1,6 +1,6 @@
 {% set image = block.image[0] ?? null %}
 {% set aspectRatio = 'landscape' %}
-{% if image %}
+{% if image and image.kind == 'image' %}
   {% set aspectRatio = block.image[0].getWidth() > block.image[0].getHeight() ? 'landscape' : 'portrait' %}
   {% set imageWidth = block.width == 'full' ? 1600 : 800 %}
   {% set treatedImage = craft.imager.transformImage(image, { width: imageWidth }) %}
