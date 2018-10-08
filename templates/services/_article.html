@@ -1,12 +1,14 @@
 <article class="module service-module zoom-hover bigclicky">
-  <div class="image-wrap -square">
-    {% set image = service.serviceImage.one() %}
-    {% if image %}
-      {% set treatedImage = craft.imager.transformImage(image, { width: 800 }) %}
-      {% if treatedImage %}
-        <div class="lazy image" style="background-image: url('');" data-original="{{ treatedImage.getUrl() }}"></div>
+  <div class="image-wrap-edge">
+    <div class="image-wrap -square">
+      {% set image = service.serviceImage.one() %}
+      {% if image %}
+        {% set treatedImage = craft.imager.transformImage(image, { width: 800 }) %}
+        {% if treatedImage %}
+          <div class="lazy image" style="background-image: url('');" data-original="{{ treatedImage.getUrl() }}"></div>
+        {% endif %}
       {% endif %}
-    {% endif %}
+    </div>
   </div>
   <div class="text pad">
     <h2 class="name font-p no-margin no-underline"><a href="{{ service.getUrl() }}">{{ service.title }}</a></h2>

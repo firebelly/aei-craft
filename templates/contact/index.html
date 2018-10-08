@@ -23,14 +23,14 @@
   </div>
 </div>
 
-  <section id="offices">
-    <ul class="row -quarters photo-row-separators semantic-only-list">
-      {% for entry in officeEntries %}
-        <li class="row-block separate">
-          {% include 'offices/_article' %}
-        </li>
-      {% endfor %}
-    </ul>
-  </section>
+<div id="offices">
+  <ul class="row -quarters photo-row-separators semantic-only-list">
+    {% for entry in officeEntries %}
+      <li class="row-block separate">
+        {% include 'offices/_article' %}
+      </li>
+    {% endfor %}
+  </ul>
+</div>
 
 {% endblock %}

@@ -73,7 +73,7 @@
   } %}
 
   {# people -quarters #}
-  <section id="people">
+  <div id="people">
     <ul class="row -quarters photo-row-separators semantic-only-list infinite-scroll-container">
       {% for person in peopleEntries %}
         <li class="row-block infinite-scroll-object">
@@ -81,7 +81,7 @@
         </li>
       {% endfor %}
     </ul>
-  </section>
+  </div>
 
   <nav class="pagination" data-total-pages="{{ paginationInfo.totalPages }}">
     <ul>

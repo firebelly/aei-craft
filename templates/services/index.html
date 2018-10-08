@@ -20,7 +20,7 @@
     statLabel: entry.statHeader.statLabel
   } %}
 
-  <section id="services">
+  <div id="services">
     <ul class="row -quarters photo-row-separators semantic-only-list">
     {% for service in craft.categories.group('services').all() %}
       <li class="row-block">
@@ -28,6 +28,6 @@
       </li>
     {% endfor %}
     </ul>
-  </section>
+  </div>
 
 {% endblock %}
