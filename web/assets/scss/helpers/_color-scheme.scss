@@ -25,6 +25,7 @@ $colors: (
   }
 
   .project-module.color-#{$color-key} {
+    background: $color;
     &::before,
     &::after {
       background: $color;
