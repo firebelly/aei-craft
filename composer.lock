@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "17189dd7540050c3ee1089b6348f7adc",
+    "content-hash": "106910bd829c137c00fbc88fc8dd9ab8",
     "packages": [
         {
             "name": "aelvan/imager",
@@ -938,18 +938,15 @@
         },
         {
             "name": "davechild/textstatistics",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DaveChild/Text-Statistics/zipball/6196462b4fe730a8ff0019036baf362295c161b3",
-                "reference": "6196462b4fe730a8ff0019036baf362295c161b3",
+                "url": "https://api.github.com/repos/DaveChild/Text-Statistics/zipball/dd16252a5c78fad6f8ea4fcd7e55d14fd07b1382",
+                "reference": "dd16252a5c78fad6f8ea4fcd7e55d14fd07b1382",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "4.2.*"
             },
             "suggest": {
                 "ext-bcmath": "More accurate floating point calculations.",
@@ -966,7 +963,6 @@
                     "DaveChild\\TextStatistics": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-2-Clause"
             ],
@@ -980,7 +976,7 @@
             ],
             "description": "PHP package to measure the readability of text according to various algorithms.",
             "homepage": "https://github.com/DaveChild/Text-Statistics",
-            "time": "2015-04-22T14:55:55+00:00"
+            "time": "2018-06-19T09:25:42+00:00"
         },
         {
             "name": "doctrine/lexer",
@@ -2703,11 +2699,11 @@
         },
         {
             "name": "mundschenk-at/php-typography",
-            "version": "v6.1.5",
+            "version": "v6.3.0",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mundschenk-at/php-typography/zipball/8f2be6c39e4ae53515bbf802aeaec88bee3818b5",
-                "reference": "8f2be6c39e4ae53515bbf802aeaec88bee3818b5",
+                "url": "https://api.github.com/repos/mundschenk-at/php-typography/zipball/a00c1db1dce31b1afaea5467c6d7b4c7f12d4f6d",
+                "reference": "a00c1db1dce31b1afaea5467c6d7b4c7f12d4f6d",
                 "shasum": ""
             },
             "require": {
@@ -2715,17 +2711,6 @@
                 "ext-pcre": "*",
                 "masterminds/html5": "^2.3.0",
                 "php": ">=5.6.0"
-            },
-            "require-dev": {
-                "brain/monkey": "^2.2.0",
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.4.3",
-                "ext-curl": "*",
-                "phpbench/phpbench": "^0.13||^1.0@dev",
-                "phpstan/phpstan": "^0.9",
-                "phpunit/phpunit": "5.*||6.*|7.*",
-                "squizlabs/php_codesniffer": "^3.2",
-                "wimg/php-compatibility": "^8.0",
-                "wp-coding-standards/wpcs": "^0.14.0"
             },
             "bin": [
                 "src/bin/update-patterns.php",
@@ -2737,7 +2722,6 @@
                     "src/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -2756,15 +2740,15 @@
                 }
             ],
             "description": "A PHP library for improving your web typography",
-            "time": "2018-05-10T10:36:45+00:00"
+            "time": "2018-09-08T21:30:54+00:00"
         },
         {
             "name": "nystudio107/craft-similar",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nystudio107/craft-similar/zipball/92dfb33f8a0f64b04ca24a200d5928c1daaaf46f",
-                "reference": "92dfb33f8a0f64b04ca24a200d5928c1daaaf46f",
+                "url": "https://api.github.com/repos/nystudio107/craft-similar/zipball/f463c19fa7029a007812627dc59691a7243baf14",
+                "reference": "f463c19fa7029a007812627dc59691a7243baf14",
                 "shasum": ""
             },
             "require": {
@@ -2811,7 +2795,7 @@
                 "docs": "https://github.com/nystudio107/craft-similar/blob/v1/README.md",
                 "issues": "https://github.com/nystudio107/craft-similar/issues"
             },
-            "time": "2018-08-05T00:34:05+00:00"
+            "time": "2018-10-08T14:41:02+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -3814,14 +3798,15 @@
         },
         {
             "name": "topshelfcraft/wordsmith",
-            "version": "3.0.2",
+            "version": "3.0.3",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TopShelfCraft/Wordsmith/zipball/44b7ca6fa1ad4b4b645dd52fcb4cd06ffd5f215a",
-                "reference": "44b7ca6fa1ad4b4b645dd52fcb4cd06ffd5f215a",
+                "url": "https://api.github.com/repos/TopShelfCraft/Wordsmith/zipball/802fd83afd84c4704071ff80182e8b742cb93530",
+                "reference": "802fd83afd84c4704071ff80182e8b742cb93530",
                 "shasum": ""
             },
             "require": {
+                "craftcms/cms": "^3.0.0",
                 "danielstjules/stringy": "~3.1.0",
                 "davechild/textstatistics": "^1.0",
                 "erusev/parsedown-extra": "^0.7.1",
@@ -3850,7 +3835,6 @@
                     "topshelfcraft\\wordsmith\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3862,13 +3846,17 @@
             ],
             "description": "...because you have the best words.",
             "keywords": [
-                "Craft",
                 "cms",
+                "craft",
                 "craft-plugin",
                 "craftcms",
                 "wordsmith"
             ],
-            "time": "2017-12-31T18:01:39+00:00"
+            "support": {
+                "docs": "https://wordsmith.docs.topshelfcraft.com/",
+                "issues": "https://github.com/topshelfcraft/wordsmith/issues"
+            },
+            "time": "2018-09-04T23:22:37+00:00"
         },
         {
             "name": "true/punycode",
