@@ -10454,7 +10454,7 @@ return jQuery;
 // Works with either jQuery or Zepto
 })( window.jQuery || window.Zepto );
 
-/*! VelocityJS.org (1.5.0). (C) 2014 Julian Shapiro. MIT @license: en.wikipedia.org/wiki/MIT_License */
+/*! VelocityJS.org (1.5.2). (C) 2014 Julian Shapiro. MIT @license: en.wikipedia.org/wiki/MIT_License */
 
 /*************************
  Velocity jQuery Shim
@@ -11233,7 +11233,7 @@ return jQuery;
 			hook: null, /* Defined below. */
 			/* Velocity-wide animation time remapping for testing purposes. */
 			mock: false,
-			version: {major: 1, minor: 5, patch: 1},
+			version: {major: 1, minor: 5, patch: 2},
 			/* Set to 1 or 2 (most verbose) to output debug info to console. */
 			debug: false,
 			/* Use rAF high resolution timestamp when available */
@@ -13291,10 +13291,10 @@ return jQuery;
 										if (propertiesMap === "stop") {
 											/* Since "reverse" uses cached start values (the previous call's endValues), these values must be
 											 changed to reflect the final value that the elements were actually tweened to. */
-											/* Note: If only queue:false animations are currently running on an element, it won't have a tweensContainer
-											 object. Also, queue:false animations can't be reversed. */
+											/* Note: If only queue:false/queue:"custom" animations are currently running on an element, it won't have a tweensContainer
+											 object. Also, queue:false/queue:"custom" animations can't be reversed. */
 											var data = Data(element);
-											if (data && data.tweensContainer && queueName !== false) {
+											if (data && data.tweensContainer && (queueName === true || queueName === "")) {
 												$.each(data.tweensContainer, function(m, activeTween) {
 													activeTween.endValue = activeTween.currentValue;
 												});
@@ -18696,7 +18696,7 @@ return Outlayer;
 
 
 /*!
- * Infinite Scroll PACKAGED v3.0.4
+ * Infinite Scroll PACKAGED v3.0.5
  * Automatically add next page
  *
  * Licensed GPLv3 for open source use
@@ -19593,6 +19593,10 @@ proto.destroy = function() {
 
   delete this.element.infiniteScrollGUID;
   delete instances[ this.guid ];
+  // remove jQuery data. #807
+  if ( jQuery && this.$element ) {
+    jQuery.removeData( this.element, 'infiniteScroll' );
+  }
 };
 
 // -------------------------- utilities -------------------------- //
@@ -19633,6 +19637,9 @@ InfiniteScroll.setJQuery = function( $ ) {
 // -------------------------- setup -------------------------- //
 
 utils.htmlInit( InfiniteScroll, 'infinite-scroll' );
+
+// add noop _init method for jQuery Bridget. #768
+proto._init = function() {};
 
 if ( jQuery && jQuery.bridget ) {
   jQuery.bridget( 'infiniteScroll', InfiniteScroll );
@@ -20475,7 +20482,7 @@ return InfiniteScroll;
 }));
 
 /*!
- * Infinite Scroll v3.0.4
+ * Infinite Scroll v3.0.5
  * Automatically add next page
  *
  * Licensed GPLv3 for open source use
@@ -24975,7 +24982,7 @@ var FB = (function($) {
     // Cache some common DOM queries
     $document = $(document);
     $header = $('.site-header');
-    $body = $('body');
+    $body = $('document.body');
     $siteNav = $('.site-nav');
     $masonryGrid = $('.masonry-grid');
     $body.addClass('loaded');
@@ -25060,6 +25067,7 @@ var FB = (function($) {
     _hangQuotes();
     _truncateLists();
     _initInfiniteScroll();
+    _initSearchStickyHeaders($body[0]);
 
     // After page loads
     $(window).on('load',function() {
@@ -25286,7 +25294,6 @@ var FB = (function($) {
           history.pushState({'ajax': true} , title, $this.attr('action')+'?'+$this.serialize());
         }
         var $content = $('#search-modal .results');
-        var $scrollContext = $('#search-modal .scroll-wrap');
 
         // Populate search results
         $content.html(data);
@@ -25315,18 +25322,24 @@ var FB = (function($) {
           });
         }
 
-        // Make header titles sticky
-        $('.sticky-header').each(function() {
-          $this = $(this);
-          var sticky = new Waypoint.Sticky({
-            element: $this[0],
-            context: $scrollContext[0],
-          });
-        });
+        // Sticky the search column titles
+        _initSearchStickyHeaders($('#search-modal .scroll-wrap')[0]);
 
         // Required to maintain width on sticky headers
         _fixStickyHeaderWidths();
 
+      });
+    });
+  }
+
+  function _initSearchStickyHeaders(context) {
+    // Make header titles sticky
+    $('.search-results .sticky-header').each(function() {
+      $this = $(this);
+      var sticky = new Waypoint.Sticky({
+        element: $this[0],
+        context: context,
+        wrapper: '<div class="search-sticky-wrapper" />'
       });
     });
   }

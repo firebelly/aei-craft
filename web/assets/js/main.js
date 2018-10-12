@@ -33,7 +33,7 @@ var FB = (function($) {
     // Cache some common DOM queries
     $document = $(document);
     $header = $('.site-header');
-    $body = $('body');
+    $body = $('document.body');
     $siteNav = $('.site-nav');
     $masonryGrid = $('.masonry-grid');
     $body.addClass('loaded');
@@ -118,6 +118,7 @@ var FB = (function($) {
     _hangQuotes();
     _truncateLists();
     _initInfiniteScroll();
+    _initSearchStickyHeaders($body[0]);
 
     // After page loads
     $(window).on('load',function() {
@@ -344,7 +345,6 @@ var FB = (function($) {
           history.pushState({'ajax': true} , title, $this.attr('action')+'?'+$this.serialize());
         }
         var $content = $('#search-modal .results');
-        var $scrollContext = $('#search-modal .scroll-wrap');
 
         // Populate search results
         $content.html(data);
@@ -373,18 +373,24 @@ var FB = (function($) {
           });
         }
 
-        // Make header titles sticky
-        $('.sticky-header').each(function() {
-          $this = $(this);
-          var sticky = new Waypoint.Sticky({
-            element: $this[0],
-            context: $scrollContext[0],
-          });
-        });
+        // Sticky the search column titles
+        _initSearchStickyHeaders($('#search-modal .scroll-wrap')[0]);
 
         // Required to maintain width on sticky headers
         _fixStickyHeaderWidths();
 
+      });
+    });
+  }
+
+  function _initSearchStickyHeaders(context) {
+    // Make header titles sticky
+    $('.search-results .sticky-header').each(function() {
+      $this = $(this);
+      var sticky = new Waypoint.Sticky({
+        element: $this[0],
+        context: context,
+        wrapper: '<div class="search-sticky-wrapper" />'
       });
     });
   }
