@@ -12,9 +12,12 @@
   </div>
 
   <div class="news-title">
-    {% set impactType = post.impactType[0] ?? null %}
-    {% if impactType %}
-      <div class="category font-details">{{ impactType }}</div>
+    {% if post.impactType|length %}
+      <div class="category font-details">
+        {% for impactType in post.impactType %}
+            {{ impactType.title }}{{ loop.index < loop.length ? ' | ' : '' }}
+        {% endfor %}
+      </div>
     {% endif %}
     <h2 class="title"><a href="{{ post.getUrl() }}">{{ post.title }}</a></h2>
     <p class="excerpt">{{ post.excerpt ? post.excerpt : post.body | chop(limit=20, unit='w', append='…') }}</p>

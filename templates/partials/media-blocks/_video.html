@@ -16,9 +16,9 @@
         <div class="image lazy" style="background-image: url(); background-position: center {{ image.getFocalPoint()['y'] * 100 }}%" data-original="{{ treatedImage.getUrl() }}">
       {% endif %}
     {% endif %}
-      {% if block.youtubeUrl %}
-        <button class="button -solid theater-play text-white background-red absolute-center">Play Video<svg class="icon icon-triangle"><use xlink:href="#icon-triangle" /></svg></button>
-      {% endif %}
+    {% if block.youtubeUrl %}
+      <button class="button -solid theater-play text-white background-red absolute-center">Play Video<svg class="icon icon-triangle"><use xlink:href="#icon-triangle" /></svg></button>
+    {% endif %}
     </div>
     {% if block.youtubeUrl %}
       <div class="player-wrap fluid-width-video-wrapper fill">

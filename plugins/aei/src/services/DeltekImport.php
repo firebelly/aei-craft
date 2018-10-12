@@ -228,7 +228,7 @@ class DeltekImport extends Component
     private function importOffices() {
         $officesImport = new SectionImport('Offices');
         $officesImport->setImportMode($this->importMode);
-        $result = $this->deltekDb->query("SELECT * FROM offices");
+        $result = $this->deltekDb->query('SELECT * FROM offices');
         foreach($result as $row) {
             // Filter by deltek_ids passed in?
             if (!empty($this->deltekIds) && !in_array($row['office_name'], $this->deltekIds)) continue;
@@ -361,7 +361,7 @@ class DeltekImport extends Component
     private function importPeople() {
         $peopleImport = new SectionImport('People');
         $peopleImport->setImportMode($this->importMode);
-        $result = $this->deltekDb->query("SELECT * FROM employees");
+        $result = $this->deltekDb->query('SELECT * FROM employees');
         foreach($result as $row) {
             // Filter by deltek_ids passed in?
             if (!empty($this->deltekIds) && !in_array($row['employee_num'], $this->deltekIds)) continue;
@@ -484,7 +484,7 @@ class DeltekImport extends Component
     private function importAwards() {
         $awardsImport = new SectionImport('Awards');
 
-        $result = $this->deltekDb->query("SELECT * FROM project_awards");
+        $result = $this->deltekDb->query('SELECT * FROM project_awards');
         foreach($result as $row) {
             // Filter by deltek_ids passed in?
             if (!empty($this->deltekIds) && !in_array($row['award_key'], $this->deltekIds)) continue;
@@ -524,7 +524,7 @@ class DeltekImport extends Component
         $impactImport = new SectionImport('Impact');
         $impactImport->setImportMode($this->importMode);
 
-        $result = $this->deltekDb->query("SELECT * FROM impacts");
+        $result = $this->deltekDb->query('SELECT * FROM impacts');
         foreach($result as $row) {
             // Filter by deltek_ids passed in?
             if (!empty($this->deltekIds) && !in_array($row['impact_key'], $this->deltekIds)) continue;
@@ -614,6 +614,15 @@ class DeltekImport extends Component
                 }
             }
 
+            // Find Impact Type IDs
+            $impactTypeIds = [];
+            foreach (explode(',', $row['category']) as $categoryTitle) {
+                $category = $this->getCategory('impactTypes', trim($categoryTitle));
+                if ($category) {
+                    $impactTypeIds[] = $category->id;
+                }
+            }
+
             // Associate Projects with Impact
             $projectIds = [];
             $relResult = $this->deltekDb->prepare("SELECT * FROM impact_projects WHERE impact_key = ?");
@@ -629,8 +638,9 @@ class DeltekImport extends Component
                 }
             }
 
-            // Some fields have duplicate contexts based on category
-            if ($row['category']=='Presentations') {
+            // Some fields have duplicate contexts based on impact_type
+            // ($row['impact_type'] can be Blog, Presentation or Article — not mapped in Craft)
+            if ($row['impact_type']=='Presentation') {
                 $sessionDate = new \DateTime($row['session_date']);
                 $conferenceUrl = $this->validUrl($row['url']);
                 $conferenceHost = $row['host_or_publication'];
@@ -642,7 +652,6 @@ class DeltekImport extends Component
                 $conferenceHost = '';
                 $impactPublication = $row['host_or_publication'];
                 $impactPublicationUrl = $this->validUrl($row['url']);
-                $impactPublicationDate = $this->validUrl($row['session_date']);
             }
 
             $fields = array_merge($fields, [
@@ -654,7 +663,7 @@ class DeltekImport extends Component
                 'impactPublication'    => $impactPublication,
                 'impactPublicationUrl' => $impactPublicationUrl,
                 'markets'              => $marketIds,
-                'impactType'           => $this->getImpactType($row['category']),
+                'impactType'           => $impactTypeIds,
                 'impactPeople'         => $this->getImpactPeopleMatrix($row['impact_key']),
                 'impactKey'            => $row['impact_key'],
                 'relatedProjects'      => $projectIds,
@@ -982,16 +991,10 @@ class DeltekImport extends Component
     }
 
     /**
-     * Find Impact Type
-     * @param  string $impactType title of impact type
-     * @return array              Impact Type IDs
+     * Find Photo by filename
+     * @param  string $filename   Name of file
+     * @return array              Craft Image ID
      */
-    private function getImpactType(string $impactType)
-    {
-        $category = $this->getCategory('impactTypes', $impactType);
-        return ($category) ? [$category->id] : [];
-    }
-
     private function getPhoto($filename)
     {
         if (empty($filename)) {
