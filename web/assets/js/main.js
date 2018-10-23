@@ -33,7 +33,7 @@ var FB = (function($) {
     // Cache some common DOM queries
     $document = $(document);
     $header = $('.site-header');
-    $body = $('document.body');
+    $body = $('body');
     $siteNav = $('.site-nav');
     $masonryGrid = $('.masonry-grid');
     $body.addClass('loaded');
