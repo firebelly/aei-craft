@@ -28,11 +28,17 @@ gulp.task('styles', function() {
     .on('error', notify.onError(function(error) {
        return 'Styles error!' + error;
     }))
-    .pipe(autoprefixer())
-    .pipe(gulpif(isProduction, cssnano()))
+    .pipe(autoprefixer({
+      browsers: [
+        'last 2 versions',
+        'android 4',
+        'opera 12'
+      ]
+    }))
+    .pipe(cssnano({
+      safe: true
+    }))
     .pipe(gulp.dest('web/assets/dist/css'))
-    .pipe(gulpif(!isProduction, sourcemaps.write('maps')))
-    .pipe(gulpif(!isProduction, gulp.dest('web/assets/dist/css')))
     .pipe(browserSync.stream({match: '**/*.css'}))
     .pipe(notify({message: 'Styles smashed.', onLast: true}));
 });
@@ -45,6 +51,11 @@ gulp.task('scripts', function() {
     .pipe(include())
     .pipe(concat('main.js'))
     .pipe(gulpif(!isProduction, sourcemaps.init()))
+    .pipe(uglify({
+      compress: {
+        'drop_debugger': isProduction
+      }
+    }))
     .on('error', notify.onError(function(error) {
        return 'Script error!' + error;
     }))
