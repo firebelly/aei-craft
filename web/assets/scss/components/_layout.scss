@@ -24,7 +24,8 @@
   }
 }
 
-// No sidebar on Homepage/Search page
+// No sidebar on Homepage/Search/404 pages
+body#fourohfour-page,
 body.page-home,
 body.page-search {
   .right-col-wrap {
