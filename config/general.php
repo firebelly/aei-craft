@@ -45,6 +45,6 @@ return [
 
     // Production environment settings
     'production' => [
-        'siteUrl' => 'https://www.aeieng.com',
+        'siteUrl' => 'https://aeieng.com',
     ],
 ];
