@@ -17,8 +17,8 @@ RewriteCond %{HTTP_HOST} !^aeieng\.webfactional\.com [NC]
 RewriteCond %{HTTP_HOST} !^aei-craft\.localhost [NC]
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
-# Redirect old site /index.php/foo URLs to something we can match on to redirect (Craft uses /index.php?p= so we can't match on requests to ^index.php)
-RewriteRule ^index.php/(.*)$ /oldsite/$1 [R=302,L,QSA]
+# Just redirect all of the old site URLs (e.g. index.php/foo) to the homepage
+RewriteRule ^index.php/(.*)$ / [R=302,L,QSA]
 </IfModule>
 
 <IfModule mod_rewrite.c>
