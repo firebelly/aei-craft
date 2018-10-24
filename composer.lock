@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "106910bd829c137c00fbc88fc8dd9ab8",
+    "content-hash": "e58f3898634aa4bebc1bea1feb8f127c",
     "packages": [
         {
             "name": "aelvan/imager",
@@ -341,11 +341,11 @@
         },
         {
             "name": "composer/ca-bundle",
-            "version": "1.1.2",
+            "version": "1.1.3",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/46afded9720f40b9dc63542af4e3e43a1177acb0",
-                "reference": "46afded9720f40b9dc63542af4e3e43a1177acb0",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/8afa52cd417f4ec417b4bfe86b68106538a87660",
+                "reference": "8afa52cd417f4ec417b4bfe86b68106538a87660",
                 "shasum": ""
             },
             "require": {
@@ -382,7 +382,7 @@
                 "ssl",
                 "tls"
             ],
-            "time": "2018-08-08T08:57:40+00:00"
+            "time": "2018-10-18T06:09:13+00:00"
         },
         {
             "name": "composer/composer",
@@ -616,11 +616,11 @@
         },
         {
             "name": "craftcms/cms",
-            "version": "3.0.26.1",
+            "version": "3.0.28",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craftcms/cms/zipball/61fb42721fc40e65b0f6b459c8c0b47dd5d91146",
-                "reference": "61fb42721fc40e65b0f6b459c8c0b47dd5d91146",
+                "url": "https://api.github.com/repos/craftcms/cms/zipball/0c970e0bfb981b7d5db3364c4a638cd6d8427a94",
+                "reference": "0c970e0bfb981b7d5db3364c4a638cd6d8427a94",
                 "shasum": ""
             },
             "require": {
@@ -691,7 +691,7 @@
                 "docs": "https://github.com/craftcms/docs",
                 "rss": "https://github.com/craftcms/cms/releases.atom"
             },
-            "time": "2018-09-29T22:15:04+00:00"
+            "time": "2018-10-23T19:13:20+00:00"
         },
         {
             "name": "craftcms/oauth2-craftid",
@@ -2238,11 +2238,11 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.47",
+            "version": "1.0.48",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/a11e4a75f256bdacf99d20780ce42d3b8272975c",
-                "reference": "a11e4a75f256bdacf99d20780ce42d3b8272975c",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/a6ded5b2f6055e2db97b4b859fdfca2b952b78aa",
+                "reference": "a6ded5b2f6055e2db97b4b859fdfca2b952b78aa",
                 "shasum": ""
             },
             "require": {
@@ -2308,7 +2308,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2018-09-14T15:30:29+00:00"
+            "time": "2018-10-15T13:53:10+00:00"
         },
         {
             "name": "league/oauth2-client",
@@ -3952,11 +3952,11 @@
         },
         {
             "name": "verbb/expanded-singles",
-            "version": "1.0.4",
+            "version": "1.0.5",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/verbb/expanded-singles/zipball/0d5d80ff5fec1f2a8a70c0f981efa4650211a479",
-                "reference": "0d5d80ff5fec1f2a8a70c0f981efa4650211a479",
+                "url": "https://api.github.com/repos/verbb/expanded-singles/zipball/5bae5c6d0a0fec8a051d5598dabf08183ebe5dc1",
+                "reference": "5bae5c6d0a0fec8a051d5598dabf08183ebe5dc1",
                 "shasum": ""
             },
             "require": {
@@ -4003,7 +4003,7 @@
                 "docs": "https://github.com/verbb/expanded-singles",
                 "rss": "https://github.com/verbb/expanded-singles/commits/v2.atom"
             },
-            "time": "2018-07-04T22:06:04+00:00"
+            "time": "2018-10-24T06:48:41+00:00"
         },
         {
             "name": "verbb/redactor-tweaks",
@@ -4061,11 +4061,11 @@
         },
         {
             "name": "verbb/super-table",
-            "version": "2.0.10",
+            "version": "2.0.11",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/verbb/super-table/zipball/d26e2dd76c1bfe65784418bd4b95204bfe7ff947",
-                "reference": "d26e2dd76c1bfe65784418bd4b95204bfe7ff947",
+                "url": "https://api.github.com/repos/verbb/super-table/zipball/62380011921bc820677d985535bff5e628859db0",
+                "reference": "62380011921bc820677d985535bff5e628859db0",
                 "shasum": ""
             },
             "require": {
@@ -4112,7 +4112,7 @@
                 "docs": "https://github.com/verbb/super-table",
                 "rss": "https://github.com/verbb/super-table/commits/v2.atom"
             },
-            "time": "2018-09-26T11:54:43+00:00"
+            "time": "2018-10-24T10:11:22+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
