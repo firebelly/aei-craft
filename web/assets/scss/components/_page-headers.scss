@@ -43,13 +43,19 @@
   position: relative;
   overflow: hidden;
 
+  // For IE11 to make flex-grow work below (?!)
+  height: 0;
+
   @include media-md {
     display: flex;
     flex-direction: column;
     min-height: calc((100vw - #{$padding})*9/16);
 
-    .row:first-child {
+    .row.theater-cover-top {
       flex: 1 1 auto;
+    }
+    .row.theater-cover-bottom {
+      flex: 0 1 auto;
     }
 
     .theater-hero .theater-play {
