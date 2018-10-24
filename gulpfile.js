@@ -39,6 +39,8 @@ gulp.task('styles', function() {
       safe: true
     }))
     .pipe(gulp.dest('web/assets/dist/css'))
+    .pipe(gulpif(!isProduction, sourcemaps.write('maps')))
+    .pipe(gulpif(!isProduction, gulp.dest('web/assets/dist/css')))
     .pipe(browserSync.stream({match: '**/*.css'}))
     .pipe(notify({message: 'Styles smashed.', onLast: true}));
 });
