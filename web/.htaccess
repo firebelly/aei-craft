@@ -2,6 +2,7 @@
 RewriteEngine On
 
 # Less-intensive 404s for missing assets
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule \.(jpg|jpeg|png|gif|ico|icns|swf|bmp)$ - [NC,R=404,L]
 
 # Force single domain
