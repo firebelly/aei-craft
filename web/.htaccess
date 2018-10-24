@@ -10,7 +10,7 @@ RewriteCond %{HTTP_HOST} !^aeieng\.com [NC]
 RewriteCond %{HTTP_HOST} !^aeieng\.webfactional\.com [NC]
 RewriteCond %{HTTP_HOST} !^aei-craft\.firebelly\.co [NC]
 RewriteCond %{HTTP_HOST} !^aei-craft\.localhost [NC]
-RewriteRule ^(.*)$ https:/aeieng\.com%{REQUEST_URI} [R=301,L]
+RewriteRule ^(.*)$ https://aeieng\.com%{REQUEST_URI} [R=301,L]
 
 # Force HTTPS
 RewriteCond %{REQUEST_URI} !\.well-known
