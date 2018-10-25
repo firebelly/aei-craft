@@ -93,7 +93,7 @@
               <h3>Awards</h3>
               <div class="content -spaced">
                 <ul class="semantic-only-list truncate-list">
-                  {% for award in entry.projectAwards.all() %}
+                  {% for award in entry.projectAwards.orderBy('awardDate DESC').all() %}
                     <li>{{ award.title }}</li>
                   {% endfor %}
                 </ul>
