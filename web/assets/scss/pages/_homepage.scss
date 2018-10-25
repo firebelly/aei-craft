@@ -26,7 +26,12 @@
       }
     }
   }
-
+  // Add padding on news blocks
+  .featured-news {
+    .post-module {
+      padding-top: $padding;
+    }
+  }
   @include media-md {
     .theater-header {
       .text-module {
