@@ -55,8 +55,7 @@ body.nav-stuck {
 
   // Hide mobile-filters once the sidebar shows up
   @include media-lg {
-    height: 1px;
-    overflow: hidden;
+    display: none;
   }
 
   .filter-header {
