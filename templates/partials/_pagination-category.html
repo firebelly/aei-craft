@@ -1,10 +1,10 @@
   {# Pagination for Categories #}
-  {% set prevCategory = category.prevSibling %}
+  {% set prevCategory = craft.categories().groupId(category.group.id).positionedBefore(category).orderBy('lft desc').one() %}
   {% if not prevCategory %}
     {% set prevCategory = craft.categories().groupId(category.group.id).inReverse().one() %}
   {% endif %}
 
-  {% set nextCategory = category.nextSibling %}
+  {% set nextCategory = craft.categories().groupId(category.group.id).positionedAfter(category).orderBy('lft asc').one() %}
   {% if not nextCategory %}
     {% set nextCategory = craft.categories().groupId(category.group.id).one() %}
   {% endif %}
