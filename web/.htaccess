@@ -21,6 +21,25 @@ RewriteCond %{HTTP_HOST} !^aeieng\.webfactional\.com [NC]
 RewriteCond %{HTTP_HOST} !^aei-craft\.localhost [NC]
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
+# Handle old office number URLs
+RewriteRule ^index\.php/0000/?$ /contact/ [R=301,L]
+RewriteRule ^index\.php/3600/?$ /contact/atlanta [R=301,L]
+RewriteRule ^index\.php/3900/?$ /contact/baltimore [R=301,L]
+RewriteRule ^index\.php/4500/?$ /contact/chapel [R=301,L]
+RewriteRule ^index\.php/4700/?$ /contact/chicago [R=301,L]
+RewriteRule ^index\.php/4011/?$ /contact/denver [R=301,L]
+RewriteRule ^index\.php/4100/?$ /contact/gainesville [R=301,L]
+RewriteRule ^index\.php/4800/?$ /contact/houston [R=301,L]
+RewriteRule ^index\.php/3500/?$ /contact/los [R=301,L]
+RewriteRule ^index\.php/4000/?$ /contact/madison [R=301,L]
+RewriteRule ^index\.php/4900/?$ /contact/phoenix [R=301,L]
+RewriteRule ^index\.php/4201/?$ /contact/portland [R=301,L]
+RewriteRule ^index\.php/4300/?$ /contact/san [R=301,L]
+RewriteRule ^index\.php/4200/?$ /contact/seattle [R=301,L]
+RewriteRule ^index\.php/4101/?$ /contact/tampa [R=301,L]
+RewriteRule ^index\.php/4600/?$ /contact/washington [R=301,L]
+RewriteRule ^index\.php/3800/?$ /contact/leicester [R=301,L]
+
 # Just redirect all of the old site URLs (e.g. index.php/foo) to the homepage
 RewriteRule ^index.php/(.*)$ / [R=302,L,QSA]
 </IfModule>
