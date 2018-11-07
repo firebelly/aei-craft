@@ -12,7 +12,7 @@
       'markets',
       'projectImage'
     ]
-  }).orderBy('featured DESC, postDate DESC').limit(20) as paginationInfo, projectEntries %}
+  }).limit(20) as paginationInfo, projectEntries %}
 
   {% set title = category.title %}
   {% set subheader = category.body %}
@@ -40,7 +40,7 @@
       'markets',
       'projectImage'
     ]
-  }).orderBy('featured DESC, postDate DESC').limit(20) as paginationInfo, projectEntries %}
+  }).limit(20) as paginationInfo, projectEntries %}
 
   {% set subheader = entry.body %}
   {% set stats = craft.entries.section('stats').relatedTo(statType).orderBy('RAND()').limit(2).all() %}

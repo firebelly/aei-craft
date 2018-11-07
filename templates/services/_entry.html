@@ -51,7 +51,7 @@
       with: [
         'projectImage'
       ]
-    }).orderBy('featured DESC, postDate DESC').limit(4).all() %}
+    }).limit(4).all() %}
     {% include 'partials/_related-projects'
       with {
         'relatedProjects': relatedProjects,
