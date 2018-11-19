@@ -1,17 +1,23 @@
 from fabric.api import *
 import os
 
-env.hosts = ['aeieng.webfactional.com']
-env.user = 'aeieng'
+env.hosts = ['aei-craft.firebelly.co']
+env.user = 'firebelly'
 env.path = '~/Sites/aei-craft'
-env.remotepath = '/home/aeieng/webapps/aei_craft_staging'
+env.remotepath = '/home/firebelly/webapps/aei'
 env.git_branch = 'master'
 env.warn_only = True
 
 def production():
-  env.hosts = ['aeieng.com']
+  env.hosts = ['aeieng.webfactional.com']
   env.user = 'aeieng'
   env.remotepath = '/home/aeieng/webapps/aei_craft_production'
+  env.git_branch = 'master'
+
+def staging():
+  env.hosts = ['aeieng.webfactional.com']
+  env.user = 'aeieng'
+  env.remotepath = '/home/aeieng/webapps/aei_craft_staging'
   env.git_branch = 'master'
 
 def assets():
