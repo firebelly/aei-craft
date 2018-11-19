@@ -19,18 +19,26 @@
 
 {% else %}
 
-  {% paginate craft.entries({
-    section: 'people',
-    featured: 1,
-    with: [
-      'personImage'
-    ]
-  }).limit(40) as paginationInfo, peopleEntries %}
-
   {% set subheader = entry.subheader %}
 
 {% endif %}
 
+{% set filterNav %}
+  <div class="mobile-filter">
+    <div class="filter-header">
+      Filter:
+      <span>{{ category is defined ? category.title : 'All' }}</span>
+      <svg class="icon icon-up-arrow" aria-hidden="true" role="presentation"><use xlink:href="#icon-up-arrow"/></svg>
+    </div>
+    <ul class="filters semantic-only-list">
+      {% for cat in craft.categories.group('peopleTypes').all() %}
+        <li class="{{ active(cat.getUrl(), 'url', 'current') }}">
+          <a href="{{ cat.getUrl() }}">{{ cat.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endset %}
 
 {% block filters %}
   <h2 class="font-nav {{ (category is not defined) ? 'current' : '' }}"><a href="/people/">People</a></h2>
@@ -46,25 +54,6 @@
 
 {% block content %}
 
-  {% set filterNav %}
-    <div class="mobile-filter">
-      <div class="filter-header">
-        Filter:
-        <span>{{ category is defined ? category.title : 'All' }}</span>
-        <svg class="icon icon-up-arrow" aria-hidden="true" role="presentation"><use xlink:href="#icon-up-arrow"/></svg>
-      </div>
-      <ul class="filters semantic-only-list">
-        <li class="{{ category is defined ? '' : 'current' }}">
-          <a href="/people/">All</a>
-        </li>
-        {% for cat in craft.categories.group('peopleTypes').all() %}
-          <li class="{{ active(cat.getUrl(), 'url', 'current') }}">
-            <a href="{{ cat.getUrl() }}">{{ cat.title }}</a>
-          </li>
-        {% endfor %}
-      </ul>
-    </div>
-  {% endset %}
   {% include 'partials/_stat-header' with {
     filterNav: filterNav,
     subheader: entry.statHeader.subheader,
@@ -72,30 +61,42 @@
     statLabel: entry.statHeader.statLabel
   } %}
 
-  {# people -quarters #}
-  <div id="people">
-    <ul class="row -quarters photo-row-separators semantic-only-list infinite-scroll-container">
-      {% for person in peopleEntries %}
-        <li class="row-block infinite-scroll-object">
-          {% include 'people/_article' %}
-        </li>
-      {% endfor %}
-    </ul>
-  </div>
+  {% if category is not defined %}
 
-  <nav class="pagination" data-total-pages="{{ paginationInfo.totalPages }}">
-    <ul>
-      {% if paginationInfo.prevUrl %}
-      <li class="prev">
-        <a rel="prev" href="{{ paginationInfo.prevUrl }}">Previous Page</a>
-      </li>
-      {% endif %}
-      {% if paginationInfo.nextUrl %}
-      <li class="next">
-        <a rel="next" href="{{ paginationInfo.nextUrl }}">Next Page</a>
-      </li>
-      {% endif %}
-    </ul>
-  </nav>
+    <article class="single-page">
+      <div class="row -halves content-blocks -spaced">
+        {% include 'partials/_media-blocks' %}
+      </div>
+    </article>
+
+  {% else %}
+
+    {# people -quarters #}
+    <div id="people">
+      <ul class="row -quarters photo-row-separators semantic-only-list infinite-scroll-container">
+        {% for person in peopleEntries %}
+          <li class="row-block infinite-scroll-object">
+            {% include 'people/_article' %}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <nav class="pagination" data-total-pages="{{ paginationInfo.totalPages }}">
+      <ul>
+        {% if paginationInfo.prevUrl %}
+        <li class="prev">
+          <a rel="prev" href="{{ paginationInfo.prevUrl }}">Previous Page</a>
+        </li>
+        {% endif %}
+        {% if paginationInfo.nextUrl %}
+        <li class="next">
+          <a rel="next" href="{{ paginationInfo.nextUrl }}">Next Page</a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+
+  {% endif %}
 
 {% endblock %}
