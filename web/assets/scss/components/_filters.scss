@@ -130,7 +130,7 @@ body.nav-stuck {
 // Hide sticky-wrapper on desktop+ also so layout doesn't jump mid-scroll
 @include media-lg {
   .sticky-wrapper {
-    height: 1px;
+    height: 1px !important;
     overflow: hidden;
   }
 }
