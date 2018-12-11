@@ -1,13 +1,13 @@
 {% extends (craft.app.request.isAjax and not craft.app.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
 {% set bodyClass = 'overlapping-header' %}
 
-{% set impactPeople = entry.impactPeople.all() %}
+{% set impactPeople = entry.impactPeople %}
 {% set impactTypeIds = entry.impactType.ids() %}
 {% set presentationTypeId = craft.categories.group('impactTypes').title('Presentations').ids() %}
 {% set articleTypeId = craft.categories.group('impactTypes').title('Articles').ids() %}
 
 {% set categoryTitle = '' %}
-{% for impactType in entry.impactType %}
+{% for impactType in entry.impactType.all() %}
   {% set categoryTitle = categoryTitle ~ impactType.title ~ (loop.index < loop.length ? ', ' : '') %}
 {% endfor %}
 
@@ -91,7 +91,7 @@
             </div>
           {% endif %}
 
-          {% for person in impactPeople %}
+          {% for person in impactPeople.all() %}
             <div class="meta-item -full">
               <h3>{{ person.personRole }}</h3>
               <div class="content">

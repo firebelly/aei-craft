@@ -14,7 +14,7 @@
   <div class="news-title">
     {% if post.impactType|length %}
       <div class="category font-details">
-        {% for impactType in post.impactType %}
+        {% for impactType in post.impactType.all() %}
             {{ impactType.title }}{{ loop.index < loop.length ? ' | ' : '' }}
         {% endfor %}
       </div>
