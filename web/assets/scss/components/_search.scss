@@ -246,6 +246,10 @@
 
     p {
       margin: 0;
+
+      &.spaced {
+        margin-top:2*$beat;
+      }
     }
 
     a.read-more {
