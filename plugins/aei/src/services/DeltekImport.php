@@ -738,7 +738,7 @@ class DeltekImport extends Component
                 $drafts = [];
                 // Only populate these fields for new entry
                 $fields = array_merge($fields, [
-                    'colorSwatch' => AEI::$plugin->findProjectColor->randomSwatch(),
+                    'colorSwatch' => AEI::$plugin->projects->randomSwatch(),
                     'body'        => $this->formatText($row['case_study']),
                 ]);
             } else {

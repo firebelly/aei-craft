@@ -10,7 +10,7 @@
 
 namespace firebelly\aei;
 
-use firebelly\aei\services\FindProjectColor as FindProjectColorService;
+use firebelly\aei\services\Projects as ProjectsService;
 use firebelly\aei\services\DeltekImport as DeltekImportService;
 use firebelly\aei\models\Settings;
 use firebelly\aei\fields\ColorSwatches as ColorSwatchesField;
@@ -36,7 +36,7 @@ use yii\base\Event;
  * @package   AEI
  * @since     1.0.0
  *
- * @property  FindProjectColorService $findProjectColor
+ * @property  ProjectsService $projects
  * @property  DeltekImportService $deltekImport
  * @property  Settings $settings
  * @method    Settings getSettings()

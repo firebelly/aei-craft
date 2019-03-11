@@ -2,8 +2,8 @@
 /**
  * AEI plugin for Craft CMS 3.x
  *
- * Firebelly plugin for custom AEI functionality
- *
+ * Firebelly plugin AEI project-related behavior
+  *
  * @link      https://www.firebellydesign.com/
  * @copyright Copyright (c) 2018 Firebelly Design
  */
@@ -11,12 +11,13 @@
 namespace firebelly\aei\services;
 
 use firebelly\aei\AEI;
-
 use Craft;
 use craft\base\Component;
+use craft\elements\Entry;
+use craft\elements\Category;
 
 /**
- * FindProjectColor Service
+ * Projects Service
  *
  * All of your plugin’s business logic should go in services, including saving data,
  * retrieving data, etc. They provide APIs that your controllers, template variables,
@@ -28,7 +29,7 @@ use craft\base\Component;
  * @package   AEI
  * @since     1.0.0
  */
-class FindProjectColor extends Component
+class Projects extends Component
 {
     public $colorSwatches = [
         'Black'  => '#282826',
@@ -41,22 +42,35 @@ class FindProjectColor extends Component
         'Gray'   => '#595954',
     ];
 
-    // Public Methods
-    // =========================================================================
-
     /**
-     * This function can literally be anything you want, and you can have as many service
-     * functions as you want
-     *
-     * From any other plugin file, call it like this:
-     *
-     *     AEI::$plugin->findProjectColor->randomColor()
-     *
-     * @return mixed
+     * Returns random swatch from project colors
+     * @return string
      */
     public function randomSwatch()
     {
         $key = array_rand($this->colorSwatches);
         return ['label' => $key, 'color' => $this->colorSwatches[$key]];
+    }
+
+    /**
+     * Saves custom order of project IDs to a hidden field in "market" category
+     * @return string
+     */
+    public function reorderProjects($market, $projectIds)
+    {
+        $category = Category::find()
+            ->group('markets')
+            ->slug($market)
+            ->one();
+        if (!empty($category)) {
+            $category->setFieldValues([
+                'projectIds' => implode(',', $projectIds)
+            ]);
+            Craft::$app->elements->saveElement($category);
+            return 1;
+        } else {
+            Craft::warning('Category not found');
+            throw new \Exception('Category not found');
+        }
     }
 }

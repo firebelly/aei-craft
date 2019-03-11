@@ -60,41 +60,6 @@ class DeltekImportController extends Controller
     }
 
     /**
-     * Reorder projects request
-     * actions/aei/deltek-import/reorder-projects
-     *
-     * @return mixed
-     */
-    public function actionReorderProjects()
-    {
-        try {
-            // Import all sections specified in sections-to-import[] param
-            $market = Craft::$app->getRequest()->get('market');
-            $projectIds = Craft::$app->getRequest()->get('project-ids');
-            $category = \craft\elements\Category::find()
-                ->group('markets')
-                ->slug($market)
-                ->one();
-            $category->setFieldValues([
-                'projectIds' => implode(',', $projectIds)
-            ]);
-            Craft::$app->elements->saveElement($category);
-            // $importResult = AEI::$plugin->deltekImport->reorderProjects($market, $projectIds);
-            $response = [
-                'status'  => 1,
-                'message' => 'Success!',
-            ];
-
-        } catch (\Exception $e) {
-            $response = [
-                'status'  => 0,
-                'message' => 'Error! '.$e->getMessage()
-            ];
-        }
-        return json_encode($response);
-    }
-
-    /**
      * Update all deltekId fields for projects/impact
      */
     public function actionUpdateAllDeltekIds() {
