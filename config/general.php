@@ -33,8 +33,12 @@ return [
 
     // Dev environment settings
     'dev' => [
+        // Base site URL
         'siteUrl' => 'http://aei-craft.localhost',
-        'backupCommand' => '/usr/local/bin/mysqldump',
+        // Fix backing up mysql on dev w/ homebrew mysql
+        'backupCommand' =>  "/usr/local/bin/mysqldump -h localhost -u root -proot --add-drop-table --comments --create-options --dump-date --no-autocommit --routines --set-charset --triggers --single-transaction --no-data --result-file=\"{file}\" {database} && /usr/local/bin/mysqldump -h localhost -u root -proot --add-drop-table --comments --create-options --dump-date --no-autocommit --routines --set-charset --triggers --no-create-info --ignore-table={database}.assetindexdata --ignore-table={database}.assettransformindex --ignore-table={database}.cache --ignore-table={database}.sessions --ignore-table={database}.templatecaches --ignore-table={database}.templatecachecriteria --ignore-table={database}.templatecacheelements {database} >> \"{file}\"",
+        'restoreCommand' => "/usr/local/bin/mysql -h localhost -u root -proot {database} < \"{file}\"",
+        // Dev Mode (see https://craftcms.com/support/dev-mode)
         'devMode' => true,
     ],
 
