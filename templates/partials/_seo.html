@@ -23,7 +23,7 @@
   <meta property="og:title" content="{{ fb.title }}" />
   <meta property="og:image" content="{% if seo_image %}{{ seo_image }}{% else %}{{ craft.seo.facebookImage(fb.image) }}{% endif %}" />
   <meta property="og:description" content="{% if seo_description is defined and seo_description != '' %}{{ seo_description }}{% else %}{{ fb.description }}{% endif %}" />
-  <meta property="og:site_name" content="{{ seo.title }}" />
+  <meta property="og:site_name" content="{{ siteName }}" />
   <meta property="og:locale" content="{{ locale }}" />
   {% for locale in locales -%}
     <meta property="og:locale:alternate" content="{{ locale }}" />
@@ -36,6 +36,11 @@
   <meta name="twitter:title" content="{{ tw.title }}" />
   <meta name="twitter:description" content="{% if seo_description is defined and seo_description != '' %}{{ seo_description }}{% else %}{{ tw.description }}{% endif %}" />
   <meta name="twitter:image" content="{% if seo_image %}{{ seo_image }}{% else %}{{ craft.seo.twitterImage(tw.image) }}{% endif %}" />
+
+  <meta name="robots" content="{{ seo.robots }}" />
+  {% if seo.expiry -%}
+    <meta name="robots" content="unavailable_after: {{ seo.expiry }}" />
+  {% endif %}
 
   <link rel="home" href="{{ siteUrl }}" />
   <link rel="canonical" href="{{ craft.app.request.absoluteUrl }}">
