@@ -159,6 +159,19 @@ class AEI extends Plugin
             }
         });
 
+        // After saving Project, update all market projectIds fields
+        Event::on(Elements::class, Elements::EVENT_AFTER_SAVE_ELEMENT, function(Event $event) {
+            if ($event->element instanceof \craft\elements\Entry) {
+                if (!$event->element->propagating) {
+                    if (in_array($event->element->type, ['projects'])) {
+                        $element = $event->element;
+                        AEI::$plugin->projects->updateMarketProjects();
+                        Craft::info('Elements::EVENT_AFTER_SAVE_ELEMENT / AEI plugin refreshing all Market projectIds after saving '.$element->title, __METHOD__);
+                    }
+                }
+            }
+        });
+
         // Register our site routes
         // Event::on(
         //     UrlManager::class,

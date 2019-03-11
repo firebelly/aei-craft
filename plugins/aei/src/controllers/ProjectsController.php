@@ -50,4 +50,10 @@ class ProjectsController extends Controller
         return json_encode($response);
     }
 
+    /**
+     * Update all market projectIds fields checking for removed/added projects
+     */
+    public function actionUpdateMarketProjects() {
+        AEI::$plugin->projects->updateMarketProjects();
+    }
 }

@@ -53,7 +53,7 @@ class Projects extends Component
     }
 
     /**
-     * Saves custom order of project IDs to a hidden field in "market" category
+     * Saves custom order of project IDs to a hidden field for a market
      * @return string
      */
     public function reorderProjects($market, $projectIds)
@@ -71,6 +71,39 @@ class Projects extends Component
         } else {
             Craft::warning('Category not found');
             throw new \Exception('Category not found');
+        }
+    }
+
+    /**
+     * Update all market projectIds fields checking for removed/added projects
+     */
+    public function updateMarketProjects()
+    {
+        $markets = Category::find()
+            ->group('markets')
+            ->all();
+        if (!empty($markets)) {
+            foreach ($markets as $market) {
+                $oldIds = [];
+                if (!empty($market->projectIds)) {
+                    $oldIds = explode(',', $market->projectIds);
+                }
+                $newIds = Entry::find()
+                    ->section('projects')
+                    ->relatedTo($market)
+                    ->ids();
+                // Find projects that have been removed
+                $adjustedIds = array_intersect($oldIds, $newIds);
+                // Find projects that have been added
+                $newIds = array_diff($newIds, $adjustedIds);
+                // Append new projects to bottom of sorted IDs
+                $adjustedWithNewIds = array_merge($adjustedIds, $newIds);
+                // Save new ID array to market
+                $market->setFieldValues([
+                    'projectIds' => implode(',', $adjustedWithNewIds)
+                ]);
+                Craft::$app->elements->saveElement($market);
+            }
         }
     }
 }
