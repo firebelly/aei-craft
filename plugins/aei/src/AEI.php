@@ -10,7 +10,7 @@
 
 namespace firebelly\aei;
 
-use firebelly\aei\services\FindProjectColor as FindProjectColorService;
+use firebelly\aei\services\Projects as ProjectsService;
 use firebelly\aei\services\DeltekImport as DeltekImportService;
 use firebelly\aei\models\Settings;
 use firebelly\aei\fields\ColorSwatches as ColorSwatchesField;
@@ -36,7 +36,7 @@ use yii\base\Event;
  * @package   AEI
  * @since     1.0.0
  *
- * @property  FindProjectColorService $findProjectColor
+ * @property  ProjectsService $projects
  * @property  DeltekImportService $deltekImport
  * @property  Settings $settings
  * @method    Settings getSettings()
@@ -154,6 +154,19 @@ class AEI extends Plugin
                         $deltekIds = AEI::$plugin->deltekImport->getDeltekIds($element);
                         $element->deltekIdsImported = implode(',', $deltekIds);
                         Craft::info('Elements::EVENT_BEFORE_SAVE_ELEMENT / AEI plugin setting deltek_ids field for element '.$element->title.' / deltek_ids: '.(implode(',', $deltekIds)), __METHOD__);
+                    }
+                }
+            }
+        });
+
+        // After saving Project, update all market projectIds fields
+        Event::on(Elements::class, Elements::EVENT_AFTER_SAVE_ELEMENT, function(Event $event) {
+            if ($event->element instanceof \craft\elements\Entry) {
+                if (!$event->element->propagating) {
+                    if (in_array($event->element->type, ['projects'])) {
+                        $element = $event->element;
+                        AEI::$plugin->projects->updateMarketProjects();
+                        Craft::info('Elements::EVENT_AFTER_SAVE_ELEMENT / AEI plugin refreshing all Market projectIds after saving '.$element->title, __METHOD__);
                     }
                 }
             }

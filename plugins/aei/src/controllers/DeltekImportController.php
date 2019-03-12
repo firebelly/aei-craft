@@ -38,6 +38,8 @@ class DeltekImportController extends Controller
             $referrer = Craft::$app->getRequest()->get('referrer');
             $importMode = Craft::$app->getRequest()->get('import-mode') ?? 'basic';
             $importResult = AEI::$plugin->deltekImport->importRecords($sectionsToImport, $deltekIds, $importMode);
+            // Update all market projectIds fields checking for removed/added projects
+            AEI::$plugin->projects->updateMarketProjects();
             $response = [
                 'status'  => 1,
                 'log'     => $importResult->log,

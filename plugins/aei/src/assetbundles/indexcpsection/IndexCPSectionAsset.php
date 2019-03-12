@@ -54,10 +54,13 @@ class IndexCPSectionAsset extends AssetBundle
         // when this asset bundle is registered
         $this->js = [
             'js/Index.js',
+            'js/Reorder.js',
+            'js/Sortable.min.js',
         ];
 
         $this->css = [
             'css/Index.css',
+            'css/Reorder.css',
         ];
 
         parent::init();

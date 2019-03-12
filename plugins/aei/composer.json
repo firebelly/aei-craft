@@ -2,7 +2,7 @@
     "name": "firebelly/aei",
     "description": "Firebelly plugin for custom AEI functionality",
     "type": "craft-plugin",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "keywords": [
         "craft",
         "cms",
@@ -36,7 +36,7 @@
         "hasCpSection": true,
         "changelogUrl": "???",
         "components": {
-            "findProjectColor": "firebelly\\aei\\services\\FindProjectColor",
+            "projects": "firebelly\\aei\\services\\Projects",
             "deltekImport": "firebelly\\aei\\services\\DeltekImport"
         },
         "class": "firebelly\\aei\\AEI"

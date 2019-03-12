@@ -10,6 +10,9 @@
 
   <nav class="site-nav">
     <ul class="secondary-links links-block">
+      {% if category is defined and category.isEditable() and category.group == 'Markets' %}
+        <li class="secondary-links-item edit-link"><a href="{{ '/admin/aei/reorder?market=' ~ category.slug|url_encode }}">Reorder Projects</a></li>
+      {% endif %}
       {% if entry is defined and entry.isEditable() %}
         <li class="secondary-links-item edit-link"><a href="{{ entry.cpEditUrl ~ '?redirect=' ~ craft.app.request.getUrl()|url_encode }}">Edit Entry</a></li>
       {% endif %}

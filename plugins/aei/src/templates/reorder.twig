@@ -1,0 +1,99 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+ /**
+  * AEI plugin for Craft CMS 3.x
+  *
+  * AEI Reorder Projects
+  *
+  * @author    Firebelly Design
+  * @copyright Copyright (c) 2018 Firebelly Design
+  * @link      https://www.firebellydesign.com/
+  * @package   AEI
+  * @since     1.0.1
+  */
+ #}
+
+{% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("firebelly\\aei\\assetbundles\\indexcpsection\\IndexCPSectionAsset") %}
+
+{# The title of this CP section #}
+{% set title = "AEI Reorder Projects" %}
+{% set currentMarket = craft.app.request.getParam('market') %}
+
+{# Content that should appear in the page header #}
+{% block actionButton %}
+    <div class="buttons">
+        <a href="{{ url('aei/logs') }}" class="btn submit">{{ "View Logs"|t('aei') }}</a>
+        <a href="{{ url('aei') }}" class="btn submit">{{ "Importer"|t('aei') }}</a>
+        <a href="/admin/settings/plugins/aei" class="btn submit">{{ "Settings"|t('aei') }}</a>
+    </div>
+{% endblock %}
+
+{# The content of the CP Section#}
+{% block content %}
+  <form method="post" id="reorder-form" action="/admin/actions/aei/projects/reorder-projects">
+    {{ csrfInput() }}
+
+    <h2>Select market and drag to reorder projects:</h2>
+    {% set markets = craft.app.getModule('aei').deltekImport.getDeltekLogs() %}
+    <select class="market-select">
+      <option value="">Select Market...</option>
+      {% for cat in craft.categories.group('markets').all() %}
+        <option value="/admin/aei/reorder?market={{ cat.slug }}" {{ currentMarket == cat.slug ? 'selected' : '' }}>
+          {{ cat.title }}
+        </option>
+      {% endfor %}
+    </select>
+
+    {% if currentMarket %}
+      {% set market = craft.categories.group('markets').slug(currentMarket).one() %}
+      {# Pull projects ordered by ID if available #}
+      {% if market.projectIds %}
+        {% set projectIdArr = market.projectIds|split(',') %}
+        {% set projectEntries = craft.entries({
+          section: 'projects',
+          relatedTo: market,
+          with: [
+            'projectImage'
+          ]
+        }).id(projectIdArr).fixedOrder().all() %}
+      {% else %}
+        {% set projectEntries = craft.entries({
+          section: 'projects',
+          relatedTo: market,
+          with: [
+            'projectImage'
+          ]
+        }).all() %}
+      {% endif %}
+
+      {% if projectEntries|length %}
+        <input type="hidden" name="market" value="{{ currentMarket }}">
+        <ul class="market-projects">
+          {% for project in projectEntries %}
+            <li data-id="{{ project.id }}">
+              {% set projectImage = project.projectImage[0] ?? null %}
+              {% if projectImage %}
+                {% set treatedImage = craft.imager.transformImage(projectImage, { width: 100, height: 100 }) %}
+                {% if treatedImage %}
+                  <img src="{{ treatedImage.getUrl() }}">
+                {% endif %}
+              {% endif %}
+              {{ project.title }}
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+         <p>No projects found in {{ market.title }}.</p>
+      {% endif %}
+    {% endif %}
+
+    <div class="log-output"></div>
+    {% if currentMarket %}
+      <p><a class="btn sharebtn" target="_blank" href="{{ market.getUrl() }}">View Market</a></p>
+    {% endif %}
+
+  </form>
+{% endblock %}
