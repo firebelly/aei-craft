@@ -95,10 +95,26 @@
       </div>
     </div>
 
-  {% set relatedProjects = craft.entries.section('projects').relatedTo({
-     targetElement: entry,
-     field: 'projectLeaders.aeiPerson',
-  }).orderBy('featured DESC, postDate DESC').limit(4).all() %}
+
+  {% set relatedProjects = entry.relatedProjects.all() %}
+
+  {% if relatedProjects|length > 0 %}
+    {% if relatedProjects|length < 4 %}
+      {% set relatedProjectIds = relatedProjects|group('id')|keys %}
+      {% set relatedProjectIdsString = relatedProjectIds | join(', not ') %}
+      {% set attributedProjects = craft.entries.section('projects').relatedTo({
+         targetElement: entry,
+         field: 'projectLeaders.aeiPerson',
+      }).id('and, not '~relatedProjectIdsString).orderBy('featured DESC, postDate DESC').limit(4 - relatedProjects|length).all() %}
+
+      {% set relatedProjects = relatedProjects|merge(attributedProjects) %}
+    {% endif %}
+  {% else %}
+    {% set relatedProjects = craft.entries.section('projects').relatedTo({
+       targetElement: entry,
+       field: 'projectLeaders.aeiPerson',
+    }).orderBy('featured DESC, postDate DESC').limit(4 - relatedProjects|length).all() %}
+  {% endif %}
   {% include 'partials/_related-projects'
     with {
       'relatedProjects': relatedProjects,
@@ -106,11 +122,24 @@
     }
   %}
 
-  {% set relatedPosts = craft.entries.section('impact').relatedTo({
-     targetElement: entry,
-     field: 'impactPeople.aeiPerson',
-  }).orderBy('featured DESC, postDate DESC').limit(2).all() %}
+  {% set relatedPosts = entry.relatedNewsInsights.all() %}
 
+  {% if relatedPosts|length > 0 %}
+    {% if relatedPosts|length < 2 %}
+      {% set relatedPostIds = relatedPosts|group('id')|keys %}
+      {% set relatedPostIdsString = relatedPostIds | join(', not ') %}
+      {% set attributedPosts = craft.entries.section('impact').relatedTo({
+         targetElement: entry,
+         field: 'impactPeople.aeiPerson',
+      }).id('and, not '~relatedPostIdsString).orderBy('featured DESC, postDate DESC').limit(2 - relatedPosts|length).all() %}
+      {% set relatedPosts = relatedPosts|merge(attributedPosts) %}
+    {% endif %}
+  {% else %}
+    {% set relatedPosts = craft.entries.section('impact').relatedTo({
+       targetElement: entry,
+       field: 'impactPeople.aeiPerson',
+    }).orderBy('featured DESC, postDate DESC').limit(2).all() %}
+  {% endif %}
   {% include 'partials/_related-impact' with { 'relatedPosts': relatedPosts } %}
 
   {% if personType %}

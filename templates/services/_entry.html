@@ -45,13 +45,31 @@
       </div>
     </div>
 
-    {% set relatedProjects = craft.entries({
-      section: 'projects',
-      relatedTo: category,
-      with: [
-        'projectImage'
-      ]
-    }).limit(4).all() %}
+    {% set relatedProjects = category.relatedProjects.all() %}
+
+    {% if relatedProjects|length > 0 %}
+      {% if relatedProjects|length < 4 %}
+        {% set relatedProjectIds = relatedProjects|group('id')|keys %}
+        {% set relatedProjectIdsString = relatedProjectIds | join(', not ') %}
+        {% set relatedServiceProjects = craft.entries({
+          section: 'projects',
+          relatedTo: category,
+          with: [
+            'projectImage'
+          ]
+        }).id('and, not '~relatedProjectIdsString).limit(4 - relatedProjects|length).all() %}
+
+        {% set relatedProjects = relatedProjects|merge(relatedServiceProjects) %}
+      {% endif %}
+    {% else %}
+      {% set relatedProjects = craft.entries({
+        section: 'projects',
+        relatedTo: category,
+        with: [
+          'projectImage'
+        ]
+      }).limit(4).all() %}
+    {% endif %}
     {% include 'partials/_related-projects'
       with {
         'relatedProjects': relatedProjects,
@@ -59,10 +77,21 @@
       }
     %}
 
-    {% set relatedPosts = craft.entries({
-      section: 'impact',
-      relatedTo: category,
-    }).orderBy('featured DESC, postDate DESC').limit(2).all() %}
+    {% set relatedPosts = category.relatedNewsInsights.all() %}
+
+    {% if relatedPosts|length > 0 %}
+      {% if relatedPosts|length < 2 %}
+        {% set relatedPostIds = relatedPosts|group('id')|keys %}
+        {% set relatedPostIdsString = relatedPostIds | join(', not ') %}
+        {% set relatedCategoryPosts = craft.entries.section('impact').relatedTo(category).id('and, not '~relatedPostIdsString).orderBy('featured DESC, postDate DESC').limit(2 - relatedPosts|length).all() %}
+        {% set relatedPosts = relatedPosts|merge(relatedCategoryPosts) %}
+      {% endif %}
+    {% else %}
+      {% set relatedPosts = craft.entries({
+        section: 'impact',
+        relatedTo: category,
+      }).orderBy('featured DESC, postDate DESC').limit(2).all() %}
+    {% endif %}
     {% include 'partials/_related-impact'
       with {
         'relatedPosts': relatedPosts,

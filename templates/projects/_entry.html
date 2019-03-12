@@ -135,11 +135,16 @@
 
     {% set categoryIds = entry.services.ids()|merge(entry.markets.ids()) %}
 
-    {% set relatedPosts = craft.entries.section('impact').relatedTo({ element: entry }).limit(2).all() %}
+    {% set relatedPosts = entry.relatedNewsInsights.all() %}
+
     {% if relatedPosts|length < 2 %}
-      {# Find similar news posts based on category IDs #}
-      {% set omitId = relatedPosts|length == 1 ? relatedPosts[0].id : 0 %}
-      {% set limitCriteria = craft.entries.section('impact').id('not ' ~ omitId).limit(2 - relatedPosts|length) %}
+      {# Find similar project posts based on category IDs #}
+      {% if relatedPosts|length > 0 %}
+        {% set omitId = relatedPosts|length == 1 ? relatedPosts[0].id : 0 %}
+        {% set limitCriteria = craft.entries.section('impact').id('not ' ~ omitId).limit(2 - relatedPosts|length) %}
+      {% else %}
+        {% set limitCriteria = craft.entries.section('impact').limit(2) %}
+      {% endif %}
       {% set extraRelatedPosts = craft.similar.find({ element: entry, context: categoryIds, criteria: limitCriteria }) %}
       {% set relatedPosts = relatedPosts|merge(extraRelatedPosts) %}
     {% endif %}
@@ -149,15 +154,16 @@
       }
     %}
 
-    {% set relatedProjects = craft.entries.section('projects').relatedTo({ element: entry }).limit(4).all() %}
+    {% set relatedProjects = entry.relatedProjects.all() %}
+
     {% if relatedProjects|length < 4 %}
       {# Find similar project posts based on category IDs #}
       {% if relatedProjects|length > 0 %}
-        {% set relatedPostsIds = relatedProjects.ids() %}
-        {% set relatedPostsIdsString = relatedPostsIds | join(', not ') %}
-        {% set limitCriteria = craft.entries.section('projects').id('and, not '~relatedPostsIdsString).limit(4 - relatedProjects|length) %}
+        {% set relatedProjectIds = relatedProjects|group('id')|keys %}
+        {% set relatedProjectIdsString = relatedProjectIds | join(', not ') %}
+        {% set limitCriteria = craft.entries.section('projects').id('and, not '~relatedProjectIdsString).limit(4 - relatedProjects|length) %}
       {% else %}
-        {% set limitCriteria = craft.entries.section('projects').limit(4) %}
+        {% set limitCriteria = craft.entries.section('projects').limit(4 - relatedProjects|length) %}
       {% endif %}
       {% set extraRelatedProjects = craft.similar.find({ element: entry, context: categoryIds, criteria: limitCriteria }) %}
       {% set relatedProjects = relatedProjects|merge(extraRelatedProjects) %}

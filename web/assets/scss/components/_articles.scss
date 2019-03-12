@@ -25,7 +25,7 @@
       width: 100%;
       z-index: 10;
       color: $white;
-      transition: transform .2s $ease .2s;
+      transition: transform .2s $ease;
       transform: translateX(-100%);
       svg {
         width: 30px;
@@ -49,16 +49,18 @@
       opacity: .66;
       background: $red;
       position: absolute;
-      transition: transform 0.3s $ease .2s;
+      transition: transform 0.3s $ease;
       transform: skew(-18deg) translateX(-100%);
 
     }
     &:hover {
       .view-project {
         transform: translateX(0);
+        transition-delay: .2s;
       }
       &::after,
       &::before {
+        transition-delay: .2s;
         transform: skew(-18deg) translateX(0);
       }
     }
