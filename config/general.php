@@ -49,6 +49,7 @@ return [
 
     // Production environment settings
     'production' => [
+        'softDeleteDuration' => 86400,
         'siteUrl' => 'https://aeieng.com',
     ],
 ];
