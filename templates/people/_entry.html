@@ -76,7 +76,7 @@
           {% if entry.office %}
             <div class="meta-item -half {% set nHalf = nHalf ?? 0 + 1  %}{{ cycle (['-row-end',''], nHalf) }}">
               <h3>Office</h3>
-              <div class="content"><a href="{{ entry.office.first().getUrl() }}">{{ entry.office.first().title }}</a></div>
+              <div class="content"><a href="{{ entry.office.one().getUrl() }}">{{ entry.office.one().title }}</a></div>
             </div>
           {% endif %}
           {% if entry.socialLinks|length %}
