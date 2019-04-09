@@ -7,11 +7,8 @@
 			<a href="{{ entry.getUrl() }}" class="read-more">View Service <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></a>
 
 		{% case "Projects" %}
-			{% set primaryContact = entry.projectLeaders.first() %}
-			{% set personTitleOverride = primaryContact.leaderTitle %}
 			<h3><a href="{{ entry.getUrl() }}">{{ entry.projectClientName }}</a></h3>
 			<p class="dont-break-out">{{ entry.projectName }}</p>
-			<p class="spaced">{{ (personTitleOverride ?? null) ? personTitleOverride : primaryContact.aeiPerson.first().personTitle }}: {{ primaryContact.aeiPerson.first().title }}</p>
 			<a href="{{ entry.getUrl() }}" class="read-more">View Project <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg></a>
 
 		{% case "Impact" %}

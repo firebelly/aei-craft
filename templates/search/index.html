@@ -14,6 +14,7 @@
     {% set impactPosts = [] %}
     {% set servicePosts = [] %}
     {% set peoplePosts = [] %}
+    {% set peoplePostsIds = [] %}
 
     {% set entries = craft.entries.search(query).orderBy('score') %}
     {% if entries|length %}
@@ -21,12 +22,21 @@
         {% switch entry.section %}
           {% case "Projects" %}
             {% set projectPosts = projectPosts|merge([entry]) %}
+            {# Add primary contact for project to People search results #}
+            {% set primaryContact = entry.projectLeaders.one().aeiPerson.one() %}
+            {% if primaryContact.id not in peoplePostsIds %}
+              {% set peoplePosts = peoplePosts|merge([primaryContact]) %}
+              {% set peoplePostsIds = peoplePostsIds|merge([primaryContact.id]) %}
+            {% endif %}
           {% case "Offices" %}
             {% set servicePosts = servicePosts|merge([entry]) %}
           {% case "News & Insights" %}
             {% set impactPosts = impactPosts|merge([entry]) %}
           {% case "People" %}
+          {% if entry.id not in peoplePostsIds %}
             {% set peoplePosts = peoplePosts|merge([entry]) %}
+            {% set peoplePostsIds = peoplePostsIds|merge([entry.id]) %}
+          {% endif %}
         {% endswitch %}
       {% endfor %}
     {% endif %}

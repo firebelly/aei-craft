@@ -44,11 +44,12 @@ return [
 
     // Staging environment settings
     'staging' => [
-        'siteUrl' => 'http://aeieng.webfactional.com',
+        'siteUrl' => 'http://aei-craft.firebelly.co',
     ],
 
     // Production environment settings
     'production' => [
+        'softDeleteDuration' => 86400,
         'siteUrl' => 'https://aeieng.com',
     ],
 ];
