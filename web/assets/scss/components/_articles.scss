@@ -22,11 +22,11 @@
       position: absolute;
       top: 0;
       left: 0;
+      opacity: 0;
       width: 100%;
       z-index: 10;
       color: $white;
-      transition: transform .2s $ease;
-      transform: translateX(-100%);
+      transition: opacity .45s $ease;
       svg {
         width: 30px;
         height: 22px;
@@ -40,28 +40,27 @@
     &::after,
     &::before {
       @include hardware-acceleration;
+      top: 0;
       left: 0;
       z-index: 1;
-      top: -100%;
+      opacity: 0;
       content: '';
-      width: 200%; // change to 100% for half-cover overlay
-      height: 200%;
-      opacity: .66;
+      width: 100%;
+      height: 100%;
       background: $red;
       position: absolute;
-      transition: transform 0.3s $ease;
-      transform: skew(-18deg) translateX(-100%);
+      transition: opacity 0.35s $ease;
 
     }
     &:hover {
       .view-project {
-        transform: translateX(0);
-        transition-delay: .2s;
+        opacity: 1;
+        transition-delay: .1s;
       }
       &::after,
       &::before {
-        transition-delay: .2s;
-        transform: skew(-18deg) translateX(0);
+        opacity: .66;
+        transition-delay: .1s;
       }
     }
   }
