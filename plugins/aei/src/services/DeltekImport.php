@@ -81,7 +81,7 @@ class DeltekImport extends Component
                         $fileArr = array_reverse(explode('/', $newFile));
                         // Try to index new asset
                         $relativeFile = $fileArr[1] . '/' . $fileArr[0];
-                        $asset = $this->indexNewImage($relativeFile, ucfirst($fileArr[2]));
+                        $asset = $this->indexNewImage($relativeFile, $fileArr[2]);
                         if ($asset) {
                             $newAssets[] = $asset;
                             $newAssetLog .= $relativeFile . " added to index\n";
