@@ -80,6 +80,9 @@ class DeltekImportController extends Controller
                 }
             }
         }
+        // Run indexing queue
+        echo "Running queue to index all resaved entries...\n";
+        Craft::$app->getQueue()->run();
         return "Done!\n";
     }
 
@@ -99,6 +102,8 @@ class DeltekImportController extends Controller
         } catch (\Exception $e) {
             echo 'Error: '.$e->getMessage() . "\n";
         }
+        echo "Running queue to index all new images...\n";
+        Craft::$app->getQueue()->run();
         return "Done!\n";
     }
 }
