@@ -27,7 +27,7 @@ def devsetup():
   print "Installing composer, node and bower assets...\n"
   local('composer install')
   local('npm install')
-  local('cd public/assets && bower install')
+  local('cd web/assets && bower install')
   local('npx gulp')
   local('cp .env.example .env')
   print "OK DONE! Hello? Are you still awake?\nEdit your .env file with local credentials\nRun `npx gulp watch` to run local gulp to compile & watch assets"
