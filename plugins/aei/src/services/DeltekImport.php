@@ -914,7 +914,7 @@ class DeltekImport extends Component
             $entry->setFieldValues($fields);
             if(Craft::$app->getElements()->saveElement($entry)) {
                 if ($actionVerb != 'added' && !empty($drafts)) {
-                    if ($this->importMode == 'refresh') {
+                    // if ($this->importMode == 'refresh') {
                     //     // Add fields to be saved to drafts (if not already added above when !$entry->enabled)
                     //     $fields = array_merge($fields, [
                     //         'projectImage' => $heroImage,
