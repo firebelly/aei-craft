@@ -247,7 +247,7 @@ class DeltekImport extends Component
                 $actionVerb = 'updated';
 
                 // Find any drafts for entry
-                $drafts = Craft::$app->getEntryRevisions()->getDraftsByEntryId($entry->id);
+                // $drafts = Craft::$app->getEntryRevisions()->getDraftsByEntryId($entry->id);
             }
 
             // Special actions if adding new entry, or we're doing a refresh from Deltek (and entry is disabled)
@@ -332,19 +332,19 @@ class DeltekImport extends Component
 
             $entry->setFieldValues($fields);
             if(Craft::$app->getElements()->saveElement($entry)) {
-                if (!empty($drafts)) {
-                    // Also update any drafts for post
-                    if ($this->importMode == 'refresh') {
-                        // Add fields to be saved to drafts
-                        $fields = array_merge($fields, [
-                            'body' => $this->formatText($row['overview']),
-                        ]);
-                    }
-                    foreach ($drafts as $draft) {
-                        $draft->setFieldValues($fields);
-                        Craft::$app->getEntryRevisions()->saveDraft($draft);
-                    }
-                }
+                // if (!empty($drafts)) {
+                //     // Also update any drafts for post
+                //     if ($this->importMode == 'refresh') {
+                //         // Add fields to be saved to drafts
+                //         $fields = array_merge($fields, [
+                //             'body' => $this->formatText($row['overview']),
+                //         ]);
+                //     }
+                //     foreach ($drafts as $draft) {
+                //         $draft->setFieldValues($fields);
+                //         Craft::$app->getEntryRevisions()->saveDraft($draft);
+                //     }
+                // }
                 $officesImport->saved($entry, $actionVerb, (!empty($drafts) ? count($drafts) : 0));
             } else {
                 $this->bomb('<li>Save error: '.print_r($entry->getErrors(), true).'</li>');
@@ -379,7 +379,7 @@ class DeltekImport extends Component
                 $actionVerb = 'updated';
 
                 // Find any drafts for entry
-                $drafts = Craft::$app->getEntryRevisions()->getDraftsByEntryId($entry->id);
+                // $drafts = Craft::$app->getEntryRevisions()->getDraftsByEntryId($entry->id);
             }
 
             // Special actions if adding new entry, or we're doing a refresh from Deltek (and entry is disabled)
@@ -455,19 +455,19 @@ class DeltekImport extends Component
             $entry->setFieldValues($fields);
             if(Craft::$app->getElements()->saveElement($entry)) {
                 // Also update any drafts for post
-                if (!empty($drafts)) {
-                    if ($this->importMode == 'refresh') {
-                        // Add fields to be saved to drafts
-                        $fields = array_merge($fields, [
-                            'body' => $this->formatText($row['bio']),
-                        ]);
-                    }
-                    // Also update any drafts for post
-                    foreach ($drafts as $draft) {
-                        $draft->setFieldValues($fields);
-                        Craft::$app->getEntryRevisions()->saveDraft($draft);
-                    }
-                }
+                // if (!empty($drafts)) {
+                //     if ($this->importMode == 'refresh') {
+                //         // Add fields to be saved to drafts
+                //         $fields = array_merge($fields, [
+                //             'body' => $this->formatText($row['bio']),
+                //         ]);
+                //     }
+                //     Also update any drafts for post
+                //     foreach ($drafts as $draft) {
+                //         $draft->setFieldValues($fields);
+                //         Craft::$app->getEntryRevisions()->saveDraft($draft);
+                //     }
+                // }
                 $peopleImport->saved($entry, $actionVerb, (!empty($drafts) ? count($drafts) : 0));
             } else {
                 $this->bomb('<li>Save error: '.print_r($entry->getErrors(), true).'</li>');
@@ -555,7 +555,7 @@ class DeltekImport extends Component
                 $deltekIdsImported = explode(',', $entry->deltekIdsImported);
 
                 // Find any drafts for entry
-                $drafts = Craft::$app->getEntryRevisions()->getDraftsByEntryId($entry->id);
+                // $drafts = Craft::$app->getEntryRevisions()->getDraftsByEntryId($entry->id);
             }
             // Always update title from Deltek
             $entry->title = $row['title'];
@@ -682,20 +682,20 @@ class DeltekImport extends Component
 
                 } elseif (!empty($drafts)) {
 
-                    if ($this->importMode == 'refresh') {
-                        // Add fields to be saved to drafts (if not already added above when !$entry->enabled)
-                        $fields = array_merge($fields, [
-                            'body' => $this->formatText($row['body']),
-                            'impactImage' => $heroImage,
-                            'mediaBlocks' => $mediaBlocks,
-                        ]);
-                    }
+                    // if ($this->importMode == 'refresh') {
+                    //     // Add fields to be saved to drafts (if not already added above when !$entry->enabled)
+                    //     $fields = array_merge($fields, [
+                    //         'body' => $this->formatText($row['body']),
+                    //         'impactImage' => $heroImage,
+                    //         'mediaBlocks' => $mediaBlocks,
+                    //     ]);
+                    // }
                     // Also update any drafts for post
-                    foreach ($drafts as $draft) {
-                        $draft->setFieldValues($fields);
-                        $draft->title = $row['title'];
-                        Craft::$app->getEntryRevisions()->saveDraft($draft);
-                    }
+                    // foreach ($drafts as $draft) {
+                    //     $draft->setFieldValues($fields);
+                    //     $draft->title = $row['title'];
+                    //     Craft::$app->getEntryRevisions()->saveDraft($draft);
+                    // }
                 }
                 $impactImport->saved($entry, $actionVerb, (!empty($drafts) ? count($drafts) : 0));
             } else {
@@ -749,7 +749,7 @@ class DeltekImport extends Component
                 $deltekIdsImported = explode(',', $entry->deltekIdsImported);
 
                 // Find any drafts for entry
-                $drafts = Craft::$app->getEntryRevisions()->getDraftsByEntryId($entry->id);
+                // $drafts = Craft::$app->getEntryRevisions()->getDraftsByEntryId($entry->id);
             }
 
             /////////////////////////////////////
@@ -915,17 +915,17 @@ class DeltekImport extends Component
             if(Craft::$app->getElements()->saveElement($entry)) {
                 if ($actionVerb != 'added' && !empty($drafts)) {
                     if ($this->importMode == 'refresh') {
-                        // Add fields to be saved to drafts (if not already added above when !$entry->enabled)
-                        $fields = array_merge($fields, [
-                            'projectImage' => $heroImage,
-                            'mediaBlocks'  => $mediaBlocks,
-                        ]);
-                    }
+                    //     // Add fields to be saved to drafts (if not already added above when !$entry->enabled)
+                    //     $fields = array_merge($fields, [
+                    //         'projectImage' => $heroImage,
+                    //         'mediaBlocks'  => $mediaBlocks,
+                    //     ]);
+                    // }
                     // Also update any drafts for post
-                    foreach ($drafts as $draft) {
-                        $draft->setFieldValues($fields);
-                        Craft::$app->getEntryRevisions()->saveDraft($draft);
-                    }
+                    // foreach ($drafts as $draft) {
+                    //     $draft->setFieldValues($fields);
+                    //     Craft::$app->getEntryRevisions()->saveDraft($draft);
+                    // }
                 }
                 $projectsImport->saved($entry, $actionVerb, (!empty($drafts) ? count($drafts) : 0));
             } else {
