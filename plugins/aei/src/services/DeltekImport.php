@@ -77,7 +77,7 @@ class DeltekImport extends Component
                 $newFile = trim($newFile);
                 if (!empty($newFile)) {
                     // Check if file exists
-                    if (file_exists($newFile) && preg_match(/(tif|png|jpg|jpeg|tiff)$/iZ, $newFile) {
+                    if (file_exists($newFile) && preg_match('/(tif|png|jpg|jpeg|tiff)$/i', $newFile)) {
                         $fileArr = array_reverse(explode('/', $newFile));
                         // Try to index new asset
                         $relativeFile = $fileArr[1] . '/' . $fileArr[0];
