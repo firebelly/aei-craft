@@ -154,25 +154,29 @@
       }
     %}
 
-    {% set relatedProjects = entry.relatedProjects.all() %}
+    {% if entry.relatedProjects|length %}
+      {% set relatedProjects = entry.relatedProjects.all() %}
 
-    {% if relatedProjects|length < 4 %}
-      {# Find similar project posts based on category IDs #}
-      {% if relatedProjects|length > 0 %}
-        {% set relatedProjectIds = relatedProjects|group('id')|keys %}
-        {% set relatedProjectIdsString = relatedProjectIds | join(', not ') %}
-        {% set limitCriteria = craft.entries.section('projects').id('and, not '~relatedProjectIdsString).limit(4 - relatedProjects|length) %}
-      {% else %}
-        {% set limitCriteria = craft.entries.section('projects').limit(4 - relatedProjects|length) %}
+      {% if relatedProjects|length < 4 %}
+        {# Find similar project posts based on category IDs #}
+        {% if relatedProjects|length > 0 %}
+          {% set relatedProjectIds = relatedProjects|group('id')|keys %}
+          {% set relatedProjectIdsString = relatedProjectIds | join(', not ') %}
+          {% set limitCriteria = craft.entries.section('projects').id('and, not '~relatedProjectIdsString).limit(4 - relatedProjects|length) %}
+        {% else %}
+          {% set limitCriteria = craft.entries.section('projects').limit(4 - relatedProjects|length) %}
+        {% endif %}
+        {#
+        {% set extraRelatedProjects = craft.similar.find({ element: entry, context: categoryIds, criteria: limitCriteria }) %}
+        {% set relatedProjects = relatedProjects|merge(extraRelatedProjects) %}
+        #}
       {% endif %}
-      {% set extraRelatedProjects = craft.similar.find({ element: entry, context: categoryIds, criteria: limitCriteria }) %}
-      {% set relatedProjects = relatedProjects|merge(extraRelatedProjects) %}
+      {% include 'partials/_related-projects'
+        with {
+          'relatedProjects': relatedProjects,
+        }
+      %}
     {% endif %}
-    {% include 'partials/_related-projects'
-      with {
-        'relatedProjects': relatedProjects,
-      }
-    %}
 
   </article>
 

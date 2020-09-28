@@ -142,13 +142,16 @@
     </div>
 
 
-    {% set relatedProjects = entry.relatedProjects.all() %}
-    {% include 'partials/_related-projects'
-      with {
-        'relatedProjects': relatedProjects,
-      }
-    %}
+    {% if entry.relatedProjects|length %}
+      {% set relatedProjects = entry.relatedProjects.all() %}
+      {% include 'partials/_related-projects'
+        with {
+          'relatedProjects': relatedProjects,
+        }
+      %}
+    {% endif %}
 
+    {#
     {% set limitCriteria = craft.entries.section('impact').limit(2) %}
     {% set relatedPosts = craft.similar.find({
       element: entry,
@@ -161,6 +164,9 @@
       {% set extraRelatedPosts = craft.entries.section('impact').id('not ' ~ omitId).limit(2 - relatedPosts|length).all() %}
       {% set relatedPosts = relatedPosts|merge(extraRelatedPosts) %}
     {% endif %}
+    #}
+
+    {% set relatedPosts = craft.entries.section('impact').limit(2).all() %}
 
     {% include 'partials/_related-impact'
       with {
