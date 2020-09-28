@@ -44,7 +44,7 @@ return [
 
     // Staging environment settings
     'staging' => [
-        'siteUrl' => 'http://aei-craft.firebelly.co',
+        'siteUrl' => 'https://wf.aeieng.com',
     ],
 
     // Production environment settings
