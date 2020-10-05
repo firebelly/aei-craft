@@ -16,14 +16,14 @@
       {% if entry is defined and entry.isEditable() %}
         <li class="secondary-links-item edit-link"><a href="{{ entry.cpEditUrl ~ '?redirect=' ~ craft.app.request.getUrl()|url_encode }}">Edit Entry</a></li>
       {% endif %}
-      <li class="{{ active('/about/', 'url', 'current') }}">
+      <li class="{{ active('about', 'path', 'current') }}">
         <a href="/about/">About</a>
       </li>
-      <li class="{{ active('/about/careers/', 'url', 'current') }}">
+      <li class="{{ active('about/careers', 'path', 'current') }}">
         <a href="/about/careers/">Careers</a>
       </li>
-      <li class="{{ active('/contact/', 'url', 'current') }}">
-        <a href="/contact/">Contact</a>
+      <li class="{{ active('contact', 'path', 'current') }}">
+        <a href="/contact/">Offices</a>
       </li>
       <li class="search-open">
         <a href="/search/">Search<svg class="icon-search"><use xlink:href="#icon-search" /></svg></a>
@@ -32,7 +32,7 @@
 
     <ul class="primary-links semantic-only-list nav-content">
       {% for navItem in [
-        { title: 'Projects', slug: 'projects', urlMatches: 'projects' },
+        { title: 'Markets', slug: 'markets', urlMatches: 'markets' },
         { title: 'Services', slug: 'services', urlMatches: 'services|offices|awards' },
         { title: 'People', slug: 'people', urlMatches: 'people' },
         { title: 'News & Insights', slug: 'news', urlMatches: 'news' },
