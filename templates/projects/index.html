@@ -48,7 +48,7 @@
 {% endif %}
 
 {% block filters %}
-  <h2 class="font-nav {{ (category is not defined) ? 'current' : '' }}"><a href="/projects/">Projects</a></h2>
+  <h2 class="font-nav {{ (category is not defined) ? 'current' : '' }}"><a href="/markets/">Markets</a></h2>
   <ul class="filters semantic-only-list">
     {% for cat in craft.categories.group('markets').all() %}
       <li class="{{ active(cat.getUrl(), 'url', 'current') }}">
@@ -87,7 +87,7 @@
         </div>
         <ul class="filters semantic-only-list">
           <li class="{{ category is defined ? '' : 'current' }}">
-            <a href="/projects/">All</a>
+            <a href="/markets/">All</a>
           </li>
           {% for cat in craft.categories.group('markets').all() %}
             <li class="{{ active(cat.getUrl(), 'url', 'current') }}">

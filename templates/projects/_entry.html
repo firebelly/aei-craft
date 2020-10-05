@@ -10,7 +10,7 @@
 {% set seo_description = entry.body | striptags | chop(limit=155, unit='c', append='…') %}
 
 {% block filters %}
-  <h2 class="font-nav"><a href="/projects/">Projects</a></h2>
+  <h2 class="font-nav"><a href="/markets/">Markets</a></h2>
   <ul class="filters semantic-only-list">
     {% set entryMarketIds = entry.markets.ids() %}
     {% for cat in craft.categories.group('markets').all() %}
@@ -169,8 +169,8 @@
           {% set limitCriteria = craft.entries.section('projects').limit(4 - relatedProjects|length) %}
         {% endif %}
         {#
-        {% set extraRelatedProjects = craft.similar.find({ element: entry, context: categoryIds, criteria: limitCriteria }) %}
-        {% set relatedProjects = relatedProjects|merge(extraRelatedProjects) %}
+          {% set extraRelatedProjects = craft.similar.find({ element: entry, context: categoryIds, criteria: limitCriteria }) %}
+          {% set relatedProjects = relatedProjects|merge(extraRelatedProjects) %}
         #}
       {% endif %}
       {% include 'partials/_related-projects'
