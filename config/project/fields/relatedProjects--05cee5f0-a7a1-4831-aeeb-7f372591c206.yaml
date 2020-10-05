@@ -1,11 +1,11 @@
 contentColumnType: string
-fieldGroup: e668eebd-a051-40e2-b807-9cf5252c76fc
+fieldGroup: 76cf6d8b-6453-4d20-a26b-d31357cdef08
 handle: relatedProjects
-instructions: ''
+instructions: 'Manually set related projects. If less than 4 are selected, up to 4 projects related by category, etc., will be automatically selected if possible.'
 name: 'Related Projects'
-searchable: '1'
+searchable: true
 settings:
-  limit: ''
+  limit: '4'
   localizeRelations: false
   selectionLabel: 'Add a Project'
   source: null

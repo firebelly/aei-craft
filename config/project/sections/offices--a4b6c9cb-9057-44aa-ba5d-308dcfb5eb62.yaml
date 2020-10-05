@@ -1,6 +1,6 @@
-enableVersioning: '0'
+enableVersioning: false
 handle: offices
-name: Offices
+name: Contact
 previewTargets:
   -
     label: 'Primary entry page'
@@ -8,11 +8,11 @@ previewTargets:
 propagationMethod: all
 siteSettings:
   fbde05ad-97ce-4076-85e8-261874a1582b:
-    enabledByDefault: '1'
-    hasUrls: '1'
+    enabledByDefault: true
+    hasUrls: true
     template: offices/_entry
     uriFormat: 'contact/{slug}'
 structure:
-  maxLevels: '1'
+  maxLevels: 1
   uid: 12cf4cbc-601f-455d-869d-fc700d5790e2
 type: structure

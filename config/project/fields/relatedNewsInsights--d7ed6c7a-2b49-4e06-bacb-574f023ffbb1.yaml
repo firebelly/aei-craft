@@ -1,7 +1,7 @@
 contentColumnType: string
 fieldGroup: 76cf6d8b-6453-4d20-a26b-d31357cdef08
 handle: relatedNewsInsights
-instructions: ''
+instructions: 'Manually select up to 2 related News & Insights posts. If less than 2 are selected then the remaining slots will be filled by posts automatically selected based on category, etc.'
 name: 'Related News & Insights'
 searchable: true
 settings:

@@ -1,4 +1,4 @@
-dateModified: 1601916423
+dateModified: 1601139708
 email:
   fromEmail: developer@firebellydesign.com
   fromName: 'Affiliated Engineers'
@@ -12,10 +12,6 @@ email:
     useAuthentication: '1'
     username: aei_www
   transportType: craft\mail\transportadapters\Smtp
-graphql:
-  publicToken:
-    enabled: false
-    expiryDate: null
 plugins:
   aei:
     enabled: '1'
@@ -43,6 +39,10 @@ plugins:
     licenseKey: null
     schemaVersion: 3.0.0
     settings: null
+  constant-contact:
+    edition: standard
+    enabled: true
+    schemaVersion: 0.0.1
   cp-css:
     enabled: '1'
     licenseKey: null
@@ -67,6 +67,12 @@ plugins:
     licenseKey: null
     schemaVersion: 1.0.0
     settings: null
+  google-tag-manager:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.1.0
+    settings:
+      containerID: GTM-PZLP2FR
   imager:
     enabled: '1'
     licenseKey: null
@@ -77,6 +83,15 @@ plugins:
     licenseKey: null
     schemaVersion: 1.1.1
     settings: null
+  poptin:
+    client_id: ''
+    edition: standard
+    enabled: false
+    login_url: ''
+    poptin_url: 'https://app.popt.in'
+    schemaVersion: 1.0.0
+    token: ''
+    user_id: ''
   redactor:
     enabled: '1'
     licenseKey: null
@@ -100,6 +115,7 @@ plugins:
     licenseKey: null
     schemaVersion: 3.1.1
     settings:
+      description: ''
       facebookAppId: '323796168167088'
       metaTemplate: partials/_seo
       robots:
@@ -109,10 +125,16 @@ plugins:
         - ''
         - ''
         - ''
-      robotsTxt: "{# Sitemap URL #}\r\nSitemap: {{ url(seo.sitemapName ~ \".xml\") }}\r\n\r\n{# Disallows #}\r\n{% if craft.app.config.general.devMode %}\r\n\r\n{# Disallow access to everything when in devMode #}\r\nUser-agent: *\r\nDisallow: /\r\n\r\n{% else %}\r\n\r\n{# Disallow access to cpresources/ when live #}\r\nUser-agent: *\r\nDisallow: /cpresources/\r\n\r\n{% endif %}"
+      robotsTxt: "{# Sitemap URL #}\nSitemap: {{ url(seo.sitemapName ~ \".xml\") }}\n\n{# Disallows #}\n{% if craft.app.config.general.devMode %}\n\n{# Disallow access to everything when in devMode #}\nUser-agent: *\nDisallow: /\n\n{% else %}\n\n{# Disallow access to cpresources/ when live #}\nUser-agent: *\nDisallow: /cpresources/\n\n{% endif %}"
       sitemapLimit: '1000'
       sitemapName: sitemap
-      socialImage: ''
+      socialImage:
+        - '2151080'
+      title:
+        -
+          key: '1'
+          locked: '0'
+          template: '{title}'
       titleSuffix: '| Affiliated Engineers'
       twitterHandle: AEITweets
   similar:
@@ -126,10 +148,9 @@ plugins:
     schemaVersion: 2.0.0
     settings: null
   super-table:
-    enabled: '1'
-    licenseKey: null
+    edition: standard
+    enabled: true
     schemaVersion: 2.2.1
-    settings: null
   wordsmith:
     enabled: '1'
     licenseKey: null

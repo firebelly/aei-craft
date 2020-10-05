@@ -5,22 +5,22 @@ fieldLayouts:
       -
         fields:
           9afe4056-4e75-4333-9f6d-0bfdadc850a4:
-            required: '0'
-            sortOrder: '1'
+            required: false
+            sortOrder: 1
           c80ca8b2-04f1-4a3a-97ff-c76b08309d92:
-            required: '0'
-            sortOrder: '5'
+            required: false
+            sortOrder: 5
           c854dfc3-a871-449a-af76-f17f427d9e96:
-            required: '0'
-            sortOrder: '4'
+            required: false
+            sortOrder: 4
           e624582e-e415-42c1-aa79-87faee527edf:
-            required: '0'
-            sortOrder: '3'
+            required: false
+            sortOrder: 3
           e658599b-f187-4710-916e-bca7d52f3d96:
-            required: '0'
-            sortOrder: '2'
+            required: false
+            sortOrder: 2
         name: Content
-        sortOrder: '1'
+        sortOrder: 1
 fields:
   9afe4056-4e75-4333-9f6d-0bfdadc850a4:
     contentColumnType: text
@@ -28,7 +28,7 @@ fields:
     handle: quote
     instructions: ''
     name: Quote
-    searchable: '1'
+    searchable: true
     settings:
       charLimit: ''
       code: ''
@@ -45,13 +45,14 @@ fields:
     handle: quoteKey
     instructions: 'ID from Deltek'
     name: 'Quote Key'
-    searchable: '1'
+    searchable: true
     settings:
       charLimit: ''
       code: ''
       columnType: string
       initialRows: '4'
       mode: readonly
+      modeOverride: null
       multiline: ''
       placeholder: ''
     translationKeyFormat: null
@@ -63,7 +64,7 @@ fields:
     handle: personCompany
     instructions: ''
     name: Company
-    searchable: '1'
+    searchable: true
     settings:
       charLimit: ''
       code: ''
@@ -80,7 +81,7 @@ fields:
     handle: personName
     instructions: 'Use this if not an AEI Person'
     name: Name
-    searchable: '1'
+    searchable: true
     settings:
       charLimit: ''
       code: ''
@@ -97,7 +98,7 @@ fields:
     handle: aeiPerson
     instructions: ''
     name: 'AEI Person'
-    searchable: '1'
+    searchable: true
     settings:
       limit: '1'
       localizeRelations: false
@@ -106,6 +107,7 @@ fields:
       sources:
         - 'section:c9d7915e-d21a-4758-8e64-38e16abb4491'
       targetSiteId: null
+      validateRelatedElements: false
       viewMode: null
     translationKeyFormat: null
     translationMethod: site

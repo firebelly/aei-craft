@@ -5,16 +5,16 @@ fieldLayouts:
       -
         fields:
           4520d38c-c811-42a7-9237-bd89b59d4411:
-            required: '0'
-            sortOrder: '1'
+            required: false
+            sortOrder: 1
           8e5b8ea6-8414-4f7a-89e6-dfe452ddd4c0:
-            required: '0'
-            sortOrder: '3'
+            required: false
+            sortOrder: 3
           e623173d-9526-42df-b34f-388fbc460630:
-            required: '0'
-            sortOrder: '2'
+            required: false
+            sortOrder: 2
         name: Content
-        sortOrder: '1'
+        sortOrder: 1
 fields:
   4520d38c-c811-42a7-9237-bd89b59d4411:
     contentColumnType: text
@@ -22,7 +22,7 @@ fields:
     handle: subheader
     instructions: ''
     name: Subheader
-    searchable: '1'
+    searchable: true
     settings:
       charLimit: ''
       code: ''
@@ -39,7 +39,7 @@ fields:
     handle: statLabel
     instructions: ''
     name: 'Stat Label'
-    searchable: '1'
+    searchable: true
     settings:
       charLimit: ''
       code: ''
@@ -56,7 +56,7 @@ fields:
     handle: statFigure
     instructions: ''
     name: 'Stat Figure'
-    searchable: '1'
+    searchable: true
     settings:
       charLimit: ''
       code: ''

@@ -5,25 +5,25 @@ fieldLayouts:
       -
         fields:
           3a1a9639-db98-40a5-8c70-195ad94e5656:
-            required: '0'
-            sortOrder: '6'
+            required: false
+            sortOrder: 6
           65affc8e-6f29-4b1d-8578-afb85d9e0501:
-            required: '0'
-            sortOrder: '5'
+            required: false
+            sortOrder: 5
           81e5b287-264a-4e7f-a154-7c78d26231a8:
-            required: '0'
-            sortOrder: '2'
+            required: false
+            sortOrder: 2
           8838cc4a-91fb-4d83-9856-884f5736e932:
-            required: '0'
-            sortOrder: '3'
+            required: false
+            sortOrder: 3
           b4eaddc8-8c6a-4143-a65d-4fa3bf309eb0:
-            required: '1'
-            sortOrder: '1'
+            required: true
+            sortOrder: 1
           e63021d9-b707-4d9a-82d2-5fb901b5f545:
-            required: '0'
-            sortOrder: '4'
+            required: false
+            sortOrder: 4
         name: Content
-        sortOrder: '1'
+        sortOrder: 1
 fields:
   3a1a9639-db98-40a5-8c70-195ad94e5656:
     contentColumnType: boolean
@@ -31,7 +31,7 @@ fields:
     handle: openInNewWindow
     instructions: ''
     name: 'Open In New Window'
-    searchable: '1'
+    searchable: true
     settings:
       default: ''
     translationKeyFormat: null
@@ -43,7 +43,7 @@ fields:
     handle: buttonText
     instructions: ''
     name: 'Button Text'
-    searchable: '1'
+    searchable: true
     settings:
       charLimit: ''
       code: ''
@@ -60,7 +60,7 @@ fields:
     handle: relatedEntry
     instructions: ''
     name: 'Related Entry'
-    searchable: '1'
+    searchable: true
     settings:
       limit: ''
       localizeRelations: false
@@ -72,6 +72,7 @@ fields:
         - 'section:c9d7915e-d21a-4758-8e64-38e16abb4491'
         - 'section:9e08b264-69e4-4e00-a814-65027c6e71bb'
       targetSiteId: null
+      validateRelatedElements: false
       viewMode: null
     translationKeyFormat: null
     translationMethod: site
@@ -82,7 +83,7 @@ fields:
     handle: linkTitle
     instructions: 'Use this if not a Related Entry'
     name: 'Link Title'
-    searchable: '1'
+    searchable: true
     settings:
       charLimit: ''
       code: ''
@@ -99,7 +100,7 @@ fields:
     handle: linkHeader
     instructions: ''
     name: 'Link Header'
-    searchable: '1'
+    searchable: true
     settings:
       charLimit: ''
       code: ''
@@ -111,12 +112,15 @@ fields:
     translationMethod: none
     type: craft\fields\PlainText
   e63021d9-b707-4d9a-82d2-5fb901b5f545:
-    contentColumnType: string
+    contentColumnType: string(255)
     fieldGroup: null
     handle: buttonUrl
     instructions: 'Will use Related Entry URL if set'
     name: 'Button URL'
-    searchable: '1'
+    searchable: true
+    settings:
+      maxLength: 255
+      placeholder: null
     translationKeyFormat: null
     translationMethod: none
     type: craft\fields\Url

@@ -3,14 +3,14 @@ fieldGroup: 76cf6d8b-6453-4d20-a26b-d31357cdef08
 handle: quotes
 instructions: ''
 name: Quotes
-searchable: '1'
+searchable: true
 settings:
   columns: null
   contentTable: '{{%stc_quotes}}'
   fieldLayout: row
-  localizeBlocks: false
   maxRows: ''
   minRows: ''
+  propagationMethod: all
   selectionLabel: 'Add a Quote'
   staticField: ''
 translationKeyFormat: null

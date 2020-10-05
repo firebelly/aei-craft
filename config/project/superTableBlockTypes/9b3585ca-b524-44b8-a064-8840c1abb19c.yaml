@@ -5,22 +5,22 @@ fieldLayouts:
       -
         fields:
           05314f82-3231-4e9d-93c9-c50c2766598a:
-            required: '0'
-            sortOrder: '2'
+            required: false
+            sortOrder: 2
           282d9252-879c-46e2-97a6-a99971221ab7:
-            required: '0'
-            sortOrder: '3'
+            required: false
+            sortOrder: 3
           5f19f594-494d-4974-acc4-794cc3a4abb4:
-            required: '0'
-            sortOrder: '1'
+            required: false
+            sortOrder: 1
           7e1009a2-83b9-404c-baf3-6ba6ea19672e:
-            required: '0'
-            sortOrder: '4'
+            required: false
+            sortOrder: 4
           8afe16e6-9150-44b0-9235-f1b3e8669a73:
-            required: '0'
-            sortOrder: '5'
+            required: false
+            sortOrder: 5
         name: Content
-        sortOrder: '1'
+        sortOrder: 1
 fields:
   05314f82-3231-4e9d-93c9-c50c2766598a:
     contentColumnType: string
@@ -28,7 +28,7 @@ fields:
     handle: aeiPerson
     instructions: ''
     name: 'AEI Person'
-    searchable: '1'
+    searchable: true
     settings:
       limit: '1'
       localizeRelations: false
@@ -37,6 +37,7 @@ fields:
       sources:
         - 'section:c9d7915e-d21a-4758-8e64-38e16abb4491'
       targetSiteId: null
+      validateRelatedElements: false
       viewMode: null
     translationKeyFormat: null
     translationMethod: site
@@ -47,7 +48,7 @@ fields:
     handle: personName
     instructions: 'Use this if not an AEI Person'
     name: Name
-    searchable: '1'
+    searchable: true
     settings:
       charLimit: ''
       code: ''
@@ -64,7 +65,7 @@ fields:
     handle: quote
     instructions: ''
     name: Quote
-    searchable: '1'
+    searchable: true
     settings:
       charLimit: ''
       code: ''
@@ -81,7 +82,7 @@ fields:
     handle: personCompany
     instructions: ''
     name: 'Company or Title'
-    searchable: '1'
+    searchable: true
     settings:
       charLimit: ''
       code: ''
@@ -98,13 +99,14 @@ fields:
     handle: quoteKey
     instructions: 'ID from Deltek'
     name: 'Quote Key'
-    searchable: '1'
+    searchable: true
     settings:
       charLimit: ''
       code: ''
       columnType: string
       initialRows: '4'
       mode: readonly
+      modeOverride: null
       multiline: ''
       placeholder: ''
     translationKeyFormat: null

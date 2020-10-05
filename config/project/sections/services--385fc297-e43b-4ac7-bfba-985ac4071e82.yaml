@@ -1,4 +1,4 @@
-enableVersioning: '1'
+enableVersioning: false
 handle: services
 name: Services
 previewTargets:
@@ -8,8 +8,8 @@ previewTargets:
 propagationMethod: all
 siteSettings:
   fbde05ad-97ce-4076-85e8-261874a1582b:
-    enabledByDefault: '1'
-    hasUrls: '1'
+    enabledByDefault: true
+    hasUrls: true
     template: services/index
     uriFormat: services
 type: single

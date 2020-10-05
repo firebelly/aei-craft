@@ -3,13 +3,13 @@ fieldGroup: 76cf6d8b-6453-4d20-a26b-d31357cdef08
 handle: statHeader
 instructions: ''
 name: 'Stat Header'
-searchable: '1'
+searchable: true
 settings:
   contentTable: '{{%stc_statheader}}'
   fieldLayout: row
-  localizeBlocks: false
   maxRows: ''
   minRows: ''
+  propagationMethod: all
   selectionLabel: ''
   staticField: '1'
 translationKeyFormat: null

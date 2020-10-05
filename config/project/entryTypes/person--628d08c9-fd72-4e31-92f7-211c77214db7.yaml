@@ -5,7 +5,7 @@ fieldLayouts:
         elements:
           -
             instructions: null
-            label: null
+            label: ''
             type: craft\fieldlayoutelements\EntryTitleField
           -
             fieldUid: 92a9fada-30bc-4533-a018-ef2866e81063
@@ -67,8 +67,16 @@ fieldLayouts:
             fieldUid: 6445822d-589d-4bc6-a651-a09d649d38dd
             required: false
             type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 05cee5f0-a7a1-4831-aeeb-7f372591c206
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: d7ed6c7a-2b49-4e06-bacb-574f023ffbb1
+            required: false
+            type: craft\fieldlayoutelements\CustomField
         name: 'Person Info'
-        sortOrder: '1'
+        sortOrder: 1
       -
         elements:
           -
@@ -76,10 +84,10 @@ fieldLayouts:
             required: false
             type: craft\fieldlayoutelements\CustomField
         name: SEO
-        sortOrder: '2'
+        sortOrder: 2
 handle: person
-hasTitleField: '0'
+hasTitleField: false
 name: Person
 section: c9d7915e-d21a-4758-8e64-38e16abb4491
-sortOrder: '1'
+sortOrder: 1
 titleFormat: '{personFirstName} {personLastName}'

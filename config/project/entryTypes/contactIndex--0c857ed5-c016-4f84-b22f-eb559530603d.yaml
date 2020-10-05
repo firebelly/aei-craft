@@ -12,7 +12,7 @@ fieldLayouts:
             required: false
             type: craft\fieldlayoutelements\CustomField
         name: 'Contact Info'
-        sortOrder: '1'
+        sortOrder: 1
       -
         elements:
           -
@@ -20,10 +20,10 @@ fieldLayouts:
             required: false
             type: craft\fieldlayoutelements\CustomField
         name: SEO
-        sortOrder: '2'
-handle: contact
-hasTitleField: '0'
-name: Contact
+        sortOrder: 2
+handle: contactIndex
+hasTitleField: false
+name: Offices
 section: 973b5f55-7882-43fe-8e52-112dbe0c8274
-sortOrder: '1'
+sortOrder: 1
 titleFormat: '{section.name|raw}'
