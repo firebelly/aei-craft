@@ -1,0 +1,45 @@
+contentColumnType: text
+fieldGroup: 55777ff8-f1bc-4431-bf95-25bd86429ac9
+handle: seo
+instructions: ''
+name: SEO
+searchable: true
+settings:
+  description: null
+  hideSocial: ''
+  robots:
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+  socialImage: ''
+  suffixAsPrefix: ''
+  title:
+    -
+      __assoc__:
+        -
+          - key
+          - '1'
+        -
+          - locked
+          - false
+        -
+          - template
+          - '{title}'
+    -
+      __assoc__:
+        -
+          - key
+          - '2'
+        -
+          - locked
+          - true
+        -
+          - template
+          - ' | {{siteName}}'
+  titleSuffix: '| Affiliated Engineers'
+translationKeyFormat: null
+translationMethod: none
+type: ether\seo\fields\SeoField

@@ -1,0 +1,24 @@
+contentColumnType: string
+fieldGroup: 051a5088-1f13-4554-a13b-943a9cc025ca
+handle: officeImage
+instructions: 'Used for listing page thumbs and header'
+name: 'Office Image'
+searchable: '1'
+settings:
+  allowedKinds: null
+  defaultUploadLocationSource: 'volume:d7075611-58e0-4ff8-89ea-500e5910239e'
+  defaultUploadLocationSubpath: ''
+  limit: ''
+  localizeRelations: false
+  restrictFiles: ''
+  selectionLabel: ''
+  singleUploadLocationSource: 'volume:50c721ec-4b9c-4077-9614-601708a4a0bf'
+  singleUploadLocationSubpath: ''
+  source: null
+  sources: '*'
+  targetSiteId: null
+  useSingleFolder: ''
+  viewMode: large
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Assets

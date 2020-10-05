@@ -1,0 +1,29 @@
+fieldLayouts:
+  d6f97439-8da5-4396-8deb-35a10683ece4:
+    tabs:
+      -
+        elements:
+          -
+            instructions: null
+            label: 'Award Name'
+            type: craft\fieldlayoutelements\EntryTitleField
+          -
+            fieldUid: 8c867798-292a-4a6a-bd58-83db1eac10ec
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 75ce2df9-5ea1-4207-8914-0bcf4ed3f61d
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 33a545f2-7cea-4dec-b987-e6cd2412d958
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+        name: 'Award Info'
+        sortOrder: '1'
+handle: awards
+hasTitleField: '1'
+name: Awards
+section: f7439d28-8ddc-4095-aeaf-249a74736375
+sortOrder: '1'
+titleFormat: null

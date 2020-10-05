@@ -1,0 +1,10 @@
+handle: statTypes
+name: 'Stat Types'
+siteSettings:
+  fbde05ad-97ce-4076-85e8-261874a1582b:
+    hasUrls: '1'
+    template: ''
+    uriFormat: 'stat-types/{slug}'
+structure:
+  maxLevels: '1'
+  uid: 58bd35ae-314e-441d-b5e5-4bcab9933cce

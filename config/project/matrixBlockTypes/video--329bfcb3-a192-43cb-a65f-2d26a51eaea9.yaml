@@ -1,0 +1,80 @@
+field: a53a9f05-dc13-4e76-b462-5b32852541aa
+fieldLayouts:
+  464fb94b-a890-4ad6-a33a-e7b9d76c0153:
+    tabs:
+      -
+        fields:
+          39b1f289-f096-4609-b7ad-6418998478ee:
+            required: '0'
+            sortOrder: '2'
+          493f55ea-bf7d-4fbc-bd88-8bc24fa62bd3:
+            required: '0'
+            sortOrder: '3'
+          85f1e408-9365-4821-94f2-8c96e88bcb91:
+            required: '0'
+            sortOrder: '1'
+        name: Content
+        sortOrder: '1'
+fields:
+  39b1f289-f096-4609-b7ad-6418998478ee:
+    contentColumnType: text
+    fieldGroup: null
+    handle: caption
+    instructions: ''
+    name: Caption
+    searchable: '1'
+    settings:
+      charLimit: ''
+      code: ''
+      columnType: text
+      initialRows: '4'
+      multiline: ''
+      placeholder: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\PlainText
+  493f55ea-bf7d-4fbc-bd88-8bc24fa62bd3:
+    contentColumnType: string
+    fieldGroup: null
+    handle: image
+    instructions: 'The image that will display before the video is played.'
+    name: 'Placeholder Image'
+    searchable: '1'
+    settings:
+      allowedKinds: null
+      defaultUploadLocationSource: 'volume:d7075611-58e0-4ff8-89ea-500e5910239e'
+      defaultUploadLocationSubpath: ''
+      limit: '1'
+      localizeRelations: false
+      restrictFiles: ''
+      selectionLabel: ''
+      singleUploadLocationSource: 'volume:d7075611-58e0-4ff8-89ea-500e5910239e'
+      singleUploadLocationSubpath: ''
+      source: null
+      sources: '*'
+      targetSiteId: null
+      useSingleFolder: ''
+      viewMode: list
+    translationKeyFormat: null
+    translationMethod: site
+    type: craft\fields\Assets
+  85f1e408-9365-4821-94f2-8c96e88bcb91:
+    contentColumnType: text
+    fieldGroup: null
+    handle: youtubeUrl
+    instructions: 'Paste in a YouTube Video URL'
+    name: 'Youtube URL'
+    searchable: '1'
+    settings:
+      charLimit: ''
+      code: ''
+      columnType: text
+      initialRows: '4'
+      multiline: ''
+      placeholder: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\PlainText
+handle: video
+name: Video
+sortOrder: '5'

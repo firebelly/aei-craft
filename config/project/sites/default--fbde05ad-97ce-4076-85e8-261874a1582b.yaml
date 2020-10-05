@@ -1,0 +1,8 @@
+baseUrl: 'http://aei-craft.localhost/'
+handle: default
+hasUrls: '1'
+language: en-US
+name: 'Affiliated Engineers'
+primary: '1'
+siteGroup: 7e285dd3-9c99-46ac-b1f0-4b7956278c8f
+sortOrder: '1'

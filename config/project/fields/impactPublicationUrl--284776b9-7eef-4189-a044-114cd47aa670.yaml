@@ -1,0 +1,9 @@
+contentColumnType: string
+fieldGroup: e668eebd-a051-40e2-b807-9cf5252c76fc
+handle: impactPublicationUrl
+instructions: ''
+name: 'Publication URL'
+searchable: '1'
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Url

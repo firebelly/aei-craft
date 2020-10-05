@@ -1,0 +1,14 @@
+contentColumnType: string
+fieldGroup: 5cd9c27f-9a67-4a3b-a103-7449017ceec0
+handle: socialLinks
+instructions: ''
+name: 'Social Links'
+searchable: '1'
+settings:
+  contentTable: '{{%matrixcontent_sociallinks}}'
+  localizeBlocks: false
+  maxBlocks: ''
+  minBlocks: ''
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix

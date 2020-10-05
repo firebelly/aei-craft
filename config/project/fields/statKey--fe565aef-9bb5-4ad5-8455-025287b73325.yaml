@@ -1,0 +1,17 @@
+contentColumnType: text
+fieldGroup: c39a0c11-54db-435b-92a4-a299570913f3
+handle: statKey
+instructions: 'ID from Deltek'
+name: 'Stat Key'
+searchable: '1'
+settings:
+  charLimit: ''
+  code: ''
+  columnType: text
+  initialRows: '4'
+  mode: readonly
+  multiline: ''
+  placeholder: ''
+translationKeyFormat: null
+translationMethod: none
+type: mmikkel\incognitofield\fields\IncognitoFieldType

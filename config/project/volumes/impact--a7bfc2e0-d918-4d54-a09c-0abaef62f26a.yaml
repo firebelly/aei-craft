@@ -1,0 +1,8 @@
+handle: impact
+hasUrls: '1'
+name: Impact
+settings:
+  path: '@webroot/uploads/impact'
+sortOrder: '4'
+type: craft\volumes\Local
+url: '@web/uploads/impact'

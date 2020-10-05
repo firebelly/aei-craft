@@ -1,0 +1,64 @@
+field: a53a9f05-dc13-4e76-b462-5b32852541aa
+fieldLayouts:
+  e160351d-d310-473a-95f3-cb02c21efeef:
+    tabs:
+      -
+        fields:
+          42705e68-a626-47f8-9b75-6bcb68d1897f:
+            required: '0'
+            sortOrder: '1'
+        name: Content
+        sortOrder: '1'
+fields:
+  42705e68-a626-47f8-9b75-6bcb68d1897f:
+    contentColumnType: string
+    fieldGroup: null
+    handle: links
+    instructions: ''
+    name: Links
+    searchable: '1'
+    settings:
+      columns:
+        156:
+          __assoc__:
+            -
+              - width
+              - ''
+        157:
+          __assoc__:
+            -
+              - width
+              - ''
+        158:
+          __assoc__:
+            -
+              - width
+              - ''
+        159:
+          __assoc__:
+            -
+              - width
+              - ''
+        160:
+          __assoc__:
+            -
+              - width
+              - ''
+        161:
+          __assoc__:
+            -
+              - width
+              - ''
+      contentTable: '{{%stc_23_links}}'
+      fieldLayout: row
+      localizeBlocks: false
+      maxRows: ''
+      minRows: ''
+      selectionLabel: ''
+      staticField: ''
+    translationKeyFormat: null
+    translationMethod: site
+    type: verbb\supertable\fields\SuperTableField
+handle: linkGrid
+name: 'Link Grid'
+sortOrder: '6'

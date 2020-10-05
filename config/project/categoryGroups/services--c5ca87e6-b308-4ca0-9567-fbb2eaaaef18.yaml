@@ -1,0 +1,23 @@
+fieldLayouts:
+  fc0799c1-b4df-4a60-b35c-4a89c1483a93:
+    tabs:
+      -
+        fields:
+          7ad369eb-7b23-43e5-abc3-4e8e5232924d:
+            required: false
+            sortOrder: 1
+          d16e56d7-1702-46b2-b089-80febb4966c3:
+            required: false
+            sortOrder: 2
+        name: 'Service Info'
+        sortOrder: 1
+handle: services
+name: Services
+siteSettings:
+  fbde05ad-97ce-4076-85e8-261874a1582b:
+    hasUrls: true
+    template: services/_entry
+    uriFormat: 'services/{slug}'
+structure:
+  maxLevels: 2
+  uid: 5a3e9349-6486-4c81-b016-783ef2383e73

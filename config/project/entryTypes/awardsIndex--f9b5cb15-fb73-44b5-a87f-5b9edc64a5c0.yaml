@@ -1,0 +1,29 @@
+fieldLayouts:
+  ebda02c3-431b-4e7c-bf40-1a61e6d1893d:
+    tabs:
+      -
+        elements:
+          -
+            instructions: null
+            label: null
+            type: craft\fieldlayoutelements\EntryTitleField
+          -
+            fieldUid: d16e56d7-1702-46b2-b089-80febb4966c3
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+        name: 'Awards Index'
+        sortOrder: '1'
+      -
+        elements:
+          -
+            fieldUid: 8ace18eb-ea90-4bbd-8483-5fc18840ea38
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+        name: SEO
+        sortOrder: '2'
+handle: awardsIndex
+hasTitleField: '0'
+name: 'Awards Index'
+section: 0ac23e9b-0c26-40cc-95d8-79386517fd65
+sortOrder: '1'
+titleFormat: '{section.name|raw}'

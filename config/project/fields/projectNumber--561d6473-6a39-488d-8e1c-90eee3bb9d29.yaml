@@ -1,0 +1,17 @@
+contentColumnType: text
+fieldGroup: bb82ffa5-12e2-4111-8c1b-383fb2917ab2
+handle: projectNumber
+instructions: 'ID from Deltek'
+name: 'Project Number'
+searchable: '1'
+settings:
+  charLimit: ''
+  code: ''
+  columnType: text
+  initialRows: '4'
+  mode: readonly
+  multiline: ''
+  placeholder: ''
+translationKeyFormat: null
+translationMethod: none
+type: mmikkel\incognitofield\fields\IncognitoFieldType

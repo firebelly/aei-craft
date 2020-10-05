@@ -1,0 +1,118 @@
+field: a53a9f05-dc13-4e76-b462-5b32852541aa
+fieldLayouts:
+  3c2026c9-d484-4bfb-bb86-dd6bc1878fc8:
+    tabs:
+      -
+        fields:
+          0d868e50-ab83-46b2-9287-ce5981cfd9a0:
+            required: '0'
+            sortOrder: '1'
+          1154892e-a976-4479-9f0f-c2e683b0a43d:
+            required: '0'
+            sortOrder: '2'
+          835689a9-0d46-47ee-9dc5-7b1aef286c9c:
+            required: '0'
+            sortOrder: '3'
+          8daf390b-03c3-45e4-8d07-5d5c4030f1b6:
+            required: '0'
+            sortOrder: '4'
+        name: Content
+        sortOrder: '1'
+fields:
+  0d868e50-ab83-46b2-9287-ce5981cfd9a0:
+    contentColumnType: string
+    fieldGroup: null
+    handle: image
+    instructions: ''
+    name: Image
+    searchable: '1'
+    settings:
+      allowedKinds: null
+      defaultUploadLocationSource: 'volume:d7075611-58e0-4ff8-89ea-500e5910239e'
+      defaultUploadLocationSubpath: '{owner.slug}'
+      limit: '1'
+      localizeRelations: false
+      restrictFiles: ''
+      selectionLabel: ''
+      singleUploadLocationSource: 'volume:d7075611-58e0-4ff8-89ea-500e5910239e'
+      singleUploadLocationSubpath: ''
+      source: null
+      sources: '*'
+      targetSiteId: null
+      useSingleFolder: ''
+      viewMode: large
+    translationKeyFormat: null
+    translationMethod: site
+    type: craft\fields\Assets
+  1154892e-a976-4479-9f0f-c2e683b0a43d:
+    contentColumnType: text
+    fieldGroup: null
+    handle: caption
+    instructions: ''
+    name: Caption
+    searchable: '1'
+    settings:
+      charLimit: ''
+      code: ''
+      columnType: text
+      initialRows: '4'
+      multiline: ''
+      placeholder: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\PlainText
+  835689a9-0d46-47ee-9dc5-7b1aef286c9c:
+    contentColumnType: string
+    fieldGroup: null
+    handle: width
+    instructions: ''
+    name: Width
+    searchable: '1'
+    settings:
+      options:
+        -
+          __assoc__:
+            -
+              - default
+              - '1'
+            -
+              - label
+              - 'Half Width'
+            -
+              - value
+              - half
+        -
+          __assoc__:
+            -
+              - default
+              - ''
+            -
+              - label
+              - 'Full Width'
+            -
+              - value
+              - full
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\Dropdown
+  8daf390b-03c3-45e4-8d07-5d5c4030f1b6:
+    contentColumnType: text
+    fieldGroup: null
+    handle: photoKey
+    instructions: 'ID from Deltek'
+    name: 'Photo Key'
+    searchable: '1'
+    settings:
+      charLimit: ''
+      code: ''
+      columnType: text
+      initialRows: '4'
+      mode: readonly
+      multiline: ''
+      placeholder: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: mmikkel\incognitofield\fields\IncognitoFieldType
+handle: image
+name: Image
+sortOrder: '2'

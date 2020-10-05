@@ -1,0 +1,143 @@
+dateModified: 1601916423
+email:
+  fromEmail: developer@firebellydesign.com
+  fromName: 'Affiliated Engineers'
+  template: ''
+  transportSettings:
+    encryptionMethod: tls
+    host: smtp.webfaction.com
+    password: 'VYRRyW4s%NRbmNMwer)ry[4HxRaE4R'
+    port: '587'
+    timeout: '10'
+    useAuthentication: '1'
+    username: aei_www
+  transportType: craft\mail\transportadapters\Smtp
+graphql:
+  publicToken:
+    enabled: false
+    expiryDate: null
+plugins:
+  aei:
+    enabled: '1'
+    licenseKey: null
+    schemaVersion: 1.0.0
+    settings:
+      deltekActiveImportSections:
+        Awards: '1'
+        Impact: '1'
+        Offices: '1'
+        People: '1'
+        Projects: '1'
+  assetrev:
+    enabled: '1'
+    licenseKey: null
+    schemaVersion: 1.0.0
+    settings: null
+  ckeditor:
+    enabled: '1'
+    licenseKey: null
+    schemaVersion: 1.0.0
+    settings: null
+  command-palette:
+    enabled: '1'
+    licenseKey: null
+    schemaVersion: 3.0.0
+    settings: null
+  cp-css:
+    enabled: '1'
+    licenseKey: null
+    schemaVersion: 2.0.0
+    settings:
+      additionalCss: ".redactor-styles a.button,\r\n.redactor-styles .button-block a {\r\n  padding: 11px 20px;\r\n  display: inline-block;\r\n  border: 1px solid #282826;\r\n  color: #282826;\r\n  border-radius: 3px;\r\n  text-decoration: none;\r\n}\r\n.redactor-styles a.button:hover,\r\n.redactor-styles .button-block a:hover {\r\n  color: #fff;\r\n  text-decoration: none;\r\n  background: #282826;\r\n}\r\n"
+      cssFile: ''
+  cp-field-inspect:
+    enabled: '1'
+    licenseKey: null
+    schemaVersion: 1.0.0
+    settings: null
+  expanded-singles:
+    enabled: '1'
+    licenseKey: null
+    schemaVersion: 1.0.0
+    settings:
+      expandSingles: '1'
+      redirectToEntry: '1'
+  fb-utils:
+    enabled: '0'
+    licenseKey: null
+    schemaVersion: 1.0.0
+    settings: null
+  imager:
+    enabled: '1'
+    licenseKey: null
+    schemaVersion: 2.0.0
+    settings: null
+  incognito-field:
+    enabled: '1'
+    licenseKey: null
+    schemaVersion: 1.1.1
+    settings: null
+  redactor:
+    enabled: '1'
+    licenseKey: null
+    schemaVersion: 2.3.0
+    settings: null
+  redactor-tweaks:
+    enabled: '1'
+    licenseKey: null
+    schemaVersion: 1.0.0
+    settings: null
+  redirect:
+    enabled: '1'
+    licenseKey: null
+    schemaVersion: 1.0.5
+    settings:
+      catchAllActive: true
+      catchAllTemplate: 404.html
+      redirectsActive: true
+  seo:
+    enabled: '1'
+    licenseKey: null
+    schemaVersion: 3.1.1
+    settings:
+      facebookAppId: '323796168167088'
+      metaTemplate: partials/_seo
+      robots:
+        - ''
+        - ''
+        - ''
+        - ''
+        - ''
+        - ''
+      robotsTxt: "{# Sitemap URL #}\r\nSitemap: {{ url(seo.sitemapName ~ \".xml\") }}\r\n\r\n{# Disallows #}\r\n{% if craft.app.config.general.devMode %}\r\n\r\n{# Disallow access to everything when in devMode #}\r\nUser-agent: *\r\nDisallow: /\r\n\r\n{% else %}\r\n\r\n{# Disallow access to cpresources/ when live #}\r\nUser-agent: *\r\nDisallow: /cpresources/\r\n\r\n{% endif %}"
+      sitemapLimit: '1000'
+      sitemapName: sitemap
+      socialImage: ''
+      titleSuffix: '| Affiliated Engineers'
+      twitterHandle: AEITweets
+  similar:
+    enabled: '1'
+    licenseKey: null
+    schemaVersion: 1.0.0
+    settings: null
+  sprout-active:
+    enabled: '1'
+    licenseKey: null
+    schemaVersion: 2.0.0
+    settings: null
+  super-table:
+    enabled: '1'
+    licenseKey: null
+    schemaVersion: 2.2.1
+    settings: null
+  wordsmith:
+    enabled: '1'
+    licenseKey: null
+    schemaVersion: 0.0.0.0
+    settings: null
+system:
+  edition: pro
+  live: true
+  name: 'Affiliated Engineers'
+  schemaVersion: 3.5.13
+  timeZone: America/Chicago

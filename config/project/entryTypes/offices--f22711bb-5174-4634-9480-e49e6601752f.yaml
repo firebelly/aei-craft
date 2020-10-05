@@ -1,0 +1,77 @@
+fieldLayouts:
+  97b76485-c7eb-489d-9c70-9664820a0cab:
+    tabs:
+      -
+        elements:
+          -
+            instructions: null
+            label: Title
+            type: craft\fieldlayoutelements\EntryTitleField
+          -
+            fieldUid: 331ccdb5-dba5-4346-b815-71ee339ed43e
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: d16e56d7-1702-46b2-b089-80febb4966c3
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: ee53b58b-56a3-4349-b129-a7a2737b7c8b
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 9430edd7-eedb-4754-8bf9-44809625a034
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: ed452eb2-b06b-40e1-ab1e-c7fa0a7242f7
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 73ac84d8-8160-42cf-adfb-6182c1afd06e
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 989805d0-1a3d-4740-9807-48e4466c22fd
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 16d2f855-21f9-40e8-babb-ea662635882c
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: a51734d0-26e6-4e4f-937b-67176bb69587
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: cf5962d2-ad3a-4e9b-9935-e2ecc5cc2592
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 4119a62d-7010-403f-834f-7cba0c390d6b
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 98989073-1a6e-4396-9d4b-f29d363888be
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 94380646-eb39-4b58-b069-75e4e23a980e
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+        name: 'Office Info'
+        sortOrder: '1'
+      -
+        elements:
+          -
+            fieldUid: 8ace18eb-ea90-4bbd-8483-5fc18840ea38
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+        name: SEO
+        sortOrder: '2'
+handle: offices
+hasTitleField: '1'
+name: Offices
+section: a4b6c9cb-9057-44aa-ba5d-308dcfb5eb62
+sortOrder: '1'
+titleFormat: null

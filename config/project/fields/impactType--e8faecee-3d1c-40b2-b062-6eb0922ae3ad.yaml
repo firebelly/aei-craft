@@ -1,0 +1,18 @@
+contentColumnType: string
+fieldGroup: e668eebd-a051-40e2-b807-9cf5252c76fc
+handle: impactType
+instructions: ''
+name: 'Impact Type'
+searchable: '1'
+settings:
+  branchLimit: ''
+  limit: null
+  localizeRelations: false
+  selectionLabel: 'Set Impact Type'
+  source: 'group:d864120a-4b61-4cf6-8db8-a324191c61f9'
+  sources: '*'
+  targetSiteId: null
+  viewMode: null
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Categories

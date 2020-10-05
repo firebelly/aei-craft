@@ -1,0 +1,8 @@
+handle: services
+hasUrls: '1'
+name: Services
+settings:
+  path: '@webroot/uploads/services'
+sortOrder: '5'
+type: craft\volumes\Local
+url: '@web/uploads/services'

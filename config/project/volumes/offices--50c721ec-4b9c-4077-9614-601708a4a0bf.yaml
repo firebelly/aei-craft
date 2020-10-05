@@ -1,0 +1,8 @@
+handle: offices
+hasUrls: '1'
+name: Offices
+settings:
+  path: '@webroot/uploads/offices'
+sortOrder: '2'
+type: craft\volumes\Local
+url: '@web/uploads/offices'

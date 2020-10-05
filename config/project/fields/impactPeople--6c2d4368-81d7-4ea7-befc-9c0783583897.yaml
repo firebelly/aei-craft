@@ -1,0 +1,14 @@
+contentColumnType: string
+fieldGroup: e668eebd-a051-40e2-b807-9cf5252c76fc
+handle: impactPeople
+instructions: ''
+name: 'Author or Presentation People'
+searchable: '1'
+settings:
+  contentTable: '{{%matrixcontent_impactpeople}}'
+  localizeBlocks: false
+  maxBlocks: ''
+  minBlocks: ''
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix

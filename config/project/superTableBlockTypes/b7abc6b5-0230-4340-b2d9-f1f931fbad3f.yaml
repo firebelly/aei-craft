@@ -1,0 +1,69 @@
+field: 664bf192-17d2-4bc9-9b29-9e3f99f90bfb
+fieldLayouts:
+  8334a469-8170-4731-94d6-58370b277ce3:
+    tabs:
+      -
+        fields:
+          4520d38c-c811-42a7-9237-bd89b59d4411:
+            required: '0'
+            sortOrder: '1'
+          8e5b8ea6-8414-4f7a-89e6-dfe452ddd4c0:
+            required: '0'
+            sortOrder: '3'
+          e623173d-9526-42df-b34f-388fbc460630:
+            required: '0'
+            sortOrder: '2'
+        name: Content
+        sortOrder: '1'
+fields:
+  4520d38c-c811-42a7-9237-bd89b59d4411:
+    contentColumnType: text
+    fieldGroup: null
+    handle: subheader
+    instructions: ''
+    name: Subheader
+    searchable: '1'
+    settings:
+      charLimit: ''
+      code: ''
+      columnType: text
+      initialRows: '4'
+      multiline: '1'
+      placeholder: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\PlainText
+  8e5b8ea6-8414-4f7a-89e6-dfe452ddd4c0:
+    contentColumnType: text
+    fieldGroup: null
+    handle: statLabel
+    instructions: ''
+    name: 'Stat Label'
+    searchable: '1'
+    settings:
+      charLimit: ''
+      code: ''
+      columnType: text
+      initialRows: '4'
+      multiline: ''
+      placeholder: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\PlainText
+  e623173d-9526-42df-b34f-388fbc460630:
+    contentColumnType: text
+    fieldGroup: null
+    handle: statFigure
+    instructions: ''
+    name: 'Stat Figure'
+    searchable: '1'
+    settings:
+      charLimit: ''
+      code: ''
+      columnType: text
+      initialRows: '4'
+      multiline: ''
+      placeholder: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\PlainText

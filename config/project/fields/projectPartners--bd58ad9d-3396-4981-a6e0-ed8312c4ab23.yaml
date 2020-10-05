@@ -1,0 +1,14 @@
+contentColumnType: string
+fieldGroup: bb82ffa5-12e2-4111-8c1b-383fb2917ab2
+handle: projectPartners
+instructions: ''
+name: Partners
+searchable: '1'
+settings:
+  contentTable: '{{%matrixcontent_projectpartners}}'
+  localizeBlocks: false
+  maxBlocks: ''
+  minBlocks: ''
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix

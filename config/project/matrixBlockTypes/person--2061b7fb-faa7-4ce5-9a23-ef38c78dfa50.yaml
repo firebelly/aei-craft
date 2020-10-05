@@ -1,0 +1,54 @@
+field: ee53b58b-56a3-4349-b129-a7a2737b7c8b
+fieldLayouts:
+  d1a349c7-a3ab-471d-aeec-abbe87ae2f2c:
+    tabs:
+      -
+        fields:
+          9156780d-1aac-4f83-923e-a8ddfb3dfd75:
+            required: '0'
+            sortOrder: '2'
+          c6f83cd2-3e54-48b4-b546-1b4b3d45baf8:
+            required: '0'
+            sortOrder: '1'
+        name: Content
+        sortOrder: '1'
+fields:
+  9156780d-1aac-4f83-923e-a8ddfb3dfd75:
+    contentColumnType: string
+    fieldGroup: null
+    handle: personTitle
+    instructions: ''
+    name: Title
+    searchable: '1'
+    settings:
+      charLimit: ''
+      code: ''
+      columnType: string
+      initialRows: '4'
+      multiline: ''
+      placeholder: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\PlainText
+  c6f83cd2-3e54-48b4-b546-1b4b3d45baf8:
+    contentColumnType: string
+    fieldGroup: null
+    handle: aeiPerson
+    instructions: ''
+    name: 'AEI Person'
+    searchable: '1'
+    settings:
+      limit: '1'
+      localizeRelations: false
+      selectionLabel: 'Select AEI Person'
+      source: null
+      sources:
+        - 'section:c9d7915e-d21a-4758-8e64-38e16abb4491'
+      targetSiteId: null
+      viewMode: null
+    translationKeyFormat: null
+    translationMethod: site
+    type: craft\fields\Entries
+handle: person
+name: Person
+sortOrder: '1'

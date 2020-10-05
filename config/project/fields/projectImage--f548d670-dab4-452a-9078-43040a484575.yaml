@@ -1,0 +1,24 @@
+contentColumnType: string
+fieldGroup: bb82ffa5-12e2-4111-8c1b-383fb2917ab2
+handle: projectImage
+instructions: 'Used for listing page thumbs and header'
+name: 'Project Image'
+searchable: '1'
+settings:
+  allowedKinds: null
+  defaultUploadLocationSource: 'volume:d7075611-58e0-4ff8-89ea-500e5910239e'
+  defaultUploadLocationSubpath: ''
+  limit: '1'
+  localizeRelations: false
+  restrictFiles: ''
+  selectionLabel: ''
+  singleUploadLocationSource: 'volume:d7075611-58e0-4ff8-89ea-500e5910239e'
+  singleUploadLocationSubpath: ''
+  source: null
+  sources: '*'
+  targetSiteId: null
+  useSingleFolder: ''
+  viewMode: large
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Assets

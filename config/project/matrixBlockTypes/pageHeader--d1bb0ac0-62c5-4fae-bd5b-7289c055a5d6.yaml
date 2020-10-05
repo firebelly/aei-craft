@@ -1,0 +1,105 @@
+field: 6fbf4208-fbed-4a6c-a92d-9d4ab0b78d71
+fieldLayouts:
+  eb8e3ad0-f0c9-42e1-a282-0a3ed7d7d7fb:
+    tabs:
+      -
+        fields:
+          20013bd1-ba85-45fe-a718-9b4f72e8ef19:
+            required: '0'
+            sortOrder: '1'
+          24ce442d-3222-441d-b177-047700ee540c:
+            required: '0'
+            sortOrder: '4'
+          2b827437-413d-48c4-a720-98d74f3cc91f:
+            required: '0'
+            sortOrder: '2'
+          f1e931ac-0723-4c19-acda-96a1710ca8a5:
+            required: '0'
+            sortOrder: '3'
+        name: Content
+        sortOrder: '1'
+fields:
+  20013bd1-ba85-45fe-a718-9b4f72e8ef19:
+    contentColumnType: text
+    fieldGroup: null
+    handle: subheader
+    instructions: ''
+    name: Subheader
+    searchable: '1'
+    settings:
+      charLimit: ''
+      code: ''
+      columnType: text
+      initialRows: '4'
+      multiline: '1'
+      placeholder: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\PlainText
+  24ce442d-3222-441d-b177-047700ee540c:
+    contentColumnType: text
+    fieldGroup: null
+    handle: supportingStatement
+    instructions: ''
+    name: 'Supporting Statement'
+    searchable: '1'
+    settings:
+      availableTransforms: '*'
+      availableVolumes: '*'
+      columnType: text
+      purifierConfig: ''
+      purifyHtml: '1'
+      redactorConfig: Simple.json
+      removeEmptyTags: '1'
+      removeInlineStyles: '1'
+      removeNbsp: '1'
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\redactor\Field
+  2b827437-413d-48c4-a720-98d74f3cc91f:
+    contentColumnType: string
+    fieldGroup: null
+    handle: headerImage
+    instructions: 'Small, looping mp4 videos should be non-distracting background footage'
+    name: 'Header Image or Video'
+    searchable: '1'
+    settings:
+      allowedKinds:
+        - image
+        - video
+      defaultUploadLocationSource: 'volume:fad6c992-2b4f-4ffd-88fa-c798a5dfe74b'
+      defaultUploadLocationSubpath: ''
+      limit: '1'
+      localizeRelations: false
+      restrictFiles: '1'
+      selectionLabel: ''
+      singleUploadLocationSource: 'volume:d7075611-58e0-4ff8-89ea-500e5910239e'
+      singleUploadLocationSubpath: ''
+      source: null
+      sources: '*'
+      targetSiteId: null
+      useSingleFolder: ''
+      viewMode: large
+    translationKeyFormat: null
+    translationMethod: site
+    type: craft\fields\Assets
+  f1e931ac-0723-4c19-acda-96a1710ca8a5:
+    contentColumnType: string
+    fieldGroup: null
+    handle: headerVideo
+    instructions: 'Paste in a YouTube Video URL'
+    name: 'Optional Header Video'
+    searchable: '1'
+    settings:
+      charLimit: ''
+      code: '1'
+      columnType: string
+      initialRows: '4'
+      multiline: ''
+      placeholder: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\PlainText
+handle: pageHeader
+name: 'Page Header'
+sortOrder: '1'

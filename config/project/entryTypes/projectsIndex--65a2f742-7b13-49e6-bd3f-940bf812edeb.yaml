@@ -1,0 +1,29 @@
+fieldLayouts:
+  74733969-8298-4e2a-a786-38c72aed7dbc:
+    tabs:
+      -
+        elements:
+          -
+            instructions: null
+            label: Title
+            type: craft\fieldlayoutelements\EntryTitleField
+          -
+            fieldUid: d16e56d7-1702-46b2-b089-80febb4966c3
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+        name: General
+        sortOrder: '1'
+      -
+        elements:
+          -
+            fieldUid: 8ace18eb-ea90-4bbd-8483-5fc18840ea38
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+        name: SEO
+        sortOrder: '2'
+handle: projectsIndex
+hasTitleField: '1'
+name: 'Projects Index'
+section: 20778a79-9f4b-4510-81d7-bbcd778dc35e
+sortOrder: '1'
+titleFormat: null

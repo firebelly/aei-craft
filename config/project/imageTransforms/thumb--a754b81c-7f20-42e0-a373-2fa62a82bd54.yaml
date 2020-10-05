@@ -1,0 +1,9 @@
+format: jpg
+handle: thumb
+height: null
+interlace: none
+mode: crop
+name: thumb
+position: center-center
+quality: null
+width: '800'

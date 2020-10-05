@@ -1,0 +1,17 @@
+contentColumnType: text
+fieldGroup: 76cf6d8b-6453-4d20-a26b-d31357cdef08
+handle: deltekIdsImported
+instructions: ''
+name: 'Deltek IDs Imported'
+searchable: '1'
+settings:
+  charLimit: ''
+  code: ''
+  columnType: text
+  initialRows: '4'
+  mode: readonly
+  multiline: ''
+  placeholder: ''
+translationKeyFormat: null
+translationMethod: none
+type: mmikkel\incognitofield\fields\IncognitoFieldType

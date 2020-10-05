@@ -1,0 +1,9 @@
+format: jpg
+handle: header
+height: null
+interlace: none
+mode: crop
+name: header
+position: center-center
+quality: null
+width: '1600'

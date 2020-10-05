@@ -1,0 +1,18 @@
+contentColumnType: string
+fieldGroup: 76cf6d8b-6453-4d20-a26b-d31357cdef08
+handle: marketContacts
+instructions: 'List of contacts shown from the Market page'
+name: 'Market Contacts'
+searchable: '1'
+settings:
+  limit: ''
+  localizeRelations: false
+  selectionLabel: 'Add a Contact'
+  source: null
+  sources:
+    - 'section:c9d7915e-d21a-4758-8e64-38e16abb4491'
+  targetSiteId: null
+  viewMode: null
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Entries

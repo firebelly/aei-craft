@@ -1,0 +1,18 @@
+contentColumnType: string
+fieldGroup: 652bd3c2-ebe8-41fb-9419-5bb52187c6f2
+handle: personType
+instructions: ''
+name: 'Person Type'
+searchable: '1'
+settings:
+  branchLimit: '1'
+  limit: null
+  localizeRelations: false
+  selectionLabel: 'Set Person Type'
+  source: 'group:9839b3d1-7fea-44ba-8785-4e10756bacd9'
+  sources: '*'
+  targetSiteId: null
+  viewMode: null
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Categories

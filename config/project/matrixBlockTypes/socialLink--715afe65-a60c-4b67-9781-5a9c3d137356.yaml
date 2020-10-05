@@ -1,0 +1,45 @@
+field: 983f8382-dbb5-42ff-b278-ba7dface6d7b
+fieldLayouts:
+  d442cb31-a8a2-46f2-97ce-10a5eebd8110:
+    tabs:
+      -
+        fields:
+          764f4af0-e3b2-49e3-ae8d-d074aaabbedb:
+            required: '0'
+            sortOrder: '2'
+          ddc164f1-f1f1-4bd5-b83d-2e86ff2cdec9:
+            required: '0'
+            sortOrder: '1'
+        name: Content
+        sortOrder: '1'
+fields:
+  764f4af0-e3b2-49e3-ae8d-d074aaabbedb:
+    contentColumnType: string
+    fieldGroup: null
+    handle: socialUrl
+    instructions: ''
+    name: 'Social URL'
+    searchable: '1'
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\Url
+  ddc164f1-f1f1-4bd5-b83d-2e86ff2cdec9:
+    contentColumnType: text
+    fieldGroup: null
+    handle: socialNetwork
+    instructions: ''
+    name: 'Social Network'
+    searchable: '1'
+    settings:
+      charLimit: ''
+      code: ''
+      columnType: text
+      initialRows: '4'
+      multiline: ''
+      placeholder: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\PlainText
+handle: socialLink
+name: 'Social Link'
+sortOrder: '1'

@@ -1,0 +1,17 @@
+contentColumnType: string
+fieldGroup: f272b291-c7e6-4a88-b2d7-c29657d9de61
+handle: awardKey
+instructions: 'ID from Deltek'
+name: 'Award Key'
+searchable: '1'
+settings:
+  charLimit: ''
+  code: ''
+  columnType: string
+  initialRows: '4'
+  mode: readonly
+  multiline: ''
+  placeholder: ''
+translationKeyFormat: null
+translationMethod: none
+type: mmikkel\incognitofield\fields\IncognitoFieldType

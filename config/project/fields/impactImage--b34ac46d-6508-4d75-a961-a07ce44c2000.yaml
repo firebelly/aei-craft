@@ -1,0 +1,24 @@
+contentColumnType: string
+fieldGroup: e668eebd-a051-40e2-b807-9cf5252c76fc
+handle: impactImage
+instructions: ''
+name: 'Impact Image'
+searchable: '1'
+settings:
+  allowedKinds: null
+  defaultUploadLocationSource: 'volume:a7bfc2e0-d918-4d54-a09c-0abaef62f26a'
+  defaultUploadLocationSubpath: ''
+  limit: '1'
+  localizeRelations: false
+  restrictFiles: ''
+  selectionLabel: ''
+  singleUploadLocationSource: 'volume:a7bfc2e0-d918-4d54-a09c-0abaef62f26a'
+  singleUploadLocationSubpath: ''
+  source: null
+  sources: '*'
+  targetSiteId: null
+  useSingleFolder: ''
+  viewMode: large
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Assets

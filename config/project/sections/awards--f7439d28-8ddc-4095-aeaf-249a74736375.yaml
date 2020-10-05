@@ -1,0 +1,14 @@
+enableVersioning: '0'
+handle: awards
+name: Awards
+propagationMethod: all
+siteSettings:
+  fbde05ad-97ce-4076-85e8-261874a1582b:
+    enabledByDefault: '1'
+    hasUrls: '0'
+    template: null
+    uriFormat: null
+structure:
+  maxLevels: '1'
+  uid: 40a0fdc5-f2ba-4526-91be-f47a1d6e1349
+type: structure

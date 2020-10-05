@@ -1,0 +1,14 @@
+contentColumnType: string
+fieldGroup: 76cf6d8b-6453-4d20-a26b-d31357cdef08
+handle: secondaryNav
+instructions: ''
+name: 'Secondary Nav'
+searchable: '1'
+settings:
+  contentTable: '{{%matrixcontent_secondarynav}}'
+  localizeBlocks: false
+  maxBlocks: ''
+  minBlocks: ''
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix

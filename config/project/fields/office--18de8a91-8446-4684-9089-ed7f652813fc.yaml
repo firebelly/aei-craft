@@ -1,0 +1,18 @@
+contentColumnType: string
+fieldGroup: 652bd3c2-ebe8-41fb-9419-5bb52187c6f2
+handle: office
+instructions: ''
+name: Office
+searchable: '1'
+settings:
+  limit: ''
+  localizeRelations: false
+  selectionLabel: 'Add Office'
+  source: null
+  sources:
+    - 'section:a4b6c9cb-9057-44aa-ba5d-308dcfb5eb62'
+  targetSiteId: null
+  viewMode: null
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Entries

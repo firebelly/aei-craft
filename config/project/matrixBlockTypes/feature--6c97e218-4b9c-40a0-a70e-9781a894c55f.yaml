@@ -1,0 +1,100 @@
+field: 19e142c5-ed67-402f-86b8-1030565229e6
+fieldLayouts:
+  e0986bdd-665d-4145-8bb7-2df948db01ee:
+    tabs:
+      -
+        fields:
+          028b1cc6-791e-44af-b548-010b0d1e68b5:
+            required: '0'
+            sortOrder: '4'
+          683d607a-dce9-4727-8899-49f5963e1127:
+            required: '0'
+            sortOrder: '2'
+          8c56b20e-55fa-4643-8da8-b7c7b8309a3b:
+            required: '0'
+            sortOrder: '3'
+          d78f7b5f-6106-43a6-b4c8-06388c573be0:
+            required: '0'
+            sortOrder: '1'
+        name: Content
+        sortOrder: '1'
+fields:
+  028b1cc6-791e-44af-b548-010b0d1e68b5:
+    contentColumnType: text
+    fieldGroup: null
+    handle: featureLinkLabel
+    instructions: 'e.g. Our Approach'
+    name: 'Feature Link Label'
+    searchable: '1'
+    settings:
+      charLimit: ''
+      code: ''
+      columnType: text
+      initialRows: '4'
+      multiline: ''
+      placeholder: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\PlainText
+  683d607a-dce9-4727-8899-49f5963e1127:
+    contentColumnType: text
+    fieldGroup: null
+    handle: featureHeadline
+    instructions: ''
+    name: 'Feature Headline'
+    searchable: '1'
+    settings:
+      charLimit: ''
+      code: ''
+      columnType: text
+      initialRows: '4'
+      multiline: '1'
+      placeholder: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\PlainText
+  8c56b20e-55fa-4643-8da8-b7c7b8309a3b:
+    contentColumnType: string
+    fieldGroup: null
+    handle: featureLink
+    instructions: ''
+    name: 'Feature Link'
+    searchable: '1'
+    settings:
+      charLimit: ''
+      code: ''
+      columnType: string
+      initialRows: '4'
+      multiline: ''
+      placeholder: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\PlainText
+  d78f7b5f-6106-43a6-b4c8-06388c573be0:
+    contentColumnType: string
+    fieldGroup: null
+    handle: featureImage
+    instructions: ''
+    name: 'Feature Image'
+    searchable: '1'
+    settings:
+      allowedKinds: null
+      defaultUploadLocationSource: 'volume:fad6c992-2b4f-4ffd-88fa-c798a5dfe74b'
+      defaultUploadLocationSubpath: ''
+      limit: '1'
+      localizeRelations: false
+      restrictFiles: ''
+      selectionLabel: 'Add Feature Image'
+      singleUploadLocationSource: 'volume:d7075611-58e0-4ff8-89ea-500e5910239e'
+      singleUploadLocationSubpath: ''
+      source: null
+      sources: '*'
+      targetSiteId: null
+      useSingleFolder: ''
+      viewMode: large
+    translationKeyFormat: null
+    translationMethod: site
+    type: craft\fields\Assets
+handle: feature
+name: 'Feature Block'
+sortOrder: '1'

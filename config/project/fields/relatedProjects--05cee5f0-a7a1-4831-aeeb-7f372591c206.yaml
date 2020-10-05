@@ -1,0 +1,18 @@
+contentColumnType: string
+fieldGroup: e668eebd-a051-40e2-b807-9cf5252c76fc
+handle: relatedProjects
+instructions: ''
+name: 'Related Projects'
+searchable: '1'
+settings:
+  limit: ''
+  localizeRelations: false
+  selectionLabel: 'Add a Project'
+  source: null
+  sources:
+    - 'section:9e08b264-69e4-4e00-a814-65027c6e71bb'
+  targetSiteId: null
+  viewMode: null
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Entries

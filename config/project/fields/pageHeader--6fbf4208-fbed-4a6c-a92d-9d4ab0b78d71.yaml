@@ -1,0 +1,14 @@
+contentColumnType: string
+fieldGroup: 76cf6d8b-6453-4d20-a26b-d31357cdef08
+handle: pageHeader
+instructions: ''
+name: 'Page Header'
+searchable: '1'
+settings:
+  contentTable: '{{%matrixcontent_pageheader}}'
+  localizeBlocks: false
+  maxBlocks: '1'
+  minBlocks: ''
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix

@@ -1,0 +1,54 @@
+field: 6838594a-29c6-417c-b3ca-e86cd625bf21
+fieldLayouts:
+  db77a1d5-fc27-4115-8c34-84f585883595:
+    tabs:
+      -
+        fields:
+          4e13d33d-f0e6-4784-a38d-6f514e5e1825:
+            required: '0'
+            sortOrder: '1'
+          6ddcad6e-d86c-4734-ab52-581f99df4ce5:
+            required: '0'
+            sortOrder: '2'
+        name: Content
+        sortOrder: '1'
+fields:
+  4e13d33d-f0e6-4784-a38d-6f514e5e1825:
+    contentColumnType: string
+    fieldGroup: null
+    handle: aeiPerson
+    instructions: ''
+    name: Person
+    searchable: '1'
+    settings:
+      limit: '1'
+      localizeRelations: false
+      selectionLabel: 'Select AEI Person'
+      source: null
+      sources:
+        - 'section:c9d7915e-d21a-4758-8e64-38e16abb4491'
+      targetSiteId: null
+      viewMode: null
+    translationKeyFormat: null
+    translationMethod: site
+    type: craft\fields\Entries
+  6ddcad6e-d86c-4734-ab52-581f99df4ce5:
+    contentColumnType: string
+    fieldGroup: null
+    handle: leaderTitle
+    instructions: 'Will override person title if set'
+    name: 'Leader Title'
+    searchable: '1'
+    settings:
+      charLimit: ''
+      code: ''
+      columnType: string
+      initialRows: '4'
+      multiline: ''
+      placeholder: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\PlainText
+handle: projectLeader
+name: Leader
+sortOrder: '1'

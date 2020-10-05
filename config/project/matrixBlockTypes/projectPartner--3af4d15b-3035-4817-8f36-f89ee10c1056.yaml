@@ -1,0 +1,52 @@
+field: bd58ad9d-3396-4981-a6e0-ed8312c4ab23
+fieldLayouts:
+  0e90afda-5d6f-42b7-9cb9-bb09e785becb:
+    tabs:
+      -
+        fields:
+          54d8b012-3998-49be-ae5c-a445ab24756c:
+            required: '0'
+            sortOrder: '2'
+          805fce7f-0314-4509-9f36-2bdf73afabb5:
+            required: '0'
+            sortOrder: '1'
+        name: Content
+        sortOrder: '1'
+fields:
+  54d8b012-3998-49be-ae5c-a445ab24756c:
+    contentColumnType: string
+    fieldGroup: null
+    handle: partnerRole
+    instructions: ''
+    name: Role
+    searchable: '1'
+    settings:
+      charLimit: ''
+      code: ''
+      columnType: string
+      initialRows: '4'
+      multiline: ''
+      placeholder: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\PlainText
+  805fce7f-0314-4509-9f36-2bdf73afabb5:
+    contentColumnType: string
+    fieldGroup: null
+    handle: partnerName
+    instructions: ''
+    name: Name
+    searchable: '1'
+    settings:
+      charLimit: ''
+      code: ''
+      columnType: string
+      initialRows: '4'
+      multiline: ''
+      placeholder: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\PlainText
+handle: projectPartner
+name: 'Project Partner'
+sortOrder: '1'

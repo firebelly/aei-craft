@@ -1,0 +1,18 @@
+enableVersioning: '0'
+handle: projects
+name: Projects
+previewTargets:
+  -
+    label: 'Primary entry page'
+    urlFormat: '{url}'
+propagationMethod: all
+siteSettings:
+  fbde05ad-97ce-4076-85e8-261874a1582b:
+    enabledByDefault: '1'
+    hasUrls: '1'
+    template: projects/_entry
+    uriFormat: 'projects/{slug}'
+structure:
+  maxLevels: '1'
+  uid: a2938c06-4341-42df-8303-c01afa0458b2
+type: structure

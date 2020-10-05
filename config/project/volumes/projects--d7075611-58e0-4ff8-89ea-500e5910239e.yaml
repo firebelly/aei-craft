@@ -1,0 +1,8 @@
+handle: projects
+hasUrls: '1'
+name: Projects
+settings:
+  path: '@webroot/uploads/projects'
+sortOrder: '1'
+type: craft\volumes\Local
+url: '@web/uploads/projects'

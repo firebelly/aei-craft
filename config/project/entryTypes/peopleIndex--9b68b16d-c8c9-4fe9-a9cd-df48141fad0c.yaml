@@ -1,0 +1,81 @@
+fieldLayouts:
+  6021bf4a-e57f-4418-8ac2-d19821179d3f:
+    tabs:
+      -
+        elements:
+          -
+            instructions: null
+            label: null
+            type: craft\fieldlayoutelements\EntryTitleField
+          -
+            fieldUid: 95b06449-5529-4942-b840-7eceafbf8e0d
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 6445822d-589d-4bc6-a651-a09d649d38dd
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 92a9fada-30bc-4533-a018-ef2866e81063
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 964fede3-6b59-4e22-9af5-7022222156cc
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: b6057473-bd9c-4773-8406-0d7fffd1e0c0
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 18de8a91-8446-4684-9089-ed7f652813fc
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 0fa3aa7d-8d86-4e04-9dcd-c3977d72e4b0
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: d8d94044-189c-4d03-9c63-8ca76abc8b25
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: c513b03d-8b0c-4184-9e40-9663db54e55c
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 46e50c08-5363-4da1-b7c3-77fa247b9032
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: eb21c15b-cfd3-452e-9592-8a215bde2b9c
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: a53a9f05-dc13-4e76-b462-5b32852541aa
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+        name: People
+        sortOrder: '1'
+      -
+        elements:
+          -
+            fieldUid: 664bf192-17d2-4bc9-9b29-9e3f99f90bfb
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+        name: General
+        sortOrder: '2'
+      -
+        elements:
+          -
+            fieldUid: 8ace18eb-ea90-4bbd-8483-5fc18840ea38
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+        name: SEO
+        sortOrder: '3'
+handle: peopleIndex
+hasTitleField: '0'
+name: 'People Index'
+section: 9bdcbfc4-e694-498d-b63d-b535f30a092f
+sortOrder: '1'
+titleFormat: '{section.name|raw}'

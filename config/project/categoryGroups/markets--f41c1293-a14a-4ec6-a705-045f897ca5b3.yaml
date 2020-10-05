@@ -1,0 +1,26 @@
+fieldLayouts:
+  9b5a9b28-4c7e-4e49-b58d-aa121cfa6096:
+    tabs:
+      -
+        fields:
+          89ea6ce3-7460-4194-82a2-8b82281a4314:
+            required: '0'
+            sortOrder: '3'
+          d16e56d7-1702-46b2-b089-80febb4966c3:
+            required: '0'
+            sortOrder: '1'
+          f91217a9-5e77-45e5-bfb8-074ce761b5ea:
+            required: '0'
+            sortOrder: '2'
+        name: 'Market Info'
+        sortOrder: '1'
+handle: markets
+name: Markets
+siteSettings:
+  fbde05ad-97ce-4076-85e8-261874a1582b:
+    hasUrls: '1'
+    template: projects/index
+    uriFormat: 'projects/market/{slug}'
+structure:
+  maxLevels: '1'
+  uid: 9e846260-d783-4711-835e-fa43d2b46bf6

@@ -1,0 +1,16 @@
+contentColumnType: string
+fieldGroup: 051a5088-1f13-4554-a13b-943a9cc025ca
+handle: officeAddress2
+instructions: ''
+name: 'Address 2'
+searchable: '1'
+settings:
+  charLimit: ''
+  code: ''
+  columnType: string
+  initialRows: '4'
+  multiline: ''
+  placeholder: ''
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\PlainText

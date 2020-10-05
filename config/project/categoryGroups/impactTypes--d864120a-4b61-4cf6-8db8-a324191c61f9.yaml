@@ -1,0 +1,20 @@
+fieldLayouts:
+  1ab37272-5006-4de4-b6fb-20acbf56a739:
+    tabs:
+      -
+        fields:
+          d16e56d7-1702-46b2-b089-80febb4966c3:
+            required: '0'
+            sortOrder: '1'
+        name: 'News Type Info'
+        sortOrder: '1'
+handle: impactTypes
+name: 'News Types'
+siteSettings:
+  fbde05ad-97ce-4076-85e8-261874a1582b:
+    hasUrls: '1'
+    template: news/index
+    uriFormat: 'news/type/{slug}'
+structure:
+  maxLevels: '1'
+  uid: 9fbf56d8-fe9c-4d08-8ee9-7113c11fc9b5

@@ -1,0 +1,16 @@
+contentColumnType: string
+fieldGroup: bb82ffa5-12e2-4111-8c1b-383fb2917ab2
+handle: projectBuildingSize
+instructions: ''
+name: 'Building Size'
+searchable: '1'
+settings:
+  charLimit: ''
+  code: ''
+  columnType: string
+  initialRows: '4'
+  multiline: ''
+  placeholder: ''
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\PlainText

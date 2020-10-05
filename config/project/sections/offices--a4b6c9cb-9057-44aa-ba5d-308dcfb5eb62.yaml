@@ -1,0 +1,18 @@
+enableVersioning: '0'
+handle: offices
+name: Offices
+previewTargets:
+  -
+    label: 'Primary entry page'
+    urlFormat: '{url}'
+propagationMethod: all
+siteSettings:
+  fbde05ad-97ce-4076-85e8-261874a1582b:
+    enabledByDefault: '1'
+    hasUrls: '1'
+    template: offices/_entry
+    uriFormat: 'contact/{slug}'
+structure:
+  maxLevels: '1'
+  uid: 12cf4cbc-601f-455d-869d-fc700d5790e2
+type: structure

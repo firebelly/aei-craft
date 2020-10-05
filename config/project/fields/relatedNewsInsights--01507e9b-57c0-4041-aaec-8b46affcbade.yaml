@@ -1,0 +1,18 @@
+contentColumnType: string
+fieldGroup: 76cf6d8b-6453-4d20-a26b-d31357cdef08
+handle: relatedNewsInsights
+instructions: ''
+name: 'Related News & Insights'
+searchable: true
+settings:
+  limit: '2'
+  localizeRelations: false
+  selectionLabel: ''
+  source: null
+  sources:
+    - 'section:66b9cee3-6c4a-4348-8f68-fe1d1bb454a0'
+  targetSiteId: null
+  viewMode: null
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Entries

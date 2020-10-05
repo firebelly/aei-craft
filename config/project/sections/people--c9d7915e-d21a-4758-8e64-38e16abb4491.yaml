@@ -1,0 +1,18 @@
+enableVersioning: '0'
+handle: people
+name: People
+previewTargets:
+  -
+    label: 'Primary entry page'
+    urlFormat: '{url}'
+propagationMethod: all
+siteSettings:
+  fbde05ad-97ce-4076-85e8-261874a1582b:
+    enabledByDefault: '1'
+    hasUrls: '1'
+    template: people/_entry
+    uriFormat: 'people/{slug}'
+structure:
+  maxLevels: '1'
+  uid: 8d4c2104-be83-4bb7-a2da-a0484169193d
+type: structure

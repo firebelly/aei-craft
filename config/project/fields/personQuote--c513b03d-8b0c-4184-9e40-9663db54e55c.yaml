@@ -1,0 +1,16 @@
+contentColumnType: text
+fieldGroup: 652bd3c2-ebe8-41fb-9419-5bb52187c6f2
+handle: personQuote
+instructions: ''
+name: Quote
+searchable: '1'
+settings:
+  charLimit: ''
+  code: ''
+  columnType: text
+  initialRows: '2'
+  multiline: '1'
+  placeholder: ''
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\PlainText

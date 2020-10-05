@@ -1,0 +1,24 @@
+contentColumnType: string
+fieldGroup: 652bd3c2-ebe8-41fb-9419-5bb52187c6f2
+handle: personImage
+instructions: ''
+name: 'Person Image'
+searchable: '1'
+settings:
+  allowedKinds: null
+  defaultUploadLocationSource: 'volume:d7075611-58e0-4ff8-89ea-500e5910239e'
+  defaultUploadLocationSubpath: ''
+  limit: '1'
+  localizeRelations: false
+  restrictFiles: ''
+  selectionLabel: ''
+  singleUploadLocationSource: 'volume:7f7dd8c6-4c5a-49e1-bf53-0f362e3e38a6'
+  singleUploadLocationSubpath: ''
+  source: null
+  sources: '*'
+  targetSiteId: null
+  useSingleFolder: ''
+  viewMode: large
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Assets

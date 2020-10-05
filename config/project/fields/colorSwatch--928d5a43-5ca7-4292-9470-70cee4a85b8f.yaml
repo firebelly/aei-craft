@@ -1,0 +1,99 @@
+contentColumnType: text
+fieldGroup: 76cf6d8b-6453-4d20-a26b-d31357cdef08
+handle: colorSwatch
+instructions: 'Choose color for various project styling.'
+name: 'Color Swatch'
+searchable: '1'
+settings:
+  options:
+    -
+      __assoc__:
+        -
+          - color
+          - '#664747'
+        -
+          - default
+          - ''
+        -
+          - label
+          - Copper
+    -
+      __assoc__:
+        -
+          - color
+          - '#725e4f'
+        -
+          - default
+          - ''
+        -
+          - label
+          - Brass
+    -
+      __assoc__:
+        -
+          - color
+          - '#545b44'
+        -
+          - default
+          - ''
+        -
+          - label
+          - Green
+    -
+      __assoc__:
+        -
+          - color
+          - '#3d4460'
+        -
+          - default
+          - ''
+        -
+          - label
+          - Blue
+    -
+      __assoc__:
+        -
+          - color
+          - '#475b66'
+        -
+          - default
+          - ''
+        -
+          - label
+          - Teal
+    -
+      __assoc__:
+        -
+          - color
+          - '#56425b'
+        -
+          - default
+          - ''
+        -
+          - label
+          - Violet
+    -
+      __assoc__:
+        -
+          - color
+          - '#595954'
+        -
+          - default
+          - ''
+        -
+          - label
+          - Gray
+    -
+      __assoc__:
+        -
+          - color
+          - '#282826'
+        -
+          - default
+          - '1'
+        -
+          - label
+          - Black
+translationKeyFormat: null
+translationMethod: none
+type: firebelly\aei\fields\ColorSwatches

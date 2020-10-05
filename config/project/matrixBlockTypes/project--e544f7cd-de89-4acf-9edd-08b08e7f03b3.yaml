@@ -1,0 +1,34 @@
+field: 19e142c5-ed67-402f-86b8-1030565229e6
+fieldLayouts:
+  f046ca21-4dfe-4a85-95aa-2dd66304123d:
+    tabs:
+      -
+        fields:
+          1c629cbc-11ac-438e-b256-dbe9ff64c478:
+            required: '0'
+            sortOrder: '1'
+        name: Content
+        sortOrder: '1'
+fields:
+  1c629cbc-11ac-438e-b256-dbe9ff64c478:
+    contentColumnType: string
+    fieldGroup: null
+    handle: featuredProjects
+    instructions: 'Homepage will choose at random one of the selected featured projects.'
+    name: 'Featured Projects'
+    searchable: '1'
+    settings:
+      limit: ''
+      localizeRelations: false
+      selectionLabel: ''
+      source: null
+      sources:
+        - 'section:9e08b264-69e4-4e00-a814-65027c6e71bb'
+      targetSiteId: null
+      viewMode: null
+    translationKeyFormat: null
+    translationMethod: site
+    type: craft\fields\Entries
+handle: project
+name: 'Featured Project'
+sortOrder: '3'

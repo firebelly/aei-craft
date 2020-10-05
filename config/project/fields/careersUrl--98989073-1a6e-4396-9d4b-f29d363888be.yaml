@@ -1,0 +1,9 @@
+contentColumnType: string
+fieldGroup: 051a5088-1f13-4554-a13b-943a9cc025ca
+handle: careersUrl
+instructions: 'Link to iCIMS careers filtered by location, e.g. https://domestic-aeieng.icims.com/jobs/search?ss=1&searchLocation=12781-12797-Chicago'
+name: 'Careers URL'
+searchable: '1'
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Url

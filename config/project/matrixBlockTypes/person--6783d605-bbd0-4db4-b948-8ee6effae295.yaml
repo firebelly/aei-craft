@@ -1,0 +1,94 @@
+field: 6c2d4368-81d7-4ea7-befc-9c0783583897
+fieldLayouts:
+  289b35c9-407e-46d9-9d39-4142458e3f75:
+    tabs:
+      -
+        fields:
+          38492fe0-10c9-47e1-81db-57062be51d18:
+            required: '0'
+            sortOrder: '4'
+          9cdd721b-9fc6-4176-9b4f-1c6dcf06955b:
+            required: '0'
+            sortOrder: '2'
+          e9c38709-d8aa-46cb-94b5-24e7d9a17021:
+            required: '0'
+            sortOrder: '1'
+          f70b12a6-c7c0-4939-a213-b3ba74234436:
+            required: '0'
+            sortOrder: '3'
+        name: Content
+        sortOrder: '1'
+fields:
+  38492fe0-10c9-47e1-81db-57062be51d18:
+    contentColumnType: string
+    fieldGroup: null
+    handle: personRole
+    instructions: ''
+    name: Role
+    searchable: '1'
+    settings:
+      charLimit: ''
+      code: ''
+      columnType: string
+      initialRows: '4'
+      multiline: ''
+      placeholder: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\PlainText
+  9cdd721b-9fc6-4176-9b4f-1c6dcf06955b:
+    contentColumnType: string
+    fieldGroup: null
+    handle: personName
+    instructions: 'Use this field if not an AEI Person'
+    name: Name
+    searchable: '1'
+    settings:
+      charLimit: ''
+      code: ''
+      columnType: string
+      initialRows: '4'
+      multiline: ''
+      placeholder: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\PlainText
+  e9c38709-d8aa-46cb-94b5-24e7d9a17021:
+    contentColumnType: string
+    fieldGroup: null
+    handle: aeiPerson
+    instructions: ''
+    name: 'AEI Person'
+    searchable: '1'
+    settings:
+      limit: '1'
+      localizeRelations: false
+      selectionLabel: 'Select AEI Person'
+      source: null
+      sources:
+        - 'section:c9d7915e-d21a-4758-8e64-38e16abb4491'
+      targetSiteId: null
+      viewMode: null
+    translationKeyFormat: null
+    translationMethod: site
+    type: craft\fields\Entries
+  f70b12a6-c7c0-4939-a213-b3ba74234436:
+    contentColumnType: string
+    fieldGroup: null
+    handle: personCompany
+    instructions: ''
+    name: Company
+    searchable: '1'
+    settings:
+      charLimit: ''
+      code: ''
+      columnType: string
+      initialRows: '4'
+      multiline: ''
+      placeholder: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\PlainText
+handle: person
+name: Person
+sortOrder: '1'

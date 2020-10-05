@@ -1,0 +1,49 @@
+fieldLayouts:
+  fb013b76-b75f-47d1-9ee6-6091ff91b4d7:
+    tabs:
+      -
+        elements:
+          -
+            instructions: null
+            label: null
+            type: craft\fieldlayoutelements\EntryTitleField
+          -
+            fieldUid: a49b9611-42bb-4045-b7ea-8417030d3972
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: e8faecee-3d1c-40b2-b062-6eb0922ae3ad
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 3455b594-c50a-4516-966a-a3ddd327056f
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 33f81eed-1522-4168-93e0-5ad2375b14e6
+            required: true
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: a51bc4bb-bf4e-4a07-b201-9f9819b12648
+            required: true
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 7eddecae-a8dd-4850-a7a5-f0ed4cdbe485
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 576b11ff-82fa-4639-8d04-19532a54c799
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: fe565aef-9bb5-4ad5-8455-025287b73325
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+        name: 'Stat Info'
+        sortOrder: '1'
+handle: stats
+hasTitleField: '0'
+name: Stats
+section: 5a5e53d9-ced0-4e57-8e28-c2d15978eba4
+sortOrder: '1'
+titleFormat: '{statFigure}/{statLabel}'

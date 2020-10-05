@@ -1,0 +1,18 @@
+contentColumnType: string
+fieldGroup: 76cf6d8b-6453-4d20-a26b-d31357cdef08
+handle: markets
+instructions: ''
+name: Markets
+searchable: '1'
+settings:
+  branchLimit: ''
+  limit: null
+  localizeRelations: false
+  selectionLabel: 'Add a Market'
+  source: 'group:f41c1293-a14a-4ec6-a705-045f897ca5b3'
+  sources: '*'
+  targetSiteId: null
+  viewMode: null
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Categories

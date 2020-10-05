@@ -1,0 +1,18 @@
+contentColumnType: string
+fieldGroup: bb82ffa5-12e2-4111-8c1b-383fb2917ab2
+handle: projectAwards
+instructions: ''
+name: Awards
+searchable: '1'
+settings:
+  limit: ''
+  localizeRelations: false
+  selectionLabel: 'Add an Award'
+  source: null
+  sources:
+    - 'section:f7439d28-8ddc-4095-aeaf-249a74736375'
+  targetSiteId: null
+  viewMode: null
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Entries

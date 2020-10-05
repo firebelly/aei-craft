@@ -1,0 +1,56 @@
+field: a53a9f05-dc13-4e76-b462-5b32852541aa
+fieldLayouts:
+  f5a334f4-d9d6-4e3e-9e90-1bdead8bfe83:
+    tabs:
+      -
+        fields:
+          6998fce8-e59f-442b-aad9-509095d4f411:
+            required: '0'
+            sortOrder: '2'
+          cf6e3c12-eb9f-4698-aba5-d9e7a3ec0977:
+            required: '0'
+            sortOrder: '1'
+        name: Content
+        sortOrder: '1'
+fields:
+  6998fce8-e59f-442b-aad9-509095d4f411:
+    contentColumnType: string
+    fieldGroup: null
+    handle: entries
+    instructions: ''
+    name: Entries
+    searchable: '1'
+    settings:
+      limit: ''
+      localizeRelations: false
+      selectionLabel: ''
+      source: null
+      sources:
+        - 'section:66b9cee3-6c4a-4348-8f68-fe1d1bb454a0'
+        - 'section:c9d7915e-d21a-4758-8e64-38e16abb4491'
+        - 'section:9e08b264-69e4-4e00-a814-65027c6e71bb'
+      targetSiteId: null
+      viewMode: null
+    translationKeyFormat: null
+    translationMethod: site
+    type: craft\fields\Entries
+  cf6e3c12-eb9f-4698-aba5-d9e7a3ec0977:
+    contentColumnType: string
+    fieldGroup: null
+    handle: headline
+    instructions: ''
+    name: Headline
+    searchable: '1'
+    settings:
+      charLimit: ''
+      code: ''
+      columnType: string
+      initialRows: '4'
+      multiline: ''
+      placeholder: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\PlainText
+handle: entriesList
+name: 'Entries List'
+sortOrder: '7'

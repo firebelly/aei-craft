@@ -1,0 +1,16 @@
+contentColumnType: string
+fieldGroup: 76cf6d8b-6453-4d20-a26b-d31357cdef08
+handle: phoneNumber
+instructions: ''
+name: 'Phone Number'
+searchable: '1'
+settings:
+  charLimit: ''
+  code: ''
+  columnType: string
+  initialRows: '4'
+  multiline: ''
+  placeholder: ''
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\PlainText

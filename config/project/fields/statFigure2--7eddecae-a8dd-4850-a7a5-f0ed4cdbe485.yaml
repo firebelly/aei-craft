@@ -1,0 +1,16 @@
+contentColumnType: string
+fieldGroup: c39a0c11-54db-435b-92a4-a299570913f3
+handle: statFigure2
+instructions: '(Figure 2 and Label 2 are optional. Use only if there are two figures in the stat.)'
+name: 'Figure 2'
+searchable: '1'
+settings:
+  charLimit: ''
+  code: ''
+  columnType: string
+  initialRows: '4'
+  multiline: ''
+  placeholder: ''
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\PlainText

@@ -1,0 +1,59 @@
+field: a53a9f05-dc13-4e76-b462-5b32852541aa
+fieldLayouts:
+  07a895f2-1bd0-4add-95c2-74b4c92be05b:
+    tabs:
+      -
+        fields:
+          0e1b852f-d478-4286-a3f6-c1af971a7e86:
+            required: '0'
+            sortOrder: '1'
+        name: Content
+        sortOrder: '1'
+fields:
+  0e1b852f-d478-4286-a3f6-c1af971a7e86:
+    contentColumnType: string
+    fieldGroup: null
+    handle: quotes
+    instructions: 'If more than one quote is supplied, a carousel will be created.'
+    name: Quote(s)
+    searchable: '1'
+    settings:
+      columns:
+        141:
+          __assoc__:
+            -
+              - width
+              - ''
+        142:
+          __assoc__:
+            -
+              - width
+              - ''
+        143:
+          __assoc__:
+            -
+              - width
+              - ''
+        144:
+          __assoc__:
+            -
+              - width
+              - ''
+        145:
+          __assoc__:
+            -
+              - width
+              - ''
+      contentTable: '{{%stc_4_quotes}}'
+      fieldLayout: row
+      localizeBlocks: false
+      maxRows: ''
+      minRows: ''
+      selectionLabel: ''
+      staticField: ''
+    translationKeyFormat: null
+    translationMethod: site
+    type: verbb\supertable\fields\SuperTableField
+handle: quotes
+name: Quote(s)
+sortOrder: '4'

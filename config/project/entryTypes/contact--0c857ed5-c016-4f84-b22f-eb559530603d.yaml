@@ -1,0 +1,29 @@
+fieldLayouts:
+  614e129f-49d2-4b3e-8c33-cb552ef2b413:
+    tabs:
+      -
+        elements:
+          -
+            instructions: null
+            label: null
+            type: craft\fieldlayoutelements\EntryTitleField
+          -
+            fieldUid: d16e56d7-1702-46b2-b089-80febb4966c3
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+        name: 'Contact Info'
+        sortOrder: '1'
+      -
+        elements:
+          -
+            fieldUid: 8ace18eb-ea90-4bbd-8483-5fc18840ea38
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+        name: SEO
+        sortOrder: '2'
+handle: contact
+hasTitleField: '0'
+name: Contact
+section: 973b5f55-7882-43fe-8e52-112dbe0c8274
+sortOrder: '1'
+titleFormat: '{section.name|raw}'

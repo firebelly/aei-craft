@@ -1,0 +1,34 @@
+field: 19e142c5-ed67-402f-86b8-1030565229e6
+fieldLayouts:
+  1846e337-774c-481f-8e2f-b47533531606:
+    tabs:
+      -
+        fields:
+          1258a5f1-7191-4d7c-9516-bfd256ea9bc4:
+            required: '0'
+            sortOrder: '1'
+        name: Content
+        sortOrder: '1'
+fields:
+  1258a5f1-7191-4d7c-9516-bfd256ea9bc4:
+    contentColumnType: string
+    fieldGroup: null
+    handle: impactPosts
+    instructions: ''
+    name: 'Impact Posts'
+    searchable: '1'
+    settings:
+      limit: '2'
+      localizeRelations: false
+      selectionLabel: 'Add Impact Post'
+      source: null
+      sources:
+        - 'section:66b9cee3-6c4a-4348-8f68-fe1d1bb454a0'
+      targetSiteId: null
+      viewMode: null
+    translationKeyFormat: null
+    translationMethod: site
+    type: craft\fields\Entries
+handle: impact
+name: 'Featured Impact'
+sortOrder: '2'

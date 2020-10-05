@@ -1,0 +1,18 @@
+contentColumnType: string
+fieldGroup: c39a0c11-54db-435b-92a4-a299570913f3
+handle: statType
+instructions: 'Specifies where stats show up on the site. (Stats related to individual projects and impact are managed per-entry.)'
+name: 'Stat Type'
+searchable: '1'
+settings:
+  branchLimit: ''
+  limit: null
+  localizeRelations: false
+  selectionLabel: 'Add a Stat Type'
+  source: 'group:dae8b354-5830-457a-9955-80b11f689fd1'
+  sources: '*'
+  targetSiteId: null
+  viewMode: null
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Categories

@@ -1,0 +1,113 @@
+fieldLayouts:
+  8fe6092f-d592-4c5f-be72-a295097632d0:
+    tabs:
+      -
+        elements:
+          -
+            instructions: null
+            label: Title
+            type: craft\fieldlayoutelements\EntryTitleField
+          -
+            fieldUid: 85ac77cf-b167-426f-8e7f-010a74e6c539
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: b34ac46d-6508-4d75-a961-a07ce44c2000
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: e8faecee-3d1c-40b2-b062-6eb0922ae3ad
+            required: true
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 6c2d4368-81d7-4ea7-befc-9c0783583897
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: d16e56d7-1702-46b2-b089-80febb4966c3
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 9a987d08-cb6e-4d0d-989e-4dfbe03f67fb
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 3455b594-c50a-4516-966a-a3ddd327056f
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 2211b7cd-43db-4b80-869b-432976c22c87
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 05cee5f0-a7a1-4831-aeeb-7f372591c206
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 38716c8a-8358-4f6f-9261-bd81c48b9c6a
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+        name: 'Impact Info'
+        sortOrder: '1'
+      -
+        elements:
+          -
+            fieldUid: a53a9f05-dc13-4e76-b462-5b32852541aa
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: a8e93f2e-4d0b-4b2e-ab2b-94511f8b2ebb
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+        name: 'Media Blocks'
+        sortOrder: '2'
+      -
+        elements:
+          -
+            fieldUid: 916a8d40-2d79-4dbb-aaa2-e35cd468c2fa
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: e231aeee-b945-4a07-8a95-6d5855eb59b2
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 8750e6ef-6cda-414f-8d48-4f008c9229c5
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: cbef2825-0560-44b5-8399-1fdcb88e74b1
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+        name: 'Session Info'
+        sortOrder: '3'
+      -
+        elements:
+          -
+            fieldUid: 1c3c1715-56ab-4c1e-9990-9059bac9534f
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: 284776b9-7eef-4189-a044-114cd47aa670
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+          -
+            fieldUid: c0c8510c-c0ba-478c-af95-29fcb5078958
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+        name: 'Article Info'
+        sortOrder: '4'
+      -
+        elements:
+          -
+            fieldUid: 8ace18eb-ea90-4bbd-8483-5fc18840ea38
+            required: false
+            type: craft\fieldlayoutelements\CustomField
+        name: SEO
+        sortOrder: '5'
+handle: impact
+hasTitleField: '1'
+name: Impact
+section: 66b9cee3-6c4a-4348-8f68-fe1d1bb454a0
+sortOrder: '1'
+titleFormat: null

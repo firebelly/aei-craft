@@ -1,0 +1,17 @@
+contentColumnType: string
+fieldGroup: 652bd3c2-ebe8-41fb-9419-5bb52187c6f2
+handle: personEmployeeNumber
+instructions: 'ID from Deltek'
+name: 'Employee Number'
+searchable: '1'
+settings:
+  charLimit: ''
+  code: ''
+  columnType: string
+  initialRows: '4'
+  mode: readonly
+  multiline: ''
+  placeholder: ''
+translationKeyFormat: null
+translationMethod: none
+type: mmikkel\incognitofield\fields\IncognitoFieldType

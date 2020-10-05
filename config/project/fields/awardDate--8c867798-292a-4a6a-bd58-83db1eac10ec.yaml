@@ -1,0 +1,13 @@
+contentColumnType: datetime
+fieldGroup: f272b291-c7e6-4a88-b2d7-c29657d9de61
+handle: awardDate
+instructions: ''
+name: 'Award Date'
+searchable: '1'
+settings:
+  minuteIncrement: '30'
+  showDate: true
+  showTime: false
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Date
