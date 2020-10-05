@@ -145,8 +145,10 @@
       {% else %}
         {% set limitCriteria = craft.entries.section('impact').limit(2) %}
       {% endif %}
-      {% set extraRelatedPosts = craft.similar.find({ element: entry, context: categoryIds, criteria: limitCriteria }) %}
-      {% set relatedPosts = relatedPosts|merge(extraRelatedPosts) %}
+      {#
+        {% set extraRelatedPosts = craft.similar.find({ element: entry, context: categoryIds, criteria: limitCriteria }) %}
+        {% set relatedPosts = relatedPosts|merge(extraRelatedPosts) %}
+      #}
     {% endif %}
     {% include 'partials/_related-impact'
       with {
