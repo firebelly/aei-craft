@@ -1,120 +1,136 @@
-var gulp         = require('gulp');
-var gulpif       = require('gulp-if');
-var sass         = require('gulp-sass');
-var uglify       = require('gulp-uglify');
-var autoprefixer = require('gulp-autoprefixer');
-var cssnano      = require('gulp-cssnano');
-var include      = require('gulp-include');
-var rev          = require('gulp-rev');
-var sourcemaps   = require('gulp-sourcemaps');
-var runSequence  = require('run-sequence');
-var notify       = require('gulp-notify');
-var browserSync  = require('browser-sync').create();
-var gutil        = require("gulp-util");
-var concat       = require("gulp-concat");
-var svgstore     = require('gulp-svgstore');
-var svgmin       = require('gulp-svgmin');
-var rename       = require('gulp-rename');
-var argv         = require('minimist')(process.argv.slice(2));
-var isProduction = argv.production;
+const gulp         = require('gulp');
+const gulpif       = require('gulp-if');
+const sass         = require('gulp-sass');
+const uglify       = require('gulp-uglify');
+const autoprefixer = require('gulp-autoprefixer');
+const cssnano      = require('gulp-cssnano');
+const include      = require('gulp-include');
+const rev          = require('gulp-rev');
+const revdel       = require('gulp-rev-delete-original');
+const sourcemaps   = require('gulp-sourcemaps');
+const notify       = require('gulp-notify');
+const browsersync  = require('browser-sync').create();
+const concat       = require('gulp-concat');
+const svgstore     = require('gulp-svgstore');
+const svgmin       = require('gulp-svgmin');
+const rename       = require('gulp-rename');
+const argv         = require('minimist')(process.argv.slice(2));
+const jshint       = require('gulp-jshint');
+const del          = require('del');
 
-// smash CSS!
-gulp.task('styles', function() {
+// Project config
+const conf = {
+  siteUrl: 'aei-craft.localhost'
+};
+
+// CLI options
+const enabled = {
+  // Enable static asset revisioning when `--production`
+  rev: argv.production,
+  // Disable source maps when `--production`
+  maps: !argv.production,
+  // Fail due to JSHint warnings only when `--production`
+  failJSHint: argv.production,
+  // Strip debug statments from javascript when `--production`
+  stripJSDebug: argv.production
+};
+
+// Smash CSS!
+function styles() {
   return gulp.src([
       'web/assets/scss/main.scss'
     ])
-    .pipe(gulpif(!isProduction, sourcemaps.init()))
+    .pipe(gulpif(enabled.maps, sourcemaps.init()))
     .pipe(sass())
     .on('error', notify.onError(function(error) {
        return 'Styles error!' + error;
     }))
-    .pipe(autoprefixer({
-      browsers: [
-        'last 2 versions',
-        'android 4',
-        'opera 12'
-      ]
-    }))
+    .pipe(autoprefixer())
     .pipe(cssnano({
       safe: true
     }))
     .pipe(gulp.dest('web/assets/dist/css'))
-    .pipe(gulpif(!isProduction, sourcemaps.write('maps')))
-    .pipe(gulpif(!isProduction, gulp.dest('web/assets/dist/css')))
-    .pipe(browserSync.stream({match: '**/*.css'}))
+    .pipe(gulpif(enabled.maps, sourcemaps.write('maps')))
+    .pipe(gulpif(enabled.maps, gulp.dest('web/assets/dist/css')))
+    .pipe(browsersync.stream({match: '**/*.css'}))
     .pipe(notify({message: 'Styles smashed.', onLast: true}));
-});
+}
 
-// smash javascript!
-gulp.task('scripts', function() {
+// Smash javascript!
+function scripts() {
   return gulp.src([
       'web/assets/js/main.js'
     ])
     .pipe(include())
     .pipe(concat('main.js'))
-    .pipe(gulpif(!isProduction, sourcemaps.init()))
+    .pipe(gulpif(enabled.maps, sourcemaps.init()))
     .pipe(uglify({
       compress: {
-        'drop_debugger': isProduction
+        'drop_debugger': enabled.stripJSDebug
       }
     }))
     .on('error', notify.onError(function(error) {
-       return 'Script error!' + error;
+       return 'Scripts error!' + error;
     }))
     .pipe(gulp.dest('web/assets/dist/js'))
-    .pipe(gulpif(!isProduction, sourcemaps.write('maps')))
-    .pipe(gulpif(!isProduction, gulp.dest('web/assets/dist/js')))
-    .pipe(browserSync.reload({stream:true}))
+    .pipe(gulpif(enabled.maps, sourcemaps.write('maps')))
+    .pipe(gulpif(enabled.maps, gulp.dest('web/assets/dist/js')))
+    .pipe(browsersync.reload({stream:true}))
     .pipe(notify({message: 'Scripts smashed.', onLast: true}));
-});
+}
 
-// revision files for production assets
-gulp.task('rev', function() {
-  return gulp.src(['web/assets/dist/**/*.css', 'web/assets/dist/**/*.js', 'web/assets/dist/svgs-defs.svg'])
-    .pipe(rev())
-    .pipe(gulp.dest('web/assets/dist'))
-    .pipe(rev.manifest())
-    .pipe(gulp.dest('web/assets/dist'));
-});
+// Revision files for production assets
+function revFiles(cb) {
+  if (!enabled.rev) cb();
+  else {
+    return gulp.src(['web/assets/dist/**/*.{css,js,jpg,png,gif}', 'web/assets/dist/svgs-defs.svg'])
+      .pipe(rev())
+      .pipe(revdel())
+      .pipe(gulp.dest('web/assets/dist'))
+      .pipe(rev.manifest())
+      .pipe(gulp.dest('web/assets/dist'));
+  }
+}
 
-// folders to watch for changes
-gulp.task('watch', ['build'], function() {
-  // Init BrowserSync
-  browserSync.init({
-    proxy: 'aei-craft.localhost',
+// Copy various files/dirs to dist
+function copy() {
+  return gulp.src(['web/assets/images/*'])
+    .pipe(gulp.dest('web/assets/dist/images/'));
+}
+
+// Folders to watch for changes
+function watchFiles() {
+  gulp.watch('web/assets/scss/*.scss', gulp.series(styles));
+  gulp.watch('web/assets/scss/**/*.scss', gulp.series(styles));
+  gulp.watch('web/assets/js/**/*.js', gulp.series(scripts));
+}
+
+function browserSync() {
+  browsersync.init({
+    proxy: conf.siteUrl,
+    files: ['./**/*.php', '*.php'],
     notify: false,
     open: false
   });
+}
 
-  gulp.watch('web/assets/scss/**/*.scss', ['styles']);
-  gulp.watch('web/assets/js/**/*.js', ['scripts']);
-});
+// `gulp jsHint` - Lints configuration JSON and project JS.
+function jsHint() {
+  return gulp.src([
+      'web/assets/bower.json', 'gulpfile.js', 'web/assets/js/main.js'
+    ])
+    .pipe(jsHint())
+    .pipe(jsHint.reporter('jshint-stylish'))
+    .pipe(gulpif(enabled.failJSHint, jsHint.reporter('fail')));
+}
 
 // `gulp clean` - Deletes the build folder entirely.
-gulp.task('clean', require('del').bind(null, ['web/assets/dist']));
-
-// `gulp build` - Run all the build tasks but don't clean up beforehand.
-gulp.task('build', function(callback) {
-  if (isProduction) {
-    // production gulpin' (with file revisioning)
-    runSequence(
-      'clean',
-      ['styles','scripts','svgs'],
-      'rev',
-      callback
-    );
-  } else {
-    // dev gulpin'
-    runSequence(
-      'clean',
-      ['styles','scripts','svgs'],
-      callback
-    );
-  }
-});
+function clean() {
+  return del([ 'web/assets/dist/' ]);
+}
 
 // SVGs to defs
-gulp.task('svgs', function() {
+function svgs() {
   return gulp.src('web/assets/svgs/*.svg')
     .pipe(svgmin({
         plugins: [{
@@ -127,14 +143,15 @@ gulp.task('svgs', function() {
             cleanupIDs: false
         }]
     }))
-    .pipe(gulp.dest('web/assets/dist/svgs/'))
-    .pipe(svgstore({ inlineSvg: true }))
-    .pipe(rename({ suffix: '-defs' }))
+    .pipe(svgstore({inlineSvg: true}))
+    .pipe(rename({suffix: '-defs'}))
     .pipe(gulp.dest('web/assets/dist/'));
-});
+}
 
+const build = gulp.series(clean, gulp.parallel(copy, styles, scripts, svgs), revFiles);
+const watch = gulp.series(build, gulp.parallel(watchFiles, browserSync));
 
-// `gulp` - Run a complete build. To compile for production run `gulp --production`.
-gulp.task('default', function() {
-  gulp.start('build');
-});
+// export tasks
+exports.build = build;
+exports.watch = watch;
+exports.default = build;
