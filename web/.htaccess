@@ -5,6 +5,10 @@ RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule \.(jpg|jpeg|png|gif|ico|icns|swf|bmp)$ - [NC,R=404,L]
 
+# Markets/projects URL change
+RewriteRule ^projects/([^/]+)/?$ /markets/project/$1 [R=301,L]
+RewriteRule ^projects/market/([^/]+)/?$ /markets/$1 [R=301,L]
+
 # Force single domain
 RewriteCond %{REQUEST_URI} !\.well-known
 RewriteCond %{HTTP_HOST} !^aeieng\.com [NC]
