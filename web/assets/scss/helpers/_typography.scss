@@ -147,12 +147,12 @@
 
 @mixin font-captions {
   @include formular-regular;
-  @include paragraph-style (12, 24, $ls: .025em);
+  @include paragraph-style (13, 24, $ls: .025em);
 }
 
 @mixin font-buttons {
   @include formular-regular;
-  @include paragraph-style (12, 16, $ls: .025em);
+  @include paragraph-style (13, 17.5, $ls: .025em);
 }
 
 @mixin font-details { // This one is an alias in the ID file
@@ -176,7 +176,7 @@
 
 @mixin font-copyright {
   @include formular-regular;
-  @include paragraph-style (12, 24, $ls: -.025em);
+  @include paragraph-style (13, 24, $ls: -.025em);
 }
 
 // Convenience classes for above
