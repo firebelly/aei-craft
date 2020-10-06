@@ -1,0 +1,35 @@
+{% extends (craft.app.request.isAjax and not craft.app.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
+
+{% block filters %}
+  {% include 'partials/_about-nav' %}
+{% endblock %}
+
+{% block content %}
+  {% for pageHeader in entry.pageHeader.all() %}
+    {% include '/partials/_theater-header' %}
+  {% endfor %}
+
+  <article class="single-page">
+    <div class="row -halves content-blocks -spaced">
+      {% include '/partials/_media-blocks' %}
+    </div>
+
+    {# Special block for Careers page #}
+    {% if entry.title == 'Careers' %}
+      <div class="row -single -spaced">
+        <div class="row-block">
+          <div class="module text-module">
+            <h3 class="font-h1">Interested?</h3>
+            <div class="buttons">
+              <a rel="noopener" target="_blank" href="https://careers-aeieng.icims.com/" class="button">
+                <span class="border"></span><span class="extra-corners"></span>
+                Search Jobs
+                <svg class="icon icon-right-arrow"><use xlink:href="#icon-right-arrow" /></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  </article>
+{% endblock %}
