@@ -1,8 +1,7 @@
-<h2 class="font-nav {{ craft.app.request.fullPath == 'about' ? 'current' : '' }}"><a href="/about/">About</a></h2>
-{% set aboutIndex = craft.entries.section('aboutIndex').one() %}
-{% if aboutIndex.navigation|length %}
+{% set peopleIndex = craft.entries.section('peopleIndex').one() %}
+{% if peopleIndex.navigation|length %}
   <ul class="filters semantic-only-list">
-    {% for item in aboutIndex.navigation %}
+    {% for item in peopleIndex.navigation %}
       <li class="{{ active(item.url|replace('/(^\\/|\\/$)/', ''), 'path', 'current') }}"><a {% if item.openInNewTab %}rel="noopener" target="_blank" class="external"{% endif %} href="{{ item.url }}">{{ item.label }}</a>
     {% endfor %}
   </ul>
