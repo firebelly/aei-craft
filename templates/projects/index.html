@@ -48,14 +48,8 @@
 {% endif %}
 
 {% block filters %}
-  <h2 class="font-nav {{ (category is not defined) ? 'current' : '' }}"><a href="/markets/">Markets</a></h2>
-  <ul class="filters semantic-only-list">
-    {% for cat in craft.categories.group('markets').all() %}
-      <li class="{{ active(cat.getUrl(), 'url', 'current') }}">
-        <a href="{{ cat.getUrl() }}">{{ cat.title }}</a>
-      </li>
-    {% endfor %}
-  </ul>
+  <h2 class="font-nav{{ (category is not defined) ? ' current' : '' }}"><a href="/markets/">Markets</a></h2>
+  {% include 'partials/_hierarchy-nav' with { taxonomy: 'markets' } %}
 {% endblock %}
 
 {# For clarity/DRY sake, save the intro module to a variable. #}
@@ -85,16 +79,7 @@
           <span>{{ category is defined ? category.title : 'All' }}</span>
           <svg class="icon icon-up-arrow" aria-hidden="true" role="presentation"><use xlink:href="#icon-up-arrow"/></svg>
         </div>
-        <ul class="filters semantic-only-list">
-          <li class="{{ category is defined ? '' : 'current' }}">
-            <a href="/markets/">All</a>
-          </li>
-          {% for cat in craft.categories.group('markets').all() %}
-            <li class="{{ active(cat.getUrl(), 'url', 'current') }}">
-              <a href="{{ cat.getUrl() }}">{{ cat.title }}</a>
-            </li>
-          {% endfor %}
-        </ul>
+        {% include 'partials/_hierarchy-nav' with { taxonomy: 'markets' } %}
       </div>
 
     </div>

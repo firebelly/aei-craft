@@ -2,13 +2,7 @@
 
 {% block filters %}
   <h2 class="font-nav {{ (category is not defined) ? 'current' : '' }}"><a href="/services/">Services</a></h2>
-  <ul class="filters semantic-only-list">
-    {% for cat in craft.categories.group('services').all() %}
-      <li class="{{ active(cat.getUrl(), 'url', 'current') }}">
-        <a href="{{ cat.getUrl() }}">{{ cat.title }}</a>
-      </li>
-    {% endfor %}
-  </ul>
+  {% include 'partials/_hierarchy-nav' with { taxonomy: 'services' } %}
 {% endblock %}
 
 {% block content %}
@@ -22,7 +16,7 @@
 
   <div id="services">
     <ul class="row -quarters photo-row-separators semantic-only-list">
-    {% for service in craft.categories.group('services').all() %}
+    {% for service in craft.categories.group('services').level(1).all() %}
       <li class="row-block">
         {% include 'services/_article' %}
       </li>
