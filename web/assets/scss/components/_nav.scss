@@ -104,6 +104,7 @@
     }
     &.current a,
     a:hover {
+      color: $red;
       svg {
         fill: $red;
       }
