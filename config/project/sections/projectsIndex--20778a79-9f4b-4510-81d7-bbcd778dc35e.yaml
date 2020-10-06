@@ -1,15 +1,23 @@
-enableVersioning: '1'
+enableVersioning: true
 handle: projectsIndex
-name: 'Projects Index'
+name: 'Markets Index'
 previewTargets:
   -
-    label: 'Primary entry page'
-    urlFormat: '{url}'
+    __assoc__:
+      -
+        - label
+        - 'Primary entry page'
+      -
+        - urlFormat
+        - '{url}'
+      -
+        - refresh
+        - '1'
 propagationMethod: all
 siteSettings:
   fbde05ad-97ce-4076-85e8-261874a1582b:
-    enabledByDefault: '1'
-    hasUrls: '1'
+    enabledByDefault: true
+    hasUrls: true
     template: projects/index
-    uriFormat: projects
+    uriFormat: markets
 type: single

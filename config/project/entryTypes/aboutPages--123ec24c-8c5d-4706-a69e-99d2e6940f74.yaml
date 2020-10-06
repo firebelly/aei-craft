@@ -1,5 +1,5 @@
 fieldLayouts:
-  74733969-8298-4e2a-a786-38c72aed7dbc:
+  d16f668c-a331-4117-be35-6704dacaa99f:
     tabs:
       -
         elements:
@@ -27,10 +27,10 @@ fieldLayouts:
             warning: null
             width: 100
           -
-            fieldUid: d16e56d7-1702-46b2-b089-80febb4966c3
+            fieldUid: 6fbf4208-fbed-4a6c-a92d-9d4ab0b78d71
             instructions: null
             label: null
-            required: '0'
+            required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
             warning: null
@@ -40,20 +40,33 @@ fieldLayouts:
       -
         elements:
           -
+            fieldUid: a53a9f05-dc13-4e76-b462-5b32852541aa
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            warning: null
+            width: 100
+        name: 'Media Blocks'
+        sortOrder: 2
+      -
+        elements:
+          -
             fieldUid: 8ace18eb-ea90-4bbd-8483-5fc18840ea38
             instructions: null
             label: null
-            required: '0'
+            required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
             warning: null
             width: 100
         name: SEO
-        sortOrder: 2
-handle: projectsIndex
+        sortOrder: 3
+handle: aboutPages
 hasTitleField: true
-name: 'Markets Index'
-section: 20778a79-9f4b-4510-81d7-bbcd778dc35e
+name: 'About Pages'
+section: 0b115733-e2ef-444a-8432-a011d5202b0e
 sortOrder: 1
 titleFormat: null
 titleTranslationKeyFormat: null

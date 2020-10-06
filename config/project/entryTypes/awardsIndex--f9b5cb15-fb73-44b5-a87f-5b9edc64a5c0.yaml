@@ -4,26 +4,57 @@ fieldLayouts:
       -
         elements:
           -
+            autocapitalize: true
+            autocomplete: false
+            autocorrect: true
+            class: null
+            disabled: false
+            id: null
             instructions: null
             label: null
+            max: null
+            min: null
+            name: null
+            orientation: null
+            placeholder: null
+            readonly: false
+            requirable: false
+            size: null
+            step: null
+            tip: null
+            title: null
             type: craft\fieldlayoutelements\EntryTitleField
+            warning: null
+            width: 100
           -
             fieldUid: d16e56d7-1702-46b2-b089-80febb4966c3
-            required: false
+            instructions: null
+            label: null
+            required: '0'
+            tip: null
             type: craft\fieldlayoutelements\CustomField
+            warning: null
+            width: 100
         name: 'Awards Index'
-        sortOrder: '1'
+        sortOrder: 1
       -
         elements:
           -
             fieldUid: 8ace18eb-ea90-4bbd-8483-5fc18840ea38
-            required: false
+            instructions: null
+            label: null
+            required: '0'
+            tip: null
             type: craft\fieldlayoutelements\CustomField
+            warning: null
+            width: 100
         name: SEO
-        sortOrder: '2'
+        sortOrder: 2
 handle: awardsIndex
-hasTitleField: '0'
+hasTitleField: false
 name: 'Awards Index'
 section: 0ac23e9b-0c26-40cc-95d8-79386517fd65
-sortOrder: '1'
+sortOrder: 1
 titleFormat: '{section.name|raw}'
+titleTranslationKeyFormat: null
+titleTranslationMethod: site

@@ -1,5 +1,5 @@
 fieldLayouts:
-  74733969-8298-4e2a-a786-38c72aed7dbc:
+  2df2134d-b7ac-4a6d-aa76-f2a0496e8d2a:
     tabs:
       -
         elements:
@@ -27,7 +27,16 @@ fieldLayouts:
             warning: null
             width: 100
           -
-            fieldUid: d16e56d7-1702-46b2-b089-80febb4966c3
+            fieldUid: 6fbf4208-fbed-4a6c-a92d-9d4ab0b78d71
+            instructions: null
+            label: null
+            required: '0'
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            warning: null
+            width: 100
+          -
+            fieldUid: a53a9f05-dc13-4e76-b462-5b32852541aa
             instructions: null
             label: null
             required: '0'
@@ -40,6 +49,19 @@ fieldLayouts:
       -
         elements:
           -
+            fieldUid: d37ba3e0-f5f2-4a0d-9bd7-69cfd58e6718
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            warning: null
+            width: 100
+        name: Navigation
+        sortOrder: 2
+      -
+        elements:
+          -
             fieldUid: 8ace18eb-ea90-4bbd-8483-5fc18840ea38
             instructions: null
             label: null
@@ -49,12 +71,12 @@ fieldLayouts:
             warning: null
             width: 100
         name: SEO
-        sortOrder: 2
-handle: projectsIndex
-hasTitleField: true
-name: 'Markets Index'
-section: 20778a79-9f4b-4510-81d7-bbcd778dc35e
+        sortOrder: 3
+handle: aboutIndex
+hasTitleField: false
+name: 'About Index'
+section: 8bb717b8-117d-4f60-94fe-371e4464a9dc
 sortOrder: 1
-titleFormat: null
+titleFormat: '{section.name|raw}'
 titleTranslationKeyFormat: null
 titleTranslationMethod: site

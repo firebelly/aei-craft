@@ -1,6 +1,6 @@
 enableVersioning: true
-handle: careers
-name: Careers
+handle: aboutIndex
+name: 'About Index'
 previewTargets:
   -
     __assoc__:
@@ -18,6 +18,6 @@ siteSettings:
   fbde05ad-97ce-4076-85e8-261874a1582b:
     enabledByDefault: true
     hasUrls: true
-    template: about/careers/index
-    uriFormat: about/careers-old
+    template: about/index
+    uriFormat: about
 type: single

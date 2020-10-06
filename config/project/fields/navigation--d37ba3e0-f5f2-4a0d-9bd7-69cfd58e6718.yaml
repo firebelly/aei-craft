@@ -1,0 +1,76 @@
+contentColumnType: text
+fieldGroup: 76cf6d8b-6453-4d20-a26b-d31357cdef08
+handle: navigation
+instructions: ''
+name: Navigation
+searchable: false
+settings:
+  addRowLabel: 'Add a link'
+  columnType: text
+  columns:
+    __assoc__:
+      -
+        - col1
+        -
+          __assoc__:
+            -
+              - heading
+              - Label
+            -
+              - handle
+              - label
+            -
+              - width
+              - ''
+            -
+              - type
+              - singleline
+      -
+        - col2
+        -
+          __assoc__:
+            -
+              - heading
+              - URL
+            -
+              - handle
+              - url
+            -
+              - width
+              - ''
+            -
+              - type
+              - singleline
+      -
+        - col3
+        -
+          __assoc__:
+            -
+              - heading
+              - 'Open in new tab'
+            -
+              - handle
+              - openInNewTab
+            -
+              - width
+              - ''
+            -
+              - type
+              - lightswitch
+  defaults:
+    -
+      __assoc__:
+        -
+          - col1
+          - ''
+        -
+          - col2
+          - ''
+        -
+          - col3
+          - ''
+  maxRows: ''
+  minRows: ''
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Table

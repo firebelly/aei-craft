@@ -2,11 +2,17 @@ fieldLayouts:
   f016cf18-ca46-4ab3-b7e9-e1e4f2877448:
     tabs:
       -
-        fields:
-          983f8382-dbb5-42ff-b278-ba7dface6d7b:
+        elements:
+          -
+            fieldUid: 983f8382-dbb5-42ff-b278-ba7dface6d7b
+            instructions: null
+            label: null
             required: '0'
-            sortOrder: '1'
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            warning: null
+            width: 100
         name: 'Global Site Info'
-        sortOrder: '1'
+        sortOrder: 1
 handle: siteSettings
 name: 'Site Settings'

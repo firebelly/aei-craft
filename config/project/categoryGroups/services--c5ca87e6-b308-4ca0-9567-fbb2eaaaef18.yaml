@@ -2,19 +2,66 @@ fieldLayouts:
   fc0799c1-b4df-4a60-b35c-4a89c1483a93:
     tabs:
       -
-        fields:
-          05cee5f0-a7a1-4831-aeeb-7f372591c206:
-            required: false
-            sortOrder: 3
-          7ad369eb-7b23-43e5-abc3-4e8e5232924d:
-            required: false
-            sortOrder: 1
-          d16e56d7-1702-46b2-b089-80febb4966c3:
-            required: false
-            sortOrder: 2
-          d7ed6c7a-2b49-4e06-bacb-574f023ffbb1:
-            required: false
-            sortOrder: 4
+        elements:
+          -
+            autocapitalize: true
+            autocomplete: false
+            autocorrect: true
+            class: null
+            disabled: false
+            id: null
+            instructions: null
+            label: null
+            max: null
+            min: null
+            name: null
+            orientation: null
+            placeholder: null
+            readonly: false
+            requirable: false
+            size: null
+            step: null
+            tip: null
+            title: null
+            type: craft\fieldlayoutelements\TitleField
+            warning: null
+            width: 100
+          -
+            fieldUid: 7ad369eb-7b23-43e5-abc3-4e8e5232924d
+            instructions: null
+            label: null
+            required: '0'
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            warning: null
+            width: 100
+          -
+            fieldUid: d16e56d7-1702-46b2-b089-80febb4966c3
+            instructions: null
+            label: null
+            required: '0'
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            warning: null
+            width: 100
+          -
+            fieldUid: 05cee5f0-a7a1-4831-aeeb-7f372591c206
+            instructions: null
+            label: null
+            required: '0'
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            warning: null
+            width: 100
+          -
+            fieldUid: d7ed6c7a-2b49-4e06-bacb-574f023ffbb1
+            instructions: null
+            label: null
+            required: '0'
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            warning: null
+            width: 100
         name: 'Service Info'
         sortOrder: 1
 handle: services
@@ -25,5 +72,5 @@ siteSettings:
     template: services/_entry
     uriFormat: 'services/{slug}'
 structure:
-  maxLevels: '1'
+  maxLevels: 2
   uid: 5a3e9349-6486-4c81-b016-783ef2383e73

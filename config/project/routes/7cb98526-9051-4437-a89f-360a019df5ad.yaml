@@ -1,9 +1,9 @@
 siteUid: null
-sortOrder: '1'
+sortOrder: 1
 template: projects/_missing
 uriParts:
-  - projects/
+  - markets/project/
   -
     - slug
     - '[^\/]+'
-uriPattern: 'projects/<slug:[^\/]+>'
+uriPattern: 'markets/project/<slug:[^\/]+>'

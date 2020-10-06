@@ -1,6 +1,6 @@
 enableVersioning: true
-handle: careers
-name: Careers
+handle: aboutPages
+name: 'About Pages'
 previewTargets:
   -
     __assoc__:
@@ -18,6 +18,9 @@ siteSettings:
   fbde05ad-97ce-4076-85e8-261874a1582b:
     enabledByDefault: true
     hasUrls: true
-    template: about/careers/index
-    uriFormat: about/careers-old
-type: single
+    template: about/_page.html
+    uriFormat: 'about/{slug}'
+structure:
+  maxLevels: 1
+  uid: 0ff22aec-21c4-4a77-903f-57464b8ed9d7
+type: structure
