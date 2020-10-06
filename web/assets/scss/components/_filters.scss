@@ -99,7 +99,7 @@ body.nav-stuck {
           width: 10px;
           height: 10px;
           position: absolute;
-          background: url('../svgs/icon-right-arrow-red.svg') no-repeat;
+          background: url('/assets/svgs/icon-right-arrow-red.svg') no-repeat;
           background-size: contain;
         }
       }
@@ -109,6 +109,12 @@ body.nav-stuck {
       columns: 3 240px;
       column-gap: 40px;
     }
+
+    // Child categories
+    ul.children {
+      margin-left: 2em;
+    }
+
   }
 
   // Filters open

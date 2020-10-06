@@ -26,7 +26,7 @@
       width: 11.1px;
       height: 15.7px;
       position: absolute;
-      background: url('../svgs/icon-right-arrow-red.svg') no-repeat;
+      background: url('/assets/svgs/icon-right-arrow-red.svg') no-repeat;
       background-size: contain;
     }
   }
@@ -59,6 +59,10 @@
           color: $red;
         }
       }
+    }
+    // Child categories
+    ul.children {
+      margin-left: 2em;
     }
 
     a {
