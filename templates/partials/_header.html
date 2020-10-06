@@ -2,7 +2,9 @@
   <div class="lockup-block">
     <a class="lockup" href="/">
       <div class="affiliated-engineers">
-        <h1 class="sr-only">{{ siteName }}</h1>
+        {% if craft.app.request.getUrl() == '/' %}
+          <h1 class="sr-only">{{ siteName }}</h1>
+        {% endif %}
         <svg class="logo"><use xlink:href="#affiliated-engineers-logo" /></svg>
       </div>
     </a>
