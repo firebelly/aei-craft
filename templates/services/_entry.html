@@ -2,6 +2,7 @@
 {% set title = category.title %}
 {% set bodyClass = 'overlapping-header' %}
 {% set headerImage = category.serviceImage.one() %}
+{% set treatedImage = null %}
 {% if headerImage %}
   {% set treatedImage = craft.imager.transformImage(headerImage, { width: 1600 }) %}
   {% if treatedImage %}
@@ -22,7 +23,7 @@
     <div class="row -use-float -halves">
       <div class="row-block -right">
         <div class="image-wrap -landscape">
-          {% if treatedImage %}
+          {% if headerImage and treatedImage %}
             <div class="lazy image" style="background-image: url(''); background-position: center {{ headerImage.getFocalPoint()['y'] * 100 }}%" data-original="{{ treatedImage.getUrl() }}"></div>
           {% endif %}
         </div>

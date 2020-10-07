@@ -55,6 +55,17 @@ var FB = (function($) {
       });
     }
 
+    // Show child nav if parent or child is currently active
+    $('li.has-children').each(function() {
+      var $this = $(this);
+      var $children = $this.next('ul.children');
+      console.log($this, $children, $children.find('li.current'));
+      if ($this.hasClass('current') || $children.find('li.current').length > 0) {
+        $children.velocity('slideDown', { duration: 250 });
+      }
+    });
+
+    // Sitewide notice X close button
     $('.sitewide-notice a.close').on('click', function(e) {
       e.preventDefault();
       _closeSitewideNotice();

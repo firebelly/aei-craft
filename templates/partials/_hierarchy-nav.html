@@ -1,7 +1,7 @@
 <ul class="filters semantic-only-list">
 {% set categories = craft.categories.group(taxonomy).all() %}
 {% nav cat in categories %}
-  <li class="{{ active(cat.getUrl(), 'url', 'current') }}">
+  <li class="{{ active(cat.getUrl(), 'url', 'current') }}{{ cat.children|length ? ' has-children' : '' }}">
     <a href="{{ cat.getUrl() }}">{{ cat.title }}</a>
   </li>
   {% ifchildren %}

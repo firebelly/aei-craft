@@ -1,5 +1,13 @@
 // Filters
 
+.filters {
+  // Child categories
+  ul.children {
+    display: none;
+    margin-left: 2em;
+  }
+}
+
 // Adjust stuck filters when the main nav is stuck
 body.nav-stuck {
   .mobile-filter {
@@ -109,12 +117,6 @@ body.nav-stuck {
       columns: 3 240px;
       column-gap: 40px;
     }
-
-    // Child categories
-    ul.children {
-      margin-left: 2em;
-    }
-
   }
 
   // Filters open
