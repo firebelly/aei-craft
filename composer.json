@@ -51,7 +51,8 @@
     "aelvan/mailchimp-subscribe": "v2.0.4",
     "dolphiq/craft3-forms": "1.1.0",
     "poptin/poptin": "1.1.0",
-    "la-haute-societe/craft-google-tag-manager": "1.1.0"
+    "la-haute-societe/craft-google-tag-manager": "1.1.0",
+    "nystudio107/craft-cookies": "^1.1"
   },
   "autoload": {
     "psr-4": {
