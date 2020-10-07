@@ -3,10 +3,23 @@
   <!--[if gt IE 9]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
 
   {% include '/partials/_head' %}
+  {% set noticeShown = getCookie('aei-notice-shown') %}
 
-  <body class="{% if bodyClass is defined %}{{ bodyClass }}{% endif %} page-{{ segment(1) ? segment(1) : 'home' }}" {% if bodyId is defined %}id="{{ bodyId }}"{% endif %}>
+  <body class="{% if bodyClass is defined %}{{ bodyClass }}{% endif %} page-{{ segment(1) ? segment(1) : 'home' }}{{ siteSettings.sitewideNotice and  not noticeShown ? ' has-notice' : '' }}" {% if bodyId is defined %}id="{{ bodyId }}"{% endif %}>
     <div id="breakpoint-indicator"></div>
+
     {% include '/partials/_header' %}
+
+    {% if siteSettings.sitewideNotice and not noticeShown %}
+      <div class="sitewide-notice">
+        <div class="user-content">
+          {{ siteSettings.sitewideNotice }}
+        </div>
+        <a href="#" class="close">
+          <svg class="icon icon-x" aria-hidden="true"><use xlink:href="#icon-x"/></svg>
+        </a>
+      </div>
+    {% endif %}
 
     {# Omit sidebar completely on homepage, search, and 404 page #}
     {% if segment(1) and segment(1) != 'search' and is404 is not defined %}
