@@ -10,17 +10,6 @@
 
     {% include '/partials/_header' %}
 
-    {% if siteSettings.sitewideNotice and not noticeShown %}
-      <div class="sitewide-notice">
-        <div class="user-content">
-          {{ siteSettings.sitewideNotice }}
-        </div>
-        <a href="#" class="close">
-          <svg class="icon icon-x" aria-hidden="true"><use xlink:href="#icon-x"/></svg>
-        </a>
-      </div>
-    {% endif %}
-
     {# Omit sidebar completely on homepage, search, and 404 page #}
     {% if segment(1) and segment(1) != 'search' and is404 is not defined %}
       <nav class="sidebar">
@@ -31,6 +20,17 @@
     <div class="right-col-wrap">
       <div class="right-col">
         <main class="site-main">
+          {% if siteSettings.sitewideNotice and not noticeShown %}
+            <div class="sitewide-notice">
+              <div class="user-content">
+                {{ siteSettings.sitewideNotice }}
+              </div>
+              <a href="#" class="close">
+                <svg class="icon icon-x" aria-hidden="true"><use xlink:href="#icon-x"/></svg>
+              </a>
+            </div>
+          {% endif %}
+
           {% block content %}{% endblock %}
         </main>
         {% include '/partials/_footer' %}
