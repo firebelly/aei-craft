@@ -1,0 +1,27 @@
+// Sitewide notice
+
+.sitewide-notice {
+  background: $red;
+  color: $white;
+  padding: $padding-sm #{$padding-sm + 20px} $padding-sm $padding-sm;
+  width: 100%;
+  position: relative;
+  .user-content {
+    a:hover {
+      color: $white;
+    }
+  }
+  a.close {
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    top: $padding-sm;
+    right: 20px;
+    // transform: translateY(-50%);
+    svg {
+      fill: $white;
+      width: 100%;
+      height: 100% ;
+    }
+  }
+}
