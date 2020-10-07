@@ -3,6 +3,7 @@
 {% set stats = [] %}
 
 {% if category is defined %}
+
   {% set projectIdArr = category.projectIds|split(',') %}
   {% paginate craft.entries({
     section: 'projects',
@@ -29,7 +30,6 @@
     }) %}
     {% set marketContactsOffices = craft.entries.section('offices').relatedTo({ sourceElement: marketContactsIds, field: 'office' }) %}
   {% endif %}
-
 
 {% else %}
 

@@ -9,7 +9,7 @@
   {% endif %}
 {% endif %}
 {% set seo_description = category.body | striptags | chop(limit=155, unit='c', append='…') %}
-
+{% set childServices = category.children %}
 
 {% block filters %}
   <h2 class="font-nav"><a href="/services/">Services</a></h2>
@@ -34,6 +34,16 @@
         <div class="page-intro module text-module background-white text-black">
           {% if category.body|striptags|trim != '' %}
             <div class="user-content">{{ category.body }}</div>
+          {% endif %}
+
+          {% if category.children|length %}
+            <ul class="child-services semantic-only-list">
+            {% for cat in category.children.all() %}
+              <li>
+                <a href="{{ cat.getUrl() }}">{{ cat.title }}</a>
+              </li>
+            {% endfor %}
+            </ul>
           {% endif %}
         </div>
       </div>
