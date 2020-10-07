@@ -100,7 +100,6 @@ function copy() {
 
 // Folders to watch for changes
 function watchFiles() {
-  gulp.watch('web/assets/scss/*.scss', gulp.series(styles));
   gulp.watch('web/assets/scss/**/*.scss', gulp.series(styles));
   gulp.watch('web/assets/js/**/*.js', gulp.series(scripts));
 }
