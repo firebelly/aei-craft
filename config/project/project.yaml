@@ -1,4 +1,4 @@
-dateModified: 1602023299
+dateModified: 1602090540
 email:
   fromEmail: developer@firebellydesign.com
   fromName: 'Affiliated Engineers'
@@ -43,6 +43,10 @@ plugins:
     edition: standard
     enabled: true
     schemaVersion: 0.0.1
+  cookies:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.0
   cp-css:
     enabled: '1'
     licenseKey: null
