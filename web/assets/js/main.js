@@ -11,6 +11,7 @@
 //=include "../bower_components/infinite-scroll/dist/infinite-scroll.pkgd.js"
 //=include "../bower_components/slick-carousel/slick/slick.js"
 //=include "../bower_components/tablesorter/jquery.tablesorter.js"
+//=include "../bower_components/js-cookie/src/js.cookie.js"
 //=include "./bodyScrollLock.js"
 
 // Good Design for Good Reason for Good Namespace
@@ -54,10 +55,16 @@ var FB = (function($) {
       });
     }
 
+    $('.sitewide-notice a.close').on('click', function(e) {
+      e.preventDefault();
+      _closeSitewideNotice();
+    });
+
     // Esc handlers
     $document.keyup(function(e) {
       if (e.keyCode === 27) {
         _closeNav();
+        _closeSitewideNotice();
         _closeContactModal();
         _closeSearch();
       }
@@ -131,6 +138,15 @@ var FB = (function($) {
     });
 
   } // end init()
+
+  function _closeSitewideNotice() {
+    $('.sitewide-notice').velocity('slideUp', { duration: 250 });
+    // var expiresWhen = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
+    var expiresWhen = new Date(new Date().getTime() + 5 * 60 * 1000);
+    Cookies.set('aei-notice-shown', 'yes', {
+      expires: expiresWhen
+    });
+  }
 
   // Forever scrolling... scrolling...
   function _initInfiniteScroll() {
