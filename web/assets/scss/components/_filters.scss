@@ -2,6 +2,24 @@
 
 .filters {
   // Child categories
+  li.has-children {
+    &::after {
+      right: 2px;
+      top: 16px;
+      content: '';
+      width: 8px;
+      height: 8px;
+      position: absolute;
+      background: url('/assets/svgs/icon-expand.svg') no-repeat;
+      background-size: contain;
+      transition: transform 0.1s $ease;
+    }
+    &.current {
+      &::after {
+        transform: rotate(-180deg);
+      }
+    }
+  }
   ul.children {
     display: none;
     margin-left: 2em;

@@ -59,10 +59,24 @@ var FB = (function($) {
     $('li.has-children').each(function() {
       var $this = $(this);
       var $children = $this.next('ul.children');
-      console.log($this, $children, $children.find('li.current'));
       if ($this.hasClass('current') || $children.find('li.current').length > 0) {
+        $this.addClass('current');
         $children.velocity('slideDown', { duration: 250 });
       }
+      $this.on('click', function(e) {
+        e.preventDefault();
+        if ($this.hasClass('current')) {
+          $children.velocity('slideUp', { duration: 250 });
+          $this.removeClass('current');
+        } else {
+          // Collapse any open children navs
+          $('li.has-children.current').each(function() {
+            $(this).removeClass('current').next('ul.children').velocity('slideUp', { duration: 250 });
+          });
+          $children.velocity('slideDown', { duration: 250 });
+          $this.addClass('current');
+        }
+      });
     });
 
     // Sitewide notice X close button

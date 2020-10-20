@@ -92,12 +92,6 @@ function revFiles(cb) {
   }
 }
 
-// Copy various files/dirs to dist
-function copy() {
-  return gulp.src(['web/assets/images/*'])
-    .pipe(gulp.dest('web/assets/dist/images/'));
-}
-
 // Folders to watch for changes
 function watchFiles() {
   gulp.watch('web/assets/scss/**/*.scss', gulp.series(styles));
@@ -147,7 +141,7 @@ function svgs() {
     .pipe(gulp.dest('web/assets/dist/'));
 }
 
-const build = gulp.series(clean, gulp.parallel(copy, styles, scripts, svgs), revFiles);
+const build = gulp.series(clean, gulp.parallel(styles, scripts, svgs), revFiles);
 const watch = gulp.series(build, gulp.parallel(watchFiles, browserSync));
 
 // export tasks
