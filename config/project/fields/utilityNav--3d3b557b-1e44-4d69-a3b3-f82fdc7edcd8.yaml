@@ -1,0 +1,76 @@
+contentColumnType: text
+fieldGroup: 5cd9c27f-9a67-4a3b-a103-7449017ceec0
+handle: utilityNav
+instructions: ''
+name: 'Utility Nav'
+searchable: false
+settings:
+  addRowLabel: 'Add a link'
+  columnType: text
+  columns:
+    __assoc__:
+      -
+        - col1
+        -
+          __assoc__:
+            -
+              - heading
+              - Label
+            -
+              - handle
+              - label
+            -
+              - width
+              - ''
+            -
+              - type
+              - singleline
+      -
+        - col2
+        -
+          __assoc__:
+            -
+              - heading
+              - URL
+            -
+              - handle
+              - url
+            -
+              - width
+              - ''
+            -
+              - type
+              - singleline
+      -
+        - col3
+        -
+          __assoc__:
+            -
+              - heading
+              - 'Open in new tab'
+            -
+              - handle
+              - openInNewTab
+            -
+              - width
+              - ''
+            -
+              - type
+              - lightswitch
+  defaults:
+    -
+      __assoc__:
+        -
+          - col1
+          - ''
+        -
+          - col2
+          - ''
+        -
+          - col3
+          - ''
+  maxRows: ''
+  minRows: ''
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Table

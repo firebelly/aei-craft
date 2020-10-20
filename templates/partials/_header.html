@@ -18,15 +18,12 @@
       {% if entry is defined and entry.isEditable() %}
         <li class="secondary-links-item edit-link"><a href="{{ entry.cpEditUrl ~ '?redirect=' ~ craft.app.request.getUrl()|url_encode }}">Edit Entry</a></li>
       {% endif %}
-      <li class="{{ active('about', 'path', 'current') }}">
-        <a href="/about/">About</a>
-      </li>
-      <li class="{{ active('about/careers', 'path', 'current') }}">
-        <a href="/about/careers/">Careers</a>
-      </li>
-      <li class="{{ active('contact', 'path', 'current') }}">
-        <a href="/contact/">Offices</a>
-      </li>
+
+      {# Utility nav from site settings global #}
+      {% for item in siteSettings.utilityNav %}
+        <li class="{{ active(item.url|replace('/(^\\/|\\/$)/', ''), 'path', 'current') }}"><a {% if item.openInNewTab %}rel="noopener" target="_blank" class="external"{% endif %} href="{{ item.url }}">{{ item.label }}</a>
+      {% endfor %}
+
       <li class="search-open">
         <a href="/search/">Search<svg class="icon-search"><use xlink:href="#icon-search" /></svg></a>
       </li>
