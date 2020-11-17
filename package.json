@@ -5,14 +5,13 @@
   "homepage": "https://www.firebellydesign.com/",
   "license": "ISC",
   "main": "gulpfile.js",
-  "dependencies": {},
   "devDependencies": {
-    "browser-sync": "^2.26.12",
-    "del": "^5.1.0",
+    "browser-sync": "^2.26.13",
+    "del": "^6.0.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
     "gulp-concat": "^2.6.1",
-    "gulp-cssnano": "^2.1.3",
+    "gulp-cssnano": "^1.1.0",
     "gulp-if": "^3.0.0",
     "gulp-include": "^2.4.1",
     "gulp-jshint": "^2.1.0",
@@ -21,7 +20,7 @@
     "gulp-rev": "^9.0.0",
     "gulp-rev-delete-original": "^0.2.3",
     "gulp-sass": "^4.1.0",
-    "gulp-sourcemaps": "^2.6.5",
+    "gulp-sourcemaps": "^3.0.0",
     "gulp-svgmin": "^3.0.0",
     "gulp-svgstore": "^7.0.1",
     "gulp-uglify": "^3.0.2",
@@ -35,5 +34,8 @@
   "repository": {
     "type": "git",
     "url": "git@github.com:firebelly/fb-craft.git"
+  },
+  "dependencies": {
+    "node-sass": "^5.0.0"
   }
 }
