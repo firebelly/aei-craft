@@ -1,0 +1,126 @@
+field: f23950ca-268b-424b-81f8-24e26e3d4793
+fieldLayouts:
+  0eb7e2f4-bf9b-479a-9911-2c0acc086b40:
+    tabs:
+      -
+        elements:
+          -
+            fieldUid: da8dba48-2db6-4a8a-ace0-3ae4b5d0c50c
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            warning: null
+            width: 75
+          -
+            fieldUid: fc2cf9cc-894d-476a-8a03-57d4ca8e2e0e
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            warning: null
+            width: 100
+        name: Content
+        sortOrder: 1
+fields:
+  da8dba48-2db6-4a8a-ace0-3ae4b5d0c50c:
+    contentColumnType: text
+    fieldGroup: null
+    handle: parentLabel
+    instructions: ''
+    name: 'Parent Label'
+    searchable: false
+    settings:
+      byteLimit: null
+      charLimit: null
+      code: ''
+      columnType: null
+      initialRows: '4'
+      multiline: ''
+      placeholder: ''
+      uiMode: normal
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\PlainText
+  fc2cf9cc-894d-476a-8a03-57d4ca8e2e0e:
+    contentColumnType: text
+    fieldGroup: null
+    handle: links
+    instructions: ''
+    name: Links
+    searchable: false
+    settings:
+      addRowLabel: 'Add a row'
+      columnType: text
+      columns:
+        __assoc__:
+          -
+            - col1
+            -
+              __assoc__:
+                -
+                  - heading
+                  - Label
+                -
+                  - handle
+                  - label
+                -
+                  - width
+                  - ''
+                -
+                  - type
+                  - singleline
+          -
+            - col2
+            -
+              __assoc__:
+                -
+                  - heading
+                  - URL
+                -
+                  - handle
+                  - url
+                -
+                  - width
+                  - ''
+                -
+                  - type
+                  - singleline
+          -
+            - col3
+            -
+              __assoc__:
+                -
+                  - heading
+                  - 'Open in new tab'
+                -
+                  - handle
+                  - openInNewTab
+                -
+                  - width
+                  - ''
+                -
+                  - type
+                  - lightswitch
+      defaults:
+        -
+          __assoc__:
+            -
+              - col1
+              - ''
+            -
+              - col2
+              - ''
+            -
+              - col3
+              - ''
+      maxRows: ''
+      minRows: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\Table
+handle: links
+name: 'Nav Items'
+sortOrder: 1

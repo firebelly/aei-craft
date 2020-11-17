@@ -1,0 +1,119 @@
+field: c4183e83-ce02-4b5b-945d-90bcb8721a22
+fieldLayouts:
+  6b1afd40-8acd-462a-b58a-94ba6e926f0f:
+    tabs:
+      -
+        elements:
+          -
+            fieldUid: 6138d72a-4754-40ab-bcc3-dc2914508f5d
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            warning: null
+            width: 100
+          -
+            fieldUid: f23950ca-268b-424b-81f8-24e26e3d4793
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            warning: null
+            width: 100
+        name: Content
+        sortOrder: 1
+fields:
+  6138d72a-4754-40ab-bcc3-dc2914508f5d:
+    contentColumnType: text
+    fieldGroup: null
+    handle: itemLink
+    instructions: ''
+    name: Link
+    searchable: true
+    settings:
+      addRowLabel: 'Add a row'
+      columnType: text
+      columns:
+        __assoc__:
+          -
+            - col1
+            -
+              __assoc__:
+                -
+                  - heading
+                  - Label
+                -
+                  - handle
+                  - label
+                -
+                  - width
+                  - ''
+                -
+                  - type
+                  - singleline
+          -
+            - col2
+            -
+              __assoc__:
+                -
+                  - heading
+                  - URL
+                -
+                  - handle
+                  - url
+                -
+                  - width
+                  - ''
+                -
+                  - type
+                  - singleline
+          -
+            - col3
+            -
+              __assoc__:
+                -
+                  - heading
+                  - 'Opens in new tab'
+                -
+                  - handle
+                  - opensInNewTab
+                -
+                  - width
+                  - ''
+                -
+                  - type
+                  - lightswitch
+      defaults:
+        -
+          __assoc__:
+            -
+              - col1
+              - ''
+            -
+              - col2
+              - ''
+            -
+              - col3
+              - ''
+      maxRows: ''
+      minRows: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\Table
+  f23950ca-268b-424b-81f8-24e26e3d4793:
+    contentColumnType: string
+    fieldGroup: null
+    handle: groupedLinks
+    instructions: ''
+    name: 'Grouped Links'
+    searchable: true
+    settings:
+      contentTable: '{{%matrixcontent_groupedlinks}}'
+      maxBlocks: ''
+      minBlocks: ''
+      propagationMethod: all
+    translationKeyFormat: null
+    translationMethod: site
+    type: craft\fields\Matrix
