@@ -3,7 +3,9 @@
 {% if aboutIndex.navigation|length %}
   <ul class="filters semantic-only-list">
     {% for item in aboutIndex.navigation %}
-      <li class="{{ active(item.url|replace('/(^\\/|\\/$)/', ''), 'path', 'current') }}"><a {% if item.openInNewTab %}rel="noopener" target="_blank" class="external"{% endif %} href="{{ item.url }}">{{ item.label }}</a>
+    	{% if not item.hide %}
+	      <li class="{{ active(item.url|replace('/(^\\/|\\/$)/', ''), 'path', 'current') }}"><a {% if item.openInNewTab %}rel="noopener" target="_blank" class="external"{% endif %} href="{{ item.url }}">{{ item.label }}</a>
+    	{% endif %}
     {% endfor %}
   </ul>
 {% endif %}

@@ -57,6 +57,22 @@ settings:
             -
               - type
               - lightswitch
+      -
+        - col4
+        -
+          __assoc__:
+            -
+              - heading
+              - Hide
+            -
+              - handle
+              - hide
+            -
+              - width
+              - ''
+            -
+              - type
+              - lightswitch
   defaults:
     -
       __assoc__:
@@ -68,6 +84,9 @@ settings:
           - ''
         -
           - col3
+          - ''
+        -
+          - col4
           - ''
   maxRows: ''
   minRows: ''
