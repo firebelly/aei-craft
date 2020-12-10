@@ -4,20 +4,20 @@ import os
 env.hosts = ['aei-craft.firebelly.co']
 env.user = 'firebelly'
 env.path = '~/Sites/aei-craft'
-env.remotepath = '/home/firebelly/webapps/aei'
+env.remotepath = '/home/firebelly/apps/aei'
 env.git_branch = 'master'
 env.warn_only = True
 
 def production():
-  env.hosts = ['aeieng.webfactional.com']
+  env.hosts = ['aeieng.opalstacked.com']
   env.user = 'aeieng'
-  env.remotepath = '/home/aeieng/webapps/aei_craft_production'
+  env.remotepath = '/home/aeieng/apps/aei_craft_production'
   env.git_branch = 'master'
 
 def staging():
-  env.hosts = ['aeieng.webfactional.com']
+  env.hosts = ['aeieng.opalstacked.com']
   env.user = 'aeieng'
-  env.remotepath = '/home/aeieng/webapps/aei_craft_staging'
+  env.remotepath = '/home/aeieng/apps/aei_craft_staging'
   env.git_branch = 'master'
 
 def assets():
@@ -43,4 +43,4 @@ def update():
 
 def composer_install():
   with cd(env.remotepath):
-    run('php72 ~/bin/composer.phar install')
+    run('php74 ~/bin/composer.phar install')
