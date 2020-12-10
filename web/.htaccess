@@ -1,6 +1,9 @@
 <IfModule mod_rewrite.c>
 RewriteEngine On
 
+# WebFaction: Added for ECE-736060 (?? this was on live site -nate)
+RewriteRule ^autodiscover/autodiscover.xml$ - [F]
+
 # Less-intensive 404s for missing assets
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule \.(jpg|jpeg|png|gif|ico|icns|swf|bmp)$ - [NC,R=404,L]
