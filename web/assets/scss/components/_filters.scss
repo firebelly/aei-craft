@@ -24,6 +24,9 @@
     display: none;
     margin-left: 2em;
   }
+  .nobreak {
+    break-inside: avoid-column;
+  }
 }
 
 // Adjust stuck filters when the main nav is stuck
@@ -113,11 +116,12 @@ body.nav-stuck {
       text-decoration: none;
     }
     li {
+      position: relative;
       a:hover,
       &.current a {
         color: $red;
       }
-      &.current a {
+      &.current:not(.has-children) a {
         &::after {
           right: 2px;
           top: 18px;

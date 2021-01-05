@@ -1,5 +1,16 @@
 {% extends (craft.app.request.isAjax and not craft.app.request.isLivePreview) ? "_ajax-layout" : "_layout" %}
 
+{% set filterNav %}
+<div class="mobile-filter">
+  <div class="filter-header">
+    Filter:
+    <span>{{ category is defined ? category.title : 'All' }}</span>
+    <svg class="icon icon-up-arrow" aria-hidden="true" role="presentation"><use xlink:href="#icon-up-arrow"/></svg>
+  </div>
+  {% include 'partials/_hierarchy-nav' with { taxonomy: 'services' } %}
+</div>
+{% endset %}
+
 {% block filters %}
   <h2 class="font-nav {{ (category is not defined) ? 'current' : '' }}"><a href="/services/">Services</a></h2>
   {% include 'partials/_hierarchy-nav' with { taxonomy: 'services' } %}
@@ -11,7 +22,8 @@
   {% include 'partials/_stat-header' with {
     subheader: entry.statHeader.subheader,
     statFigure: entry.statHeader.statFigure,
-    statLabel: entry.statHeader.statLabel
+    statLabel: entry.statHeader.statLabel,
+    filterNav: filterNav
   } %}
 
   <div id="services">

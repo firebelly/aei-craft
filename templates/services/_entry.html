@@ -12,12 +12,27 @@
 {% set seo_description = category.body | striptags | chop(limit=155, unit='c', append='…') %}
 {% set childServices = category.children %}
 
+{% set filterNav %}
+<div class="module text-module hide-on-lg">
+  <div class="mobile-filter single-entry">
+    <div class="filter-header">
+      Filter:
+      <span>{{ category is defined ? category.title : 'All' }}</span>
+      <svg class="icon icon-up-arrow" aria-hidden="true" role="presentation"><use xlink:href="#icon-up-arrow"/></svg>
+    </div>
+    {% include 'partials/_hierarchy-nav' with { taxonomy: 'services' } %}
+  </div>
+</div>
+{% endset %}
+
 {% block filters %}
   <h2 class="font-nav"><a href="/services/">Services</a></h2>
   {% include 'partials/_hierarchy-nav' with { taxonomy: 'services' } %}
 {% endblock %}
 
 {% block content %}
+
+  {{ filterNav }}
 
   <article class="single-service" data-id="{{ category.id }}">
     <div class="row -use-float -halves">

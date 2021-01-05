@@ -49,3 +49,9 @@
 .no-break {
   display: inline-block;
 }
+
+.hide-on-lg {
+  @include media-lg {
+    display: none;
+  }
+}
