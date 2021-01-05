@@ -7,6 +7,7 @@ env.path = '~/Sites/aei-craft'
 env.remotepath = '/home/firebelly/apps/aei'
 env.git_branch = 'master'
 env.warn_only = True
+env.forward_agent = True
 
 def production():
   env.hosts = ['aeieng.opalstacked.com']
@@ -36,6 +37,7 @@ def deploy(composer='y'):
   update()
   if composer == 'y':
     composer_install()
+  clear_cache()
 
 def update():
   with cd(env.remotepath):
@@ -44,3 +46,8 @@ def update():
 def composer_install():
   with cd(env.remotepath):
     run('php74 ~/bin/composer.phar install')
+
+def clear_cache():
+  with cd(env.remotepath):
+    run('./craft clear-caches/compiled-templates')
+    run('./craft clear-caches/data')
