@@ -34,8 +34,5 @@
   "repository": {
     "type": "git",
     "url": "git@github.com:firebelly/fb-craft.git"
-  },
-  "dependencies": {
-    "node-sass": "^5.0.0"
   }
 }
