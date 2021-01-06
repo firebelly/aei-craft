@@ -12,8 +12,9 @@ node_modules
 # Letsencrypt
 .well-known
 
-# Fabfile
+# Fabfile/Python
 *.pyc
+.venv
 
 # Bower
 bower_components
