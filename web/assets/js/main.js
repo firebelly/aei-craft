@@ -231,6 +231,11 @@ var FB = (function($) {
       $this.find('.filter-header').on('click', function(e) {
         e.preventDefault();
         $this.toggleClass('active');
+        if ($this.hasClass('active')) {
+          $this.find('.filters').velocity('slideDown', { duration: 150, easing: 'easeOut' });
+        } else {
+          $this.find('.filters').velocity('slideUp', { duration: 150, easing: 'easeOut' });
+        }
         setTimeout(_checkFilterBodyScroll, 150);
       });
 
